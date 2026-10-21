@@ -1,0 +1,42 @@
+/* 집무실 「국가·군가」(2026-10-20). 대사관 화면과 같은 결. */
+#musicRoot{display:block;overflow:hidden;padding:0 12px;height:100%}
+.mu-main{display:flex;flex-direction:column;gap:12px;height:100%;padding:12px 2px 14px;min-height:0;overflow-y:auto}
+.mu-intro,.mu-note,.mu-empty{margin:0;color:var(--dim);font-size:13px;line-height:1.6}
+.mu-vol{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:13px}
+.mu-vol input[type=range]{flex:1;max-width:260px;accent-color:var(--hi)}
+.mu-err{border:1px solid #ff7a6a99;background:#ff6a5a12;border-radius:8px;padding:8px 12px;font-size:13px}
+.mu-card{border:1px solid var(--line);border-radius:8px;padding:12px 16px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:10px}
+.mu-ph{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.mu-row{display:flex;align-items:center;gap:14px}
+.mu-name{display:flex;flex-direction:column;min-width:0}.mu-name b{font-size:15px}.mu-name small{color:var(--dim)}
+.mu-play{min-width:92px;padding:7px 14px;border:1px solid var(--hi);border-radius:6px;background:transparent;color:var(--text);cursor:pointer;font:inherit}
+.mu-play:hover,.mu-play.on{background:color-mix(in srgb,var(--hi) 18%,transparent)}
+.mu-acts{display:flex;flex-wrap:wrap;gap:8px}
+.mu-btn{padding:5px 12px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--text);cursor:pointer;font:inherit;font-size:13px}
+.mu-btn:hover{border-color:var(--hi)}
+.mu-lyr summary{cursor:pointer;color:var(--dim);font-size:13px}.mu-lyr pre{margin:8px 0 0;white-space:pre-wrap;font:inherit;line-height:1.7;max-height:220px;overflow-y:auto}
+.mu-edit{display:flex;flex-direction:column;gap:6px}.mu-edit label{font-size:12px;color:var(--dim)}
+.mu-edit input,.mu-edit textarea{background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:6px 8px;font:inherit}
+.mu-edit button{align-self:flex-start}
+.mu-creed{margin:0;white-space:pre-wrap;font:inherit;line-height:1.8;padding:10px 14px;border-left:2px solid var(--hi);background:rgba(255,255,255,.03);border-radius:0 6px 6px 0}
+.mu-btn:disabled{opacity:.5;cursor:default}
+.mu-ai{border-color:var(--hi)}
+.mu-opt{display:flex;flex-wrap:wrap;gap:8px 14px;margin:8px 0;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02)}
+.mu-of{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dim)}
+.mu-of select{background:var(--btnbg);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:2px 6px;font:inherit;font-size:12px}
+.mu-warn{flex:1 1 100%;font-size:12px;line-height:1.55;color:#e8b44a;border-left:3px solid #e8b44a;padding:4px 10px;background:rgba(232,180,74,.08);border-radius:0 4px 4px 0}
+.mu-hot{border-color:#e8b44a;color:#e8b44a}
+.mu-aud{margin:8px 0 4px;font-size:12px;color:var(--dim)}
+.mu-find{margin-top:10px;padding:8px 10px;border:1px solid var(--line);border-radius:6px}
+.mu-fh{font-size:12px;color:var(--dim);margin-bottom:6px}
+.mu-fi{display:flex;align-items:center;gap:10px;padding:6px 4px;border-top:1px solid var(--line)}
+.mu-fi:first-of-type{border-top:0}.mu-fi.on{background:rgba(255,255,255,.03)}
+.mu-fl{display:block;font-style:italic;opacity:.8}
+.mu-tag{font-size:12px;color:var(--hi);border:1px solid var(--hi);border-radius:10px;padding:1px 8px;white-space:nowrap}
+.mu-fi .mu-name{flex:1}
+.mu-cer{margin-top:12px;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.015)}
+.mu-imgs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.mu-tag.ok{color:#7ed49a;border-color:#7ed49a}.mu-tag.no{color:var(--dim);border-color:var(--line)}
+.mu-of input[type=checkbox]{accent-color:var(--hi)}.mu-of input[type=range]{width:120px}
+.mu-cue{margin-top:10px;padding:8px 10px;border:1px dashed var(--line);border-radius:6px}
+.mu-mkl{font-size:18px;margin:8px 0;color:var(--text)}

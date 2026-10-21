@@ -1,0 +1,4 @@
+# Temporary, non-stacking test modifiers. Removed in the same command.
+sllm_verify_spy_opinion_1 = { opinion = { base = -100 } }
+sllm_verify_spy_opinion_2 = { opinion = { base = -200 } }
+sllm_verify_spy_opinion_3 = { opinion = { base = -300 } }

@@ -1,0 +1,37 @@
+# SLLM Probe - 언론사 인터뷰(2026-10-17). 국가 범위(플레이어).
+# 준비: 시행령을 켜면 sllm_probe_press_prepare → SLLM:PRESS phase=prep (쿨다운 180일, 연설과 같은 방식).
+# 적용: 앱이 콘솔로 부른다 — sllm_probe_press_apply = { KEY = sllm_press_happy_2 DAYS = 360 N = 7 }
+# 이전 인터뷰 버프는 지우고 새로 건다(쌓이지 않고 갱신). 로그 문자열 안에는 $KEY$ 를 넣지 않는다(F-39) → 실제로 붙은 키를 확인해 적는다.
+
+sllm_probe_press_prepare = {
+	if = {
+		limit = { NOT = { has_country_flag = sllm_press_cd } }
+		set_timed_country_flag = { flag = sllm_press_cd days = 180 }
+		if = { limit = { NOT = { is_variable_set = sllm_pr_n } } set_variable = { which = sllm_pr_n value = 0 } }
+		change_variable = { which = sllm_pr_n value = 1 }
+		log = "SLLM:PRESS/;/phase=prep/;/n=\\[This.sllm_pr_n]"
+	}
+}
+
+sllm_probe_press_apply = {
+	remove_modifier = sllm_press_happy_1
+	remove_modifier = sllm_press_happy_2
+	remove_modifier = sllm_press_happy_3
+	add_modifier = { modifier = $KEY$ days = $DAYS$ }
+	set_variable = { which = sllm_pr_req value = $N$ }
+	if = {
+		limit = { has_modifier = sllm_press_happy_1 }
+		log = "SLLM:PRESS/;/phase=applied/;/key=sllm_press_happy_1/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_pr_req]/;/n=\\[This.sllm_pr_req]"
+	}
+	else_if = {
+		limit = { has_modifier = sllm_press_happy_2 }
+		log = "SLLM:PRESS/;/phase=applied/;/key=sllm_press_happy_2/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_pr_req]/;/n=\\[This.sllm_pr_req]"
+	}
+	else_if = {
+		limit = { has_modifier = sllm_press_happy_3 }
+		log = "SLLM:PRESS/;/phase=applied/;/key=sllm_press_happy_3/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_pr_req]/;/n=\\[This.sllm_pr_req]"
+	}
+	else = {
+		log = "SLLM:PRESS/;/phase=apply_failed/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_pr_req]/;/n=\\[This.sllm_pr_req]"
+	}
+}

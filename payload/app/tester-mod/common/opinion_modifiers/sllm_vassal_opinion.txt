@@ -1,0 +1,5 @@
+# SLLM 종속국 통신 채널(2026-10-18): 종주국의 요구를 거절하면 종주국이 우리를 보는 관계 −60, 매달 5씩 회복(약 1년).
+sllm_overlord_defied = {
+	opinion = { base = -60 }
+	decay = { base = 5 }
+}

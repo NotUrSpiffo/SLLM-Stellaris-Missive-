@@ -1,0 +1,364 @@
+# SLLM 대보관소 표본 읽기(알파 6 수집품 1단계, tools/gen-specimens.py 로 자동 생성 — 손으로 고치지 말 것).
+# 플레이어 국가 범위. 게임 규칙은 바꾸지 않고 로그만 남긴다: 보유 표본 키(has_specimen)와 분류별 전시 중 개수(count_exhibit, 1~30 단계).
+# 개별 표본의 전시 여부를 묻는 트리거는 바닐라에 없어 분류별 개수만 읽는다.
+sllm_probe_archive = {
+	sllm_probe_init_vars = yes
+	set_variable = { which = sllm_out_req value = $REQ$ }
+	set_variable = { which = sllm_ar_n value = 0 }
+	log = "SLLM:ARCHIVE_BEGIN/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]/;/date=\\[GetDate]"
+	if = { limit = { has_specimen = acidic_spores } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=acidic_spores/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = adakkaria_propaganda_poster } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=adakkaria_propaganda_poster/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = advisor_core } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=advisor_core/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = alien_brain_scans } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=alien_brain_scans/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = alien_dining_set } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=alien_dining_set/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = alien_jewelry } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=alien_jewelry/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = alien_toy } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=alien_toy/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = altar_to_the_elder_one } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=altar_to_the_elder_one/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = aluminium_plaque } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=aluminium_plaque/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ammoniaphytus } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ammoniaphytus/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = amoeba_flagella_gland } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=amoeba_flagella_gland/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_bust } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_bust/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_kinetic_launcher } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_kinetic_launcher/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_laser_pointer } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_laser_pointer/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_nanites } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_nanites/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_nuclear_armament } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_nuclear_armament/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_political_memoir } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_political_memoir/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_rift_sphere } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_rift_sphere/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_satellite } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_satellite/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ancient_sensor } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ancient_sensor/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = asteroid_fossils } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=asteroid_fossils/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ballad_of_the_sable_knight } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ballad_of_the_sable_knight/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = beauty_of_planet } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=beauty_of_planet/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = black_hole_chromatic_anomaly } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=black_hole_chromatic_anomaly/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = black_needle_ceremonial_sword } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=black_needle_ceremonial_sword/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = black_needle_ledger } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=black_needle_ledger/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = burnt_migratory_trees } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=burnt_migratory_trees/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = captain_ness_body } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=captain_ness_body/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = captain_ness_logbook } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=captain_ness_logbook/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = carnivorous_megaflora } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=carnivorous_megaflora/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = castaway_robot } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=castaway_robot/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cenotaph_display } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cenotaph_display/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = centrifugal_container } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=centrifugal_container/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cetana_love } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cetana_love/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = chambered_clay_pot } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=chambered_clay_pot/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = claw_of_the_trickster } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=claw_of_the_trickster/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = confessions_benefactors } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=confessions_benefactors/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = coprolite } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=coprolite/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cosmic_diamond_fragment } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cosmic_diamond_fragment/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = crimson_nimkips } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=crimson_nimkips/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = crystal_core } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=crystal_core/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = crystal_nest_fragments } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=crystal_nest_fragments/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = crystal_sphere_fragments } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=crystal_sphere_fragments/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = crystallized_cutholoid_eye } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=crystallized_cutholoid_eye/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cult_pendant } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cult_pendant/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cunning_flora_specimen } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cunning_flora_specimen/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = curator_survey } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=curator_survey/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cutholoid_digestive_acids } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cutholoid_digestive_acids/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = cybrex_mining_column } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=cybrex_mining_column/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = data_on_infinity } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=data_on_infinity/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = datacore_of_sinople } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=datacore_of_sinople/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = dathnak_gas } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=dathnak_gas/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = dead_god_mantle } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=dead_god_mantle/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = decayed_megathrusters } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=decayed_megathrusters/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = decayed_satellite } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=decayed_satellite/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = declaration_of_animosity } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=declaration_of_animosity/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = declaration_of_friendship } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=declaration_of_friendship/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = derelict_cybrex_warform } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=derelict_cybrex_warform/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = desiccated_brain_slug } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=desiccated_brain_slug/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = destroyed_mascot_of_colony } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=destroyed_mascot_of_colony/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = devolved_baol_drones } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=devolved_baol_drones/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = dimensional_endothelial_lining } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=dimensional_endothelial_lining/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = dna_archive } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=dna_archive/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = doomsday_scrolls } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=doomsday_scrolls/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = drone_ship_core } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=drone_ship_core/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = electric_life } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=electric_life/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = enormous_scrambled_albumen } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=enormous_scrambled_albumen/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = epic_of_zarqlan } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=epic_of_zarqlan/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ethereal_dust } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ethereal_dust/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = exobiology_compendium } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=exobiology_compendium/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = extradimensional_ceramic_pot } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=extradimensional_ceramic_pot/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = extradimensional_fungus } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=extradimensional_fungus/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fevorian_blueprints } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fevorian_blueprints/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = figurehead_hyacinth } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=figurehead_hyacinth/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = first_defiled_astronaut } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=first_defiled_astronaut/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = first_league_crew_manifest } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=first_league_crew_manifest/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fish_in_the_sea_sheet_music } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fish_in_the_sea_sheet_music/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = flag_of_the_jaro_lyjo } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=flag_of_the_jaro_lyjo/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = flooded_settlement_mound } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=flooded_settlement_mound/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fossilized_endoskeletons } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fossilized_endoskeletons/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fossilized_megastomach } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fossilized_megastomach/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fossilized_voidworm_tooth } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fossilized_voidworm_tooth/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fossilized_vultaum_remains } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fossilized_vultaum_remains/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fractured_planet } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fractured_planet/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fragment_of_reckoning } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fragment_of_reckoning/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = fragmented_zroni_archive } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=fragmented_zroni_archive/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = galactic_megadrive } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=galactic_megadrive/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = gamma_resistant_flora } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=gamma_resistant_flora/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = gargantua_megalus } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=gargantua_megalus/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = genesis_core } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=genesis_core/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = genetic_code } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=genetic_code/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = geometric_water_currents } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=geometric_water_currents/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = giant_egg_shell } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=giant_egg_shell/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = golden_phonograph_record } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=golden_phonograph_record/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = golem_contortionist_dna } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=golem_contortionist_dna/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = grunur_data_crystal } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=grunur_data_crystal/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = head_of_the_beast } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=head_of_the_beast/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = heart_of_the_pulsar } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=heart_of_the_pulsar/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = hemterine_magnetic_figurehead } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=hemterine_magnetic_figurehead/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = high_geode_of_the_molluscoids } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=high_geode_of_the_molluscoids/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = hot_ice } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=hot_ice/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = hyper_mulch } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=hyper_mulch/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = hyperfertile_soil } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=hyperfertile_soil/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = illanii_archives } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=illanii_archives/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = impossible_object } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=impossible_object/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = index_of_knowledge } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=index_of_knowledge/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = inet_trade_manifesto } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=inet_trade_manifesto/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = inetian_model_manual } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=inetian_model_manual/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = infinite_reboot_loop } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=infinite_reboot_loop/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = interdimensional_treaty } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=interdimensional_treaty/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = intergalactic_projectile } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=intergalactic_projectile/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = invasive_exofungus } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=invasive_exofungus/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = irassian_bacterium_javoria } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=irassian_bacterium_javoria/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = irassian_digital_atlas } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=irassian_digital_atlas/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = irassian_purge_order } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=irassian_purge_order/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = key_to_fertility } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=key_to_fertility/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = khalanka_crystallized_corpses } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=khalanka_crystallized_corpses/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = khamdai_magil_sha } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=khamdai_magil_sha/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = kuurian_cybrex_blueprints } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=kuurian_cybrex_blueprints/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = landeer_arm } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=landeer_arm/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = larionessi_cloning_vat } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=larionessi_cloning_vat/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = last_copy_of_the_prince } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=last_copy_of_the_prince/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = last_fragment_fevor } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=last_fragment_fevor/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = last_general_badge } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=last_general_badge/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = last_mharin_kharin } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=last_mharin_kharin/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = leviathan_scale } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=leviathan_scale/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = living_snow_sculpture } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=living_snow_sculpture/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = localised_aurora_borealis } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=localised_aurora_borealis/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = loopmail } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=loopmail/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = lunatic_broker_therapy_box } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=lunatic_broker_therapy_box/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = manifesti_piece } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=manifesti_piece/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = manna_fruit } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=manna_fruit/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = massive_metatarsal } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=massive_metatarsal/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = medal_for_services_to_diplomacy } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=medal_for_services_to_diplomacy/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = megacorpse_hyperguitar } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=megacorpse_hyperguitar/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = memorial_for_bubbles } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=memorial_for_bubbles/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = memorial_stone } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=memorial_stone/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = memorial_to_homeworld } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=memorial_to_homeworld/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = memories_of_elik } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=memories_of_elik/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = memory_orbs } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=memory_orbs/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = mercenary_story } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=mercenary_story/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = metallic_snow } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=metallic_snow/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = minamar_chandelier } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=minamar_chandelier/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = mineralized_brain } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=mineralized_brain/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = mini_moon_dust } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=mini_moon_dust/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = mining_transmitter } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=mining_transmitter/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = miracle_cream } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=miracle_cream/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = missile_lone_defender } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=missile_lone_defender/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = molten_slag } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=molten_slag/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = musings_on_infinity } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=musings_on_infinity/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = mutated_fumongus } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=mutated_fumongus/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = mutative_digestive_fluids } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=mutative_digestive_fluids/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = namarian_colonist_standard } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=namarian_colonist_standard/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = namarian_sculpture } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=namarian_sculpture/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = namarian_vessel_heraldry } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=namarian_vessel_heraldry/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = nanite_sludge } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=nanite_sludge/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = obsidian_obelisk_fragment } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=obsidian_obelisk_fragment/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = oiled_fabric } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=oiled_fabric/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = organic_computer } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=organic_computer/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = organic_machine_interface_sculpture } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=organic_machine_interface_sculpture/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = orinthi_teeth } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=orinthi_teeth/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = osseus_construction_material } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=osseus_construction_material/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = path_to_progress } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=path_to_progress/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = peerless_atomic_clock } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=peerless_atomic_clock/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = perception_of_infinity } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=perception_of_infinity/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = perfectly_faceted_carbon } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=perfectly_faceted_carbon/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = pet_collar } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=pet_collar/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = perikan_tapico_jewel } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=perikan_tapico_jewel/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = piece_of_invocator } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=piece_of_invocator/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = pilgrimage_last_days } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=pilgrimage_last_days/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = planet_crystalose } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=planet_crystalose/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = planet_pushing_thruster } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=planet_pushing_thruster/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = planet_super_roots } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=planet_super_roots/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = planet_vaccine } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=planet_vaccine/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = planetary_sculpture } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=planetary_sculpture/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = primitive_mega_electromagnet } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=primitive_mega_electromagnet/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = programmable_puzzle_cube } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=programmable_puzzle_cube/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = psionic_entity_residue } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=psionic_entity_residue/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = radiated_remains } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=radiated_remains/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = rainaissance } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=rainaissance/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = reactive_rock } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=reactive_rock/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = reparation_invoice } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=reparation_invoice/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = repurposed_cleaning_drone } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=repurposed_cleaning_drone/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = resonant_diffusion_crystal } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=resonant_diffusion_crystal/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = retarax_hunting_trophies } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=retarax_hunting_trophies/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = robe_of_the_golden_broker } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=robe_of_the_golden_broker/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = rock_jellies } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=rock_jellies/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = rudari_death_laser_prototype } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=rudari_death_laser_prototype/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = saariah_guilt } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=saariah_guilt/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = scent_based_information_device } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=scent_based_information_device/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = scientific_treatise_of_telisa } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=scientific_treatise_of_telisa/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = secrets_black_crown } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=secrets_black_crown/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = sembelami_alms_basket } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=sembelami_alms_basket/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = shallarian_data_core } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=shallarian_data_core/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = shipyard_schematics } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=shipyard_schematics/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = sky_dragon } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=sky_dragon/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = smeegibb_statue } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=smeegibb_statue/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = sniran_spikes } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=sniran_spikes/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = sonic_reflective_prism } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=sonic_reflective_prism/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = spaceborne_hunter_handbook } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=spaceborne_hunter_handbook/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = spaceborne_xeno_encyclopedia } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=spaceborne_xeno_encyclopedia/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = spiraling_attraction } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=spiraling_attraction/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = spirit_of_the_unshackled } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=spirit_of_the_unshackled/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = star_mall_map } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=star_mall_map/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = starmetal } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=starmetal/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = striated_sand } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=striated_sand/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = sullebaster_control_column } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=sullebaster_control_column/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = symbiotic_fruit } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=symbiotic_fruit/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = tarblac_shimmer } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=tarblac_shimmer/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = terraforming_case_study } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=terraforming_case_study/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = terraforming_case_study_dry } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=terraforming_case_study_dry/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = terraforming_case_study_frozen } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=terraforming_case_study_frozen/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = terraforming_machinery } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=terraforming_machinery/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = terraforming_records } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=terraforming_records/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = the_final_sacrifice } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=the_final_sacrifice/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = the_mask_of_transformation } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=the_mask_of_transformation/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = the_planet_orchestra } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=the_planet_orchestra/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = the_writer_sphere } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=the_writer_sphere/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = tiny_ancient_sarcophagus } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=tiny_ancient_sarcophagus/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = tiyanki_radioactive_sac } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=tiyanki_radioactive_sac/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = torn_solar_sail } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=torn_solar_sail/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = toxic_bio_engine } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=toxic_bio_engine/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = tree_of_life_sample } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=tree_of_life_sample/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = tricorne_of_aussan } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=tricorne_of_aussan/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = triggerless_gun } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=triggerless_gun/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = uddloran_pelts } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=uddloran_pelts/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = underworld_cantina_sign } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=underworld_cantina_sign/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = unfinished_manifesto } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=unfinished_manifesto/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = uranium_glassware } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=uranium_glassware/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = vault_of_polaris } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=vault_of_polaris/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = veil_of_selene } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=veil_of_selene/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = verdingo_tendril_hook } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=verdingo_tendril_hook/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = vibrating_crystal } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=vibrating_crystal/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = voidworm_amniotics } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=voidworm_amniotics/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = voidworm_heart } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=voidworm_heart/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = vultaum_religious_pamphlet } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=vultaum_religious_pamphlet/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = vultaum_vr_video_game } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=vultaum_vr_video_game/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = warning_monolith } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=warning_monolith/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = wormhole_anchor } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=wormhole_anchor/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = wormhole_fur } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=wormhole_fur/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ytterite_preserved_corpse } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ytterite_preserved_corpse/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ytterite_kaleidoscopic_fascinator } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ytterite_kaleidoscopic_fascinator/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = ytterite_royal_scepter } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=ytterite_royal_scepter/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = yuht_audio_console } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=yuht_audio_console/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = yuht_cryo_pod } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=yuht_cryo_pod/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = yuht_crystal_skull } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=yuht_crystal_skull/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = zombie_probe } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=zombie_probe/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = zone_a_sedative } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=zone_a_sedative/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = zroni_war_banners } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=zroni_war_banners/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = zulcor_wings } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=zulcor_wings/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = infernal_stasispod } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=infernal_stasispod/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = infernal_figurine } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=infernal_figurine/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = lava_surfboard } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=lava_surfboard/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = infernal_molten_core } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=infernal_molten_core/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = infernal_burning_gem } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=infernal_burning_gem/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = black_crystal } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=black_crystal/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = caeli_core_conspiracy_specimen } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=caeli_core_conspiracy_specimen/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	if = { limit = { has_specimen = steris_core_conspiracy_specimen } change_variable = { which = sllm_ar_n value = 1 } log = "SLLM:ARCHIVE/;/k=steris_core_conspiracy_specimen/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]" }
+	set_variable = { which = sllm_ar_ex value = 0 }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 1 } } set_variable = { which = sllm_ar_ex value = 1 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 2 } } set_variable = { which = sllm_ar_ex value = 2 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 3 } } set_variable = { which = sllm_ar_ex value = 3 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 4 } } set_variable = { which = sllm_ar_ex value = 4 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 5 } } set_variable = { which = sllm_ar_ex value = 5 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 6 } } set_variable = { which = sllm_ar_ex value = 6 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 7 } } set_variable = { which = sllm_ar_ex value = 7 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 8 } } set_variable = { which = sllm_ar_ex value = 8 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 9 } } set_variable = { which = sllm_ar_ex value = 9 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 10 } } set_variable = { which = sllm_ar_ex value = 10 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 11 } } set_variable = { which = sllm_ar_ex value = 11 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 12 } } set_variable = { which = sllm_ar_ex value = 12 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 13 } } set_variable = { which = sllm_ar_ex value = 13 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 14 } } set_variable = { which = sllm_ar_ex value = 14 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 15 } } set_variable = { which = sllm_ar_ex value = 15 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 16 } } set_variable = { which = sllm_ar_ex value = 16 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 17 } } set_variable = { which = sllm_ar_ex value = 17 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 18 } } set_variable = { which = sllm_ar_ex value = 18 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 19 } } set_variable = { which = sllm_ar_ex value = 19 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 20 } } set_variable = { which = sllm_ar_ex value = 20 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 21 } } set_variable = { which = sllm_ar_ex value = 21 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 22 } } set_variable = { which = sllm_ar_ex value = 22 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 23 } } set_variable = { which = sllm_ar_ex value = 23 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 24 } } set_variable = { which = sllm_ar_ex value = 24 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 25 } } set_variable = { which = sllm_ar_ex value = 25 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 26 } } set_variable = { which = sllm_ar_ex value = 26 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 27 } } set_variable = { which = sllm_ar_ex value = 27 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 28 } } set_variable = { which = sllm_ar_ex value = 28 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 29 } } set_variable = { which = sllm_ar_ex value = 29 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = xeno_geology } count >= 30 } } set_variable = { which = sllm_ar_ex value = 30 } }
+	log = "SLLM:ARCHIVE_EXH/;/cat=xeno_geology/;/n=\\[This.sllm_ar_ex]/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]"
+	set_variable = { which = sllm_ar_ex value = 0 }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 1 } } set_variable = { which = sllm_ar_ex value = 1 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 2 } } set_variable = { which = sllm_ar_ex value = 2 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 3 } } set_variable = { which = sllm_ar_ex value = 3 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 4 } } set_variable = { which = sllm_ar_ex value = 4 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 5 } } set_variable = { which = sllm_ar_ex value = 5 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 6 } } set_variable = { which = sllm_ar_ex value = 6 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 7 } } set_variable = { which = sllm_ar_ex value = 7 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 8 } } set_variable = { which = sllm_ar_ex value = 8 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 9 } } set_variable = { which = sllm_ar_ex value = 9 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 10 } } set_variable = { which = sllm_ar_ex value = 10 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 11 } } set_variable = { which = sllm_ar_ex value = 11 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 12 } } set_variable = { which = sllm_ar_ex value = 12 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 13 } } set_variable = { which = sllm_ar_ex value = 13 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 14 } } set_variable = { which = sllm_ar_ex value = 14 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 15 } } set_variable = { which = sllm_ar_ex value = 15 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 16 } } set_variable = { which = sllm_ar_ex value = 16 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 17 } } set_variable = { which = sllm_ar_ex value = 17 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 18 } } set_variable = { which = sllm_ar_ex value = 18 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 19 } } set_variable = { which = sllm_ar_ex value = 19 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 20 } } set_variable = { which = sllm_ar_ex value = 20 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 21 } } set_variable = { which = sllm_ar_ex value = 21 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 22 } } set_variable = { which = sllm_ar_ex value = 22 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 23 } } set_variable = { which = sllm_ar_ex value = 23 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 24 } } set_variable = { which = sllm_ar_ex value = 24 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 25 } } set_variable = { which = sllm_ar_ex value = 25 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 26 } } set_variable = { which = sllm_ar_ex value = 26 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 27 } } set_variable = { which = sllm_ar_ex value = 27 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 28 } } set_variable = { which = sllm_ar_ex value = 28 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 29 } } set_variable = { which = sllm_ar_ex value = 29 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = aesthetic_wonder } count >= 30 } } set_variable = { which = sllm_ar_ex value = 30 } }
+	log = "SLLM:ARCHIVE_EXH/;/cat=aesthetic_wonder/;/n=\\[This.sllm_ar_ex]/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]"
+	set_variable = { which = sllm_ar_ex value = 0 }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 1 } } set_variable = { which = sllm_ar_ex value = 1 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 2 } } set_variable = { which = sllm_ar_ex value = 2 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 3 } } set_variable = { which = sllm_ar_ex value = 3 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 4 } } set_variable = { which = sllm_ar_ex value = 4 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 5 } } set_variable = { which = sllm_ar_ex value = 5 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 6 } } set_variable = { which = sllm_ar_ex value = 6 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 7 } } set_variable = { which = sllm_ar_ex value = 7 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 8 } } set_variable = { which = sllm_ar_ex value = 8 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 9 } } set_variable = { which = sllm_ar_ex value = 9 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 10 } } set_variable = { which = sllm_ar_ex value = 10 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 11 } } set_variable = { which = sllm_ar_ex value = 11 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 12 } } set_variable = { which = sllm_ar_ex value = 12 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 13 } } set_variable = { which = sllm_ar_ex value = 13 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 14 } } set_variable = { which = sllm_ar_ex value = 14 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 15 } } set_variable = { which = sllm_ar_ex value = 15 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 16 } } set_variable = { which = sllm_ar_ex value = 16 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 17 } } set_variable = { which = sllm_ar_ex value = 17 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 18 } } set_variable = { which = sllm_ar_ex value = 18 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 19 } } set_variable = { which = sllm_ar_ex value = 19 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 20 } } set_variable = { which = sllm_ar_ex value = 20 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 21 } } set_variable = { which = sllm_ar_ex value = 21 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 22 } } set_variable = { which = sllm_ar_ex value = 22 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 23 } } set_variable = { which = sllm_ar_ex value = 23 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 24 } } set_variable = { which = sllm_ar_ex value = 24 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 25 } } set_variable = { which = sllm_ar_ex value = 25 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 26 } } set_variable = { which = sllm_ar_ex value = 26 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 27 } } set_variable = { which = sllm_ar_ex value = 27 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 28 } } set_variable = { which = sllm_ar_ex value = 28 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 29 } } set_variable = { which = sllm_ar_ex value = 29 } }
+	if = { limit = { count_exhibit = { limit = { is_exhibit_active = yes is_specimen_category = historical_item } count >= 30 } } set_variable = { which = sllm_ar_ex value = 30 } }
+	log = "SLLM:ARCHIVE_EXH/;/cat=historical_item/;/n=\\[This.sllm_ar_ex]/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]"
+	log = "SLLM:ARCHIVE_END/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]/;/count=\\[This.sllm_ar_n]"
+}

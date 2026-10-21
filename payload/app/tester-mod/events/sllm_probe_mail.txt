@@ -1,0 +1,156 @@
+# SLLM Probe - AI letters (EXPERIMENT ONLY, untested syntax).
+# The game only reports; the companion app decides who writes, writes the letter and shows it (the player opens it there).
+#  sllm_mail.1   yearly: one MAILC line per AI empire in contact with the player (profile toward the player)
+#  sllm_mail.1x  news lines (SLLM:NEWS) used as material for next letters. Numbers (a=, b=) may be empty for
+#                empires not numbered yet, so the app also matches by name. Numbering runs only in the player scope.
+namespace = sllm_mail
+
+# Yearly roll call (on_yearly_pulse_country, this = the player).
+country_event = {
+	id = sllm_mail.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_ai = no }
+	immediate = {
+		save_event_target_as = sllm_mail_player
+		log = "SLLM:YEAR/;/date=\\[GetDate]"
+		sllm_probe_assign_idx = yes # player scope only: the numbering counter lives on the player
+		every_country = {
+			limit = {
+				is_ai = yes
+				is_country_type = default
+				has_communications = event_target:sllm_mail_player
+			}
+			sllm_mail_profile = yes
+		}
+		log = "SLLM:YEAREND/;/date=\\[GetDate]"
+	}
+}
+
+# A war begins (on_war_beginning, root = a country in the war, from = the war). Fired once per participant.
+country_event = {
+	id = sllm_mail.10
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_country_type = default }
+	immediate = {
+		log = "SLLM:NEWS/;/kind=war/;/date=\\[GetDate]/;/a=\\[Root.sllm_idx]/;/aname=\\[Root.GetName]/;/war=\\[From.GetName]"
+	}
+}
+
+# A war ends (on_war_ended, root = loser, from = main winner).
+country_event = {
+	id = sllm_mail.11
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_country_type = default }
+	immediate = {
+		log = "SLLM:NEWS/;/kind=war_end/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+
+# A new ruler (on_ruler_set, this = country).
+country_event = {
+	id = sllm_mail.12
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_country_type = default }
+	immediate = {
+		# Also fires at game start before the country has an index (error.log "Unknown property sllm_idx", 2026-10-19). Log only when indexed.
+		if = { limit = { is_variable_set = sllm_idx }
+			log = "SLLM:NEWS/;/kind=ruler/;/date=\\[GetDate]/;/a=\\[Root.sllm_idx]/;/aname=\\[Root.GetName]/;/ruler=\\[Root.GetRulerName]"
+		}
+	}
+}
+
+# Federation joined / left (this = federation leader, from = the member).
+country_event = {
+	id = sllm_mail.13
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=fed_join/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+country_event = {
+	id = sllm_mail.14
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=fed_leave/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+
+# Pacts (this = the country who accepted, from = the proposer).
+country_event = {
+	id = sllm_mail.15
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=pact_com/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+country_event = {
+	id = sllm_mail.16
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=pact_def/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+
+# Alliance joined / left (on_join_alliance / on_leave_alliance; scopes are not documented: root and from are both logged by name).
+country_event = {
+	id = sllm_mail.17
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=ally_join/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+country_event = {
+	id = sllm_mail.18
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=ally_leave/;/date=\\[GetDate]/;/a=\\[From.sllm_idx]/;/aname=\\[From.GetName]/;/b=\\[Root.sllm_idx]/;/bname=\\[Root.GetName]"
+	}
+}
+
+# A country is destroyed (on_country_destroyed, root = destroyed country, from = destroyer when known).
+country_event = {
+	id = sllm_mail.19
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=destroyed/;/date=\\[GetDate]/;/a=\\[Root.sllm_idx]/;/aname=\\[Root.GetName]/;/b=\\[From.sllm_idx]/;/bname=\\[From.GetName]"
+	}
+}
+
+# A country becomes a subject (on_becoming_subject, root = subject, from = overlord).
+country_event = {
+	id = sllm_mail.20
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=subject/;/date=\\[GetDate]/;/a=\\[Root.sllm_idx]/;/aname=\\[Root.GetName]/;/b=\\[From.sllm_idx]/;/bname=\\[From.GetName]"
+	}
+}
+
+# A war ends in a status quo (on_status_quo / on_status_quo_forced: root = actor, from = recipient).
+# Checked against vanilla 4.5.2 (2026-10-18): action.39 (the "Status Quo Peace with [From.GetName]" message) is
+# a country_event on this on_action and names the other side with From, so Root/From are the two countries.
+# on_war_won / on_war_lost do not fire for a status quo (vanilla uses action.37 / action.38 there), but on_war_ended does.
+# If the game calls this once per side the app sorts the two names, so both lines become the same news.
+country_event = {
+	id = sllm_mail.21
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:NEWS/;/kind=war_sq/;/date=\\[GetDate]/;/a=\\[Root.sllm_idx]/;/aname=\\[Root.GetName]/;/b=\\[From.sllm_idx]/;/bname=\\[From.GetName]"
+		if = {
+			limit = { OR = { is_ai = no from = { is_ai = no } } }
+			log = "SLLM:EVT/;/kind=war_sq/;/date=\\[GetDate]/;/a=\\[Root.GetName]/;/b=\\[From.GetName]"
+		}
+	}
+}

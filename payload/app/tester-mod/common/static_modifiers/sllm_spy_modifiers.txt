@@ -1,0 +1,23 @@
+# SLLM 첩보 발각 대응 - 실제 제재(2026-10-17). 청문회에서 논파하지 못한 증거 1개마다 생산 -9%, 2년(앱이 days = 720 으로 붙인다).
+# 수치는 효과 검증을 통과한 시험 정의(sllm_verify_spy_output_*)와 같다.
+sllm_spy_output_1 = {
+ country_energy_produces_mult = -0.09
+ country_minerals_produces_mult = -0.09
+ country_food_produces_mult = -0.09
+ country_alloys_produces_mult = -0.09
+ country_consumer_goods_produces_mult = -0.09
+}
+sllm_spy_output_2 = {
+ country_energy_produces_mult = -0.18
+ country_minerals_produces_mult = -0.18
+ country_food_produces_mult = -0.18
+ country_alloys_produces_mult = -0.18
+ country_consumer_goods_produces_mult = -0.18
+}
+sllm_spy_output_3 = {
+ country_energy_produces_mult = -0.27
+ country_minerals_produces_mult = -0.27
+ country_food_produces_mult = -0.27
+ country_alloys_produces_mult = -0.27
+ country_consumer_goods_produces_mult = -0.27
+}

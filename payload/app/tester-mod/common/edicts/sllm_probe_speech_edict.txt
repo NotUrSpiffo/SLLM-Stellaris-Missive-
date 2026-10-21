@@ -1,0 +1,33 @@
+# Country edict: free activation and upkeep; a persistent on/off toggle.
+sllm_speech = {
+    length = -1
+    icon = "GFX_edict_type_policy"
+
+    resources = {
+        category = edicts
+        cost = { unity = 0 }
+        upkeep = { unity = 0 }
+    }
+
+    potential = { is_ai = no }
+    allow = {
+        custom_tooltip = {
+            fail_text = sllm_speech_cd_tt
+            OR = {
+                has_edict = sllm_speech
+                NOT = { has_country_flag = sllm_speech_cd }
+            }
+        }
+    }
+
+    effect = {
+        sllm_probe_speech_prepare = yes
+        custom_tooltip = sllm_speech_edict_start_tt
+    }
+
+    on_disabled = {
+        custom_tooltip = sllm_speech_edict_off_tt
+    }
+
+    ai_weight = { weight = 0 }
+}

@@ -1,0 +1,9 @@
+/* 집무실 꾸미기 메뉴(2026-10-19). 모양 다듬기는 GPT 담당(docs/GPT_SECRETARY_TODO_KO.md). */
+.ofs-menu{position:fixed;z-index:65;width:260px;padding:10px;border:1px solid var(--hi,#7cf);border-radius:4px;background:#061824ee;box-shadow:0 0 18px var(--glow,#7cf4),0 12px 30px #000a;color:var(--text,#dde);font-size:13px}
+.ofs-menu b{display:block;margin:0 0 8px;font-size:12px;letter-spacing:.08em;color:var(--hi,#7cf)}
+.ofs-opt{display:block;width:100%;text-align:left;padding:6px 8px;margin:0 0 3px;border:1px solid transparent;border-radius:3px;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.ofs-opt:hover{border-color:color-mix(in srgb,var(--hi,#7cf) 50%,transparent)}
+.ofs-opt.on{border-color:var(--hi,#7cf);background:color-mix(in srgb,var(--hi,#7cf) 14%,transparent)}
+.ofs-opt.on span::before{content:'● ';color:var(--hi,#7cf)}
+.ofs-opt small{display:block;font-size:11px;opacity:.7;margin-top:1px}
+.ofs-menu p{margin:8px 0 0;font-size:11px;opacity:.65;line-height:1.5}

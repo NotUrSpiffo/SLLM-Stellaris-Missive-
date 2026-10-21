@@ -1,0 +1,11 @@
+namespace = sllm_national
+country_event = {
+ id = sllm_national.1
+ hide_window = yes
+ is_triggered_only = yes
+ trigger = { is_ai = no is_variable_set = sllm_save_id }
+ immediate = {
+  change_variable = { which = sllm_national_victories value = 1 }
+  log = "SLLM:NATIONVICTORY/;/sid=\\[This.sllm_save_id]/;/n=\\[This.sllm_national_victories]/;/date=\\[GetDate]/;/war=\\[FromFrom.GetName]/;/other=\\[From.GetName]"
+ }
+}

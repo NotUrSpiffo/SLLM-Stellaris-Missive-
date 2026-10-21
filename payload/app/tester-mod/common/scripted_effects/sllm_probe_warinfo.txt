@@ -1,0 +1,126 @@
+# SLLM Probe - 전쟁 정보(2026-10-20 알파 10): 전쟁이 시작될 때 명분(전쟁 목표)·주 공격국·주 방어국·관계를 한 줄로 보낸다.
+# 부르는 곳: events/sllm_probe_radio_events.txt sllm_radio.11 (Root = 플레이어 국가, From = 전쟁). 전쟁 범위에서 부른다: from = { sllm_probe_warinfo = yes }
+# 전쟁 목표 키는 숫자로 보낸다(앱 src/warinfo.ts WARGOAL_CODES 와 같은 표). 모르는 목표는 0. 로그 문자열에는 매개변수를 넣지 않는다(F-39).
+# 줄: SLLM:WARINFO/;/war=이름/;/att=주공격국/;/def=주방어국/;/side=att|def/;/ag=공격측목표코드/;/dg=방어측목표코드/;/total=0|1/;/rel=0|1|2 (1 공격국이 방어국의 종주국, 2 방어국이 공격국의 종주국)/;/date=
+# 실제 게임 검수 필요: using_war_goal 의 owner 에 event_target 을 넣는 형태, 전쟁 범위에서 attacker/defender 범위 사용.
+
+sllm_probe_warinfo = {
+	attacker = { save_event_target_as = sllm_wi_att }
+	defender = { save_event_target_as = sllm_wi_def }
+	event_target:sllm_wi_player = {
+		set_variable = { which = sllm_wi_ag value = 0 }
+		set_variable = { which = sllm_wi_dg value = 0 }
+		set_variable = { which = sllm_wi_total value = 0 }
+		set_variable = { which = sllm_wi_rel value = 0 }
+		set_variable = { which = sllm_wi_side value = 0 }
+	}
+	if = { limit = { is_total_war = yes } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_total value = 1 } } }
+	if = { limit = { is_war_participant = { who = event_target:sllm_wi_player side = attackers } } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_side value = 1 } } }
+	# 종속 관계: 공격국의 종속국 중에 방어국이 있으면 1(종주국이 종속국을 침), 반대면 2(독립 전쟁)
+	if = { limit = { event_target:sllm_wi_att = { any_subject = { is_same_value = event_target:sllm_wi_def } } } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_rel value = 1 } } }
+	else_if = { limit = { event_target:sllm_wi_def = { any_subject = { is_same_value = event_target:sllm_wi_att } } } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_rel value = 2 } } }
+	# 공격측 전쟁 목표
+	sllm_probe_warinfo_goal = { OWNER = event_target:sllm_wi_att VAR = sllm_wi_ag }
+	# 방어측 전쟁 목표
+	sllm_probe_warinfo_goal = { OWNER = event_target:sllm_wi_def VAR = sllm_wi_dg }
+	if = {
+		limit = { event_target:sllm_wi_player = { check_variable = { which = sllm_wi_side value = 1 } } }
+		log = "SLLM:WARINFO/;/war=\\[This.GetName]/;/att=\\[sllm_wi_att.GetName]/;/def=\\[sllm_wi_def.GetName]/;/side=att/;/ag=\\[sllm_wi_player.sllm_wi_ag]/;/dg=\\[sllm_wi_player.sllm_wi_dg]/;/total=\\[sllm_wi_player.sllm_wi_total]/;/rel=\\[sllm_wi_player.sllm_wi_rel]/;/date=\\[GetDate]"
+	}
+	else = {
+		log = "SLLM:WARINFO/;/war=\\[This.GetName]/;/att=\\[sllm_wi_att.GetName]/;/def=\\[sllm_wi_def.GetName]/;/side=def/;/ag=\\[sllm_wi_player.sllm_wi_ag]/;/dg=\\[sllm_wi_player.sllm_wi_dg]/;/total=\\[sllm_wi_player.sllm_wi_total]/;/rel=\\[sllm_wi_player.sllm_wi_rel]/;/date=\\[GetDate]"
+	}
+}
+
+# 전쟁 범위에서 OWNER 의 전쟁 목표를 숫자로(플레이어 변수 VAR 에). 표는 앱 src/warinfo.ts 와 같다.
+sllm_probe_warinfo_goal = {
+	if = { limit = { using_war_goal = { type = wg_conquest owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 1 } } }
+	else_if = { limit = { using_war_goal = { type = wg_humiliation owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 2 } } }
+	else_if = { limit = { using_war_goal = { type = wg_subjugation owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 3 } } }
+	else_if = { limit = { using_war_goal = { type = wg_tribute owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 4 } } }
+	else_if = { limit = { using_war_goal = { type = wg_independence owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 5 } } }
+	else_if = { limit = { using_war_goal = { type = wg_force_ideology owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 6 } } }
+	else_if = { limit = { using_war_goal = { type = wg_plunder owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 7 } } }
+	else_if = { limit = { using_war_goal = { type = wg_plunder_raid owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 8 } } }
+	else_if = { limit = { using_war_goal = { type = wg_cleansing owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 9 } } }
+	else_if = { limit = { using_war_goal = { type = wg_assimilation owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 10 } } }
+	else_if = { limit = { using_war_goal = { type = wg_absorption owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 11 } } }
+	else_if = { limit = { using_war_goal = { type = wg_colossus owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 12 } } }
+	else_if = { limit = { using_war_goal = { type = wg_end_threat owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 13 } } }
+	else_if = { limit = { using_war_goal = { type = wg_counterattack owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 14 } } }
+	else_if = { limit = { using_war_goal = { type = wg_scion owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 15 } } }
+	else_if = { limit = { using_war_goal = { type = wg_hegemon owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 16 } } }
+	else_if = { limit = { using_war_goal = { type = wg_leave_hegemony owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 17 } } }
+	else_if = { limit = { using_war_goal = { type = wg_megacorp_subjugate owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 18 } } }
+	else_if = { limit = { using_war_goal = { type = wg_hostile_takeover owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 19 } } }
+	else_if = { limit = { using_war_goal = { type = wg_expel_corp owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 20 } } }
+	else_if = { limit = { using_war_goal = { type = wg_allegiance owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 21 } } }
+	else_if = { limit = { using_war_goal = { type = wg_payback_stop_atrocities owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 22 } } }
+	else_if = { limit = { using_war_goal = { type = wg_nomad_raid owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 23 } } }
+	else_if = { limit = { using_war_goal = { type = wg_expel_nomads owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 24 } } }
+	else_if = { limit = { using_war_goal = { type = wg_imperial_crusade owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 25 } } }
+	else_if = { limit = { using_war_goal = { type = wg_galactic_civil_war_loyalists owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 26 } } }
+	else_if = { limit = { using_war_goal = { type = wg_galactic_civil_war_rebels owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 27 } } }
+	else_if = { limit = { using_war_goal = { type = wg_restore_the_community owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 28 } } }
+	else_if = { limit = { using_war_goal = { type = wg_proxy_war owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 29 } } }
+	else_if = { limit = { using_war_goal = { type = wg_blaze owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 30 } } }
+	else_if = { limit = { using_war_goal = { type = wg_take_galatron owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 31 } } }
+	else_if = { limit = { using_war_goal = { type = wg_steal_galatron owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 32 } } }
+	else_if = { limit = { using_war_goal = { type = wg_sllm_humiliation owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 33 } } }
+	else_if = { limit = { using_war_goal = { type = wg_sllm_tribute owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 34 } } }
+	else_if = { limit = { using_war_goal = { type = wg_sllm_revenge owner = $OWNER$ } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 35 } } }
+	else_if = { limit = { OR = { using_war_goal = { type = wg_end_threat_swarm owner = $OWNER$ } using_war_goal = { type = wg_end_threat_psionics owner = $OWNER$ } using_war_goal = { type = wg_end_threat_assimilators owner = $OWNER$ } using_war_goal = { type = wg_end_threat_colossus owner = $OWNER$ } using_war_goal = { type = wg_end_threat_vs_ae_subjugation owner = $OWNER$ } } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 13 } } }
+	else_if = { limit = { OR = { using_war_goal = { type = wg_assimilation_vs_fe owner = $OWNER$ } using_war_goal = { type = wg_cleansing_vs_fe owner = $OWNER$ } using_war_goal = { type = wg_absorption_vs_fe owner = $OWNER$ } } } event_target:sllm_wi_player = { set_variable = { which = $VAR$ value = 36 } } }
+}
+
+# 전쟁 반응(규탄 성명, 2026-10-20): 플레이어와 통신이 닿는 AI 제국마다 관계 한 줄. 전쟁 범위에서 WARINFO 뒤에 부른다.
+# 줄: SLLM:WARVOICE/;/idx=/;/name=/;/gc=0|1 은하 공동체 회원/;/fa=공격국과 연방/;/fd=방어국과 연방/;/sa=공격국의 종속국/;/sd=방어국의 종속국/;/ra=공격국과 라이벌/;/rd=방어국과 라이벌/;/da=공격국과 방위 협정/;/dd=방어국과 방위 협정/;/w=플레이어와 전쟁 중
+# 끝 줄: SLLM:WARVOICE_END/;/war=
+sllm_probe_warvoice = {
+	every_playable_country = {
+		limit = { is_ai = yes has_communications = event_target:sllm_wi_player NOT = { is_same_value = event_target:sllm_wi_att } NOT = { is_same_value = event_target:sllm_wi_def } is_variable_set = sllm_idx }
+		set_variable = { which = sllm_wv_gc value = 0 } set_variable = { which = sllm_wv_fa value = 0 } set_variable = { which = sllm_wv_fd value = 0 } set_variable = { which = sllm_wv_sa value = 0 } set_variable = { which = sllm_wv_sd value = 0 }
+		set_variable = { which = sllm_wv_ra value = 0 } set_variable = { which = sllm_wv_rd value = 0 } set_variable = { which = sllm_wv_da value = 0 } set_variable = { which = sllm_wv_dd value = 0 } set_variable = { which = sllm_wv_w value = 0 }
+		if = { limit = { is_galactic_community_member = yes } set_variable = { which = sllm_wv_gc value = 1 } }
+		if = { limit = { is_in_federation_with = event_target:sllm_wi_att } set_variable = { which = sllm_wv_fa value = 1 } }
+		if = { limit = { is_in_federation_with = event_target:sllm_wi_def } set_variable = { which = sllm_wv_fd value = 1 } }
+		if = { limit = { event_target:sllm_wi_att = { any_subject = { is_same_value = prev } } } set_variable = { which = sllm_wv_sa value = 1 } }
+		if = { limit = { event_target:sllm_wi_def = { any_subject = { is_same_value = prev } } } set_variable = { which = sllm_wv_sd value = 1 } }
+		if = { limit = { is_rival = event_target:sllm_wi_att } set_variable = { which = sllm_wv_ra value = 1 } }
+		if = { limit = { is_rival = event_target:sllm_wi_def } set_variable = { which = sllm_wv_rd value = 1 } }
+		if = { limit = { has_defensive_pact = event_target:sllm_wi_att } set_variable = { which = sllm_wv_da value = 1 } }
+		if = { limit = { has_defensive_pact = event_target:sllm_wi_def } set_variable = { which = sllm_wv_dd value = 1 } }
+		if = { limit = { is_at_war_with = event_target:sllm_wi_player } set_variable = { which = sllm_wv_w value = 1 } }
+		log = "SLLM:WARVOICE/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/gc=\\[This.sllm_wv_gc]/;/fa=\\[This.sllm_wv_fa]/;/fd=\\[This.sllm_wv_fd]/;/sa=\\[This.sllm_wv_sa]/;/sd=\\[This.sllm_wv_sd]/;/ra=\\[This.sllm_wv_ra]/;/rd=\\[This.sllm_wv_rd]/;/da=\\[This.sllm_wv_da]/;/dd=\\[This.sllm_wv_dd]/;/w=\\[This.sllm_wv_w]"
+	}
+	log = "SLLM:WARVOICE_END/;/war=\\[This.GetName]"
+}
+
+# 남의 전쟁(2026-10-20 알파 10, 규탄 성명 방향 2): 플레이어가 참전하지 않은 전쟁이 시작될 때 전쟁 범위에서 부른다(events/sllm_probe_radio_events.txt sllm_radio.11).
+# 줄: SLLM:FOREIGNWAR/;/war=/;/att=/;/def=/;/ai=공격국 sllm_idx/;/di=방어국 sllm_idx/;/ag=/;/dg=/;/total=/;/rel=/;/pfa,pfd=플레이어와 연방/;/psa,psd=플레이어의 종속국/;/pra,prd=플레이어의 라이벌/;/pda,pdd=플레이어와 방위 협정/;/date=
+sllm_probe_foreignwar = {
+	attacker = { save_event_target_as = sllm_wi_att }
+	defender = { save_event_target_as = sllm_wi_def }
+	event_target:sllm_wi_player = {
+		set_variable = { which = sllm_wi_ag value = 0 } set_variable = { which = sllm_wi_dg value = 0 } set_variable = { which = sllm_wi_total value = 0 } set_variable = { which = sllm_wi_rel value = 0 }
+		set_variable = { which = sllm_fw_ai value = 0 } set_variable = { which = sllm_fw_di value = 0 }
+		set_variable = { which = sllm_fw_pfa value = 0 } set_variable = { which = sllm_fw_pfd value = 0 } set_variable = { which = sllm_fw_psa value = 0 } set_variable = { which = sllm_fw_psd value = 0 }
+		set_variable = { which = sllm_fw_pra value = 0 } set_variable = { which = sllm_fw_prd value = 0 } set_variable = { which = sllm_fw_pda value = 0 } set_variable = { which = sllm_fw_pdd value = 0 }
+		if = { limit = { event_target:sllm_wi_att = { is_variable_set = sllm_idx } } set_variable = { which = sllm_fw_ai value = event_target:sllm_wi_att.sllm_idx } }
+		if = { limit = { event_target:sllm_wi_def = { is_variable_set = sllm_idx } } set_variable = { which = sllm_fw_di value = event_target:sllm_wi_def.sllm_idx } }
+		if = { limit = { is_in_federation_with = event_target:sllm_wi_att } set_variable = { which = sllm_fw_pfa value = 1 } }
+		if = { limit = { is_in_federation_with = event_target:sllm_wi_def } set_variable = { which = sllm_fw_pfd value = 1 } }
+		if = { limit = { any_subject = { is_same_value = event_target:sllm_wi_att } } set_variable = { which = sllm_fw_psa value = 1 } }
+		if = { limit = { any_subject = { is_same_value = event_target:sllm_wi_def } } set_variable = { which = sllm_fw_psd value = 1 } }
+		if = { limit = { is_rival = event_target:sllm_wi_att } set_variable = { which = sllm_fw_pra value = 1 } }
+		if = { limit = { is_rival = event_target:sllm_wi_def } set_variable = { which = sllm_fw_prd value = 1 } }
+		if = { limit = { has_defensive_pact = event_target:sllm_wi_att } set_variable = { which = sllm_fw_pda value = 1 } }
+		if = { limit = { has_defensive_pact = event_target:sllm_wi_def } set_variable = { which = sllm_fw_pdd value = 1 } }
+	}
+	if = { limit = { is_total_war = yes } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_total value = 1 } } }
+	if = { limit = { event_target:sllm_wi_att = { any_subject = { is_same_value = event_target:sllm_wi_def } } } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_rel value = 1 } } }
+	else_if = { limit = { event_target:sllm_wi_def = { any_subject = { is_same_value = event_target:sllm_wi_att } } } event_target:sllm_wi_player = { set_variable = { which = sllm_wi_rel value = 2 } } }
+	sllm_probe_warinfo_goal = { OWNER = event_target:sllm_wi_att VAR = sllm_wi_ag }
+	sllm_probe_warinfo_goal = { OWNER = event_target:sllm_wi_def VAR = sllm_wi_dg }
+	log = "SLLM:FOREIGNWAR/;/war=\\[This.GetName]/;/att=\\[sllm_wi_att.GetName]/;/def=\\[sllm_wi_def.GetName]/;/ai=\\[sllm_wi_player.sllm_fw_ai]/;/di=\\[sllm_wi_player.sllm_fw_di]/;/ag=\\[sllm_wi_player.sllm_wi_ag]/;/dg=\\[sllm_wi_player.sllm_wi_dg]/;/total=\\[sllm_wi_player.sllm_wi_total]/;/rel=\\[sllm_wi_player.sllm_wi_rel]/;/pfa=\\[sllm_wi_player.sllm_fw_pfa]/;/pfd=\\[sllm_wi_player.sllm_fw_pfd]/;/psa=\\[sllm_wi_player.sllm_fw_psa]/;/psd=\\[sllm_wi_player.sllm_fw_psd]/;/pra=\\[sllm_wi_player.sllm_fw_pra]/;/prd=\\[sllm_wi_player.sllm_fw_prd]/;/pda=\\[sllm_wi_player.sllm_fw_pda]/;/pdd=\\[sllm_wi_player.sllm_fw_pdd]/;/date=\\[GetDate]"
+}

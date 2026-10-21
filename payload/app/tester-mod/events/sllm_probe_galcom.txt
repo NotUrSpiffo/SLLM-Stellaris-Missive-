@@ -1,0 +1,74 @@
+# SLLM Probe - Galactic Community events (EXPERIMENT ONLY, untested syntax).
+# 1 = a resolution goes to the vote, 2 = passed, 3 = failed, 10 = list members and their diplomatic weight.
+namespace = sllm_galcom
+
+# A resolution goes to the senate floor. This = proposer, From = target if any.
+country_event = {
+	id = sllm_galcom.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_playable_country = { limit = { is_ai = no } sllm_probe_assign_idx = yes }
+		if = {
+			limit = { exists = from }
+			log = "SLLM:RESOLUTION/;/stage=vote/;/date=\\[GetDate]/;/proposer=\\[This.sllm_idx]/;/pname=\\[This.GetName]/;/target=\\[From.sllm_idx]/;/tname=\\[From.GetName]"
+		}
+		else = {
+			log = "SLLM:RESOLUTION/;/stage=vote/;/date=\\[GetDate]/;/proposer=\\[This.sllm_idx]/;/pname=\\[This.GetName]/;/target=0/;/tname="
+		}
+		sllm_probe_log_voting_key = yes
+		country_event = { id = sllm_galcom.11 days = 12 }
+		country_event = { id = sllm_galcom.11 days = 28 }
+	}
+}
+
+country_event = {
+	id = sllm_galcom.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:RESOLUTION/;/stage=passed/;/date=\\[GetDate]/;/proposer=\\[This.sllm_idx]/;/pname=\\[This.GetName]"
+		sllm_probe_log_resolution_key = yes
+	}
+}
+
+country_event = {
+	id = sllm_galcom.3
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:RESOLUTION/;/stage=failed/;/date=\\[GetDate]/;/proposer=\\[This.sllm_idx]/;/pname=\\[This.GetName]"
+		sllm_probe_log_resolution_key = yes
+	}
+}
+
+# Members of the Community with their diplomatic weight (kept separate so a syntax problem here cannot break the alert above).
+country_event = {
+	id = sllm_galcom.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		sllm_probe_gc_members = yes
+	}
+}
+
+# Some days after the vote started the AI has made up its mind: log every member's position (and the key, in case it was not readable at the start).
+country_event = {
+	id = sllm_galcom.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		sllm_probe_gc_positions = yes
+		sllm_probe_log_voting_key = yes
+	}
+}
+
+# Profiles (personality, government, origin, attitude toward the player ...) of every AI member, for the council debate. Separate event so a problem here cannot break the others.
+country_event = {
+	id = sllm_galcom.12
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		sllm_probe_gc_profiles = yes
+	}
+}

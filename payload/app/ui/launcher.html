@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>SLLM 아이콘</title>
+<style>
+ :root{--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--shade:#06141b;--btnbg:linear-gradient(#10394a,#0b2a38);--glow:rgba(40,140,160,.12);
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent)}
+ *{box-sizing:border-box}
+ html,body{margin:0;height:100%;background:transparent;overflow:hidden;user-select:none}
+ #bar{width:46px;padding:3px 3px 4px;display:flex;flex-direction:column;gap:5px;background:color-mix(in srgb,var(--bg) 88%,transparent);border:1px solid var(--line);box-shadow:0 0 10px rgba(0,0,0,.45),inset 0 0 14px var(--glow)}
+ #grip{-webkit-app-region:drag;height:12px;cursor:move;display:flex;align-items:center;justify-content:center;gap:3px}
+ #grip i{width:3px;height:3px;background:var(--dim);opacity:.7;border-radius:50%}
+ .b{-webkit-app-region:no-drag;position:relative;width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--hi);background:var(--btnbg);border:1px solid var(--line);cursor:pointer;padding:0}
+ .b[hidden]{display:none} .b.dev{color:var(--gold);border-style:dashed}
+ .b:hover{background:var(--hi);color:var(--hi-text);border-color:var(--hi)}
+ .b.on{border-color:var(--hi);box-shadow:inset 0 0 0 1px var(--hi)}
+ .b svg{width:20px;height:20px}
+ #badgeOffice{position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--gold);color:#111;font:700 10px/16px "Malgun Gothic",sans-serif;text-align:center;display:none} #badgeOffice.show{display:block;animation:pulse 1.4s ease-in-out infinite} /* 안 읽은 개인 서신 + 외교 단말기 서신 */
+ @keyframes pulse{50%{transform:scale(1.18)}}
+</style><script src="theme.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="scrollbar-dark.css"></head><body>
+<div id="bar">
+ <div id="grip" title="끌어서 옮기기"><i></i><i></i><i></i></div>
+ <button class="b" id="bOffice" data-tip="집무실">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 19.5h17M6 19.5v-4h12v4"/><path d="M8 15.5l1.2-2h5.6l1.2 2"/><rect x="7" y="4" width="10" height="7" rx="1"/><path d="M12 11v2.5"/></svg>
+  <span id="badgeOffice" class="obadge"></span>
+ </button>
+ <button class="b" id="bPaper" data-tip="신문">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="1.5"/><path d="M7 8.5h10M7 12h4.5M7 15.5h4.5M14 12h3v3.5h-3z"/></svg>
+ </button>
+ <button class="b" id="bRadio" data-tip="성간 라디오 (켜기/끄기)">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="9" width="17" height="10.5" rx="1.5"/><path d="M7 9l9-5M8 14.2h4M16 13.5a1.6 1.6 0 100 .1"/></svg>
+ </button>
+ <button class="b" id="bSet" data-tip="설정">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3h3.4l.5 2.4 1.6.9 2.3-.8 1.7 2.9-1.8 1.6v1.9l1.8 1.6-1.7 2.9-2.3-.8-1.6.9-.5 2.4h-3.4l-.5-2.4-1.6-.9-2.3.8-1.7-2.9 1.8-1.6v-1.9L3.9 8.4l1.7-2.9 2.3.8 1.6-.9z"/><circle cx="12" cy="12" r="2.8"/></svg>
+ </button>
+</div>
+<script>
+ // 오버레이에는 집무실·신문·성간 라디오·설정만 둔다(2026-10-18). 외교 단말기·총독·종속국·함대는 집무실 바탕화면 아이콘으로 연다. 신문: 여기서 열면 종이 지면, 집무실에서 열면 디스플레이 지면.
+ const $ = (id) => document.getElementById(id);
+ let inbox = 0, letters = 0; // 외교 단말기 안 읽은 서신 · 집무실 개인 서신
+ const obadge = () => { const n = inbox + letters, e = $('badgeOffice'); e.textContent = n > 9 ? '9+' : String(n); e.classList.toggle('show', n > 0); };
+ document.querySelectorAll('.b').forEach((b) => { b.addEventListener('mouseenter', () => { const r = b.getBoundingClientRect(); window.sllm.launcherTip(window.SLLMI18n ? window.SLLMI18n.t(b.dataset.tip || '') : (b.dataset.tip || ''), r.top, r.height); }); b.addEventListener('mouseleave', () => window.sllm.launcherTip(null, 0, 0)); b.addEventListener('click', () => window.sllm.launcherTip(null, 0, 0)); });
+ $('bOffice').onclick = () => window.sllm.launcherClick('office');
+ $('bPaper').onclick = () => window.sllm.launcherClick('paper');
+ $('bSet').onclick = () => window.sllm.launcherClick('set');
+ $('bRadio').onclick = () => window.sllm.launcherClick('radio');
+ window.sllm.onRadioOn((v) => $('bRadio').classList.toggle('on', v));
+ window.sllm.radioGet().then((r) => $('bRadio').classList.toggle('on', !!r.on)).catch(() => {});
+ window.sllm.onBadge((n) => { inbox = n || 0; obadge(); });
+ window.sllm.onOfficeBadge((n) => { letters = n || 0; obadge(); }); window.sllm.officeLetterBadge().then((n) => { letters = n || 0; obadge(); }).catch(() => {});
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.launcherState().then((s) => { applyTheme(s.theme, s.custom); inbox = s.unread || 0; obadge(); });
+</script></body></html>

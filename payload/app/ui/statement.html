@@ -1,0 +1,66 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Statement</title>
+<!-- 남의 전쟁에 우리 정부 성명(2026-10-20 알파 10, 규탄 성명 방향 2). 앱: src/features/condemn-app.ts(foreign*), 규칙: src/condemn.ts.
+     입장(규탄·우려·지지·침묵)을 고르고, 성명문은 플레이어가 직접 쓴다(AI 초안 없음 — 자율성, 2026-10-20 사용자 결정). 문구는 L('한국어','English') 로만(언어 팩). -->
+<style>
+ :root{--bg:#06141b;--panel:#0a1c26;--line:#1f3a4a;--text:#d8e6ee;--dim:#88a3b3;--hi:#4cc9f0}
+ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.6 "Noto Sans KR","Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+ #w{position:absolute;inset:0;display:flex;flex-direction:column;padding:18px 22px;box-sizing:border-box;-webkit-app-region:drag}
+ #w *{-webkit-app-region:no-drag}
+ .hd{display:flex;align-items:baseline;gap:10px}.hd b{font-size:18px}.hd span{flex:1}
+ .cause{font-size:12px;color:var(--dim);margin:6px 0 12px}
+ .adv{font-size:13px;margin-bottom:10px;padding:6px 10px;border-left:3px solid var(--hi);background:rgba(76,201,240,.06)}
+ .st{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+ .st button{padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:#0e2230;color:var(--text);cursor:pointer;font:inherit}
+ .st button.on{color:#fff}.st .condemn.on{border-color:#e06b5f;background:rgba(224,107,95,.18)}.st .concern.on{border-color:#e8b44a;background:rgba(232,180,74,.16)}.st .support.on{border-color:#6fcf8f;background:rgba(111,207,143,.16)}.st .silent.on{border-color:var(--dim);background:rgba(255,255,255,.06)}
+ .st button .rec{font-size:11px;color:var(--hi);margin-left:6px}
+ textarea{flex:1;resize:none;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:10px 12px;font:inherit;line-height:1.7}
+ .row{display:flex;gap:8px;align-items:center;margin-top:10px}.row span.sp{flex:1}
+ .btn{padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:#0e2230;color:var(--text);cursor:pointer;font:inherit;font-size:13px}.btn.hi{border-color:var(--hi);color:var(--hi)}.btn:disabled{opacity:.5}
+ .note{font-size:12px;color:var(--dim)}.err{font-size:12px;color:#f08a7a}
+</style>
+<script src="theme.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script></head>
+<body><div id="w">
+ <div class="hd"><b id="title"></b><span></span><button class="btn" id="close" type="button">✕</button></div>
+ <div class="cause" id="cause"></div>
+ <div class="adv" id="adv"></div>
+ <div class="st" id="st"></div>
+ <textarea id="text" spellcheck="false"></textarea>
+ <div class="row"><span class="sp"></span><span class="note" id="fx"></span><button class="btn hi" id="issue" type="button"></button></div>
+ <div class="row"><span class="err" id="err"></span></div>
+</div>
+<script>
+(() => {
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const $ = (id) => document.getElementById(id);
+ let S = null, stance = '', busy = false;
+ function fx() {
+   $('fx').textContent = !S || !S.applyOpinion || stance === 'silent' || stance === 'concern' || !stance ? (stance === 'silent' ? L('침묵: 기록도 효과도 없습니다.', 'Silence: nothing is recorded and nothing changes.') : stance === 'concern' ? L('우려: 기록만 남고 호감은 그대로입니다.', 'Concern: recorded, opinion unchanged.') : '')
+     : stance === 'condemn' ? L(`${S.attacker} 호감 ↓ · ${S.defender} 호감 ↑`, `${S.attacker} opinion ↓ · ${S.defender} opinion ↑`) : L(`${S.attacker} 호감 ↑ · ${S.defender} 호감 ↓`, `${S.attacker} opinion ↑ · ${S.defender} opinion ↓`);
+   $('issue').disabled = !stance || busy;
+   $('issue').textContent = stance === 'silent' ? L('침묵하기', 'Stay silent') : L('성명 발표', 'Issue statement');
+ }
+ function draw() {
+   $('title').textContent = L(`${S.attacker} → ${S.defender}`, `${S.attacker} → ${S.defender}`) + ' · ' + S.war;
+   $('cause').textContent = S.date + ' · ' + S.cause;
+   $('adv').textContent = L('자문관 권고: ', 'Advisor recommends: ') + S.advisorLabel + L(' — 우리 가치관과 두 나라와의 관계로 본 입장입니다. 따르지 않아도 됩니다.', ' — based on our ethics and our ties to both sides. You are free to choose otherwise.');
+   const box = $('st'); box.textContent = '';
+   for (const k of ['condemn', 'concern', 'support', 'silent']) {
+     const b = document.createElement('button'); b.type = 'button'; b.className = k + (stance === k ? ' on' : ''); b.textContent = S.labels[k];
+     if (S.advisor === k) { const r = document.createElement('span'); r.className = 'rec'; r.textContent = L('권고', 'advised'); b.append(r); }
+     b.onclick = () => { stance = k; draw(); }; box.append(b);
+   }
+   $('text').placeholder = L('성명문(선택). 직접 쓰세요. 비우면 입장만 발표합니다.', 'Statement text (optional). Write it yourself; leave empty to announce the stance only.');
+   $('close').title = L('닫기', 'Close');
+   fx();
+ }
+ $('close').onclick = () => window.sllm.foreignClose();
+ $('issue').onclick = async () => { if (busy || !stance) return; busy = true; fx();
+   const r = await window.sllm.foreignIssue(stance, $('text').value).catch((e) => ({ ok: false, error: String((e && e.message) || e) }));
+   busy = false; if (r && r.ok) window.sllm.foreignClose(); else { $('err').textContent = (r && r.error) || ''; fx(); } };
+ document.addEventListener('DOMContentLoaded', async () => {
+   try { S = await window.sllm.foreignState(); } catch (e) { S = null; }
+   if (!S) { $('title').textContent = L('기다리는 전쟁이 없습니다.', 'No war is waiting.'); return; }
+   draw();
+ });
+})();
+</script></body></html>

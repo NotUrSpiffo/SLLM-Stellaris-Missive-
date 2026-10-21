@@ -1,0 +1,101 @@
+# SLLM - 내각(장관) 회의 버프(2026-10-19). 이름 sllm_cab_<id> 는 앱 src/cabinet-meeting.ts CAB_POOLS 와 같아야 한다. 국가 범위, 지속시간은 앱이 정한다(1년 = 360일).
+
+sllm_cab_def_weapons = {
+	ship_weapon_damage = 0.05
+}
+
+sllm_cab_def_firerate = {
+	ship_fire_rate_mult = 0.05
+}
+
+sllm_cab_def_hull = {
+	ship_hull_mult = 0.05
+}
+
+sllm_cab_def_navalcap = {
+	country_naval_cap_add = 10
+}
+
+sllm_cab_def_army = {
+	army_damage_mult = 0.1
+}
+
+sllm_cab_res_speed = {
+	all_technology_research_speed = 0.05
+}
+
+sllm_cab_res_alts = {
+	num_tech_alternatives_add = 1
+}
+
+sllm_cab_res_survey = {
+	science_ship_survey_speed = 0.15
+}
+
+sllm_cab_res_anomaly = {
+	ship_anomaly_research_speed_mult = 0.15
+}
+
+sllm_cab_res_exp = {
+	species_leader_exp_gain = 0.1
+}
+
+sllm_cab_sta_envoy = {
+	envoys_add = 1
+}
+
+sllm_cab_sta_weight = {
+	diplo_weight_mult = 0.1
+}
+
+sllm_cab_sta_trust = {
+	country_trust_growth = 0.1
+}
+
+sllm_cab_sta_relations = {
+	envoy_improve_relations_mult = 0.15
+}
+
+sllm_cab_sta_intel = {
+	intel_decryption_add = 1
+}
+
+sllm_cab_eco_energy = {
+	country_energy_produces_mult = 0.05
+}
+
+sllm_cab_eco_minerals = {
+	country_minerals_produces_mult = 0.05
+}
+
+sllm_cab_eco_alloys = {
+	country_alloys_produces_mult = 0.05
+}
+
+sllm_cab_eco_trade = {
+	country_trade_produces_mult = 0.05
+}
+
+sllm_cab_eco_jobs = {
+	planet_jobs_produces_mult = 0.03
+}
+
+sllm_cab_int_stability = {
+	planet_stability_add = 3
+}
+
+sllm_cab_int_unity = {
+	country_unity_produces_mult = 0.05
+}
+
+sllm_cab_int_influence = {
+	country_influence_produces_mult = 0.05
+}
+
+sllm_cab_int_amenities = {
+	planet_amenities_add = 3
+}
+
+sllm_cab_int_happiness = {
+	pop_happiness = 0.05
+}

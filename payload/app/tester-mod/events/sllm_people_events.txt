@@ -1,0 +1,78 @@
+# SLLM Probe - 집무실 연락처: 내 지도자 명단(2026-10-18). 플레이어 국가만, 매달 한 번. 게임 규칙은 바꾸지 않는다.
+# 로그: 지도자마다 SLLM:LEADER(lid·name·cls·lv·ruler·council·tr·cpos·asg) → tr=1 이면 SLLM:LTRAIT(lid·t) 여러 줄(scripted_effects/sllm_probe_leader_traits.txt, 도구로 생성) → 함대가 있으면 SLLM:LEADERAT(lid·fleet) → 끝에 SLLM:LEADER_END(date).
+# 지도자 번호 sllm_lid 는 함대 사령부(sllm_fleet)와 같은 번호를 쓴다(국가 변수 sllm_lid_next 에서 나눠 줌). 이름이 바뀌어도 번호로 같은 사람을 잇는다.
+# cls: commander(지휘관)·official(관료·총독)·scientist(과학자). lv: 기술 수준(has_skill 로 1~10).
+namespace = sllm_people
+
+country_event = {
+	id = sllm_people.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_ai = no }
+	immediate = {
+		every_owned_leader = {
+			if = { limit = { NOT = { is_variable_set = sllm_lid } }
+				if = { limit = { root = { NOT = { is_variable_set = sllm_lid_next } } } root = { set_variable = { which = sllm_lid_next value = 1 } } }
+				set_variable = { which = sllm_lid value = root.sllm_lid_next }
+				root = { change_variable = { which = sllm_lid_next value = 1 } }
+			}
+			set_variable = { which = sllm_lv value = 0 }
+			if = { limit = { has_base_skill >= 10 } set_variable = { which = sllm_lv value = 10 } }
+			else_if = { limit = { has_base_skill >= 9 } set_variable = { which = sllm_lv value = 9 } }
+			else_if = { limit = { has_base_skill >= 8 } set_variable = { which = sllm_lv value = 8 } }
+			else_if = { limit = { has_base_skill >= 7 } set_variable = { which = sllm_lv value = 7 } }
+			else_if = { limit = { has_base_skill >= 6 } set_variable = { which = sllm_lv value = 6 } }
+			else_if = { limit = { has_base_skill >= 5 } set_variable = { which = sllm_lv value = 5 } }
+			else_if = { limit = { has_base_skill >= 4 } set_variable = { which = sllm_lv value = 4 } }
+			else_if = { limit = { has_base_skill >= 3 } set_variable = { which = sllm_lv value = 3 } }
+			else_if = { limit = { has_base_skill >= 2 } set_variable = { which = sllm_lv value = 2 } }
+			else_if = { limit = { has_base_skill >= 1 } set_variable = { which = sllm_lv value = 1 } }
+			# 특성(2026-10-18): 처음 보는 지도자는 바로, 그 뒤로는 3달마다 한 번 가진 특성을 읽는다(756개 검사라 매달 하지 않는다). tr=1 이면 이번 달 특성 목록이 함께 온다.
+			set_variable = { which = sllm_tr value = 0 }
+			if = { limit = { OR = { NOT = { is_variable_set = sllm_tr_m } check_variable = { which = sllm_tr_m value >= 3 } } }
+				set_variable = { which = sllm_tr value = 1 } set_variable = { which = sllm_tr_m value = 1 }
+			}
+			else = { change_variable = { which = sllm_tr_m value = 1 } }
+			set_variable = { which = sllm_rl value = 0 }
+			if = { limit = { is_ruler = yes } set_variable = { which = sllm_rl value = 1 } }
+			set_variable = { which = sllm_cn value = 0 }
+			if = { limit = { is_councilor = yes } set_variable = { which = sllm_cn value = 1 } }
+			# 평의회 직책(2026-10-19, 내각 회의): 평의원이면 직책 번호 sllm_cp(scripted_effects/sllm_probe_council_pos.txt), 아니면 0.
+			# 내각 회의(2026-10-19): 함대·과학선을 맡았거나(fleet) 총독으로 구역을 맡았으면(sector) asg=1 — 회의에는 홀로그램으로 참석, 아니면 직접 참석.
+			set_variable = { which = sllm_asg value = 0 }
+			if = { limit = { OR = { exists = fleet exists = sector } } set_variable = { which = sllm_asg value = 1 } }
+			set_variable = { which = sllm_cp value = 0 }
+			if = { limit = { is_councilor = yes is_ruler = no } sllm_probe_council_pos = yes }
+			if = { limit = { leader_class = commander } log = "SLLM:LEADER/;/lid=\\[This.sllm_lid]/;/cls=commander/;/lv=\\[This.sllm_lv]/;/ruler=\\[This.sllm_rl]/;/council=\\[This.sllm_cn]/;/tr=\\[This.sllm_tr]/;/cpos=\\[This.sllm_cp]/;/asg=\\[This.sllm_asg]/;/name=\\[This.GetName]" }
+			else_if = { limit = { leader_class = scientist } log = "SLLM:LEADER/;/lid=\\[This.sllm_lid]/;/cls=scientist/;/lv=\\[This.sllm_lv]/;/ruler=\\[This.sllm_rl]/;/council=\\[This.sllm_cn]/;/tr=\\[This.sllm_tr]/;/cpos=\\[This.sllm_cp]/;/asg=\\[This.sllm_asg]/;/name=\\[This.GetName]" }
+			else = { log = "SLLM:LEADER/;/lid=\\[This.sllm_lid]/;/cls=official/;/lv=\\[This.sllm_lv]/;/ruler=\\[This.sllm_rl]/;/council=\\[This.sllm_cn]/;/tr=\\[This.sllm_tr]/;/cpos=\\[This.sllm_cp]/;/asg=\\[This.sllm_asg]/;/name=\\[This.GetName]" }
+			if = { limit = { check_variable = { which = sllm_tr value = 1 } } sllm_probe_leader_traits = yes }
+			if = { limit = { exists = fleet }
+				root = { set_variable = { which = sllm_pl_cur value = prev.sllm_lid } }
+				fleet = { log = "SLLM:LEADERAT/;/lid=\\[Root.sllm_pl_cur]/;/fleet=\\[This.GetName]" }
+			}
+		}
+		log = "SLLM:LEADER_END/;/date=\\[GetDate]"
+	}
+}
+
+# 작별·추모(2026-10-18): 지도자가 세상을 떠나거나(on_leader_death) 해임될 때(on_leader_fired) 한 줄. This = 플레이어 국가, From = 그 지도자.
+# 번호(sllm_lid)가 없는 지도자(명단에 한 번도 안 잡힘)는 앱이 모르는 사람이라 남기지 않는다. 게임 규칙은 바꾸지 않는다.
+country_event = {
+	id = sllm_people.2
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_ai = no }
+	immediate = {
+		from = { if = { limit = { is_variable_set = sllm_lid } log = "SLLM:LEADEROUT/;/lid=\\[This.sllm_lid]/;/why=death/;/date=\\[GetDate]/;/name=\\[This.GetName]" } }
+	}
+}
+country_event = {
+	id = sllm_people.3
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_ai = no }
+	immediate = {
+		from = { if = { limit = { is_variable_set = sllm_lid } log = "SLLM:LEADEROUT/;/lid=\\[This.sllm_lid]/;/why=fired/;/date=\\[GetDate]/;/name=\\[This.GetName]" } }
+	}
+}

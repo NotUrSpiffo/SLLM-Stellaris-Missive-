@@ -1,0 +1,12 @@
+/* AI furniture: keep federation.ts seat coordinates and custom scene slots. */
+html:not([data-scene]) body[data-room=summit] #hall{background:linear-gradient(#06141b55,#06141b88),url('assets/rooms/mediation-hall-v1.png') center 44%/cover no-repeat}
+body[data-room=summit] #hall{min-height:390px}
+body[data-room=summit] #floor{display:none}
+body[data-room=summit] #table{left:19%;right:19%;top:29%;bottom:11%;border:0;border-radius:0;background:url('assets/rooms/summit-table-v1.png') center/100% 100% no-repeat;box-shadow:none;pointer-events:none}
+body[data-room=summit] #table::after{display:none}
+body[data-room=summit] #emblem{top:38%;opacity:.9;text-shadow:0 2px 5px #000}
+body[data-room=summit] .chair{background:linear-gradient(#102b36e6,#06141be6);border-radius:30% 30% 6px 6px}
+body[data-room=summit] .face img{object-fit:contain;object-position:center bottom}
+body[data-room=summit] .plate,body[data-room=summit] .card{background:#071923f5;text-shadow:0 1px 3px #000}
+body[data-room=summit] .seat.near{transform:translate(-50%,-8px)}
+@media(max-height:850px){body[data-room=summit]{overflow-y:auto}body[data-room=summit] #hall{flex:none;height:390px}body[data-room=summit] .seat{--pw:80px}}

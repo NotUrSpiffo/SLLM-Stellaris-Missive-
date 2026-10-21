@@ -1,0 +1,451 @@
+# SLLM Probe - scripted effects (EXPERIMENT ONLY, unverified syntax)
+# Comments are ASCII on purpose. Check error.log after every test.
+
+# Logs the variables the action tests use. Scope: player country.
+sllm_probe_log_vars = {
+	log = "SLLM:VARS/;/who=\\[This.GetName]/;/req=\\[This.sllm_req_id]/;/last=\\[This.sllm_last_req]/;/seq=\\[This.sllm_exec_seq]/;/result=\\[This.sllm_last_result]"
+}
+
+# Unset variables throw errors when read. Initialise once. Scope: player country.
+sllm_probe_init_vars = {
+	if = { limit = { NOT = { is_variable_set = sllm_req_id } } set_variable = { which = sllm_req_id value = 0 } }
+	if = { limit = { NOT = { is_variable_set = sllm_last_req } } set_variable = { which = sllm_last_req value = 0 } }
+	if = { limit = { NOT = { is_variable_set = sllm_exec_seq } } set_variable = { which = sllm_exec_seq value = 0 } }
+	# Result of the last handled request: 0 none, 1 ok, 2 fail
+	if = { limit = { NOT = { is_variable_set = sllm_last_result } } set_variable = { which = sllm_last_result value = 0 } }
+	# Save identity: a random 6 digit number made once and kept in the save. The app keys per-save settings (portraits) on it.
+	if = {
+		limit = { NOT = { is_variable_set = sllm_save_id } }
+		set_variable = { which = sllm_save_id value = 0 }
+		multiply_variable = { which = sllm_save_id value = 10 }
+		random_list = {
+			1 = { change_variable = { which = sllm_save_id value = 0 } }
+			1 = { change_variable = { which = sllm_save_id value = 1 } }
+			1 = { change_variable = { which = sllm_save_id value = 2 } }
+			1 = { change_variable = { which = sllm_save_id value = 3 } }
+			1 = { change_variable = { which = sllm_save_id value = 4 } }
+			1 = { change_variable = { which = sllm_save_id value = 5 } }
+			1 = { change_variable = { which = sllm_save_id value = 6 } }
+			1 = { change_variable = { which = sllm_save_id value = 7 } }
+			1 = { change_variable = { which = sllm_save_id value = 8 } }
+			1 = { change_variable = { which = sllm_save_id value = 9 } }
+		}
+		multiply_variable = { which = sllm_save_id value = 10 }
+		random_list = {
+			1 = { change_variable = { which = sllm_save_id value = 0 } }
+			1 = { change_variable = { which = sllm_save_id value = 1 } }
+			1 = { change_variable = { which = sllm_save_id value = 2 } }
+			1 = { change_variable = { which = sllm_save_id value = 3 } }
+			1 = { change_variable = { which = sllm_save_id value = 4 } }
+			1 = { change_variable = { which = sllm_save_id value = 5 } }
+			1 = { change_variable = { which = sllm_save_id value = 6 } }
+			1 = { change_variable = { which = sllm_save_id value = 7 } }
+			1 = { change_variable = { which = sllm_save_id value = 8 } }
+			1 = { change_variable = { which = sllm_save_id value = 9 } }
+		}
+		multiply_variable = { which = sllm_save_id value = 10 }
+		random_list = {
+			1 = { change_variable = { which = sllm_save_id value = 0 } }
+			1 = { change_variable = { which = sllm_save_id value = 1 } }
+			1 = { change_variable = { which = sllm_save_id value = 2 } }
+			1 = { change_variable = { which = sllm_save_id value = 3 } }
+			1 = { change_variable = { which = sllm_save_id value = 4 } }
+			1 = { change_variable = { which = sllm_save_id value = 5 } }
+			1 = { change_variable = { which = sllm_save_id value = 6 } }
+			1 = { change_variable = { which = sllm_save_id value = 7 } }
+			1 = { change_variable = { which = sllm_save_id value = 8 } }
+			1 = { change_variable = { which = sllm_save_id value = 9 } }
+		}
+		multiply_variable = { which = sllm_save_id value = 10 }
+		random_list = {
+			1 = { change_variable = { which = sllm_save_id value = 0 } }
+			1 = { change_variable = { which = sllm_save_id value = 1 } }
+			1 = { change_variable = { which = sllm_save_id value = 2 } }
+			1 = { change_variable = { which = sllm_save_id value = 3 } }
+			1 = { change_variable = { which = sllm_save_id value = 4 } }
+			1 = { change_variable = { which = sllm_save_id value = 5 } }
+			1 = { change_variable = { which = sllm_save_id value = 6 } }
+			1 = { change_variable = { which = sllm_save_id value = 7 } }
+			1 = { change_variable = { which = sllm_save_id value = 8 } }
+			1 = { change_variable = { which = sllm_save_id value = 9 } }
+		}
+		multiply_variable = { which = sllm_save_id value = 10 }
+		random_list = {
+			1 = { change_variable = { which = sllm_save_id value = 0 } }
+			1 = { change_variable = { which = sllm_save_id value = 1 } }
+			1 = { change_variable = { which = sllm_save_id value = 2 } }
+			1 = { change_variable = { which = sllm_save_id value = 3 } }
+			1 = { change_variable = { which = sllm_save_id value = 4 } }
+			1 = { change_variable = { which = sllm_save_id value = 5 } }
+			1 = { change_variable = { which = sllm_save_id value = 6 } }
+			1 = { change_variable = { which = sllm_save_id value = 7 } }
+			1 = { change_variable = { which = sllm_save_id value = 8 } }
+			1 = { change_variable = { which = sllm_save_id value = 9 } }
+		}
+		multiply_variable = { which = sllm_save_id value = 10 }
+		random_list = {
+			1 = { change_variable = { which = sllm_save_id value = 0 } }
+			1 = { change_variable = { which = sllm_save_id value = 1 } }
+			1 = { change_variable = { which = sllm_save_id value = 2 } }
+			1 = { change_variable = { which = sllm_save_id value = 3 } }
+			1 = { change_variable = { which = sllm_save_id value = 4 } }
+			1 = { change_variable = { which = sllm_save_id value = 5 } }
+			1 = { change_variable = { which = sllm_save_id value = 6 } }
+			1 = { change_variable = { which = sllm_save_id value = 7 } }
+			1 = { change_variable = { which = sllm_save_id value = 8 } }
+			1 = { change_variable = { which = sllm_save_id value = 9 } }
+		}
+		# 6 digits can start with 0: add a fixed offset so the number never has fewer digits.
+		change_variable = { which = sllm_save_id value = 1000000 }
+	}
+}
+
+# Test 9: give every regular empire our own index number and log it.
+# The app reads SLLM:IDX lines to map names to numbers. Scope: player country.
+sllm_probe_assign_idx = {
+	if = { limit = { NOT = { is_variable_set = sllm_idx_next } } set_variable = { which = sllm_idx_next value = 1 } }
+	# A country that inherited another country's variables (e.g. copy_flags_and_variables_from)
+	# has the number but not the owner flag that carries its own ID. Clear and renumber it.
+	every_country = {
+		limit = {
+			is_variable_set = sllm_idx
+			NOT = { has_country_flag = sllm_own_@this }
+		}
+		log = "SLLM:IDX_COPY/;/name=\\[This.GetName]/;/old=\\[This.sllm_idx]"
+		clear_variable = sllm_idx
+	}
+	every_country = {
+		limit = {
+			OR = {
+				is_country_type = default
+				is_country_type = fallen_empire
+				is_country_type = awakened_fallen_empire
+				has_communications = prev
+			}
+			NOT = { is_variable_set = sllm_idx }
+		}
+		set_variable = { which = sllm_idx value = prev.sllm_idx_next }
+		set_country_flag = sllm_own_@this
+		prev = { change_variable = { which = sllm_idx_next value = 1 } }
+	}
+	# Known powers, read live from the game instead of the save file.
+	# rel = self | comm (communications open, can talk) | contact (met, no communications yet) | none
+	# prev here is the human player country that ran this effect.
+	# Checked from the other empire towards the player (communications are mutual).
+	every_country = {
+		limit = { is_variable_set = sllm_idx }
+		if = {
+			limit = { is_same_value = prev }
+			log = "SLLM:IDX/;/name=\\[This.GetName]/;/idx=\\[This.sllm_idx]/;/type=\\[This.GetCountryType]/;/rel=self"
+		}
+		else_if = {
+			limit = { has_communications = prev }
+			log = "SLLM:IDX/;/name=\\[This.GetName]/;/idx=\\[This.sllm_idx]/;/type=\\[This.GetCountryType]/;/rel=comm"
+		}
+		else_if = {
+			limit = { has_established_contact = prev }
+			log = "SLLM:IDX/;/name=\\[This.GetName]/;/idx=\\[This.sllm_idx]/;/type=\\[This.GetCountryType]/;/rel=contact"
+		}
+		else = {
+			log = "SLLM:IDX/;/name=\\[This.GetName]/;/idx=\\[This.sllm_idx]/;/type=\\[This.GetCountryType]/;/rel=none"
+		}
+	}
+}
+
+# Test 10: one call does everything inline, no event in between.
+# Console: effect sllm_probe_apply = { REQ = 2001 TID = 2 AMT = 100 }
+# Works from any selection because it scopes to the human player itself.
+sllm_probe_apply = {
+	every_playable_country = {
+		limit = { is_ai = no }
+		sllm_probe_init_vars = yes
+		set_variable = { which = sllm_in_req value = $REQ$ }
+		if = {
+			limit = { check_variable = { which = sllm_last_req value < $REQ$ } }
+			set_variable = { which = sllm_last_req value = $REQ$ }
+			change_variable = { which = sllm_exec_seq value = 1 }
+			if = {
+				limit = {
+					any_country = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+						has_resource = { type = energy amount >= $AMT$ }
+					}
+				}
+				random_country = {
+					limit = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+					add_resource = { energy = -$AMT$ }
+					log = "SLLM:ACK_TARGET/;/\\[This.GetName]"
+				}
+				add_resource = { energy = $AMT$ }
+				set_variable = { which = sllm_last_result value = 1 }
+				log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/apply/;/ok"
+			}
+			else = {
+				set_variable = { which = sllm_last_result value = 2 }
+				log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/apply/;/fail/;/no_target_or_energy"
+			}
+		}
+		# Same id again: repeat the stored outcome, change nothing.
+		else_if = {
+			limit = { check_variable = { which = sllm_last_req value = $REQ$ } }
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/apply/;/dup/;/result=\\[This.sllm_last_result]"
+		}
+		# Older id: a late or replayed request. Refuse.
+		else = {
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/apply/;/stale/;/last=\\[This.sllm_last_req]"
+		}
+	}
+}
+
+
+# 상대 제국의 자원 사정(2026-10-17): 지도자가 "요즘 합금이 부족합니다" 같은 말을 하게 하는 근거.
+# 상태 값: 0 보통, 1 재고 부족, 2 월 적자, 3 재고 부족 + 월 적자(심각), 4 풍족(재고 많고 월 흑자).
+# 범위: 대상 제국(AI). 값은 PROFILE 줄의 ec= 에 에너지·광물·식량·합금·소비재 순으로 한 자리씩 붙인다.
+sllm_probe_econ_one = {
+	set_variable = { which = $VAR$ value = 0 }
+	if = {
+		limit = { has_resource = { type = $RES$ amount >= $HI$ } has_monthly_income = { resource = $RES$ value > 0 } }
+		set_variable = { which = $VAR$ value = 4 }
+	}
+	if = {
+		limit = { has_monthly_income = { resource = $RES$ value < 0 } }
+		set_variable = { which = $VAR$ value = 2 }
+	}
+	if = {
+		limit = { has_resource = { type = $RES$ amount < $LO$ } }
+		if = {
+			limit = { check_variable = { which = $VAR$ value = 2 } }
+			set_variable = { which = $VAR$ value = 3 }
+		}
+		else = { set_variable = { which = $VAR$ value = 1 } }
+	}
+}
+sllm_probe_econ_state = {
+	sllm_probe_econ_one = { VAR = sllm_ec_e RES = energy LO = 100 HI = 5000 }
+	sllm_probe_econ_one = { VAR = sllm_ec_m RES = minerals LO = 100 HI = 5000 }
+	sllm_probe_econ_one = { VAR = sllm_ec_f RES = food LO = 50 HI = 3000 }
+	sllm_probe_econ_one = { VAR = sllm_ec_a RES = alloys LO = 40 HI = 2000 }
+	sllm_probe_econ_one = { VAR = sllm_ec_c RES = consumer_goods LO = 30 HI = 1500 }
+}
+
+# Conversation profile of an AI empire. Scope: the target empire (AI). From = the player (kept from the button).
+# Flags are stored as 0/1 variables on the target, then logged in one SLLM:PROFILE line.
+sllm_probe_talk_profile = {
+	# Counter so every PROFILE line is unique (the game drops identical repeated log lines).
+	if = { limit = { NOT = { is_variable_set = sllm_pf_n } } set_variable = { which = sllm_pf_n value = 0 } }
+	change_variable = { which = sllm_pf_n value = 1 }
+	set_variable = { which = sllm_pf_war value = 0 }
+	set_variable = { which = sllm_pf_truce value = 0 }
+	set_variable = { which = sllm_pf_rival value = 0 }
+	set_variable = { which = sllm_pf_hostile value = 0 }
+	set_variable = { which = sllm_pf_unfriendly value = 0 }
+	set_variable = { which = sllm_pf_friendly value = 0 }
+	set_variable = { which = sllm_pf_fed value = 0 }
+	set_variable = { which = sllm_pf_nap value = 0 }
+	set_variable = { which = sllm_pf_def value = 0 }
+	set_variable = { which = sllm_pf_com value = 0 }
+	set_variable = { which = sllm_pf_res value = 0 }
+	set_variable = { which = sllm_pf_emb value = 0 }
+	set_variable = { which = sllm_pf_busy value = 0 }
+	if = { limit = { is_at_war_with = from } set_variable = { which = sllm_pf_war value = 1 } }
+	if = { limit = { has_truce = from } set_variable = { which = sllm_pf_truce value = 1 } }
+	if = { limit = { is_rival = from } set_variable = { which = sllm_pf_rival value = 1 } }
+	if = { limit = { is_hostile_to = from } set_variable = { which = sllm_pf_hostile value = 1 } }
+	if = { limit = { is_unfriendly_to = from } set_variable = { which = sllm_pf_unfriendly value = 1 } }
+	if = { limit = { is_friendly_to = from } set_variable = { which = sllm_pf_friendly value = 1 } }
+	if = { limit = { is_in_federation_with = from } set_variable = { which = sllm_pf_fed value = 1 } }
+	if = { limit = { has_non_aggression_pact = from } set_variable = { which = sllm_pf_nap value = 1 } }
+	if = { limit = { has_defensive_pact = from } set_variable = { which = sllm_pf_def value = 1 } }
+	if = { limit = { has_commercial_pact = from } set_variable = { which = sllm_pf_com value = 1 } }
+	if = { limit = { has_research_agreement = from } set_variable = { which = sllm_pf_res value = 1 } }
+	if = { limit = { has_embassy = from } set_variable = { which = sllm_pf_emb value = 1 } }
+	# Detailed attitude (same order of checks as the game's own attitude list). 0 = none matched, 2 = rival.
+	set_variable = { which = sllm_pf_att value = 0 }
+	if = { limit = { is_cordial_to = from } set_variable = { which = sllm_pf_att value = 1 } }
+	else_if = { limit = { is_rival = from } set_variable = { which = sllm_pf_att value = 2 } }
+	else_if = { limit = { is_hostile_to = from } set_variable = { which = sllm_pf_att value = 3 } }
+	else_if = { limit = { is_angry_to = from } set_variable = { which = sllm_pf_att value = 4 } }
+	else_if = { limit = { is_patronizing_to = from } set_variable = { which = sllm_pf_att value = 5 } }
+	else_if = { limit = { is_dismissive_to = from } set_variable = { which = sllm_pf_att value = 6 } }
+	else_if = { limit = { is_threatened_to = from } set_variable = { which = sllm_pf_att value = 7 } }
+	else_if = { limit = { is_protective_to = from } set_variable = { which = sllm_pf_att value = 8 } }
+	else_if = { limit = { is_neutral_to = from } set_variable = { which = sllm_pf_att value = 9 } }
+	else_if = { limit = { is_friendly_to = from } set_variable = { which = sllm_pf_att value = 10 } }
+	else_if = { limit = { is_loyal_to = from } set_variable = { which = sllm_pf_att value = 11 } }
+	else_if = { limit = { is_belligerent_to = from } set_variable = { which = sllm_pf_att value = 12 } }
+	else_if = { limit = { is_imperious_to = from } set_variable = { which = sllm_pf_att value = 13 } }
+	else_if = { limit = { is_arrogant_to = from } set_variable = { which = sllm_pf_att value = 14 } }
+	else_if = { limit = { is_enigmatic_to = from } set_variable = { which = sllm_pf_att value = 15 } }
+	else_if = { limit = { is_berserker_to = from } set_variable = { which = sllm_pf_att value = 16 } }
+	else_if = { limit = { is_domineering_to = from } set_variable = { which = sllm_pf_att value = 17 } }
+	else_if = { limit = { is_unfriendly_to = from } set_variable = { which = sllm_pf_att value = 18 } }
+	else_if = { limit = { is_disloyal_to = from } set_variable = { which = sllm_pf_att value = 19 } }
+	else_if = { limit = { is_custodial_to = from } set_variable = { which = sllm_pf_att value = 20 } }
+	# A-17: the AI's behavior plan toward the player (has_attitude_behavior, 4.5.1 script docs). UNVERIFIED IN GAME.
+	# Several can be true at once, so they are added as bits: 1 attack, 2 weaken, 4 vassalize, 8 alliance, 16 coexist, 32 trade. 0 = none.
+	set_variable = { which = sllm_pf_beh value = 0 }
+	if = { limit = { has_attitude_behavior = { target = from behavior = attack } } change_variable = { which = sllm_pf_beh value = 1 } }
+	if = { limit = { has_attitude_behavior = { target = from behavior = weaken } } change_variable = { which = sllm_pf_beh value = 2 } }
+	if = { limit = { has_attitude_behavior = { target = from behavior = vassalize } } change_variable = { which = sllm_pf_beh value = 4 } }
+	if = { limit = { has_attitude_behavior = { target = from behavior = alliance } } change_variable = { which = sllm_pf_beh value = 8 } }
+	if = { limit = { has_attitude_behavior = { target = from behavior = coexist } } change_variable = { which = sllm_pf_beh value = 16 } }
+	if = { limit = { has_attitude_behavior = { target = from behavior = trade } } change_variable = { which = sllm_pf_beh value = 32 } }
+	# Species class of the founder species (1..16, 0 = unknown). The app maps the number to a default portrait.
+	set_variable = { which = sllm_pf_cls value = 0 }
+	if = { limit = { is_species_class = HUM } set_variable = { which = sllm_pf_cls value = 1 } }
+	else_if = { limit = { is_species_class = MAM } set_variable = { which = sllm_pf_cls value = 2 } }
+	else_if = { limit = { is_species_class = REP } set_variable = { which = sllm_pf_cls value = 3 } }
+	else_if = { limit = { is_species_class = AVI } set_variable = { which = sllm_pf_cls value = 4 } }
+	else_if = { limit = { is_species_class = ART } set_variable = { which = sllm_pf_cls value = 5 } }
+	else_if = { limit = { is_species_class = MOL } set_variable = { which = sllm_pf_cls value = 6 } }
+	else_if = { limit = { is_species_class = FUN } set_variable = { which = sllm_pf_cls value = 7 } }
+	else_if = { limit = { is_species_class = PLANT } set_variable = { which = sllm_pf_cls value = 8 } }
+	else_if = { limit = { is_species_class = INF } set_variable = { which = sllm_pf_cls value = 9 } }
+	else_if = { limit = { is_species_class = LITHOID } set_variable = { which = sllm_pf_cls value = 10 } }
+	else_if = { limit = { is_species_class = NECROID } set_variable = { which = sllm_pf_cls value = 11 } }
+	else_if = { limit = { is_species_class = AQUATIC } set_variable = { which = sllm_pf_cls value = 12 } }
+	else_if = { limit = { is_species_class = TOX } set_variable = { which = sllm_pf_cls value = 13 } }
+	else_if = { limit = { is_species_class = ROBOT } set_variable = { which = sllm_pf_cls value = 14 } }
+	else_if = { limit = { is_species_class = MACHINE } set_variable = { which = sllm_pf_cls value = 15 } }
+	else_if = { limit = { is_species_class = CYBERNETIC } set_variable = { which = sllm_pf_cls value = 16 } }
+	# At war with anyone (not only the player)
+	if = { limit = { is_at_war = yes } set_variable = { which = sllm_pf_busy value = 1 } }
+	set_variable = { which = sllm_pf_gest value = 0 } # 0 일반, 1 기계 지성, 2 군집(2026-10-17)
+	if = { limit = { has_authority = auth_machine_intelligence } set_variable = { which = sllm_pf_gest value = 1 } }
+	else_if = { limit = { has_authority = auth_hive_mind } set_variable = { which = sllm_pf_gest value = 2 } }
+	sllm_probe_econ_state = yes
+	log = "SLLM:PROFILE/;/idx=\\[This.sllm_idx]/;/gov=\\[This.GetGovernmentName]/;/species=\\[This.GetSpeciesName]/;/personality=\\[This.GetPersonalityName]/;/origin=\\[This.GetOriginName]/;/ruler=\\[This.GetRulerName]/;/title=\\[This.GetRulerTitle]/;/home=\\[This.GetHomeWorldName]/;/war=\\[This.sllm_pf_war]/;/truce=\\[This.sllm_pf_truce]/;/rival=\\[This.sllm_pf_rival]/;/hostile=\\[This.sllm_pf_hostile]/;/unfriendly=\\[This.sllm_pf_unfriendly]/;/friendly=\\[This.sllm_pf_friendly]/;/fed=\\[This.sllm_pf_fed]/;/nap=\\[This.sllm_pf_nap]/;/def=\\[This.sllm_pf_def]/;/com=\\[This.sllm_pf_com]/;/res=\\[This.sllm_pf_res]/;/emb=\\[This.sllm_pf_emb]/;/busy=\\[This.sllm_pf_busy]/;/att=\\[This.sllm_pf_att]/;/organ=\\[This.GetSpeciesOrganName]/;/adj=\\[This.GetSpeciesAdj]/;/n=\\[This.sllm_pf_n]/;/cls=\\[This.sllm_pf_cls]/;/gest=\\[This.sllm_pf_gest]/;/beh=\\[This.sllm_pf_beh]/;/ec=\\[This.sllm_ec_e]\\[This.sllm_ec_m]\\[This.sllm_ec_f]\\[This.sllm_ec_a]\\[This.sllm_ec_c]"
+}
+
+# Energy transfer with a direction. Console/app: effect every_playable_country = { limit = { is_ai = no } sllm_probe_transfer = { REQ = 5 TID = 2 AMT = 50 DIR = 1 } }
+# DIR 1 = the AI empire gives energy to the player. DIR 2 = the player gives energy to the AI empire.
+# Result variable: sllm_last_result 1 = done, 2 = failed (no such empire or not enough energy).
+sllm_probe_transfer = {
+	every_playable_country = {
+		limit = { is_ai = no }
+		sllm_probe_init_vars = yes
+		set_variable = { which = sllm_in_req value = $REQ$ }
+		set_variable = { which = sllm_in_dir value = $DIR$ }
+		if = {
+			limit = { check_variable = { which = sllm_last_req value < $REQ$ } }
+			set_variable = { which = sllm_last_req value = $REQ$ }
+			change_variable = { which = sllm_exec_seq value = 1 }
+			set_variable = { which = sllm_last_result value = 2 }
+			if = {
+				limit = {
+					check_variable = { which = sllm_in_dir value = 1 }
+					any_country = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+						has_resource = { type = energy amount >= $AMT$ }
+					}
+				}
+				random_country = {
+					limit = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+					add_resource = { energy = -$AMT$ }
+				}
+				add_resource = { energy = $AMT$ }
+				set_variable = { which = sllm_last_result value = 1 }
+			}
+			else_if = {
+				limit = {
+					check_variable = { which = sllm_in_dir value = 2 }
+					has_resource = { type = energy amount >= $AMT$ }
+					any_country = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+				}
+				random_country = {
+					limit = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+					add_resource = { energy = $AMT$ }
+				}
+				add_resource = { energy = -$AMT$ }
+				set_variable = { which = sllm_last_result value = 1 }
+			}
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/xfer/;/dir=\\[This.sllm_in_dir]/;/result=\\[This.sllm_last_result]"
+		}
+		else_if = {
+			limit = { check_variable = { which = sllm_last_req value = $REQ$ } }
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/xfer/;/dup/;/result=\\[This.sllm_last_result]"
+		}
+		else = {
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/xfer/;/stale/;/last=\\[This.sllm_last_req]"
+		}
+	}
+}
+
+# Conversation mood: the AI empire TID gets an opinion modifier towards the player.
+# STEP 1 warm small, 2 warm large, 3 cold small, 4 cold large.
+# Logs SLLM:OPSHIFT (new opinion of the AI towards the player) and then SLLM:ACK with the same request id.
+sllm_probe_opinion_shift = {
+	every_playable_country = {
+		limit = { is_ai = no }
+		sllm_probe_init_vars = yes
+		set_variable = { which = sllm_in_req value = $REQ$ }
+		set_variable = { which = sllm_in_step value = $STEP$ }
+		if = {
+			limit = { check_variable = { which = sllm_last_req value < $REQ$ } }
+			set_variable = { which = sllm_last_req value = $REQ$ }
+			change_variable = { which = sllm_exec_seq value = 1 }
+			set_variable = { which = sllm_last_result value = 2 }
+			if = {
+				limit = {
+					check_variable = { which = sllm_in_step value > 0 }
+					check_variable = { which = sllm_in_step value < 5 }
+					any_country = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+				}
+				random_country = {
+					limit = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+					if = {
+						limit = { prev = { check_variable = { which = sllm_in_step value = 1 } } }
+						add_opinion_modifier = { modifier = sllm_talk_warm_small who = prev }
+					}
+					else_if = {
+						limit = { prev = { check_variable = { which = sllm_in_step value = 2 } } }
+						add_opinion_modifier = { modifier = sllm_talk_warm_large who = prev }
+					}
+					else_if = {
+						limit = { prev = { check_variable = { which = sllm_in_step value = 3 } } }
+						add_opinion_modifier = { modifier = sllm_talk_cold_small who = prev }
+					}
+					else = {
+						add_opinion_modifier = { modifier = sllm_talk_cold_large who = prev }
+					}
+					sllm_probe_trust_by_step = yes
+					export_trigger_value_to_variable = {
+						trigger = opinion
+						parameters = { who = prev }
+						variable = sllm_shift_op
+					}
+					log = "SLLM:OPSHIFT/;/idx=\\[This.sllm_idx]/;/op=\\[This.sllm_shift_op]/;/req=\\[Prev.sllm_in_req]"
+				}
+				set_variable = { which = sllm_last_result value = 1 }
+			}
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/shift/;/step=\\[This.sllm_in_step]/;/result=\\[This.sllm_last_result]"
+		}
+		else_if = {
+			limit = { check_variable = { which = sllm_last_req value = $REQ$ } }
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/shift/;/dup/;/result=\\[This.sllm_last_result]"
+		}
+		else = {
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/shift/;/stale/;/last=\\[This.sllm_last_req]"
+		}
+	}
+}

@@ -1,0 +1,12 @@
+﻿l_english:
+ edict_sllm_press:0 "Press Interview"
+ edict_sllm_press_desc:0 "Enable this edict to start preparing a press interview. Preparation takes 3 months and you answer the reporter's questions in the companion app. Each topic that is received well raises Pop Happiness by 3% for 1 year (up to +9%). Activation and upkeep are free. Another preparation is available after 6 months; disable and enable this edict to start again."
+ sllm_press_cd_tt:0 "A press interview was prepared within the last 6 months."
+ sllm_press_edict_start_tt:0 "Start preparing a press interview. The companion app will notify you in 3 months. Another preparation is available in 6 months."
+ sllm_press_edict_off_tt:0 "Disable this edict. Preparation already started and existing interview effects are not cancelled."
+ sllm_press_happy_1:0 "Press Interview: 1 Topic Well Received"
+ sllm_press_happy_1_desc:0 "One topic of a press interview was received well, raising Pop Happiness."
+ sllm_press_happy_2:0 "Press Interview: 2 Topics Well Received"
+ sllm_press_happy_2_desc:0 "Two topics of a press interview were received well, raising Pop Happiness."
+ sllm_press_happy_3:0 "Press Interview: 3 Topics Well Received"
+ sllm_press_happy_3_desc:0 "Every topic of a press interview was received well, raising Pop Happiness."

@@ -1,0 +1,22 @@
+# SLLM Probe - casus belli granted only by the companion app when an AI empire decides to declare war (EXPERIMENT ONLY, untested syntax).
+# is_valid = no: nobody gets these automatically; they exist only when add_casus_belli grants them by script.
+cb_sllm_humiliation = {
+	show_in_diplomacy = no
+	show_notification = no
+	potential = { always = yes }
+	is_valid = { always = no }
+}
+
+cb_sllm_tribute = {
+	show_in_diplomacy = no
+	show_notification = no
+	potential = { always = yes }
+	is_valid = { always = no }
+}
+
+cb_sllm_revenge = {
+	show_in_diplomacy = no
+	show_notification = no
+	potential = { always = yes }
+	is_valid = { always = no }
+}

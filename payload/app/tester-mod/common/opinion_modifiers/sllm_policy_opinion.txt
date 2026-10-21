@@ -1,0 +1,5 @@
+# SLLM 정책 퀘스트(2026-10-18): 외부 정책 목표를 지키지 못하면 대상 제국이 우리를 보는 관계 −50, 매달 4씩 회복(약 1년).
+sllm_policy_broken_ex = {
+	opinion = { base = -50 }
+	decay = { base = 4 }
+}

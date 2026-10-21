@@ -1,0 +1,87 @@
+# SLLM Probe - profile of one AI Galactic Community member relative to the player (EXPERIMENT ONLY).
+# Same as sllm_probe_talk_profile, but the player is read as prev (the scope this was iterated from) instead of From.
+sllm_probe_gc_profile_one = {
+	# Counter so every PROFILE line is unique (the game drops identical repeated log lines).
+	if = { limit = { NOT = { is_variable_set = sllm_pf_n } } set_variable = { which = sllm_pf_n value = 0 } }
+	change_variable = { which = sllm_pf_n value = 1 }
+	set_variable = { which = sllm_pf_war value = 0 }
+	set_variable = { which = sllm_pf_truce value = 0 }
+	set_variable = { which = sllm_pf_rival value = 0 }
+	set_variable = { which = sllm_pf_hostile value = 0 }
+	set_variable = { which = sllm_pf_unfriendly value = 0 }
+	set_variable = { which = sllm_pf_friendly value = 0 }
+	set_variable = { which = sllm_pf_fed value = 0 }
+	set_variable = { which = sllm_pf_nap value = 0 }
+	set_variable = { which = sllm_pf_def value = 0 }
+	set_variable = { which = sllm_pf_com value = 0 }
+	set_variable = { which = sllm_pf_res value = 0 }
+	set_variable = { which = sllm_pf_emb value = 0 }
+	set_variable = { which = sllm_pf_busy value = 0 }
+	if = { limit = { is_at_war_with = prev } set_variable = { which = sllm_pf_war value = 1 } }
+	if = { limit = { has_truce = prev } set_variable = { which = sllm_pf_truce value = 1 } }
+	if = { limit = { is_rival = prev } set_variable = { which = sllm_pf_rival value = 1 } }
+	if = { limit = { is_hostile_to = prev } set_variable = { which = sllm_pf_hostile value = 1 } }
+	if = { limit = { is_unfriendly_to = prev } set_variable = { which = sllm_pf_unfriendly value = 1 } }
+	if = { limit = { is_friendly_to = prev } set_variable = { which = sllm_pf_friendly value = 1 } }
+	if = { limit = { is_in_federation_with = prev } set_variable = { which = sllm_pf_fed value = 1 } }
+	if = { limit = { has_non_aggression_pact = prev } set_variable = { which = sllm_pf_nap value = 1 } }
+	if = { limit = { has_defensive_pact = prev } set_variable = { which = sllm_pf_def value = 1 } }
+	if = { limit = { has_commercial_pact = prev } set_variable = { which = sllm_pf_com value = 1 } }
+	if = { limit = { has_research_agreement = prev } set_variable = { which = sllm_pf_res value = 1 } }
+	if = { limit = { has_embassy = prev } set_variable = { which = sllm_pf_emb value = 1 } }
+	# Detailed attitude (same order of checks as the game's own attitude list). 0 = none matched, 2 = rival.
+	set_variable = { which = sllm_pf_att value = 0 }
+	if = { limit = { is_cordial_to = prev } set_variable = { which = sllm_pf_att value = 1 } }
+	else_if = { limit = { is_rival = prev } set_variable = { which = sllm_pf_att value = 2 } }
+	else_if = { limit = { is_hostile_to = prev } set_variable = { which = sllm_pf_att value = 3 } }
+	else_if = { limit = { is_angry_to = prev } set_variable = { which = sllm_pf_att value = 4 } }
+	else_if = { limit = { is_patronizing_to = prev } set_variable = { which = sllm_pf_att value = 5 } }
+	else_if = { limit = { is_dismissive_to = prev } set_variable = { which = sllm_pf_att value = 6 } }
+	else_if = { limit = { is_threatened_to = prev } set_variable = { which = sllm_pf_att value = 7 } }
+	else_if = { limit = { is_protective_to = prev } set_variable = { which = sllm_pf_att value = 8 } }
+	else_if = { limit = { is_neutral_to = prev } set_variable = { which = sllm_pf_att value = 9 } }
+	else_if = { limit = { is_friendly_to = prev } set_variable = { which = sllm_pf_att value = 10 } }
+	else_if = { limit = { is_loyal_to = prev } set_variable = { which = sllm_pf_att value = 11 } }
+	else_if = { limit = { is_belligerent_to = prev } set_variable = { which = sllm_pf_att value = 12 } }
+	else_if = { limit = { is_imperious_to = prev } set_variable = { which = sllm_pf_att value = 13 } }
+	else_if = { limit = { is_arrogant_to = prev } set_variable = { which = sllm_pf_att value = 14 } }
+	else_if = { limit = { is_enigmatic_to = prev } set_variable = { which = sllm_pf_att value = 15 } }
+	else_if = { limit = { is_berserker_to = prev } set_variable = { which = sllm_pf_att value = 16 } }
+	else_if = { limit = { is_domineering_to = prev } set_variable = { which = sllm_pf_att value = 17 } }
+	else_if = { limit = { is_unfriendly_to = prev } set_variable = { which = sllm_pf_att value = 18 } }
+	else_if = { limit = { is_disloyal_to = prev } set_variable = { which = sllm_pf_att value = 19 } }
+	else_if = { limit = { is_custodial_to = prev } set_variable = { which = sllm_pf_att value = 20 } }
+	# Species class of the founder species (1..16, 0 = unknown). The app maps the number to a default portrait.
+	set_variable = { which = sllm_pf_cls value = 0 }
+	if = { limit = { is_species_class = HUM } set_variable = { which = sllm_pf_cls value = 1 } }
+	else_if = { limit = { is_species_class = MAM } set_variable = { which = sllm_pf_cls value = 2 } }
+	else_if = { limit = { is_species_class = REP } set_variable = { which = sllm_pf_cls value = 3 } }
+	else_if = { limit = { is_species_class = AVI } set_variable = { which = sllm_pf_cls value = 4 } }
+	else_if = { limit = { is_species_class = ART } set_variable = { which = sllm_pf_cls value = 5 } }
+	else_if = { limit = { is_species_class = MOL } set_variable = { which = sllm_pf_cls value = 6 } }
+	else_if = { limit = { is_species_class = FUN } set_variable = { which = sllm_pf_cls value = 7 } }
+	else_if = { limit = { is_species_class = PLANT } set_variable = { which = sllm_pf_cls value = 8 } }
+	else_if = { limit = { is_species_class = INF } set_variable = { which = sllm_pf_cls value = 9 } }
+	else_if = { limit = { is_species_class = LITHOID } set_variable = { which = sllm_pf_cls value = 10 } }
+	else_if = { limit = { is_species_class = NECROID } set_variable = { which = sllm_pf_cls value = 11 } }
+	else_if = { limit = { is_species_class = AQUATIC } set_variable = { which = sllm_pf_cls value = 12 } }
+	else_if = { limit = { is_species_class = TOX } set_variable = { which = sllm_pf_cls value = 13 } }
+	else_if = { limit = { is_species_class = ROBOT } set_variable = { which = sllm_pf_cls value = 14 } }
+	else_if = { limit = { is_species_class = MACHINE } set_variable = { which = sllm_pf_cls value = 15 } }
+	else_if = { limit = { is_species_class = CYBERNETIC } set_variable = { which = sllm_pf_cls value = 16 } }
+	# At war with anyone (not only the player)
+	if = { limit = { is_at_war = yes } set_variable = { which = sllm_pf_busy value = 1 } }
+	log = "SLLM:PROFILE/;/idx=\\[This.sllm_idx]/;/gov=\\[This.GetGovernmentName]/;/species=\\[This.GetSpeciesName]/;/personality=\\[This.GetPersonalityName]/;/origin=\\[This.GetOriginName]/;/ruler=\\[This.GetRulerName]/;/title=\\[This.GetRulerTitle]/;/home=\\[This.GetHomeWorldName]/;/war=\\[This.sllm_pf_war]/;/truce=\\[This.sllm_pf_truce]/;/rival=\\[This.sllm_pf_rival]/;/hostile=\\[This.sllm_pf_hostile]/;/unfriendly=\\[This.sllm_pf_unfriendly]/;/friendly=\\[This.sllm_pf_friendly]/;/fed=\\[This.sllm_pf_fed]/;/nap=\\[This.sllm_pf_nap]/;/def=\\[This.sllm_pf_def]/;/com=\\[This.sllm_pf_com]/;/res=\\[This.sllm_pf_res]/;/emb=\\[This.sllm_pf_emb]/;/busy=\\[This.sllm_pf_busy]/;/att=\\[This.sllm_pf_att]/;/organ=\\[This.GetSpeciesOrganName]/;/adj=\\[This.GetSpeciesAdj]/;/n=\\[This.sllm_pf_n]/;/cls=\\[This.sllm_pf_cls]"
+}
+
+# Logs a SLLM:PROFILE line for every AI Community member, with the player as the viewpoint.
+sllm_probe_gc_profiles = {
+	every_playable_country = { limit = { is_ai = no } sllm_probe_assign_idx = yes }
+	every_playable_country = {
+		limit = { is_ai = no }
+		every_country = {
+			limit = { is_galactic_community_member = yes is_ai = yes }
+			sllm_probe_gc_profile_one = yes
+		}
+	}
+}

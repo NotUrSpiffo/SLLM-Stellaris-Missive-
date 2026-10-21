@@ -1,0 +1,55 @@
+# SLLM Probe - 대사관 감시(2026-10-20 알파 9 시험용). 게임 규칙은 바꾸지 않고 로그만 남긴다. 게임 안 검수 전.
+#
+# (1) sllm_probe_embdir : 대사관 방향 확인용. 플레이어 국가 범위에서 한 번 부른다.
+#   콘솔: effect every_playable_country = { limit = { is_ai = no } sllm_probe_embdir = yes }
+#   통신 중인 모든 AI 나라마다 한 줄: pe=1 이면 "플레이어 has_embassy = 그 나라" 가 참, ce=1 이면 "그 나라 has_embassy = 플레이어" 가 참.
+#   → 우리가 대사관을 세운 나라와 상대가 세운 나라를 갈라 놓고 보면 has_embassy 가 어느 방향인지 알 수 있다.
+#
+# (2) sllm_probe_embmon : 월간 상황(sllm_probe_state_scan) 끝에서 두 달에 한 번 부른다. 대사관이 (어느 방향이든) 있는 나라마다 한 줄:
+#   SLLM:EMBMON — 번호·이름·그 나라의 우리에 대한 호감·영유권 주장·전쟁 명분·전쟁 중 여부·pe·ce.
+#   앱이 달마다 비교해 "지난 보고 이후" 가 아니라 "지난달 이후" 경보를 낼 수 있게 한다(앱 쪽은 이 줄이 실제로 찍히는 것을 본 뒤 만든다).
+# 로그 문자열 안에 $..$ 매개변수를 넣지 않는다(F-39).
+
+sllm_probe_embdir = {
+	save_event_target_as = sllm_ed_p
+	every_country = {
+		limit = { is_ai = yes has_communications = event_target:sllm_ed_p }
+		save_event_target_as = sllm_ed_c
+		set_variable = { which = sllm_ed_a value = 0 }
+		set_variable = { which = sllm_ed_b value = 0 }
+		event_target:sllm_ed_p = {
+			if = { limit = { has_embassy = event_target:sllm_ed_c } event_target:sllm_ed_c = { set_variable = { which = sllm_ed_a value = 1 } } }
+		}
+		if = { limit = { has_embassy = event_target:sllm_ed_p } set_variable = { which = sllm_ed_b value = 1 } }
+		log = "SLLM:EMBDIR/;/name=\\[This.GetName]/;/pe=\\[This.sllm_ed_a]/;/ce=\\[This.sllm_ed_b]/;/date=\\[GetDate]"
+	}
+}
+
+sllm_probe_embmon = {
+	save_event_target_as = sllm_em_p
+	if = {
+		limit = { any_country = { is_ai = yes has_communications = event_target:sllm_em_p NOT = { is_variable_set = sllm_idx } } }
+		sllm_probe_assign_idx = yes
+	}
+	every_country = {
+		limit = { is_ai = yes has_communications = event_target:sllm_em_p }
+		save_event_target_as = sllm_em_c
+		set_variable = { which = sllm_em_pe value = 0 }
+		set_variable = { which = sllm_em_ce value = 0 }
+		event_target:sllm_em_p = {
+			if = { limit = { has_embassy = event_target:sllm_em_c } event_target:sllm_em_c = { set_variable = { which = sllm_em_pe value = 1 } } }
+		}
+		if = { limit = { has_embassy = event_target:sllm_em_p } set_variable = { which = sllm_em_ce value = 1 } }
+		if = {
+			limit = { OR = { check_variable = { which = sllm_em_pe value = 1 } check_variable = { which = sllm_em_ce value = 1 } } }
+			export_trigger_value_to_variable = { trigger = opinion parameters = { who = event_target:sllm_em_p } variable = sllm_em_op }
+			set_variable = { which = sllm_em_claim value = 0 }
+			if = { limit = { has_claim = event_target:sllm_em_p } set_variable = { which = sllm_em_claim value = 1 } }
+			set_variable = { which = sllm_em_cb value = 0 }
+			if = { limit = { has_casus_belli = { target = event_target:sllm_em_p } } set_variable = { which = sllm_em_cb value = 1 } }
+			set_variable = { which = sllm_em_war value = 0 }
+			if = { limit = { is_at_war_with = event_target:sllm_em_p } set_variable = { which = sllm_em_war value = 1 } }
+			log = "SLLM:EMBMON/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/op=\\[This.sllm_em_op]/;/claim=\\[This.sllm_em_claim]/;/cb=\\[This.sllm_em_cb]/;/war=\\[This.sllm_em_war]/;/pe=\\[This.sllm_em_pe]/;/ce=\\[This.sllm_em_ce]/;/date=\\[GetDate]"
+		}
+	}
+}

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko" class="paper-surface"><head><meta charset="utf-8"><title>SLLM 신문</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;900&family=Noto+Sans+KR:wght@400;700;900&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+ *{box-sizing:border-box}
+ html,body{margin:0;height:100%;background:#ece3cd;color:#dcecf0;font-family:"Malgun Gothic",sans-serif;overflow:hidden}
+ :root{--bg:#06141b;--text:#dcecf0;--hi:#5fd4e4;--panel:#0b2230;--line:#5fd4e455}
+ #scroll{position:relative;z-index:1;height:100%;overflow:auto}
+ /* A-22 2단계 연출 슬롯: 지면 배경 그림(scene:paper)과 지면 모양(종이 / 디스플레이). 디스플레이는 테마 색을 쓰는 화면형 지면 */
+ #paperbg{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--scene,none) center/cover no-repeat}
+ #paperbg::after{content:"";position:absolute;inset:0;background:var(--pbg,#ece3cd);opacity:.62}
+ html:not([data-scene]) #paperbg{display:none}
+ /* 집무실 책상 신문을 펼칠 때(2026-10-18): 접힌 종이가 위에서 아래로 펼쳐진다 */
+ #sheet.unfold{animation:sllm-unfold .55s cubic-bezier(.2,.75,.25,1) both;transform-origin:50% 0}
+ @keyframes sllm-unfold{0%{transform:perspective(1600px) rotateX(-78deg) scaleY(.35);opacity:.2;filter:brightness(.7)}55%{opacity:1}100%{transform:none;opacity:1;filter:none}}
+ @media (prefers-reduced-motion:reduce){#sheet.unfold{animation:none}}
+ #dock{position:fixed;right:16px;bottom:12px;z-index:5;display:flex;gap:6px;opacity:.55;transition:opacity .2s} #dock:hover{opacity:1}
+ #dock .ssl-btn,#dock .nb{font-size:12px;padding:3px 10px;background:var(--pbg,#ece3cd);color:inherit;border:1px solid currentColor}
+ html[data-surface=display] .masthead-title{text-shadow:0 0 18px var(--hi),0 0 2px var(--hi)}
+ /* 종이 지면에서는 테마의 빛 효과·장식(글자 그림자, 테두리 그림자)을 모두 끈다(사용자 21:40: 종이로 바꿔도 빛이 남아 불편) */
+ html[data-surface=paper] *,html[data-surface=paper] *::before,html[data-surface=paper] *::after{text-shadow:none!important}
+ html[data-surface=paper] body{box-shadow:none!important;border:0!important}
+ html[data-surface=display] #sheet{border-left:1px solid var(--line);border-right:1px solid var(--line);box-shadow:0 0 60px #0008}
+ #sheet{width:100%;min-height:100%;padding:26px 56px 30px;max-width:1700px;margin:0 auto}
+ .nb{-webkit-app-region:no-drag;font:700 13px "Malgun Gothic",sans-serif;padding:5px 12px;background:transparent;border:1px solid currentColor;color:inherit;cursor:pointer;letter-spacing:.04em}
+ .nb:hover:not(:disabled){filter:invert(1)}
+ .nb:disabled{opacity:.3;cursor:default}
+ .nb.x{font-size:16px;line-height:1;padding:4px 11px}
+ /* 브랜드 그림은 이름 칸의 왼쪽 끝에 고정하고, 제호는 가운데 둔다(사용자 2026-10-15: 이름 옆에 붙지 않게) */
+ .masthead-name{display:grid;grid-template-columns:clamp(58px,8vw,108px) minmax(0,1fr) clamp(58px,8vw,108px);align-items:center;gap:clamp(12px,2vw,28px)}
+ .masthead-name .masthead-brand{justify-self:start}
+ .masthead-name .masthead-title{text-align:center}
+ .masthead-brand{width:clamp(58px,8vw,108px);height:clamp(58px,8vw,108px);flex:none;display:block}
+ .masthead-title{font-size:clamp(36px,7vw,112px);font-weight:900;letter-spacing:.08em;line-height:1.15;word-break:keep-all;min-width:0}
+ @media(max-width:600px){#sheet{padding:20px 20px 26px}.masthead-title{font-size:clamp(28px,7vw,42px)}}
+</style><script src="theme.js"></script><script src="scene-slots.js"></script><script src="media-brands.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="special-rooms.css"></head><body data-room="paper">
+<div id="paperbg"></div><div id="scroll"><div id="sheet"></div></div><div id="dock"><button class="nb" id="bigBtn" type="button" hidden></button><button class="nb" id="surf" type="button"></button><span id="sceneBtn"></span></div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const T = (x) => (window.SLLMI18n ? window.SLLMI18n.t(x) : x); // 지면 안(#sheet)은 자동 번역 대상이 아니라, 고정 문구만 직접 번역한다(기사 내용은 건드리지 않는다)
+ let list = [], pos = 0, fonts = []; // fonts: 신문사(계열)별 서체 id (A-21, 설정 > 언론사)
+ const FONT_FAMILY = { myeongjo: '"Noto Serif KR","Batang",serif', batang: '"Batang","바탕","BatangChe","Noto Serif KR",serif', gothic: '"Noto Sans KR","Malgun Gothic","맑은 고딕",sans-serif', pretendard: '"Pretendard","Pretendard Variable","Malgun Gothic",sans-serif' };
+ const mk = (tag, css, text) => { const e = document.createElement(tag); if (css) e.style.cssText = css; if (text !== undefined) e.textContent = text; return e; };
+ function render() {
+  const sheet = $('sheet'); sheet.textContent = '';
+  const it = list[pos];
+  const nav = (ink, mute) => { const n = mk('div', 'display:flex;gap:8px;align-items:center;color:' + ink);
+   const pv = mk('button', '', T('‹ 지난 호')), ps = mk('span', 'font-size:13px;color:' + mute + ';min-width:48px;text-align:center', it ? (pos + 1) + ' / ' + list.length : ''), nx = mk('button', '', T('다음 호 ›')), cl = mk('button', '', '✕');
+   pv.className = nx.className = 'nb'; cl.className = 'nb x'; cl.title = T('닫기 (Esc)'); pv.id = 'prev'; nx.id = 'next';
+   pv.disabled = !it || pos >= list.length - 1; nx.disabled = !it || pos <= 0;
+   pv.onclick = () => { if (pos < list.length - 1) { pos++; render(); $('scroll').scrollTop = 0; } }; nx.onclick = () => { if (pos > 0) { pos--; render(); $('scroll').scrollTop = 0; } }; cl.onclick = () => window.sllm.paperClose();
+   n.append(pv, ps, nx, cl); return n; };
+  if (!it) { const dsp = surface() === 'display', cv = (k, d) => { const x = getComputedStyle(document.documentElement).getPropertyValue(k).trim(); return /^#[0-9a-f]{6}$/i.test(x) ? x : d; }, ink0 = dsp ? cv('--text', '#dcecf0') : '#1d1a14', mute0 = dsp ? cv('--dim', '#8fb3bd') : '#4a4333'; document.body.style.background = dsp ? 'linear-gradient(#ffffff06 1px,transparent 1px) 0 0/100% 4px,radial-gradient(ellipse at 50% 0,' + cv('--hi', '#5fd4e4') + '26,transparent 60%),' + cv('--bg', '#06141b') : '#ece3cd'; document.documentElement.style.setProperty('--pbg', dsp ? cv('--bg', '#06141b') : '#ece3cd'); $('dock').style.color = ink0; sheet.style.cssText = 'color:' + ink0 + ';-webkit-app-region:drag'; const h = mk('div', 'display:flex;justify-content:flex-end'); h.append(nav(ink0, mute0)); /* 2026-10-19 집 PC 검수: 집무실(디스플레이)에서 「아직 나온 호가 없습니다」가 종이 색 글자로 나와 안 보이던 것 */ sheet.append(h, mk('div', 'padding:120px 30px;text-align:center;font-size:20px', T('아직 나온 호가 없습니다. 새해(1월 1일)가 되면 지난 한 해의 기록으로 신문이 나옵니다.'))); return; }
+  let P = it.paperInfo || { name: '성간일보', sub: '', wire: '', bg: '#ece3cd', ink: '#1d1a14', accent: '#8a2a1c', briefsFact: false };
+  const disp = surface() === 'display', fid = (fonts[it.paper ?? 0] || 'auto'), fam = FONT_FAMILY[fid === 'auto' ? (disp ? 'gothic' : 'myeongjo') : fid] || FONT_FAMILY.myeongjo; if (disp) { const v = (k, d) => { const x = getComputedStyle(document.documentElement).getPropertyValue(k).trim(); return /^#[0-9a-f]{6}$/i.test(x) ? x : d; }; P = { ...P, bg: v('--bg', '#06141b'), ink: v('--text', '#dcecf0'), accent: v('--hi', '#5fd4e4') }; }
+  const CRI = crisisIssue(it); if (CRI) P = { ...P, bg: '#140606', ink: '#f3e7e2', accent: '#ff3b2f' }; // 은하 위기 특별판(2026-10-17): 검붉은 비상 지면
+  const ink = P.ink, mute = P.ink + 'bb';
+  document.documentElement.style.setProperty('--pbg', P.bg); $('dock').style.color = ink;
+  document.body.style.background = disp ? 'linear-gradient(#ffffff06 1px,transparent 1px) 0 0/100% 4px,radial-gradient(ellipse at 50% 0,' + P.accent + '26,transparent 60%),' + P.bg : P.bg; sheet.style.cssText = 'color:' + ink + ';font-family:' + fam;
+  const t = mk('div', '-webkit-app-region:drag;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;letter-spacing:.06em;border-bottom:1px solid ' + ink + ';padding-bottom:9px;color:' + mute); t.append(mk('span', '', it.date), mk('span', 'flex:1;text-align:center', T(P.wire)), nav(ink, mute)); sheet.append(t);
+  const m = mk('div', 'text-align:center;padding:20px 0 14px;border-bottom:4px double ' + ink); const identity = mk('div'); identity.className = 'masthead-name';
+  const brand = document.createElement('img'); brand.className = 'masthead-brand'; brand.width = 96; brand.height = 96; MediaBrands.paper(brand, it.paper ?? 0);
+  // 2026-10-18: 지면(#sheet)은 자동 번역 대상이 아니라 제호·부제·제휴 문구는 직접 번역(사용자가 바꾼 이름은 표에 없으니 그대로)
+  // (고침: 위 설명이 같은 줄 코드 앞에 붙어 제호·브랜드 아이콘을 넣는 코드까지 주석이 되어 신문 제호가 사라졌었다)
+  const title = mk('div', '', T(P.name)); title.className = 'masthead-title'; identity.append(brand, title, document.createElement('span')); // 오른쪽 빈 칸: 제호가 정확히 가운데 오게
+  m.append(identity, mk('div', 'font-size:13px;letter-spacing:.35em;margin-top:10px;color:' + mute, T(P.sub))); sheet.append(m);
+  if (CRI) { // 위기 특별판 띠: 제호 위에 경고 줄무늬와 위기 이름
+   const band = mk('div', 'margin:14px 0 0;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-family:"Malgun Gothic",sans-serif;font-weight:900;letter-spacing:.18em;color:#fff;background:repeating-linear-gradient(-45deg,#a3120c 0 18px,#4a0705 18px 36px);border:2px solid #ff3b2f;text-shadow:0 0 6px #000');
+   band.className = 'crisis-band'; band.append(mk('span', 'font-size:18px', '⚠ ' + T('은하 위기 특별판') + (window.SLLMI18n && window.SLLMI18n.language() === 'en' ? '' : ' · SPECIAL EDITION')), mk('span', 'font-size:13px;letter-spacing:.06em;font-weight:700', (window.SLLMI18n && window.SLLMI18n.language() === 'en' ? CRI.en : CRI.ko))); // i18n-data: 위기 이름 자료(한/영)·영어 부제는 한국어 화면에만
+   sheet.insertBefore(band, m);
+  }
+  const hd = mk('div', 'padding:26px 0 20px;border-bottom:1px solid ' + ink); hd.append(mk('div', 'font-size:14px;font-weight:700;letter-spacing:.2em;color:' + P.accent + ';margin-bottom:8px', it.extra ? T('호외 · 號外') : T('머리기사')), mk('h1', 'margin:0;font-size:clamp(32px,4.4vw,56px);line-height:1.25;font-weight:900', it.headline)); sheet.append(hd);
+  if (it.extra) { // 호외: 기사는 한 건, 나머지 지면은 AI 를 쓰지 않은 날려쓴 가짜 글씨로 채운다
+   let seed = (it.id || 1) * 9301 + 49297; const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+   const scrib = (rows) => { const box = mk('div', 'color:' + ink + ';opacity:.42;font-style:italic;font-size:17px;line-height:1.9;letter-spacing:.06em;overflow:hidden'); for (let r = 0; r < rows; r++) { let s = ''; const w = 4 + Math.floor(rnd() * 4); for (let k = 0; k < w; k++) s += (k ? ' ' : '') + '~'.repeat(2 + Math.floor(rnd() * 6)); box.append(mk('div', 'white-space:nowrap;transform:rotate(' + ((rnd() - .5) * 1.4).toFixed(2) + 'deg)', s)); } return box; };
+   const grid = mk('div', 'display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0'); grid.className = 'news-grid';
+   const a = it.articles[0];
+   const art = mk('div', 'padding:22px 24px 8px;padding-left:0'); art.className = 'news-article';
+   if (a) { art.append(mk('h2', 'margin:0 0 12px;font-size:26px;line-height:1.3;font-weight:900', a.title), mk('div', 'font-size:17px;line-height:1.9;text-align:justify', a.body)); if (a.comment) art.append(mk('div', 'margin-top:12px;font-size:15px', a.comment)); }
+   grid.append(art);
+   for (let c = 0; c < 2; c++) { const col = mk('div', 'padding:22px 24px 8px;border-left:1px solid ' + ink + '55'); col.append(mk('div', 'height:22px;width:60%;background:' + ink + '22;margin-bottom:14px'), scrib(9)); grid.append(col); }
+   sheet.append(grid);
+   const bx = mk('div', 'border-top:4px double ' + ink + ';margin-top:20px;padding-top:14px'); bx.append(scrib(4)); sheet.append(bx);
+   sheet.append(mk('div', 'margin-top:20px;padding-top:10px;border-top:1px solid ' + ink + ';font-family:"Malgun Gothic",sans-serif;font-size:12.5px;text-align:right;color:' + mute, T('호외입니다. 기사 한 건만 실었으며 나머지 지면은 모양만 낸 가짜 글씨입니다.')));
+   return;
+  }
+  if (it.articles.length) {
+   const n = Math.min(it.articles.length, 3);
+   const grid = mk('div', 'display:grid;grid-template-columns:repeat(' + n + ',minmax(0,1fr));gap:0');
+   grid.className='news-grid';
+   it.articles.forEach((a, i) => {
+    const art = mk('div', 'padding:22px 24px 8px;' + ((i % n) ? 'border-left:1px solid ' + ink + '55;' : 'padding-left:0;') + (i >= n ? 'border-top:1px solid ' + ink + '55;' : ''));
+    art.className='news-article';
+    art.append(mk('h2', 'margin:0 0 12px;font-size:26px;line-height:1.3;font-weight:900', a.title), mk('div', 'font-size:17px;line-height:1.9;text-align:justify', a.body));
+    if (a.comment) { const c = mk('div', 'margin-top:16px;padding:12px 14px;background:' + ink + '14;border-left:4px solid ' + P.accent + ';font-size:15px;line-height:1.75'); c.append(mk('div', 'font-family:"Malgun Gothic",sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;color:' + P.accent + ';margin-bottom:4px', T('기자 논평 · ') + (a.reporter || '')), document.createTextNode(a.comment)); art.append(c); }
+    grid.append(art);
+   });
+   sheet.append(grid);
+  }
+  if (it.briefs.length) {
+   const bx = mk('div', 'border-top:4px double ' + ink + ';margin-top:20px;padding-top:14px'); bx.append(mk('div', 'font-family:"Malgun Gothic",sans-serif;font-size:14px;font-weight:700;letter-spacing:.2em;margin-bottom:10px', T('한 줄 소식')));
+   const bg = mk('div', 'display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));column-gap:34px;row-gap:8px;font-size:16px;line-height:1.6'); bg.className='brief-grid'; for (const br of it.briefs) bg.append(mk('div', 'border-bottom:1px dotted ' + ink + '77;padding-bottom:6px', '· ' + br)); bx.append(bg); sheet.append(bx);
+  }
+  sheet.append(mk('div', 'margin-top:20px;padding-top:10px;border-top:1px solid ' + ink + ';font-family:"Malgun Gothic",sans-serif;font-size:12.5px;text-align:right;color:' + mute, T(P.briefsFact ? '기사와 한 줄 소식은 게임에 기록된 사실만 싣습니다.' : '기사는 게임에 기록된 사실만, 논평은 기자의 의견이며, 한 줄 소식은 지어낸 이야기입니다.')));
+ }
+ // 은하 위기 특집(2026-10-17): 위기 특별판으로 낸 호(issues)만 특별판 지면. 정기호·일반 호외는 위기 중이라도 평소 지면. 위기 이름은 호마다 저장된 것(labels)
+ let crisis = { issues: [], labels: {} };
+ const crisisIssue = (it) => { if (!it || !crisis.issues.includes(it.id)) return null; const lb = crisis.labels[String(it.id)] || {}; return { ko: lb.ko || T('종말 위기'), en: lb.en || 'Endgame crisis' }; };
+ const reCrisis = (c) => { if (!c) return; crisis = { issues: c.issues || [], labels: c.labels || {} }; const top = $('scroll').scrollTop; render(); $('scroll').scrollTop = top; };
+ if (window.sllm.onCrisisState) window.sllm.onCrisisState(reCrisis);
+ if (window.sllm.crisisState) window.sllm.crisisState().then(reCrisis, () => {});
+ async function load() { try { list = await window.sllm.newsList(); } catch (e) { list = []; } pos = 0; render(); $('scroll').scrollTop = 0; }
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.sllm.paperClose(); else if (e.key === 'ArrowLeft') $('prev')?.click(); else if (e.key === 'ArrowRight') $('next')?.click(); });
+ window.sllm.onGalNews((it) => { list.unshift(it); pos = 0; render(); });
+ window.sllm.onPaperInit(load);
+ document.addEventListener('sllm-language', () => { const top = $('scroll').scrollTop; render(); $('scroll').scrollTop = top; });
+ window.sllm.onMediaChanged((rows) => {
+   fonts = rows.map((r) => r.font || 'auto');
+   for (const issue of list) { const row = rows[issue.paper ?? 0]; if (row && issue.paperInfo) issue.paperInfo = { ...issue.paperInfo, name: row.name }; }
+   const top = $('scroll').scrollTop; render(); $('scroll').scrollTop = top;
+ });
+ // A-22 2단계: 지면 모양. 자동이면 테마를 따른다(기계·물질·평등·홀로그램 테마는 디스플레이, 나머지는 종이). 이 PC에만 저장
+ const DISPLAY_THEMES = ['machine', 'materialist', 'egalitarian', 'holo'];
+ const SURF = ['auto', 'paper', 'display'], SURF_KO = { auto: '자동', paper: '종이', display: '디스플레이' };
+ let surfPick = 'auto'; try { const v = localStorage.getItem('sllm_paper_surface'); if (SURF.includes(v)) surfPick = v; } catch (e) { /* 저장소 없음 */ }
+ // 2026-10-18: 여는 곳으로 지면을 고정한다. 오버레이 신문 아이콘(mode=paper) = 종이, 집무실(mode=office) = 디스플레이. 지면 바꾸기 단추는 숨긴다(집무실 유리에서 종이로 바꾸면 글자가 사라졌다).
+ const OPEN_MODE = new URLSearchParams(location.search).get('mode');
+ if (OPEN_MODE === 'paper' || OPEN_MODE === 'office' || OPEN_MODE === 'display') { surfPick = OPEN_MODE === 'paper' ? 'paper' : 'display'; $('surf').hidden = true; } // display: 집무실 「크게 보기」 큰 창(2026-10-18)
+ if (OPEN_MODE === 'office' && window.sllm.paperBig) { const b = $('bigBtn'); b.hidden = false; b.textContent = T('⤢ 크게 보기'); b.title = T('신문을 큰 창으로 따로 엽니다'); b.onclick = () => window.sllm.paperBig(); }
+ // 책상 신문으로 열면: 종이 펼치는 효과 + 작은 종이 소리(소리 파일 없이 짧게 합성, 음량 낮게)
+ function rustle() {
+  try {
+   const C = new (window.AudioContext || window.webkitAudioContext)(), dur = 0.5, n = Math.floor(C.sampleRate * dur), buf = C.createBuffer(1, n, C.sampleRate), d = buf.getChannelData(0);
+   let last = 0;
+   for (let i = 0; i < n; i++) { const t = i / n, env = Math.sin(Math.PI * Math.min(1, t * 1.6)) * (1 - 0.5 * t), crack = Math.random() < 0.006 ? (Math.random() * 2 - 1) : 0; last = last * 0.55 + (Math.random() * 2 - 1) * 0.45; d[i] = (last * 0.8 + crack) * Math.max(0, env); }
+   const src = C.createBufferSource(), bp = C.createBiquadFilter(), hp = C.createBiquadFilter(), g = C.createGain();
+   src.buffer = buf; bp.type = 'bandpass'; bp.frequency.value = 2400; bp.Q.value = 0.6; hp.type = 'highpass'; hp.frequency.value = 800; g.gain.value = 0.06;
+   src.connect(bp); bp.connect(hp); hp.connect(g); g.connect(C.destination); src.onended = () => { try { C.close(); } catch (e) { /* 이미 닫힘 */ } }; src.start();
+  } catch (e) { /* 소리를 못 내도 신문은 그대로 */ }
+ }
+ if (new URLSearchParams(location.search).get('unfold') === '1') { $('sheet').classList.add('unfold'); rustle(); $('sheet').addEventListener('animationend', () => $('sheet').classList.remove('unfold'), { once: true }); }
+ function surface() { return surfPick === 'auto' ? (DISPLAY_THEMES.includes(document.documentElement.dataset.theme) ? 'display' : 'paper') : surfPick; }
+ function surfLabel() { const s = surface(); document.documentElement.dataset.surface = s; $('surf').textContent = T('지면: ') + T(SURF_KO[surfPick]) + (surfPick === 'auto' ? ' (' + T(SURF_KO[s]) + ')' : ''); $('surf').title = '종이 신문 / 화면형 디스플레이 지면을 고릅니다'; }
+ $('surf').onclick = () => { if (OPEN_MODE === 'paper' || OPEN_MODE === 'office' || OPEN_MODE === 'display') return; surfPick = SURF[(SURF.indexOf(surfPick) + 1) % SURF.length]; try { localStorage.setItem('sllm_paper_surface', surfPick); } catch (e) { /* 무시 */ } surfLabel(); const top = $('scroll').scrollTop; render(); $('scroll').scrollTop = top; };
+ const reTheme = (t) => { applyTheme(t.theme, t.custom); surfLabel(); const top = $('scroll').scrollTop; render(); $('scroll').scrollTop = top; };
+ if (window.sllm.onTheme) window.sllm.onTheme(reTheme);
+ if (window.sllm.launcherState) window.sllm.launcherState().then(reTheme, () => {});
+ surfLabel();
+ SceneSlots.mount({ button: $('sceneBtn'), title: '신문 지면 배경', slots: [{ key: 'scene:paper', label: '지면 배경', hint: '종이 질감·사진 등. 글씨가 잘 보이게 지면 색을 위에 옅게 덮습니다', spec: '1920×1200 · 16:10', drop: document.body, apply: (u) => { const r = document.documentElement; r.style.setProperty('--scene', u ? `url("${u}")` : 'none'); if (u) r.dataset.scene = '1'; else delete r.dataset.scene; } }] });
+ if (window.sllm.mediaGet) window.sllm.mediaGet().then((rows) => { fonts = (rows || []).map((r) => r.font || 'auto'); const top = $('scroll').scrollTop; render(); $('scroll').scrollTop = top; }, () => {});
+ load();
+</script></body></html>
+

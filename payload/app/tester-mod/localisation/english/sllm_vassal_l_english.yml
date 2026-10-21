@@ -1,0 +1,10 @@
+﻿l_english:
+ sllm_vassal_grateful:0 "Grateful to the Overlord"
+ sllm_vassal_grateful_desc:0 "Our overlord granted our petition. Loyalty rises every month."
+ sllm_vassal_resentful:0 "Resentful of the Overlord"
+ sllm_vassal_resentful_desc:0 "Our overlord refused our petition. Loyalty falls every month."
+ sllm_research_aid_given:0 "Research Aid Given"
+ sllm_research_aid_given_desc:0 "We are sharing our scientists with another empire. Research speed is reduced for a year."
+ sllm_research_aid_received:0 "Research Aid Received"
+ sllm_research_aid_received_desc:0 "Another empire is sharing its scientists with us. Research speed is increased for a year."
+ sllm_overlord_defied:0 "Defied Our Demand"

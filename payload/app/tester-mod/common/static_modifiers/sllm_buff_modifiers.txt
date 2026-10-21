@@ -1,0 +1,2523 @@
+# SLLM 자체 버프/디버프 라이브러리 (tools/gen-buffs.py 로 생성 — 직접 고치지 말고 생성기를 고칠 것)
+# 이름: sllm_buff_<항목>_t1~t5 (호의), sllm_debuff_<항목>_t1~t5 (제재). 앱이 add_modifier = { modifier = … days = N } 로 붙인다.
+# 키는 cheatinterface(4.5.2 에서 Invalid modifier 가 없던 것)와 같은 바닐라 키만 쓴다 — 다른 모드 없이 동작.
+
+sllm_buff_energy_t1 = {
+	country_energy_produces_mult = 0.05
+}
+
+sllm_buff_energy_t2 = {
+	country_energy_produces_mult = 0.1
+}
+
+sllm_buff_energy_t3 = {
+	country_energy_produces_mult = 0.2
+}
+
+sllm_buff_energy_t4 = {
+	country_energy_produces_mult = 0.35
+}
+
+sllm_buff_energy_t5 = {
+	country_energy_produces_mult = 0.5
+}
+
+sllm_debuff_energy_t1 = {
+	country_energy_produces_mult = -0.05
+}
+
+sllm_debuff_energy_t2 = {
+	country_energy_produces_mult = -0.1
+}
+
+sllm_debuff_energy_t3 = {
+	country_energy_produces_mult = -0.2
+}
+
+sllm_debuff_energy_t4 = {
+	country_energy_produces_mult = -0.35
+}
+
+sllm_debuff_energy_t5 = {
+	country_energy_produces_mult = -0.5
+}
+
+sllm_buff_minerals_t1 = {
+	country_minerals_produces_mult = 0.05
+}
+
+sllm_buff_minerals_t2 = {
+	country_minerals_produces_mult = 0.1
+}
+
+sllm_buff_minerals_t3 = {
+	country_minerals_produces_mult = 0.2
+}
+
+sllm_buff_minerals_t4 = {
+	country_minerals_produces_mult = 0.35
+}
+
+sllm_buff_minerals_t5 = {
+	country_minerals_produces_mult = 0.5
+}
+
+sllm_debuff_minerals_t1 = {
+	country_minerals_produces_mult = -0.05
+}
+
+sllm_debuff_minerals_t2 = {
+	country_minerals_produces_mult = -0.1
+}
+
+sllm_debuff_minerals_t3 = {
+	country_minerals_produces_mult = -0.2
+}
+
+sllm_debuff_minerals_t4 = {
+	country_minerals_produces_mult = -0.35
+}
+
+sllm_debuff_minerals_t5 = {
+	country_minerals_produces_mult = -0.5
+}
+
+sllm_buff_food_t1 = {
+	country_food_produces_mult = 0.05
+}
+
+sllm_buff_food_t2 = {
+	country_food_produces_mult = 0.1
+}
+
+sllm_buff_food_t3 = {
+	country_food_produces_mult = 0.2
+}
+
+sllm_buff_food_t4 = {
+	country_food_produces_mult = 0.35
+}
+
+sllm_buff_food_t5 = {
+	country_food_produces_mult = 0.5
+}
+
+sllm_debuff_food_t1 = {
+	country_food_produces_mult = -0.05
+}
+
+sllm_debuff_food_t2 = {
+	country_food_produces_mult = -0.1
+}
+
+sllm_debuff_food_t3 = {
+	country_food_produces_mult = -0.2
+}
+
+sllm_debuff_food_t4 = {
+	country_food_produces_mult = -0.35
+}
+
+sllm_debuff_food_t5 = {
+	country_food_produces_mult = -0.5
+}
+
+sllm_buff_alloys_t1 = {
+	country_alloys_produces_mult = 0.05
+}
+
+sllm_buff_alloys_t2 = {
+	country_alloys_produces_mult = 0.1
+}
+
+sllm_buff_alloys_t3 = {
+	country_alloys_produces_mult = 0.2
+}
+
+sllm_buff_alloys_t4 = {
+	country_alloys_produces_mult = 0.35
+}
+
+sllm_buff_alloys_t5 = {
+	country_alloys_produces_mult = 0.5
+}
+
+sllm_debuff_alloys_t1 = {
+	country_alloys_produces_mult = -0.05
+}
+
+sllm_debuff_alloys_t2 = {
+	country_alloys_produces_mult = -0.1
+}
+
+sllm_debuff_alloys_t3 = {
+	country_alloys_produces_mult = -0.2
+}
+
+sllm_debuff_alloys_t4 = {
+	country_alloys_produces_mult = -0.35
+}
+
+sllm_debuff_alloys_t5 = {
+	country_alloys_produces_mult = -0.5
+}
+
+sllm_buff_goods_t1 = {
+	country_consumer_goods_produces_mult = 0.05
+}
+
+sllm_buff_goods_t2 = {
+	country_consumer_goods_produces_mult = 0.1
+}
+
+sllm_buff_goods_t3 = {
+	country_consumer_goods_produces_mult = 0.2
+}
+
+sllm_buff_goods_t4 = {
+	country_consumer_goods_produces_mult = 0.35
+}
+
+sllm_buff_goods_t5 = {
+	country_consumer_goods_produces_mult = 0.5
+}
+
+sllm_debuff_goods_t1 = {
+	country_consumer_goods_produces_mult = -0.05
+}
+
+sllm_debuff_goods_t2 = {
+	country_consumer_goods_produces_mult = -0.1
+}
+
+sllm_debuff_goods_t3 = {
+	country_consumer_goods_produces_mult = -0.2
+}
+
+sllm_debuff_goods_t4 = {
+	country_consumer_goods_produces_mult = -0.35
+}
+
+sllm_debuff_goods_t5 = {
+	country_consumer_goods_produces_mult = -0.5
+}
+
+sllm_buff_unity_t1 = {
+	country_unity_produces_mult = 0.05
+}
+
+sllm_buff_unity_t2 = {
+	country_unity_produces_mult = 0.1
+}
+
+sllm_buff_unity_t3 = {
+	country_unity_produces_mult = 0.2
+}
+
+sllm_buff_unity_t4 = {
+	country_unity_produces_mult = 0.35
+}
+
+sllm_buff_unity_t5 = {
+	country_unity_produces_mult = 0.5
+}
+
+sllm_debuff_unity_t1 = {
+	country_unity_produces_mult = -0.05
+}
+
+sllm_debuff_unity_t2 = {
+	country_unity_produces_mult = -0.1
+}
+
+sllm_debuff_unity_t3 = {
+	country_unity_produces_mult = -0.2
+}
+
+sllm_debuff_unity_t4 = {
+	country_unity_produces_mult = -0.35
+}
+
+sllm_debuff_unity_t5 = {
+	country_unity_produces_mult = -0.5
+}
+
+sllm_buff_influence_t1 = {
+	country_influence_produces_mult = 0.05
+}
+
+sllm_buff_influence_t2 = {
+	country_influence_produces_mult = 0.1
+}
+
+sllm_buff_influence_t3 = {
+	country_influence_produces_mult = 0.2
+}
+
+sllm_buff_influence_t4 = {
+	country_influence_produces_mult = 0.35
+}
+
+sllm_buff_influence_t5 = {
+	country_influence_produces_mult = 0.5
+}
+
+sllm_debuff_influence_t1 = {
+	country_influence_produces_mult = -0.05
+}
+
+sllm_debuff_influence_t2 = {
+	country_influence_produces_mult = -0.1
+}
+
+sllm_debuff_influence_t3 = {
+	country_influence_produces_mult = -0.2
+}
+
+sllm_debuff_influence_t4 = {
+	country_influence_produces_mult = -0.35
+}
+
+sllm_debuff_influence_t5 = {
+	country_influence_produces_mult = -0.5
+}
+
+sllm_buff_trade_t1 = {
+	country_trade_produces_mult = 0.05
+}
+
+sllm_buff_trade_t2 = {
+	country_trade_produces_mult = 0.1
+}
+
+sllm_buff_trade_t3 = {
+	country_trade_produces_mult = 0.2
+}
+
+sllm_buff_trade_t4 = {
+	country_trade_produces_mult = 0.35
+}
+
+sllm_buff_trade_t5 = {
+	country_trade_produces_mult = 0.5
+}
+
+sllm_debuff_trade_t1 = {
+	country_trade_produces_mult = -0.05
+}
+
+sllm_debuff_trade_t2 = {
+	country_trade_produces_mult = -0.1
+}
+
+sllm_debuff_trade_t3 = {
+	country_trade_produces_mult = -0.2
+}
+
+sllm_debuff_trade_t4 = {
+	country_trade_produces_mult = -0.35
+}
+
+sllm_debuff_trade_t5 = {
+	country_trade_produces_mult = -0.5
+}
+
+sllm_buff_gases_t1 = {
+	country_exotic_gases_produces_mult = 0.05
+}
+
+sllm_buff_gases_t2 = {
+	country_exotic_gases_produces_mult = 0.1
+}
+
+sllm_buff_gases_t3 = {
+	country_exotic_gases_produces_mult = 0.2
+}
+
+sllm_buff_gases_t4 = {
+	country_exotic_gases_produces_mult = 0.35
+}
+
+sllm_buff_gases_t5 = {
+	country_exotic_gases_produces_mult = 0.5
+}
+
+sllm_buff_motes_t1 = {
+	country_volatile_motes_produces_mult = 0.05
+}
+
+sllm_buff_motes_t2 = {
+	country_volatile_motes_produces_mult = 0.1
+}
+
+sllm_buff_motes_t3 = {
+	country_volatile_motes_produces_mult = 0.2
+}
+
+sllm_buff_motes_t4 = {
+	country_volatile_motes_produces_mult = 0.35
+}
+
+sllm_buff_motes_t5 = {
+	country_volatile_motes_produces_mult = 0.5
+}
+
+sllm_buff_crystals_t1 = {
+	country_rare_crystals_produces_mult = 0.05
+}
+
+sllm_buff_crystals_t2 = {
+	country_rare_crystals_produces_mult = 0.1
+}
+
+sllm_buff_crystals_t3 = {
+	country_rare_crystals_produces_mult = 0.2
+}
+
+sllm_buff_crystals_t4 = {
+	country_rare_crystals_produces_mult = 0.35
+}
+
+sllm_buff_crystals_t5 = {
+	country_rare_crystals_produces_mult = 0.5
+}
+
+sllm_buff_nanites_t1 = {
+	country_nanites_produces_mult = 0.05
+}
+
+sllm_buff_nanites_t2 = {
+	country_nanites_produces_mult = 0.1
+}
+
+sllm_buff_nanites_t3 = {
+	country_nanites_produces_mult = 0.2
+}
+
+sllm_buff_nanites_t4 = {
+	country_nanites_produces_mult = 0.35
+}
+
+sllm_buff_nanites_t5 = {
+	country_nanites_produces_mult = 0.5
+}
+
+sllm_buff_darkmatter_t1 = {
+	country_sr_dark_matter_produces_mult = 0.05
+}
+
+sllm_buff_darkmatter_t2 = {
+	country_sr_dark_matter_produces_mult = 0.1
+}
+
+sllm_buff_darkmatter_t3 = {
+	country_sr_dark_matter_produces_mult = 0.2
+}
+
+sllm_buff_darkmatter_t4 = {
+	country_sr_dark_matter_produces_mult = 0.35
+}
+
+sllm_buff_darkmatter_t5 = {
+	country_sr_dark_matter_produces_mult = 0.5
+}
+
+sllm_buff_zro_t1 = {
+	country_sr_zro_produces_mult = 0.05
+}
+
+sllm_buff_zro_t2 = {
+	country_sr_zro_produces_mult = 0.1
+}
+
+sllm_buff_zro_t3 = {
+	country_sr_zro_produces_mult = 0.2
+}
+
+sllm_buff_zro_t4 = {
+	country_sr_zro_produces_mult = 0.35
+}
+
+sllm_buff_zro_t5 = {
+	country_sr_zro_produces_mult = 0.5
+}
+
+sllm_buff_livingmetal_t1 = {
+	country_sr_living_metal_produces_mult = 0.05
+}
+
+sllm_buff_livingmetal_t2 = {
+	country_sr_living_metal_produces_mult = 0.1
+}
+
+sllm_buff_livingmetal_t3 = {
+	country_sr_living_metal_produces_mult = 0.2
+}
+
+sllm_buff_livingmetal_t4 = {
+	country_sr_living_metal_produces_mult = 0.35
+}
+
+sllm_buff_livingmetal_t5 = {
+	country_sr_living_metal_produces_mult = 0.5
+}
+
+sllm_buff_artifacts_t1 = {
+	country_minor_artifacts_produces_mult = 0.05
+}
+
+sllm_buff_artifacts_t2 = {
+	country_minor_artifacts_produces_mult = 0.1
+}
+
+sllm_buff_artifacts_t3 = {
+	country_minor_artifacts_produces_mult = 0.2
+}
+
+sllm_buff_artifacts_t4 = {
+	country_minor_artifacts_produces_mult = 0.35
+}
+
+sllm_buff_artifacts_t5 = {
+	country_minor_artifacts_produces_mult = 0.5
+}
+
+sllm_buff_storage_t1 = {
+	country_resource_max_add = 2000
+}
+
+sllm_buff_storage_t2 = {
+	country_resource_max_add = 5000
+}
+
+sllm_buff_storage_t3 = {
+	country_resource_max_add = 10000
+}
+
+sllm_buff_storage_t4 = {
+	country_resource_max_add = 25000
+}
+
+sllm_buff_storage_t5 = {
+	country_resource_max_add = 50000
+}
+
+sllm_buff_physics_t1 = {
+	country_physics_research_produces_mult = 0.05
+}
+
+sllm_buff_physics_t2 = {
+	country_physics_research_produces_mult = 0.1
+}
+
+sllm_buff_physics_t3 = {
+	country_physics_research_produces_mult = 0.2
+}
+
+sllm_buff_physics_t4 = {
+	country_physics_research_produces_mult = 0.35
+}
+
+sllm_buff_physics_t5 = {
+	country_physics_research_produces_mult = 0.5
+}
+
+sllm_debuff_physics_t1 = {
+	country_physics_research_produces_mult = -0.05
+}
+
+sllm_debuff_physics_t2 = {
+	country_physics_research_produces_mult = -0.1
+}
+
+sllm_debuff_physics_t3 = {
+	country_physics_research_produces_mult = -0.2
+}
+
+sllm_debuff_physics_t4 = {
+	country_physics_research_produces_mult = -0.35
+}
+
+sllm_debuff_physics_t5 = {
+	country_physics_research_produces_mult = -0.5
+}
+
+sllm_buff_society_t1 = {
+	country_society_research_produces_mult = 0.05
+}
+
+sllm_buff_society_t2 = {
+	country_society_research_produces_mult = 0.1
+}
+
+sllm_buff_society_t3 = {
+	country_society_research_produces_mult = 0.2
+}
+
+sllm_buff_society_t4 = {
+	country_society_research_produces_mult = 0.35
+}
+
+sllm_buff_society_t5 = {
+	country_society_research_produces_mult = 0.5
+}
+
+sllm_debuff_society_t1 = {
+	country_society_research_produces_mult = -0.05
+}
+
+sllm_debuff_society_t2 = {
+	country_society_research_produces_mult = -0.1
+}
+
+sllm_debuff_society_t3 = {
+	country_society_research_produces_mult = -0.2
+}
+
+sllm_debuff_society_t4 = {
+	country_society_research_produces_mult = -0.35
+}
+
+sllm_debuff_society_t5 = {
+	country_society_research_produces_mult = -0.5
+}
+
+sllm_buff_engineering_t1 = {
+	country_engineering_research_produces_mult = 0.05
+}
+
+sllm_buff_engineering_t2 = {
+	country_engineering_research_produces_mult = 0.1
+}
+
+sllm_buff_engineering_t3 = {
+	country_engineering_research_produces_mult = 0.2
+}
+
+sllm_buff_engineering_t4 = {
+	country_engineering_research_produces_mult = 0.35
+}
+
+sllm_buff_engineering_t5 = {
+	country_engineering_research_produces_mult = 0.5
+}
+
+sllm_debuff_engineering_t1 = {
+	country_engineering_research_produces_mult = -0.05
+}
+
+sllm_debuff_engineering_t2 = {
+	country_engineering_research_produces_mult = -0.1
+}
+
+sllm_debuff_engineering_t3 = {
+	country_engineering_research_produces_mult = -0.2
+}
+
+sllm_debuff_engineering_t4 = {
+	country_engineering_research_produces_mult = -0.35
+}
+
+sllm_debuff_engineering_t5 = {
+	country_engineering_research_produces_mult = -0.5
+}
+
+sllm_buff_researchspeed_t1 = {
+	all_technology_research_speed = 0.05
+}
+
+sllm_buff_researchspeed_t2 = {
+	all_technology_research_speed = 0.1
+}
+
+sllm_buff_researchspeed_t3 = {
+	all_technology_research_speed = 0.2
+}
+
+sllm_buff_researchspeed_t4 = {
+	all_technology_research_speed = 0.35
+}
+
+sllm_buff_researchspeed_t5 = {
+	all_technology_research_speed = 0.5
+}
+
+sllm_buff_techchoices_t1 = {
+	num_tech_alternatives_add = 1
+}
+
+sllm_buff_techchoices_t2 = {
+	num_tech_alternatives_add = 1
+}
+
+sllm_buff_techchoices_t3 = {
+	num_tech_alternatives_add = 2
+}
+
+sllm_buff_techchoices_t4 = {
+	num_tech_alternatives_add = 2
+}
+
+sllm_buff_techchoices_t5 = {
+	num_tech_alternatives_add = 3
+}
+
+sllm_buff_happiness_t1 = {
+	pop_happiness = 0.02
+}
+
+sllm_buff_happiness_t2 = {
+	pop_happiness = 0.05
+}
+
+sllm_buff_happiness_t3 = {
+	pop_happiness = 0.1
+}
+
+sllm_buff_happiness_t4 = {
+	pop_happiness = 0.15
+}
+
+sllm_buff_happiness_t5 = {
+	pop_happiness = 0.25
+}
+
+sllm_debuff_happiness_t1 = {
+	pop_happiness = -0.02
+}
+
+sllm_debuff_happiness_t2 = {
+	pop_happiness = -0.05
+}
+
+sllm_debuff_happiness_t3 = {
+	pop_happiness = -0.1
+}
+
+sllm_debuff_happiness_t4 = {
+	pop_happiness = -0.15
+}
+
+sllm_debuff_happiness_t5 = {
+	pop_happiness = -0.25
+}
+
+sllm_buff_amenities_t1 = {
+	planet_amenities_mult = 0.05
+}
+
+sllm_buff_amenities_t2 = {
+	planet_amenities_mult = 0.1
+}
+
+sllm_buff_amenities_t3 = {
+	planet_amenities_mult = 0.2
+}
+
+sllm_buff_amenities_t4 = {
+	planet_amenities_mult = 0.35
+}
+
+sllm_buff_amenities_t5 = {
+	planet_amenities_mult = 0.5
+}
+
+sllm_debuff_amenities_t1 = {
+	planet_amenities_mult = -0.05
+}
+
+sllm_debuff_amenities_t2 = {
+	planet_amenities_mult = -0.1
+}
+
+sllm_debuff_amenities_t3 = {
+	planet_amenities_mult = -0.2
+}
+
+sllm_debuff_amenities_t4 = {
+	planet_amenities_mult = -0.35
+}
+
+sllm_debuff_amenities_t5 = {
+	planet_amenities_mult = -0.5
+}
+
+sllm_buff_housing_t1 = {
+	pop_housing_usage_mult = -0.05
+}
+
+sllm_buff_housing_t2 = {
+	pop_housing_usage_mult = -0.1
+}
+
+sllm_buff_housing_t3 = {
+	pop_housing_usage_mult = -0.2
+}
+
+sllm_buff_housing_t4 = {
+	pop_housing_usage_mult = -0.3
+}
+
+sllm_buff_housing_t5 = {
+	pop_housing_usage_mult = -0.4
+}
+
+sllm_buff_crime_t1 = {
+	planet_crime_add = -5
+}
+
+sllm_buff_crime_t2 = {
+	planet_crime_add = -10
+}
+
+sllm_buff_crime_t3 = {
+	planet_crime_add = -20
+}
+
+sllm_buff_crime_t4 = {
+	planet_crime_add = -30
+}
+
+sllm_buff_crime_t5 = {
+	planet_crime_add = -45
+}
+
+sllm_debuff_crime_t1 = {
+	planet_crime_add = 5
+}
+
+sllm_debuff_crime_t2 = {
+	planet_crime_add = 10
+}
+
+sllm_debuff_crime_t3 = {
+	planet_crime_add = 20
+}
+
+sllm_debuff_crime_t4 = {
+	planet_crime_add = 30
+}
+
+sllm_debuff_crime_t5 = {
+	planet_crime_add = 45
+}
+
+sllm_buff_jobs_t1 = {
+	planet_jobs_produces_mult = 0.05
+}
+
+sllm_buff_jobs_t2 = {
+	planet_jobs_produces_mult = 0.1
+}
+
+sllm_buff_jobs_t3 = {
+	planet_jobs_produces_mult = 0.2
+}
+
+sllm_buff_jobs_t4 = {
+	planet_jobs_produces_mult = 0.35
+}
+
+sllm_buff_jobs_t5 = {
+	planet_jobs_produces_mult = 0.5
+}
+
+sllm_debuff_jobs_t1 = {
+	planet_jobs_produces_mult = -0.05
+}
+
+sllm_debuff_jobs_t2 = {
+	planet_jobs_produces_mult = -0.1
+}
+
+sllm_debuff_jobs_t3 = {
+	planet_jobs_produces_mult = -0.2
+}
+
+sllm_debuff_jobs_t4 = {
+	planet_jobs_produces_mult = -0.35
+}
+
+sllm_debuff_jobs_t5 = {
+	planet_jobs_produces_mult = -0.5
+}
+
+sllm_buff_jobupkeep_t1 = {
+	planet_jobs_upkeep_mult = -0.05
+}
+
+sllm_buff_jobupkeep_t2 = {
+	planet_jobs_upkeep_mult = -0.1
+}
+
+sllm_buff_jobupkeep_t3 = {
+	planet_jobs_upkeep_mult = -0.2
+}
+
+sllm_buff_jobupkeep_t4 = {
+	planet_jobs_upkeep_mult = -0.3
+}
+
+sllm_buff_jobupkeep_t5 = {
+	planet_jobs_upkeep_mult = -0.4
+}
+
+sllm_buff_popupkeep_t1 = {
+	planet_pops_upkeep_mult = -0.05
+}
+
+sllm_buff_popupkeep_t2 = {
+	planet_pops_upkeep_mult = -0.1
+}
+
+sllm_buff_popupkeep_t3 = {
+	planet_pops_upkeep_mult = -0.2
+}
+
+sllm_buff_popupkeep_t4 = {
+	planet_pops_upkeep_mult = -0.3
+}
+
+sllm_buff_popupkeep_t5 = {
+	planet_pops_upkeep_mult = -0.4
+}
+
+sllm_buff_popgrowth_t1 = {
+	logistic_growth_mult = 0.05
+}
+
+sllm_buff_popgrowth_t2 = {
+	logistic_growth_mult = 0.1
+}
+
+sllm_buff_popgrowth_t3 = {
+	logistic_growth_mult = 0.2
+}
+
+sllm_buff_popgrowth_t4 = {
+	logistic_growth_mult = 0.35
+}
+
+sllm_buff_popgrowth_t5 = {
+	logistic_growth_mult = 0.5
+}
+
+sllm_debuff_popgrowth_t1 = {
+	logistic_growth_mult = -0.05
+}
+
+sllm_debuff_popgrowth_t2 = {
+	logistic_growth_mult = -0.1
+}
+
+sllm_debuff_popgrowth_t3 = {
+	logistic_growth_mult = -0.2
+}
+
+sllm_debuff_popgrowth_t4 = {
+	logistic_growth_mult = -0.35
+}
+
+sllm_debuff_popgrowth_t5 = {
+	logistic_growth_mult = -0.5
+}
+
+sllm_buff_assembly_t1 = {
+	planet_pop_assembly_mult = 0.05
+}
+
+sllm_buff_assembly_t2 = {
+	planet_pop_assembly_mult = 0.1
+}
+
+sllm_buff_assembly_t3 = {
+	planet_pop_assembly_mult = 0.2
+}
+
+sllm_buff_assembly_t4 = {
+	planet_pop_assembly_mult = 0.35
+}
+
+sllm_buff_assembly_t5 = {
+	planet_pop_assembly_mult = 0.5
+}
+
+sllm_buff_resettle_t1 = {
+	pop_resettlement_cost_mult = -0.05
+}
+
+sllm_buff_resettle_t2 = {
+	pop_resettlement_cost_mult = -0.1
+}
+
+sllm_buff_resettle_t3 = {
+	pop_resettlement_cost_mult = -0.2
+}
+
+sllm_buff_resettle_t4 = {
+	pop_resettlement_cost_mult = -0.3
+}
+
+sllm_buff_resettle_t5 = {
+	pop_resettlement_cost_mult = -0.4
+}
+
+sllm_buff_ethicshift_t1 = {
+	pop_ethics_shift_speed_mult = 0.05
+}
+
+sllm_buff_ethicshift_t2 = {
+	pop_ethics_shift_speed_mult = 0.1
+}
+
+sllm_buff_ethicshift_t3 = {
+	pop_ethics_shift_speed_mult = 0.2
+}
+
+sllm_buff_ethicshift_t4 = {
+	pop_ethics_shift_speed_mult = 0.35
+}
+
+sllm_buff_ethicshift_t5 = {
+	pop_ethics_shift_speed_mult = 0.5
+}
+
+sllm_buff_colonydev_t1 = {
+	planet_colony_development_speed_mult = 0.05
+}
+
+sllm_buff_colonydev_t2 = {
+	planet_colony_development_speed_mult = 0.1
+}
+
+sllm_buff_colonydev_t3 = {
+	planet_colony_development_speed_mult = 0.2
+}
+
+sllm_buff_colonydev_t4 = {
+	planet_colony_development_speed_mult = 0.35
+}
+
+sllm_buff_colonydev_t5 = {
+	planet_colony_development_speed_mult = 0.5
+}
+
+sllm_buff_bldcost_t1 = {
+	planet_buildings_cost_mult = -0.05
+}
+
+sllm_buff_bldcost_t2 = {
+	planet_buildings_cost_mult = -0.1
+}
+
+sllm_buff_bldcost_t3 = {
+	planet_buildings_cost_mult = -0.2
+}
+
+sllm_buff_bldcost_t4 = {
+	planet_buildings_cost_mult = -0.3
+}
+
+sllm_buff_bldcost_t5 = {
+	planet_buildings_cost_mult = -0.4
+}
+
+sllm_buff_bldupkeep_t1 = {
+	planet_buildings_upkeep_mult = -0.05
+}
+
+sllm_buff_bldupkeep_t2 = {
+	planet_buildings_upkeep_mult = -0.1
+}
+
+sllm_buff_bldupkeep_t3 = {
+	planet_buildings_upkeep_mult = -0.2
+}
+
+sllm_buff_bldupkeep_t4 = {
+	planet_buildings_upkeep_mult = -0.3
+}
+
+sllm_buff_bldupkeep_t5 = {
+	planet_buildings_upkeep_mult = -0.4
+}
+
+sllm_debuff_bldupkeep_t1 = {
+	planet_buildings_upkeep_mult = 0.05
+}
+
+sllm_debuff_bldupkeep_t2 = {
+	planet_buildings_upkeep_mult = 0.1
+}
+
+sllm_debuff_bldupkeep_t3 = {
+	planet_buildings_upkeep_mult = 0.2
+}
+
+sllm_debuff_bldupkeep_t4 = {
+	planet_buildings_upkeep_mult = 0.3
+}
+
+sllm_debuff_bldupkeep_t5 = {
+	planet_buildings_upkeep_mult = 0.4
+}
+
+sllm_buff_distcost_t1 = {
+	planet_districts_cost_mult = -0.05
+}
+
+sllm_buff_distcost_t2 = {
+	planet_districts_cost_mult = -0.1
+}
+
+sllm_buff_distcost_t3 = {
+	planet_districts_cost_mult = -0.2
+}
+
+sllm_buff_distcost_t4 = {
+	planet_districts_cost_mult = -0.3
+}
+
+sllm_buff_distcost_t5 = {
+	planet_districts_cost_mult = -0.4
+}
+
+sllm_buff_distupkeep_t1 = {
+	planet_districts_upkeep_mult = -0.05
+}
+
+sllm_buff_distupkeep_t2 = {
+	planet_districts_upkeep_mult = -0.1
+}
+
+sllm_buff_distupkeep_t3 = {
+	planet_districts_upkeep_mult = -0.2
+}
+
+sllm_buff_distupkeep_t4 = {
+	planet_districts_upkeep_mult = -0.3
+}
+
+sllm_buff_distupkeep_t5 = {
+	planet_districts_upkeep_mult = -0.4
+}
+
+sllm_buff_bldspeed_t1 = {
+	planet_building_build_speed_mult = 0.05
+}
+
+sllm_buff_bldspeed_t2 = {
+	planet_building_build_speed_mult = 0.1
+}
+
+sllm_buff_bldspeed_t3 = {
+	planet_building_build_speed_mult = 0.2
+}
+
+sllm_buff_bldspeed_t4 = {
+	planet_building_build_speed_mult = 0.35
+}
+
+sllm_buff_bldspeed_t5 = {
+	planet_building_build_speed_mult = 0.5
+}
+
+sllm_buff_megacost_t1 = {
+	megastructures_cost_mult = -0.05
+}
+
+sllm_buff_megacost_t2 = {
+	megastructures_cost_mult = -0.1
+}
+
+sllm_buff_megacost_t3 = {
+	megastructures_cost_mult = -0.2
+}
+
+sllm_buff_megacost_t4 = {
+	megastructures_cost_mult = -0.3
+}
+
+sllm_buff_megacost_t5 = {
+	megastructures_cost_mult = -0.4
+}
+
+sllm_buff_megaspeed_t1 = {
+	megastructure_build_speed_mult = 0.05
+}
+
+sllm_buff_megaspeed_t2 = {
+	megastructure_build_speed_mult = 0.1
+}
+
+sllm_buff_megaspeed_t3 = {
+	megastructure_build_speed_mult = 0.2
+}
+
+sllm_buff_megaspeed_t4 = {
+	megastructure_build_speed_mult = 0.35
+}
+
+sllm_buff_megaspeed_t5 = {
+	megastructure_build_speed_mult = 0.5
+}
+
+sllm_buff_terraform_t1 = {
+	terraform_speed_mult = 0.05
+}
+
+sllm_buff_terraform_t2 = {
+	terraform_speed_mult = 0.1
+}
+
+sllm_buff_terraform_t3 = {
+	terraform_speed_mult = 0.2
+}
+
+sllm_buff_terraform_t4 = {
+	terraform_speed_mult = 0.35
+}
+
+sllm_buff_terraform_t5 = {
+	terraform_speed_mult = 0.5
+}
+
+sllm_buff_sbcost_t1 = {
+	starbase_buildings_cost_mult = -0.05
+}
+
+sllm_buff_sbcost_t2 = {
+	starbase_buildings_cost_mult = -0.1
+}
+
+sllm_buff_sbcost_t3 = {
+	starbase_buildings_cost_mult = -0.2
+}
+
+sllm_buff_sbcost_t4 = {
+	starbase_buildings_cost_mult = -0.3
+}
+
+sllm_buff_sbcost_t5 = {
+	starbase_buildings_cost_mult = -0.4
+}
+
+sllm_buff_sbspeed_t1 = {
+	starbase_building_build_speed_mult = 0.05
+}
+
+sllm_buff_sbspeed_t2 = {
+	starbase_building_build_speed_mult = 0.1
+}
+
+sllm_buff_sbspeed_t3 = {
+	starbase_building_build_speed_mult = 0.2
+}
+
+sllm_buff_sbspeed_t4 = {
+	starbase_building_build_speed_mult = 0.35
+}
+
+sllm_buff_sbspeed_t5 = {
+	starbase_building_build_speed_mult = 0.5
+}
+
+sllm_buff_sbcap_t1 = {
+	country_starbase_capacity_mult = 0.05
+}
+
+sllm_buff_sbcap_t2 = {
+	country_starbase_capacity_mult = 0.1
+}
+
+sllm_buff_sbcap_t3 = {
+	country_starbase_capacity_mult = 0.2
+}
+
+sllm_buff_sbcap_t4 = {
+	country_starbase_capacity_mult = 0.35
+}
+
+sllm_buff_sbcap_t5 = {
+	country_starbase_capacity_mult = 0.5
+}
+
+sllm_buff_size_t1 = {
+	empire_size_mult = -0.05
+}
+
+sllm_buff_size_t2 = {
+	empire_size_mult = -0.1
+}
+
+sllm_buff_size_t3 = {
+	empire_size_mult = -0.2
+}
+
+sllm_buff_size_t4 = {
+	empire_size_mult = -0.3
+}
+
+sllm_buff_size_t5 = {
+	empire_size_mult = -0.4
+}
+
+sllm_debuff_size_t1 = {
+	empire_size_mult = 0.05
+}
+
+sllm_debuff_size_t2 = {
+	empire_size_mult = 0.1
+}
+
+sllm_debuff_size_t3 = {
+	empire_size_mult = 0.2
+}
+
+sllm_debuff_size_t4 = {
+	empire_size_mult = 0.3
+}
+
+sllm_debuff_size_t5 = {
+	empire_size_mult = 0.4
+}
+
+sllm_buff_sizepops_t1 = {
+	empire_size_pops_mult = -0.05
+}
+
+sllm_buff_sizepops_t2 = {
+	empire_size_pops_mult = -0.1
+}
+
+sllm_buff_sizepops_t3 = {
+	empire_size_pops_mult = -0.2
+}
+
+sllm_buff_sizepops_t4 = {
+	empire_size_pops_mult = -0.3
+}
+
+sllm_buff_sizepops_t5 = {
+	empire_size_pops_mult = -0.4
+}
+
+sllm_buff_sizecol_t1 = {
+	empire_size_colonies_mult = -0.05
+}
+
+sllm_buff_sizecol_t2 = {
+	empire_size_colonies_mult = -0.1
+}
+
+sllm_buff_sizecol_t3 = {
+	empire_size_colonies_mult = -0.2
+}
+
+sllm_buff_sizecol_t4 = {
+	empire_size_colonies_mult = -0.3
+}
+
+sllm_buff_sizecol_t5 = {
+	empire_size_colonies_mult = -0.4
+}
+
+sllm_buff_edictcost_t1 = {
+	edicts_cost_mult = -0.05
+}
+
+sllm_buff_edictcost_t2 = {
+	edicts_cost_mult = -0.1
+}
+
+sllm_buff_edictcost_t3 = {
+	edicts_cost_mult = -0.2
+}
+
+sllm_buff_edictcost_t4 = {
+	edicts_cost_mult = -0.3
+}
+
+sllm_buff_edictcost_t5 = {
+	edicts_cost_mult = -0.4
+}
+
+sllm_buff_edictfund_t1 = {
+	country_edict_fund_add = 50
+}
+
+sllm_buff_edictfund_t2 = {
+	country_edict_fund_add = 100
+}
+
+sllm_buff_edictfund_t3 = {
+	country_edict_fund_add = 150
+}
+
+sllm_buff_edictfund_t4 = {
+	country_edict_fund_add = 250
+}
+
+sllm_buff_edictfund_t5 = {
+	country_edict_fund_add = 400
+}
+
+sllm_buff_tradcost_t1 = {
+	tradition_cost_mult = -0.05
+}
+
+sllm_buff_tradcost_t2 = {
+	tradition_cost_mult = -0.1
+}
+
+sllm_buff_tradcost_t3 = {
+	tradition_cost_mult = -0.2
+}
+
+sllm_buff_tradcost_t4 = {
+	tradition_cost_mult = -0.3
+}
+
+sllm_buff_tradcost_t5 = {
+	tradition_cost_mult = -0.4
+}
+
+sllm_buff_claimcost_t1 = {
+	country_claim_influence_cost_mult = -0.05
+}
+
+sllm_buff_claimcost_t2 = {
+	country_claim_influence_cost_mult = -0.1
+}
+
+sllm_buff_claimcost_t3 = {
+	country_claim_influence_cost_mult = -0.2
+}
+
+sllm_buff_claimcost_t4 = {
+	country_claim_influence_cost_mult = -0.3
+}
+
+sllm_buff_claimcost_t5 = {
+	country_claim_influence_cost_mult = -0.4
+}
+
+sllm_buff_agenda_t1 = {
+	council_agenda_progress_speed = 0.05
+}
+
+sllm_buff_agenda_t2 = {
+	council_agenda_progress_speed = 0.1
+}
+
+sllm_buff_agenda_t3 = {
+	council_agenda_progress_speed = 0.2
+}
+
+sllm_buff_agenda_t4 = {
+	council_agenda_progress_speed = 0.35
+}
+
+sllm_buff_agenda_t5 = {
+	council_agenda_progress_speed = 0.5
+}
+
+sllm_buff_agendacd_t1 = {
+	council_agenda_cooldown_mult = -0.05
+}
+
+sllm_buff_agendacd_t2 = {
+	council_agenda_cooldown_mult = -0.1
+}
+
+sllm_buff_agendacd_t3 = {
+	council_agenda_cooldown_mult = -0.2
+}
+
+sllm_buff_agendacd_t4 = {
+	council_agenda_cooldown_mult = -0.3
+}
+
+sllm_buff_agendacd_t5 = {
+	council_agenda_cooldown_mult = -0.4
+}
+
+sllm_buff_approval_t1 = {
+	faction_approval = 0.02
+}
+
+sllm_buff_approval_t2 = {
+	faction_approval = 0.05
+}
+
+sllm_buff_approval_t3 = {
+	faction_approval = 0.1
+}
+
+sllm_buff_approval_t4 = {
+	faction_approval = 0.15
+}
+
+sllm_buff_approval_t5 = {
+	faction_approval = 0.25
+}
+
+sllm_debuff_approval_t1 = {
+	faction_approval = -0.02
+}
+
+sllm_debuff_approval_t2 = {
+	faction_approval = -0.05
+}
+
+sllm_debuff_approval_t3 = {
+	faction_approval = -0.1
+}
+
+sllm_debuff_approval_t4 = {
+	faction_approval = -0.15
+}
+
+sllm_debuff_approval_t5 = {
+	faction_approval = -0.25
+}
+
+sllm_buff_officials_t1 = {
+	country_official_cap_add = 1
+}
+
+sllm_buff_officials_t2 = {
+	country_official_cap_add = 2
+}
+
+sllm_buff_officials_t3 = {
+	country_official_cap_add = 3
+}
+
+sllm_buff_officials_t4 = {
+	country_official_cap_add = 5
+}
+
+sllm_buff_officials_t5 = {
+	country_official_cap_add = 8
+}
+
+sllm_buff_scientists_t1 = {
+	country_scientist_cap_add = 1
+}
+
+sllm_buff_scientists_t2 = {
+	country_scientist_cap_add = 2
+}
+
+sllm_buff_scientists_t3 = {
+	country_scientist_cap_add = 3
+}
+
+sllm_buff_scientists_t4 = {
+	country_scientist_cap_add = 5
+}
+
+sllm_buff_scientists_t5 = {
+	country_scientist_cap_add = 8
+}
+
+sllm_buff_commanders_t1 = {
+	country_commander_cap_add = 1
+}
+
+sllm_buff_commanders_t2 = {
+	country_commander_cap_add = 2
+}
+
+sllm_buff_commanders_t3 = {
+	country_commander_cap_add = 3
+}
+
+sllm_buff_commanders_t4 = {
+	country_commander_cap_add = 5
+}
+
+sllm_buff_commanders_t5 = {
+	country_commander_cap_add = 8
+}
+
+sllm_buff_diploweight_t1 = {
+	diplo_weight_mult = 0.05
+}
+
+sllm_buff_diploweight_t2 = {
+	diplo_weight_mult = 0.1
+}
+
+sllm_buff_diploweight_t3 = {
+	diplo_weight_mult = 0.2
+}
+
+sllm_buff_diploweight_t4 = {
+	diplo_weight_mult = 0.35
+}
+
+sllm_buff_diploweight_t5 = {
+	diplo_weight_mult = 0.5
+}
+
+sllm_debuff_diploweight_t1 = {
+	diplo_weight_mult = -0.05
+}
+
+sllm_debuff_diploweight_t2 = {
+	diplo_weight_mult = -0.1
+}
+
+sllm_debuff_diploweight_t3 = {
+	diplo_weight_mult = -0.2
+}
+
+sllm_debuff_diploweight_t4 = {
+	diplo_weight_mult = -0.35
+}
+
+sllm_debuff_diploweight_t5 = {
+	diplo_weight_mult = -0.5
+}
+
+sllm_buff_envoys_t1 = {
+	envoys_add = 1
+}
+
+sllm_buff_envoys_t2 = {
+	envoys_add = 1
+}
+
+sllm_buff_envoys_t3 = {
+	envoys_add = 2
+}
+
+sllm_buff_envoys_t4 = {
+	envoys_add = 3
+}
+
+sllm_buff_envoys_t5 = {
+	envoys_add = 4
+}
+
+sllm_buff_relations_t1 = {
+	envoy_improve_relations_mult = 0.05
+}
+
+sllm_buff_relations_t2 = {
+	envoy_improve_relations_mult = 0.1
+}
+
+sllm_buff_relations_t3 = {
+	envoy_improve_relations_mult = 0.2
+}
+
+sllm_buff_relations_t4 = {
+	envoy_improve_relations_mult = 0.35
+}
+
+sllm_buff_relations_t5 = {
+	envoy_improve_relations_mult = 0.5
+}
+
+sllm_buff_trust_t1 = {
+	country_trust_growth = 0.05
+}
+
+sllm_buff_trust_t2 = {
+	country_trust_growth = 0.1
+}
+
+sllm_buff_trust_t3 = {
+	country_trust_growth = 0.2
+}
+
+sllm_buff_trust_t4 = {
+	country_trust_growth = 0.35
+}
+
+sllm_buff_trust_t5 = {
+	country_trust_growth = 0.5
+}
+
+sllm_buff_tribute_t1 = {
+	subject_tribute_mult = 0.05
+}
+
+sllm_buff_tribute_t2 = {
+	subject_tribute_mult = 0.1
+}
+
+sllm_buff_tribute_t3 = {
+	subject_tribute_mult = 0.2
+}
+
+sllm_buff_tribute_t4 = {
+	subject_tribute_mult = 0.35
+}
+
+sllm_buff_tribute_t5 = {
+	subject_tribute_mult = 0.5
+}
+
+sllm_buff_loyalty_t1 = {
+	monthly_loyalty_from_subjects = 0.05
+}
+
+sllm_buff_loyalty_t2 = {
+	monthly_loyalty_from_subjects = 0.1
+}
+
+sllm_buff_loyalty_t3 = {
+	monthly_loyalty_from_subjects = 0.2
+}
+
+sllm_buff_loyalty_t4 = {
+	monthly_loyalty_from_subjects = 0.35
+}
+
+sllm_buff_loyalty_t5 = {
+	monthly_loyalty_from_subjects = 0.5
+}
+
+sllm_buff_warex_t1 = {
+	country_war_exhaustion_mult = -0.05
+}
+
+sllm_buff_warex_t2 = {
+	country_war_exhaustion_mult = -0.1
+}
+
+sllm_buff_warex_t3 = {
+	country_war_exhaustion_mult = -0.2
+}
+
+sllm_buff_warex_t4 = {
+	country_war_exhaustion_mult = -0.3
+}
+
+sllm_buff_warex_t5 = {
+	country_war_exhaustion_mult = -0.4
+}
+
+sllm_debuff_warex_t1 = {
+	country_war_exhaustion_mult = 0.05
+}
+
+sllm_debuff_warex_t2 = {
+	country_war_exhaustion_mult = 0.1
+}
+
+sllm_debuff_warex_t3 = {
+	country_war_exhaustion_mult = 0.2
+}
+
+sllm_debuff_warex_t4 = {
+	country_war_exhaustion_mult = 0.3
+}
+
+sllm_debuff_warex_t5 = {
+	country_war_exhaustion_mult = 0.4
+}
+
+sllm_buff_decrypt_t1 = {
+	intel_decryption_add = 2
+}
+
+sllm_buff_decrypt_t2 = {
+	intel_decryption_add = 5
+}
+
+sllm_buff_decrypt_t3 = {
+	intel_decryption_add = 10
+}
+
+sllm_buff_decrypt_t4 = {
+	intel_decryption_add = 15
+}
+
+sllm_buff_decrypt_t5 = {
+	intel_decryption_add = 25
+}
+
+sllm_buff_encrypt_t1 = {
+	intel_encryption_add = 2
+}
+
+sllm_buff_encrypt_t2 = {
+	intel_encryption_add = 5
+}
+
+sllm_buff_encrypt_t3 = {
+	intel_encryption_add = 10
+}
+
+sllm_buff_encrypt_t4 = {
+	intel_encryption_add = 15
+}
+
+sllm_buff_encrypt_t5 = {
+	intel_encryption_add = 25
+}
+
+sllm_buff_opspeed_t1 = {
+	espionage_operation_speed_mult = 0.05
+}
+
+sllm_buff_opspeed_t2 = {
+	espionage_operation_speed_mult = 0.1
+}
+
+sllm_buff_opspeed_t3 = {
+	espionage_operation_speed_mult = 0.2
+}
+
+sllm_buff_opspeed_t4 = {
+	espionage_operation_speed_mult = 0.35
+}
+
+sllm_buff_opspeed_t5 = {
+	espionage_operation_speed_mult = 0.5
+}
+
+sllm_buff_opcost_t1 = {
+	espionage_operation_cost_mult = -0.05
+}
+
+sllm_buff_opcost_t2 = {
+	espionage_operation_cost_mult = -0.1
+}
+
+sllm_buff_opcost_t3 = {
+	espionage_operation_cost_mult = -0.2
+}
+
+sllm_buff_opcost_t4 = {
+	espionage_operation_cost_mult = -0.3
+}
+
+sllm_buff_opcost_t5 = {
+	espionage_operation_cost_mult = -0.4
+}
+
+sllm_buff_contactspeed_t1 = {
+	first_contact_speed_mult = 0.05
+}
+
+sllm_buff_contactspeed_t2 = {
+	first_contact_speed_mult = 0.1
+}
+
+sllm_buff_contactspeed_t3 = {
+	first_contact_speed_mult = 0.2
+}
+
+sllm_buff_contactspeed_t4 = {
+	first_contact_speed_mult = 0.35
+}
+
+sllm_buff_contactspeed_t5 = {
+	first_contact_speed_mult = 0.5
+}
+
+sllm_buff_shipdmg_t1 = {
+	ship_weapon_damage = 0.05
+}
+
+sllm_buff_shipdmg_t2 = {
+	ship_weapon_damage = 0.1
+}
+
+sllm_buff_shipdmg_t3 = {
+	ship_weapon_damage = 0.2
+}
+
+sllm_buff_shipdmg_t4 = {
+	ship_weapon_damage = 0.35
+}
+
+sllm_buff_shipdmg_t5 = {
+	ship_weapon_damage = 0.5
+}
+
+sllm_debuff_shipdmg_t1 = {
+	ship_weapon_damage = -0.05
+}
+
+sllm_debuff_shipdmg_t2 = {
+	ship_weapon_damage = -0.1
+}
+
+sllm_debuff_shipdmg_t3 = {
+	ship_weapon_damage = -0.2
+}
+
+sllm_debuff_shipdmg_t4 = {
+	ship_weapon_damage = -0.35
+}
+
+sllm_debuff_shipdmg_t5 = {
+	ship_weapon_damage = -0.5
+}
+
+sllm_buff_shiprate_t1 = {
+	ship_fire_rate_mult = 0.05
+}
+
+sllm_buff_shiprate_t2 = {
+	ship_fire_rate_mult = 0.1
+}
+
+sllm_buff_shiprate_t3 = {
+	ship_fire_rate_mult = 0.2
+}
+
+sllm_buff_shiprate_t4 = {
+	ship_fire_rate_mult = 0.35
+}
+
+sllm_buff_shiprate_t5 = {
+	ship_fire_rate_mult = 0.5
+}
+
+sllm_debuff_shiprate_t1 = {
+	ship_fire_rate_mult = -0.05
+}
+
+sllm_debuff_shiprate_t2 = {
+	ship_fire_rate_mult = -0.1
+}
+
+sllm_debuff_shiprate_t3 = {
+	ship_fire_rate_mult = -0.2
+}
+
+sllm_debuff_shiprate_t4 = {
+	ship_fire_rate_mult = -0.35
+}
+
+sllm_debuff_shiprate_t5 = {
+	ship_fire_rate_mult = -0.5
+}
+
+sllm_buff_shiprange_t1 = {
+	ship_weapon_range_mult = 0.05
+}
+
+sllm_buff_shiprange_t2 = {
+	ship_weapon_range_mult = 0.1
+}
+
+sllm_buff_shiprange_t3 = {
+	ship_weapon_range_mult = 0.2
+}
+
+sllm_buff_shiprange_t4 = {
+	ship_weapon_range_mult = 0.35
+}
+
+sllm_buff_shiprange_t5 = {
+	ship_weapon_range_mult = 0.5
+}
+
+sllm_buff_shipacc_t1 = {
+	ship_accuracy_add = 3
+}
+
+sllm_buff_shipacc_t2 = {
+	ship_accuracy_add = 5
+}
+
+sllm_buff_shipacc_t3 = {
+	ship_accuracy_add = 10
+}
+
+sllm_buff_shipacc_t4 = {
+	ship_accuracy_add = 15
+}
+
+sllm_buff_shipacc_t5 = {
+	ship_accuracy_add = 25
+}
+
+sllm_buff_shiphull_t1 = {
+	ship_hull_mult = 0.05
+}
+
+sllm_buff_shiphull_t2 = {
+	ship_hull_mult = 0.1
+}
+
+sllm_buff_shiphull_t3 = {
+	ship_hull_mult = 0.2
+}
+
+sllm_buff_shiphull_t4 = {
+	ship_hull_mult = 0.35
+}
+
+sllm_buff_shiphull_t5 = {
+	ship_hull_mult = 0.5
+}
+
+sllm_debuff_shiphull_t1 = {
+	ship_hull_mult = -0.05
+}
+
+sllm_debuff_shiphull_t2 = {
+	ship_hull_mult = -0.1
+}
+
+sllm_debuff_shiphull_t3 = {
+	ship_hull_mult = -0.2
+}
+
+sllm_debuff_shiphull_t4 = {
+	ship_hull_mult = -0.35
+}
+
+sllm_debuff_shiphull_t5 = {
+	ship_hull_mult = -0.5
+}
+
+sllm_buff_shiparmor_t1 = {
+	ship_armor_mult = 0.05
+}
+
+sllm_buff_shiparmor_t2 = {
+	ship_armor_mult = 0.1
+}
+
+sllm_buff_shiparmor_t3 = {
+	ship_armor_mult = 0.2
+}
+
+sllm_buff_shiparmor_t4 = {
+	ship_armor_mult = 0.35
+}
+
+sllm_buff_shiparmor_t5 = {
+	ship_armor_mult = 0.5
+}
+
+sllm_debuff_shiparmor_t1 = {
+	ship_armor_mult = -0.05
+}
+
+sllm_debuff_shiparmor_t2 = {
+	ship_armor_mult = -0.1
+}
+
+sllm_debuff_shiparmor_t3 = {
+	ship_armor_mult = -0.2
+}
+
+sllm_debuff_shiparmor_t4 = {
+	ship_armor_mult = -0.35
+}
+
+sllm_debuff_shiparmor_t5 = {
+	ship_armor_mult = -0.5
+}
+
+sllm_buff_shipshield_t1 = {
+	ship_shield_mult = 0.05
+}
+
+sllm_buff_shipshield_t2 = {
+	ship_shield_mult = 0.1
+}
+
+sllm_buff_shipshield_t3 = {
+	ship_shield_mult = 0.2
+}
+
+sllm_buff_shipshield_t4 = {
+	ship_shield_mult = 0.35
+}
+
+sllm_buff_shipshield_t5 = {
+	ship_shield_mult = 0.5
+}
+
+sllm_buff_shipevasion_t1 = {
+	ship_evasion_mult = 0.05
+}
+
+sllm_buff_shipevasion_t2 = {
+	ship_evasion_mult = 0.1
+}
+
+sllm_buff_shipevasion_t3 = {
+	ship_evasion_mult = 0.2
+}
+
+sllm_buff_shipevasion_t4 = {
+	ship_evasion_mult = 0.35
+}
+
+sllm_buff_shipevasion_t5 = {
+	ship_evasion_mult = 0.5
+}
+
+sllm_buff_shipspeed_t1 = {
+	ship_base_speed_mult = 0.05
+}
+
+sllm_buff_shipspeed_t2 = {
+	ship_base_speed_mult = 0.1
+}
+
+sllm_buff_shipspeed_t3 = {
+	ship_base_speed_mult = 0.2
+}
+
+sllm_buff_shipspeed_t4 = {
+	ship_base_speed_mult = 0.35
+}
+
+sllm_buff_shipspeed_t5 = {
+	ship_base_speed_mult = 0.5
+}
+
+sllm_buff_ftlspeed_t1 = {
+	ship_interstellar_speed_mult = 0.05
+}
+
+sllm_buff_ftlspeed_t2 = {
+	ship_interstellar_speed_mult = 0.1
+}
+
+sllm_buff_ftlspeed_t3 = {
+	ship_interstellar_speed_mult = 0.2
+}
+
+sllm_buff_ftlspeed_t4 = {
+	ship_interstellar_speed_mult = 0.35
+}
+
+sllm_buff_ftlspeed_t5 = {
+	ship_interstellar_speed_mult = 0.5
+}
+
+sllm_buff_navalcap_t1 = {
+	country_naval_cap_mult = 0.05
+}
+
+sllm_buff_navalcap_t2 = {
+	country_naval_cap_mult = 0.1
+}
+
+sllm_buff_navalcap_t3 = {
+	country_naval_cap_mult = 0.2
+}
+
+sllm_buff_navalcap_t4 = {
+	country_naval_cap_mult = 0.35
+}
+
+sllm_buff_navalcap_t5 = {
+	country_naval_cap_mult = 0.5
+}
+
+sllm_debuff_navalcap_t1 = {
+	country_naval_cap_mult = -0.05
+}
+
+sllm_debuff_navalcap_t2 = {
+	country_naval_cap_mult = -0.1
+}
+
+sllm_debuff_navalcap_t3 = {
+	country_naval_cap_mult = -0.2
+}
+
+sllm_debuff_navalcap_t4 = {
+	country_naval_cap_mult = -0.35
+}
+
+sllm_debuff_navalcap_t5 = {
+	country_naval_cap_mult = -0.5
+}
+
+sllm_buff_shipupkeep_t1 = {
+	ships_upkeep_mult = -0.05
+}
+
+sllm_buff_shipupkeep_t2 = {
+	ships_upkeep_mult = -0.1
+}
+
+sllm_buff_shipupkeep_t3 = {
+	ships_upkeep_mult = -0.2
+}
+
+sllm_buff_shipupkeep_t4 = {
+	ships_upkeep_mult = -0.3
+}
+
+sllm_buff_shipupkeep_t5 = {
+	ships_upkeep_mult = -0.4
+}
+
+sllm_buff_shipcost_t1 = {
+	starbase_shipyard_build_cost_mult = -0.05
+}
+
+sllm_buff_shipcost_t2 = {
+	starbase_shipyard_build_cost_mult = -0.1
+}
+
+sllm_buff_shipcost_t3 = {
+	starbase_shipyard_build_cost_mult = -0.2
+}
+
+sllm_buff_shipcost_t4 = {
+	starbase_shipyard_build_cost_mult = -0.3
+}
+
+sllm_buff_shipcost_t5 = {
+	starbase_shipyard_build_cost_mult = -0.4
+}
+
+sllm_buff_shipexp_t1 = {
+	ship_experience_gain_mult = 0.05
+}
+
+sllm_buff_shipexp_t2 = {
+	ship_experience_gain_mult = 0.1
+}
+
+sllm_buff_shipexp_t3 = {
+	ship_experience_gain_mult = 0.2
+}
+
+sllm_buff_shipexp_t4 = {
+	ship_experience_gain_mult = 0.35
+}
+
+sllm_buff_shipexp_t5 = {
+	ship_experience_gain_mult = 0.5
+}
+
+sllm_buff_shipspeedbuild_t1 = {
+	starbase_shipyard_build_speed_mult = 0.05
+}
+
+sllm_buff_shipspeedbuild_t2 = {
+	starbase_shipyard_build_speed_mult = 0.1
+}
+
+sllm_buff_shipspeedbuild_t3 = {
+	starbase_shipyard_build_speed_mult = 0.2
+}
+
+sllm_buff_shipspeedbuild_t4 = {
+	starbase_shipyard_build_speed_mult = 0.35
+}
+
+sllm_buff_shipspeedbuild_t5 = {
+	starbase_shipyard_build_speed_mult = 0.5
+}
+
+sllm_buff_armydmg_t1 = {
+	army_attack_damage_mult = 0.05
+}
+
+sllm_buff_armydmg_t2 = {
+	army_attack_damage_mult = 0.1
+}
+
+sllm_buff_armydmg_t3 = {
+	army_attack_damage_mult = 0.2
+}
+
+sllm_buff_armydmg_t4 = {
+	army_attack_damage_mult = 0.35
+}
+
+sllm_buff_armydmg_t5 = {
+	army_attack_damage_mult = 0.5
+}
+
+sllm_debuff_armydmg_t1 = {
+	army_attack_damage_mult = -0.05
+}
+
+sllm_debuff_armydmg_t2 = {
+	army_attack_damage_mult = -0.1
+}
+
+sllm_debuff_armydmg_t3 = {
+	army_attack_damage_mult = -0.2
+}
+
+sllm_debuff_armydmg_t4 = {
+	army_attack_damage_mult = -0.35
+}
+
+sllm_debuff_armydmg_t5 = {
+	army_attack_damage_mult = -0.5
+}
+
+sllm_buff_armyhp_t1 = {
+	army_attack_health_mult = 0.05
+}
+
+sllm_buff_armyhp_t2 = {
+	army_attack_health_mult = 0.1
+}
+
+sllm_buff_armyhp_t3 = {
+	army_attack_health_mult = 0.2
+}
+
+sllm_buff_armyhp_t4 = {
+	army_attack_health_mult = 0.35
+}
+
+sllm_buff_armyhp_t5 = {
+	army_attack_health_mult = 0.5
+}
+
+sllm_buff_armymorale_t1 = {
+	army_attack_morale_mult = 0.05
+}
+
+sllm_buff_armymorale_t2 = {
+	army_attack_morale_mult = 0.1
+}
+
+sllm_buff_armymorale_t3 = {
+	army_attack_morale_mult = 0.2
+}
+
+sllm_buff_armymorale_t4 = {
+	army_attack_morale_mult = 0.35
+}
+
+sllm_buff_armymorale_t5 = {
+	army_attack_morale_mult = 0.5
+}
+
+sllm_buff_armycost_t1 = {
+	armies_cost_mult = -0.05
+}
+
+sllm_buff_armycost_t2 = {
+	armies_cost_mult = -0.1
+}
+
+sllm_buff_armycost_t3 = {
+	armies_cost_mult = -0.2
+}
+
+sllm_buff_armycost_t4 = {
+	armies_cost_mult = -0.3
+}
+
+sllm_buff_armycost_t5 = {
+	armies_cost_mult = -0.4
+}
+
+sllm_buff_armyupkeep_t1 = {
+	armies_upkeep_mult = -0.05
+}
+
+sllm_buff_armyupkeep_t2 = {
+	armies_upkeep_mult = -0.1
+}
+
+sllm_buff_armyupkeep_t3 = {
+	armies_upkeep_mult = -0.2
+}
+
+sllm_buff_armyupkeep_t4 = {
+	armies_upkeep_mult = -0.3
+}
+
+sllm_buff_armyupkeep_t5 = {
+	armies_upkeep_mult = -0.4
+}
+
+sllm_buff_leaderexp_t1 = {
+	commander_exp_gain = 0.05
+}
+
+sllm_buff_leaderexp_t2 = {
+	commander_exp_gain = 0.1
+}
+
+sllm_buff_leaderexp_t3 = {
+	commander_exp_gain = 0.2
+}
+
+sllm_buff_leaderexp_t4 = {
+	commander_exp_gain = 0.35
+}
+
+sllm_buff_leaderexp_t5 = {
+	commander_exp_gain = 0.5
+}
+
+sllm_buff_scientistexp_t1 = {
+	scientist_exp_gain = 0.05
+}
+
+sllm_buff_scientistexp_t2 = {
+	scientist_exp_gain = 0.1
+}
+
+sllm_buff_scientistexp_t3 = {
+	scientist_exp_gain = 0.2
+}
+
+sllm_buff_scientistexp_t4 = {
+	scientist_exp_gain = 0.35
+}
+
+sllm_buff_scientistexp_t5 = {
+	scientist_exp_gain = 0.5
+}
+
+sllm_buff_officialexp_t1 = {
+	official_exp_gain = 0.05
+}
+
+sllm_buff_officialexp_t2 = {
+	official_exp_gain = 0.1
+}
+
+sllm_buff_officialexp_t3 = {
+	official_exp_gain = 0.2
+}
+
+sllm_buff_officialexp_t4 = {
+	official_exp_gain = 0.35
+}
+
+sllm_buff_officialexp_t5 = {
+	official_exp_gain = 0.5
+}
+
+sllm_buff_lifespan_t1 = {
+	leader_lifespan_mult = 0.05
+}
+
+sllm_buff_lifespan_t2 = {
+	leader_lifespan_mult = 0.1
+}
+
+sllm_buff_lifespan_t3 = {
+	leader_lifespan_mult = 0.2
+}
+
+sllm_buff_lifespan_t4 = {
+	leader_lifespan_mult = 0.35
+}
+
+sllm_buff_lifespan_t5 = {
+	leader_lifespan_mult = 0.5
+}
+
+sllm_buff_hirecost_t1 = {
+	leaders_cost_mult = -0.05
+}
+
+sllm_buff_hirecost_t2 = {
+	leaders_cost_mult = -0.1
+}
+
+sllm_buff_hirecost_t3 = {
+	leaders_cost_mult = -0.2
+}
+
+sllm_buff_hirecost_t4 = {
+	leaders_cost_mult = -0.3
+}
+
+sllm_buff_hirecost_t5 = {
+	leaders_cost_mult = -0.4
+}
+
+sllm_buff_leaderupkeep_t1 = {
+	leaders_upkeep_mult = -0.05
+}
+
+sllm_buff_leaderupkeep_t2 = {
+	leaders_upkeep_mult = -0.1
+}
+
+sllm_buff_leaderupkeep_t3 = {
+	leaders_upkeep_mult = -0.2
+}
+
+sllm_buff_leaderupkeep_t4 = {
+	leaders_upkeep_mult = -0.3
+}
+
+sllm_buff_leaderupkeep_t5 = {
+	leaders_upkeep_mult = -0.4
+}
+
+sllm_buff_survey_t1 = {
+	science_ship_survey_speed = 0.05
+}
+
+sllm_buff_survey_t2 = {
+	science_ship_survey_speed = 0.1
+}
+
+sllm_buff_survey_t3 = {
+	science_ship_survey_speed = 0.2
+}
+
+sllm_buff_survey_t4 = {
+	science_ship_survey_speed = 0.35
+}
+
+sllm_buff_survey_t5 = {
+	science_ship_survey_speed = 0.5
+}
+
+sllm_buff_anomaly_t1 = {
+	ship_anomaly_research_speed_mult = 0.05
+}
+
+sllm_buff_anomaly_t2 = {
+	ship_anomaly_research_speed_mult = 0.1
+}
+
+sllm_buff_anomaly_t3 = {
+	ship_anomaly_research_speed_mult = 0.2
+}
+
+sllm_buff_anomaly_t4 = {
+	ship_anomaly_research_speed_mult = 0.35
+}
+
+sllm_buff_anomaly_t5 = {
+	ship_anomaly_research_speed_mult = 0.5
+}
+
+sllm_buff_archaeo_t1 = {
+	ship_archaeological_site_excavation_speed_mult = 0.05
+}
+
+sllm_buff_archaeo_t2 = {
+	ship_archaeological_site_excavation_speed_mult = 0.1
+}
+
+sllm_buff_archaeo_t3 = {
+	ship_archaeological_site_excavation_speed_mult = 0.2
+}
+
+sllm_buff_archaeo_t4 = {
+	ship_archaeological_site_excavation_speed_mult = 0.35
+}
+
+sllm_buff_archaeo_t5 = {
+	ship_archaeological_site_excavation_speed_mult = 0.5
+}

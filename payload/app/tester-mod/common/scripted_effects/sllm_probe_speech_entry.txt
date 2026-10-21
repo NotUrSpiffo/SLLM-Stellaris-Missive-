@@ -1,0 +1,11 @@
+# Country scope. Starting an edict uses the existing companion speech workflow.
+# The guard prevents repeated toggle activation from bypassing the cooldown.
+sllm_probe_speech_prepare = {
+    if = {
+        limit = { NOT = { has_country_flag = sllm_speech_cd } }
+        set_timed_country_flag = { flag = sllm_speech_cd days = 180 }
+        # sllm_sp_n is incremented once inside sllm_probe_speech_profile (F-16: was incremented twice).
+        sllm_probe_speech_profile = yes
+        log = "SLLM:SPEECH/;/phase=prep/;/n=\\[This.sllm_sp_n]"
+    }
+}

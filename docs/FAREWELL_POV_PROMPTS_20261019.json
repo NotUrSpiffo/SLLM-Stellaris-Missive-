@@ -1,0 +1,22 @@
+[
+  {
+    "key": "background",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-cbdf0a9a-0b08-4ec2-815b-9044022b01d7.png",
+    "prompt": "Remove ONLY the seated secretary and the keepsake in her raised hand. Reconstruct empty leather chair and surroundings. Preserve open foreground drawer exactly, all desk items, lamp, camera, light, whole 1672x941 frame. Empty background plate."
+  },
+  {
+    "key": "neutral",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-c3650f49-cbe5-499e-a683-bda0f5edf127.png",
+    "prompt": "Extract ONLY the visible secretary and keepsake held in her raised hand onto genuine transparent alpha. Preserve exact 1672x941 full canvas and same pixel positions scale pose downturned gaze lighting. Do not include chair or drawer. Where drawer occludes her keep those pixels transparent; do not invent body behind drawer. Do not crop or recenter."
+  },
+  {
+    "key": "sad",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-9abebf7c-8d59-4aed-af1b-f88f8aeb176c.png",
+    "prompt": "Extract ONLY visible secretary and keepsake in hand onto transparent alpha with exact full 1672x941 scene canvas and pixel coordinates. Change only facial expression to restrained sadness: eyebrows gently knitted and mouth slightly pressed, still looking down at keepsake. Preserve head position outline hair body hands and lighting. Exclude chair and drawer; keep occluded parts transparent. No crop/recenter."
+  },
+  {
+    "key": "soft",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-85f4deaf-5659-4fc3-b150-19830e86bee3.png",
+    "prompt": "Extract ONLY visible secretary and keepsake in hand onto transparent alpha exact full 1672x941 canvas and same pixel coordinates. Change ONLY face: gentle nostalgic closed-lip small smile, eyes raised toward player without moving head position or outline. Exact same hair/body/hands/item/clothes/lighting. No teeth or laughter. Exclude chair/drawer; occluded portions transparent. No crop/recenter."
+  }
+]

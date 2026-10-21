@@ -1,0 +1,8 @@
+#sceneCourt{background:url('assets/rooms/tribunal-hall-v1.png') center/cover no-repeat}
+#sceneCourt::before,#sceneCourt .court-floor,#sceneCourt .court-halo{display:none}
+#sceneCourt .judge-bench{top:38%;height:43%;left:28%;right:28%;background:url('assets/rooms/tribunal-bench-v1.png') center/contain no-repeat;border:0;clip-path:none;padding-top:40px;color:#e0ceaa;text-shadow:0 2px 4px #000}
+#sceneCourt .stand .desk{background:url('assets/rooms/tribunal-bench-v1.png') center/100% 100% no-repeat;box-shadow:none;border:0;clip-path:none;text-shadow:0 2px 4px #000}
+#sceneCourt .judge-lights{visibility:hidden}
+#sceneCourt .tribunal{text-shadow:0 2px 6px #000}
+#sceneCourt .court-center{background:#06141fe8}
+#sceneCourt .scene-label,#sceneCourt .scene-date{background:#06131bbd;padding:2px 6px;border-radius:3px}

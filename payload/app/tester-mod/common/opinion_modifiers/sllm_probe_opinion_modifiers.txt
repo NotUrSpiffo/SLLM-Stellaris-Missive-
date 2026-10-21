@@ -1,0 +1,29 @@
+# SLLM Probe - opinion modifiers added by conversation (EXPERIMENT ONLY).
+# They stack up to max/min and fade by 1 per month. Names are translated in localisation.
+sllm_talk_warm_small = {
+	opinion = { base = 5 }
+	accumulative = yes
+	max = 60
+	decay = { base = 1 }
+}
+
+sllm_talk_warm_large = {
+	opinion = { base = 15 }
+	accumulative = yes
+	max = 60
+	decay = { base = 1 }
+}
+
+sllm_talk_cold_small = {
+	opinion = { base = -5 }
+	accumulative = yes
+	min = -60
+	decay = { base = 1 }
+}
+
+sllm_talk_cold_large = {
+	opinion = { base = -15 }
+	accumulative = yes
+	min = -60
+	decay = { base = 1 }
+}

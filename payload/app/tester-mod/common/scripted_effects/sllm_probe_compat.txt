@@ -1,0 +1,7 @@
+# Compatibility API v1. Call only when an observed event actually occurred.
+# Scope: the informed human player's country. Parameters are data, not scripts.
+sllm_probe_compat_event = {
+ sllm_probe_init_vars = yes
+ sllm_probe_evt_bump = yes
+ log = "SLLM:COMPAT_EVENT/;/pack=$PACK$/;/event=$EVENT$/;/phase=occurred/;/sid=\\[This.sllm_save_id]/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/where=$WHERE$"
+}

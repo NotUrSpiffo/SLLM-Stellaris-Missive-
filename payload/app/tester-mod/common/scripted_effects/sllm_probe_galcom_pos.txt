@@ -1,0 +1,16 @@
+# SLLM Probe - how every Galactic Community member currently stands on the resolution being voted on (EXPERIMENT ONLY).
+# pos: 1 = support, 2 = oppose, 3 = abstain, 0 = none/unknown. The line carries a counter so repeated calls are not dropped as duplicates.
+# Console: effect sllm_probe_gc_positions = yes
+sllm_probe_gc_positions = {
+	every_playable_country = { limit = { is_ai = no } sllm_probe_assign_idx = yes }
+	every_country = {
+		limit = { is_galactic_community_member = yes }
+		if = { limit = { NOT = { is_variable_set = sllm_gc_ps } } set_variable = { which = sllm_gc_ps value = 0 } }
+		change_variable = { which = sllm_gc_ps value = 1 }
+		set_variable = { which = sllm_gc_pos value = 0 }
+		if = { limit = { position_on_current_resolution = support } set_variable = { which = sllm_gc_pos value = 1 } }
+		if = { limit = { position_on_current_resolution = oppose } set_variable = { which = sllm_gc_pos value = 2 } }
+		if = { limit = { position_on_current_resolution = abstain } set_variable = { which = sllm_gc_pos value = 3 } }
+		log = "SLLM:GCPOS/;/date=\\[GetDate]/;/idx=\\[This.sllm_idx]/;/pos=\\[This.sllm_gc_pos]/;/n=\\[This.sllm_gc_ps]"
+	}
+}

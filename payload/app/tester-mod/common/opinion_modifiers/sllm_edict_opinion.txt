@@ -1,0 +1,13 @@
+# SLLM 언론 인터뷰 칙령(2026-10-18): 가치관이 반대인 제국이 우리를 보는 관계. 강도 약/중/강 = −15/−30/−50, 매달 1·2·4씩 회복(약 1년여).
+sllm_edict_protest_1 = {
+	opinion = { base = -15 }
+	decay = { base = 1 }
+}
+sllm_edict_protest_2 = {
+	opinion = { base = -30 }
+	decay = { base = 2 }
+}
+sllm_edict_protest_3 = {
+	opinion = { base = -50 }
+	decay = { base = 4 }
+}

@@ -1,0 +1,54 @@
+# External diplomatic terminal. These effects run in the human player's country scope.
+sllm_probe_contacts = {
+ sllm_probe_hello = { REQ = $REQ$ }
+ set_variable = { which = sllm_out_req value = $REQ$ }
+ sllm_probe_init_vars = yes
+ sllm_probe_assign_idx = yes
+ if = { limit = { NOT = { is_variable_set = sllm_contacts_n } } set_variable = { which = sllm_contacts_n value = 0 } }
+ change_variable = { which = sllm_contacts_n value = 1 }
+ set_variable = { which = sllm_terminal_pgest value = 0 } # 플레이어 제국의 정체: 0 일반, 1 기계 지성, 2 군집(2026-10-17)
+ if = { limit = { has_authority = auth_machine_intelligence } set_variable = { which = sllm_terminal_pgest value = 1 } }
+ else_if = { limit = { has_authority = auth_hive_mind } set_variable = { which = sllm_terminal_pgest value = 2 } }
+ log = "SLLM:CONTACT_BEGIN/;/sid=\\[This.sllm_save_id]/;/n=\\[This.sllm_contacts_n]/;/date=\\[GetDate]/;/req=\\[This.sllm_out_req]/;/gest=\\[This.sllm_terminal_pgest]"
+ every_country = {
+  limit = { is_variable_set = sllm_idx is_ai = yes has_communications = prev }
+  export_trigger_value_to_variable = { trigger = opinion parameters = { who = prev } variable = sllm_terminal_score }
+  set_variable = { which = sllm_terminal_gest value = 0 } # 0 일반, 1 기계 지성, 2 군집(2026-10-17)
+  if = { limit = { has_authority = auth_machine_intelligence } set_variable = { which = sllm_terminal_gest value = 1 } }
+  else_if = { limit = { has_authority = auth_hive_mind } set_variable = { which = sllm_terminal_gest value = 2 } }
+  # 나라 종류 번호(2026-10-19 집 PC 검수: GetCountryType 은 한국어 이름이 있으면 「몰락한 제국」처럼 번역된 이름을 준다 → 앱이 종류를 못 알아봄).
+  # 1 일반 2 몰락한 제국 3 각성한 제국 4 원시 5 엔클레이브 6 정신 감시자 엔클레이브 7 캐러밴 8~10 약탈자(잠든·각성·몰락) 0 그 밖
+  set_variable = { which = sllm_ct value = 0 }
+  if = { limit = { is_country_type = default } set_variable = { which = sllm_ct value = 1 } }
+  else_if = { limit = { is_country_type = fallen_empire } set_variable = { which = sllm_ct value = 2 } }
+  else_if = { limit = { is_country_type = awakened_fallen_empire } set_variable = { which = sllm_ct value = 3 } }
+  else_if = { limit = { is_country_type = primitive } set_variable = { which = sllm_ct value = 4 } }
+  else_if = { limit = { is_country_type = enclave } set_variable = { which = sllm_ct value = 5 } }
+  else_if = { limit = { is_country_type = mindwarden_enclave } set_variable = { which = sllm_ct value = 6 } }
+  else_if = { limit = { is_country_type = caravaneer_home } set_variable = { which = sllm_ct value = 7 } }
+  else_if = { limit = { is_country_type = dormant_marauders } set_variable = { which = sllm_ct value = 8 } }
+  else_if = { limit = { is_country_type = awakened_marauders } set_variable = { which = sllm_ct value = 9 } }
+  else_if = { limit = { is_country_type = ruined_marauders } set_variable = { which = sllm_ct value = 10 } }
+  log = "SLLM:CONTACT/;/sid=\\[Prev.sllm_save_id]/;/n=\\[Prev.sllm_contacts_n]/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/type=\\[This.GetCountryType]/;/rel=comm/;/score=\\[This.sllm_terminal_score]/;/gest=\\[This.sllm_terminal_gest]/;/ct=\\[This.sllm_ct]"
+ }
+ log = "SLLM:CONTACT_END/;/sid=\\[This.sllm_save_id]/;/n=\\[This.sllm_contacts_n]/;/req=\\[This.sllm_out_req]"
+}
+
+sllm_probe_terminal_dial = {
+ sllm_probe_init_vars = yes
+ set_variable = { which = sllm_out_req value = $REQ$ }
+ sllm_probe_assign_idx = yes
+ set_variable = { which = sllm_terminal_found value = 0 }
+ every_country = {
+  limit = { check_variable = { which = sllm_idx value = $TID$ } is_ai = yes has_communications = prev }
+  export_trigger_value_to_variable = { trigger = opinion parameters = { who = prev } variable = sllm_terminal_score }
+  # In this player block, prev is the selected AI country (no event target lifetime).
+  prev = {
+   set_variable = { which = sllm_terminal_found value = 1 }
+   export_trigger_value_to_variable = { trigger = opinion parameters = { who = prev } variable = sllm_terminal_op_a }
+  }
+  sllm_probe_gc_profile_one = yes
+  log = "SLLM:TALK/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/player=\\[Prev.GetName]/;/op_a=\\[Prev.sllm_terminal_op_a]/;/op_b=\\[This.sllm_terminal_score]/;/sid=\\[Prev.sllm_save_id]/;/req=\\[Prev.sllm_out_req]"
+ }
+ log = "SLLM:DIAL_END/;/sid=\\[This.sllm_save_id]/;/ok=\\[This.sllm_terminal_found]/;/req=\\[This.sllm_out_req]"
+}

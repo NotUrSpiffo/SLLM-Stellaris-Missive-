@@ -1,0 +1,15 @@
+# SLLM 만찬 표본 선물(알파 6 수집품 2단계, 2026-10-17) - 상대 제국이 우리를 보는 관계.
+# rare = small, exceptional = large. 여러 번 받으면 쌓이고(상한 있음) 매달 조금씩 줄어든다.
+sllm_specimen_gift_small = {
+	opinion = { base = 20 }
+	accumulative = yes
+	max = 60
+	decay = { base = 1 }
+}
+
+sllm_specimen_gift_large = {
+	opinion = { base = 50 }
+	accumulative = yes
+	max = 100
+	decay = { base = 1 }
+}

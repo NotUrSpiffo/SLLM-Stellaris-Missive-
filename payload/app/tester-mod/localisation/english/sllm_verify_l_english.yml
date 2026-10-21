@@ -1,0 +1,7 @@
+﻿l_english:
+ sllm_verify_spy_output_1:0 "Spy production penalty test -9%"
+ sllm_verify_spy_output_2:0 "Spy production penalty test -18%"
+ sllm_verify_spy_output_3:0 "Spy production penalty test -27%"
+ sllm_verify_spy_opinion_1:0 "Spy opinion penalty test -100"
+ sllm_verify_spy_opinion_2:0 "Spy opinion penalty test -200"
+ sllm_verify_spy_opinion_3:0 "Spy opinion penalty test -300"

@@ -1,0 +1,178 @@
+# SLLM Probe - 내정·파벌 회의 버프(2026-10-16). 이름 sllm_fac_<id> 는 앱 src/faction-meeting.ts REWARD_POOLS 와 같아야 한다.
+# 수정자 이름은 4.5.1 script_documentation 목록 확인. 지속시간은 앱이 days 로 정한다(1년 = 360일). 수치는 게임에서 보고 조정한다.
+# *_approval 은 파벌 범위에 건다(그 파벌만). 나머지는 국가 범위.
+
+sllm_fac_mil_weapons = {
+	ship_weapon_damage = 0.05
+}
+
+sllm_fac_mil_navalcap = {
+	country_naval_cap_add = 10
+}
+
+sllm_fac_mil_claims = {
+	country_claim_influence_cost_mult = -0.1
+}
+
+sllm_fac_mil_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_mil_attract = {
+	pop_ethic_militarist_attraction_mult = 0.15
+}
+
+sllm_fac_pac_stability = {
+	planet_stability_add = 3
+}
+
+sllm_fac_pac_happiness = {
+	pop_happiness = 0.05
+}
+
+sllm_fac_pac_trust = {
+	country_trust_growth = 0.1
+}
+
+sllm_fac_pac_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_pac_attract = {
+	pop_ethic_pacifist_attraction_mult = 0.15
+}
+
+sllm_fac_aut_influence = {
+	country_influence_produces_mult = 0.05
+}
+
+sllm_fac_aut_crime = {
+	planet_crime_add = -5
+}
+
+sllm_fac_aut_empsize = {
+	empire_size_mult = -0.05
+}
+
+sllm_fac_aut_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_aut_attract = {
+	pop_ethic_authoritarian_attraction_mult = 0.15
+}
+
+sllm_fac_ega_citizen = {
+	pop_citizen_happiness = 0.05
+}
+
+sllm_fac_ega_unity = {
+	country_unity_produces_mult = 0.05
+}
+
+sllm_fac_ega_amenities = {
+	planet_amenities_add = 3
+}
+
+sllm_fac_ega_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_ega_attract = {
+	pop_ethic_egalitarian_attraction_mult = 0.15
+}
+
+sllm_fac_xph_trust = {
+	country_trust_growth = 0.1
+}
+
+sllm_fac_xph_envoy = {
+	envoys_add = 1
+}
+
+sllm_fac_xph_diplo = {
+	diplo_weight_mult = 0.1
+}
+
+sllm_fac_xph_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_xph_attract = {
+	pop_ethic_xenophile_attraction_mult = 0.15
+}
+
+sllm_fac_xpb_claims = {
+	country_claim_influence_cost_mult = -0.1
+}
+
+sllm_fac_xpb_stability = {
+	planet_stability_add = 2
+}
+
+sllm_fac_xpb_weapons = {
+	ship_weapon_damage = 0.03
+}
+
+sllm_fac_xpb_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_xpb_attract = {
+	pop_ethic_xenophobe_attraction_mult = 0.15
+}
+
+sllm_fac_mat_research = {
+	all_technology_research_speed = 0.05
+}
+
+sllm_fac_mat_specialist = {
+	planet_jobs_specialist_produces_mult = 0.03
+}
+
+sllm_fac_mat_physics = {
+	country_physics_research_produces_mult = 0.05
+}
+
+sllm_fac_mat_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_mat_attract = {
+	pop_ethic_materialist_attraction_mult = 0.15
+}
+
+sllm_fac_spi_unity = {
+	country_unity_produces_mult = 0.05
+}
+
+sllm_fac_spi_stability = {
+	planet_stability_add = 2
+}
+
+sllm_fac_spi_happiness = {
+	pop_happiness = 0.05
+}
+
+sllm_fac_spi_approval = {
+	faction_approval = 0.1
+}
+
+sllm_fac_spi_attract = {
+	pop_ethic_spiritualist_attraction_mult = 0.15
+}
+
+# 표결에서 반대했다가 진 파벌
+sllm_fac_slighted = {
+	faction_approval = -0.05
+}
+# 강제 통과(반대가 찬성 이상인데 밀어붙임): 발의 파벌을 뺀 모든 파벌
+sllm_fac_forced = {
+	faction_approval = -0.15
+}
+
+# 강제 통과: 제국 전체 디버프 1년
+sllm_fac_forced_unrest = {
+	planet_stability_add = -5
+	country_influence_produces_mult = -0.1
+}

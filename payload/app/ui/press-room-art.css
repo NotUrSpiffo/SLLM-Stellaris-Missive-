@@ -1,0 +1,39 @@
+/* Shares the admiral briefing's silhouette crowd and transparent lectern. */
+body[data-room=press] #stage{height:clamp(190px,25vh,240px);background:url('assets/rooms/admiral-press-v3.png') center 55%/cover no-repeat;isolation:isolate}
+body[data-room=press] #stage::before{display:none}
+body[data-room=press] #stage::after{content:'';position:absolute;left:50%;bottom:10%;width:160px;height:44%;transform:translateX(-50%);background:url('assets/rooms/speech-lectern-v1.png') center/contain no-repeat;z-index:3;pointer-events:none}
+body[data-room=press] .seat.lead{left:50%;right:auto;bottom:38%;height:58%;width:140px;transform:translateX(-50%);display:block;text-align:center;z-index:2}
+body[data-room=press] .seat.lead img{height:100%;width:100%;max-width:none;object-position:bottom}
+body[data-room=press] .seat.lead .ph{margin:auto;height:100%;background:#06131b66}
+body[data-room=press] .seat.lead .nm{position:absolute;top:calc(100% + 60px);left:50%;transform:translateX(-50%);padding:1px 8px;background:#041019eb;border:1px solid #8b7b5480;white-space:nowrap;z-index:5}
+body[data-room=press] .seat.lead .nm small{display:none}
+body[data-room=press] .seat.rep{top:36px;bottom:auto;left:12px;max-width:31%;padding:6px 9px;background:#041019e8;border:1px solid var(--line);border-radius:4px;z-index:4}
+body[data-room=press] .seat.rep .ph{display:none}
+body[data-room=press] .seat.rep .nm b{font-size:12px}
+body[data-room=press] #stage .lbl,body[data-room=press] #stage .dt{z-index:4;background:#041019b8;padding:1px 5px;text-shadow:0 2px 4px #000}
+@media(max-width:900px){body[data-room=press] .seat.rep{max-width:34%;padding:4px}body[data-room=press] .seat.rep .nm b{font-size:10px}body[data-room=press] .seat.rep .nm small{font-size:9px}}
+
+/* Ruler POV: large press-room view; admiral briefing uses its own stylesheet. */
+body[data-room=press] #stage{height:clamp(240px,42vh,460px);background-image:url('assets/rooms/ruler-press-pov-v4.png');background-position:center bottom;background-size:cover}
+body[data-room=press] #stage::after,body[data-room=press] .seat.lead{display:none}
+body[data-room=press] #log{min-height:130px}
+body[data-room=press] .seat.rep{max-width:45%;background:#041019dc}
+@media(max-height:800px){body[data-room=press] #stage{height:clamp(170px,32vh,250px)}body[data-room=press] #log{min-height:90px}}
+@media(max-height:600px){body[data-room=press] #main{overflow-y:auto}body[data-room=press] #room{flex:none;min-height:350px}body[data-room=press] #log{height:120px;flex:none}}
+
+/* Immersive first-person room. Controls float over the room instead of reserving a picture strip. */
+body[data-room=press] #head{position:relative;z-index:5;background:#06141be8}
+body[data-room=press] #main{position:relative;isolation:isolate;overflow:hidden}
+body[data-room=press] #room,body[data-room=press] #center{display:contents}
+body[data-room=press] #stage{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;background-position:center center;z-index:-1}
+body[data-room=press] #side{position:absolute;top:18px;left:20px;width:clamp(210px,19vw,280px);max-height:calc(70% - 48px);overflow-y:auto;filter:drop-shadow(0 3px 14px #0008)}
+body[data-room=press] .topic,body[data-room=press] #rules{background:#071a23ed;backdrop-filter:blur(8px)}
+body[data-room=press] #log{position:absolute;left:20px;bottom:18px;width:calc(58% - 30px);height:clamp(170px,26vh,280px);min-height:0;margin:0;background:#04131be8;backdrop-filter:blur(10px);box-shadow:0 6px 24px #0008}
+body[data-room=press] #in{position:absolute;right:20px;bottom:18px;width:calc(42% - 30px);height:clamp(170px,26vh,280px);margin:0;background:#071a23ed;backdrop-filter:blur(10px);box-shadow:0 6px 24px #0008}
+body[data-room=press] #txt{flex:1;min-height:40px;height:auto;background:#020c12a8}
+body[data-room=press] #row{flex-wrap:wrap;gap:6px}
+body[data-room=press] #row .btn{padding:7px 10px}
+body[data-room=press] #stage .lbl{left:50%;transform:translateX(-50%)}
+body[data-room=press] .seat.rep{left:auto;right:20px;top:42px;max-width:35%}
+body[data-room=press] .box{position:relative;z-index:1}
+@media(max-height:650px){body[data-room=press] #side{max-height:calc(100% - 210px)}body[data-room=press] #log,body[data-room=press] #in{height:170px;bottom:12px}body[data-room=press] #in{padding:8px 12px;gap:4px}body[data-room=press] #err:empty{display:none}}

@@ -1,0 +1,2942 @@
+[
+  {
+    "sha256": "F0162904F7B04EAE661762D475E327E16C3039809DEDF91EF9D49654E848F8C0",
+    "bytes": 2722,
+    "path": "먼저읽기_KO.md"
+  },
+  {
+    "sha256": "88E11B8019CA9282D8938203BE320DC8982B0C2610F7D7B484250970846BC7EA",
+    "bytes": 727,
+    "path": "AGENTS.md"
+  },
+  {
+    "sha256": "5C7511E5869D5B1D304F9CE18D03D49AAB3E2F1D254E76AD376EDBFEBCA4937F",
+    "bytes": 1651,
+    "path": "build-installer.ps1"
+  },
+  {
+    "sha256": "BDF482CEAFC34CFA5C05682394C6126CA2E6EABE469CA42E22363AE39FA0FBF2",
+    "bytes": 7716,
+    "path": "HANDOFF_KO.md"
+  },
+  {
+    "sha256": "AA26B81B8E4CFF41D5426CDF11BC598277F29A47955111B47DD8C5201DB88F64",
+    "bytes": 2393462,
+    "path": "dist\\SLLM-Missive-Tester-Setup-0.1.0-alpha.3.exe"
+  },
+  {
+    "sha256": "4397A099ECB384BFA4C98AE5FD4808B90DFBAFE01EC880EBA5AABE69334E552A",
+    "bytes": 9581,
+    "path": "docs\\창작마당_소개_alpha3.txt"
+  },
+  {
+    "sha256": "4B03963A3E2F3FAD580B7742DA1AF201C4303B982FE20EEAE813FBE63CE1E461",
+    "bytes": 2013,
+    "path": "docs\\통합설치기_검증기록.md"
+  },
+  {
+    "sha256": "AFB3A8AFD3D98AEC41179BE2B82A716788420DEA8D5F472C484D95E36BA832BA",
+    "bytes": 2382,
+    "path": "docs\\BANQUET_RESULT_KO.md"
+  },
+  {
+    "sha256": "4B03963A3E2F3FAD580B7742DA1AF201C4303B982FE20EEAE813FBE63CE1E461",
+    "bytes": 2013,
+    "path": "docs\\BUILD_AND_VALIDATION_KO.md"
+  },
+  {
+    "sha256": "982783DD6AD15B71C75653C6389190C260A12338B50F440BEA47BE3D1DF549C8",
+    "bytes": 95176,
+    "path": "docs/CHECKLIST_KO.md"
+  },
+  {
+    "sha256": "3585FDE8FB48094CEB86153B5618B8B3EEAA3223A40D42A3B8C5C870C7EAEE8F",
+    "bytes": 4862,
+    "path": "docs\\DINNER_RESULT_KO.md"
+  },
+  {
+    "sha256": "37CA6651EBBE22B39ACED9B4E73844F0F9F45B6BA4C4CC01FCED77CE5FE94909",
+    "bytes": 3529,
+    "path": "docs\\ESPIONAGE_RESULT_KO.md"
+  },
+  {
+    "sha256": "9CA94653380741AD98526F98120BB83D522D57DC64002A55322A8AD09F43DD17",
+    "bytes": 3257,
+    "path": "docs\\F_OFFLINE_RESULT_KO.md"
+  },
+  {
+    "sha256": "3082C116BE200F080EEAC7B91FFBE7388F413040A66D640DAAE954A5EB6DF90C",
+    "bytes": 2644,
+    "path": "docs\\F41_RESULT_KO.md"
+  },
+  {
+    "sha256": "46E417A78D2AFF3C8FB9E5C6C391B55CD8E8CA077E437D8C263D5B6F21305011",
+    "bytes": 1356,
+    "path": "docs\\FACTION_ROOM_RESULT_KO.md"
+  },
+  {
+    "sha256": "60CA641704E18E15AFE579283D5C6985B61D4C2052A2608001ED9B7B34A18CB1",
+    "bytes": 63237,
+    "path": "docs\\MANIFEST_SHA256_BASELINE.json"
+  },
+  {
+    "sha256": "43E24A86E98E79E45074B11785C75F6A124C13E97EFEC03C25F83156CEF38028",
+    "bytes": 3609,
+    "path": "docs\\MEDIATION_RESULT_KO.md"
+  },
+  {
+    "sha256": "3E384E116A5DC5BF8A30E90E0D5CF6E12A162D65E56B75870EF7FA743E20F74E",
+    "bytes": 2901,
+    "path": "docs\\MEDIATION_TABLE_RESULT_KO.md"
+  },
+  {
+    "sha256": "0ED1A593D076892D7C5FC8B8650D68CC8761EA2CBC6C61B802ED45AE835412A1",
+    "bytes": 10611,
+    "path": "docs\\portraits_unused_reference.ts"
+  },
+  {
+    "sha256": "E28A36133CF57DB1C81F431506D243438306C4698646C53EB05FB8A164423A4C",
+    "bytes": 924,
+    "path": "docs\\PRESS_ADDRESS_RESULT_KO.md"
+  },
+  {
+    "sha256": "C0B88B2EBAC866B2C6802DAF3A945E5B22163D092C070340DB3A9BC97E3F6095",
+    "bytes": 1564,
+    "path": "docs\\README_배포묶음.txt"
+  },
+  {
+    "sha256": "3D94B1C6625E2B138A983CAC33652A864340CE8F387050F2BEC87608E4EDD90E",
+    "bytes": 111,
+    "path": "docs\\SHA256SUMS.txt"
+  },
+  {
+    "sha256": "7756ABC7C70650CEB6ECDEB0A4FCEE8903ED4F2D9467799F944490FCB1F16FD4",
+    "bytes": 3062,
+    "path": "docs\\SPECIAL_ROOMS_RESULT_KO.md"
+  },
+  {
+    "sha256": "BB83BEEA791EBA7C8780E7091C433EACB22ACAB81D8428624BEDAEA8EA2FB391",
+    "bytes": 1502,
+    "path": "docs\\SPY_SCENES_RESULT_KO.md"
+  },
+  {
+    "sha256": "83A8B7A64FD584C030972248A916EBCFB942B54C4E8CD12A84F6C34CDD837A01",
+    "bytes": 4387,
+    "path": "docs\\SUMMIT_RESULT_KO.md"
+  },
+  {
+    "sha256": "7290C0D942E87A82F44620A2BE8765F59962CFD3541BA0503235BFC1FC650830",
+    "bytes": 1057,
+    "path": "installer\\detect-game.ps1"
+  },
+  {
+    "sha256": "B1C5688BEAD4F02878F53565A24B3D5FB22930B39C11D7367BBE561C6186C1D1",
+    "bytes": 1825,
+    "path": "installer\\manage-dll.ps1"
+  },
+  {
+    "sha256": "EB8AF36E9C06152F9663A0A65C1B0D0348DFD70391E28D922593433BC0DCBF65",
+    "bytes": 4486,
+    "path": "installer\\manage-local-mod.ps1"
+  },
+  {
+    "sha256": "EB8AF36E9C06152F9663A0A65C1B0D0348DFD70391E28D922593433BC0DCBF65",
+    "bytes": 4486,
+    "path": "installer\\register-mod.ps1"
+  },
+  {
+    "sha256": "52B11706803482C4E19D5BD98BEA5A2FE3EABA604E0CAE1576AC2E4C04084FA6",
+    "bytes": 7509,
+    "path": "installer\\setup.nsi"
+  },
+  {
+    "sha256": "D96CD063713058520DDB0F1E97B1B209478E21078982E3B1E247EDD47503BB0D",
+    "bytes": 955,
+    "path": "installer\\verify-game.ps1"
+  },
+  {
+    "sha256": "BB9A658E09D0FF55510F2E4E73DB62EAD3954E729B06F4C99B5539054583D183",
+    "bytes": 538,
+    "path": "payload\\app\\ALPHA_SETUP_EN.md"
+  },
+  {
+    "sha256": "C0B88B2EBAC866B2C6802DAF3A945E5B22163D092C070340DB3A9BC97E3F6095",
+    "bytes": 1564,
+    "path": "payload\\app\\ALPHA_SETUP_KO.md"
+  },
+  {
+    "sha256": "1154CEDBC80862DECFAD289B3F0FAF67559465C16F67FE2C8F7B775D54D9DB18",
+    "bytes": 35922,
+    "path": "payload\\app\\package-lock.json"
+  },
+  {
+    "sha256": "FEB787C434D30439FB2AE1A9A75E81DF1234B3C9E5EBA1714FF4D4F17062FCB8",
+    "bytes": 437,
+    "path": "payload\\app\\package.json"
+  },
+  {
+    "sha256": "C0B88B2EBAC866B2C6802DAF3A945E5B22163D092C070340DB3A9BC97E3F6095",
+    "bytes": 1564,
+    "path": "payload\\app\\README_KO.md"
+  },
+  {
+    "sha256": "85AA4040E55773E5C0C63532269A967BF8497E5042F99D1C47DE4028E1CDAA23",
+    "bytes": 360,
+    "path": "payload\\app\\RELEASE_NOTES_EN.md"
+  },
+  {
+    "sha256": "7C770D41828657F052840642EBA33FBB1A4E5ACACA0DA8B047540B5257C7A22E",
+    "bytes": 795,
+    "path": "payload\\app\\RELEASE_NOTES_KO.md"
+  },
+  {
+    "sha256": "CDDC930F0FA34285DBC2FF8F169CBE3CD49C81EAF80B5D8E6E8852C3877A74FC",
+    "bytes": 663,
+    "path": "payload\\app\\start_app.bat"
+  },
+  {
+    "sha256": "7EB6CBEFD6D65ABD8C834E00A55BBCEB5606F0AC1B0CA6D2EA029581152C6D19",
+    "bytes": 252,
+    "path": "payload\\app\\tsconfig.json"
+  },
+  {
+    "sha256": "96F93BA5388A11BD4D2C205A1D77F8C000631D1AE845996E926117496FCF16C2",
+    "bytes": 5949,
+    "path": "payload\\app\\dist\\action.js"
+  },
+  {
+    "sha256": "D1512A1307AA62EA3EF280D8E792605DDA4D2479921608F6DE6F61ED4A1EA2F3",
+    "bytes": 5650,
+    "path": "payload\\app\\dist\\action.js.map"
+  },
+  {
+    "sha256": "A99824E9FECD80BF810F05DBE91EDEB18425518D4D4E4380CCC2B589E9204C65",
+    "bytes": 13420,
+    "path": "payload\\app\\dist\\addons.js"
+  },
+  {
+    "sha256": "AEC1A106B594442B36E7571315A8668AD8BB129D259D32CCD541983E294CABC8",
+    "bytes": 12924,
+    "path": "payload\\app\\dist\\addons.js.map"
+  },
+  {
+    "sha256": "E3720897C35CAFE3BF23A933B92E6D6DDE86E01474872A92DF1EEF0EDA121BD0",
+    "bytes": 1627,
+    "path": "payload\\app\\dist\\agenda.js"
+  },
+  {
+    "sha256": "5CFDE565AC7638428E4F755FCD8BF211D2541ADFCD2C7D8FB05A5F63F71240B9",
+    "bytes": 933,
+    "path": "payload\\app\\dist\\agenda.js.map"
+  },
+  {
+    "sha256": "F05A0134710A7DAB69CF7C5183CAB99C4B2878AB572447128A81CCF0B0D9F673",
+    "bytes": 11586,
+    "path": "payload\\app\\dist\\aiclient.js"
+  },
+  {
+    "sha256": "D9720682D2E393AC00302C42F1CCB3CD780451A1BE27599DFFBABF106647231D",
+    "bytes": 11367,
+    "path": "payload\\app\\dist\\aiclient.js.map"
+  },
+  {
+    "sha256": "6565CBF20439979EFF28143701EC4C255140F0259468CC867403249693EDBEF4",
+    "bytes": 1101,
+    "path": "payload\\app\\dist\\banquet.js"
+  },
+  {
+    "sha256": "352B2C3DCF0222F01029EDC1F6EE5532C4B07B42AAEDD392AE37D52A36DBEDE0",
+    "bytes": 1058,
+    "path": "payload\\app\\dist\\banquet.js.map"
+  },
+  {
+    "sha256": "BF399A611BD0963D928964EB7872801349BCACA961C6E2FDD223DBDA0DA4CEF7",
+    "bytes": 2087,
+    "path": "payload\\app\\dist\\briefing.js"
+  },
+  {
+    "sha256": "B218BCDBEE7B9C255E7DC652DF57859CD23E9737872462F5D7B12D7176287660",
+    "bytes": 1920,
+    "path": "payload\\app\\dist\\briefing.js.map"
+  },
+  {
+    "sha256": "FD7B84D21DF33761964B2AB3EEA193E1C6A14CCA0C19F84DA1C238EBB16652C0",
+    "bytes": 7276,
+    "path": "payload\\app\\dist\\chronicle.js"
+  },
+  {
+    "sha256": "F3EF7AF0D6FACB44AED54B00FB9DF8A100FC9903796B0C209FAFB6FC49951705",
+    "bytes": 5689,
+    "path": "payload\\app\\dist\\chronicle.js.map"
+  },
+  {
+    "sha256": "DD9222D1D3CD9E7D889030C28DD65DE8E4ADB10E72DF29114182CCBC28673E85",
+    "bytes": 6386,
+    "path": "payload\\app\\dist\\council-state.js"
+  },
+  {
+    "sha256": "FBCD1AD3A430AEFDD64B7728394ED70C5D24C56DF13CC1B0FAEF1716B47821C6",
+    "bytes": 6284,
+    "path": "payload\\app\\dist\\council-state.js.map"
+  },
+  {
+    "sha256": "6526F6F5B694428DC736D901D01046C0852E097A03FF5F8AB378A314FEC68856",
+    "bytes": 8980,
+    "path": "payload\\app\\dist\\councilai.js"
+  },
+  {
+    "sha256": "DFB619E6A510663CCCB8CB9D14C57BA08D8940589A30164AA8DD2A77765CCD03",
+    "bytes": 7781,
+    "path": "payload\\app\\dist\\councilai.js.map"
+  },
+  {
+    "sha256": "8FFBB497EA0A63BFD34E92FA8225383027E7ECDF095A554AF8FC713A226C21E0",
+    "bytes": 4608,
+    "path": "payload\\app\\dist\\deferred.js"
+  },
+  {
+    "sha256": "2D0642F3677101EF6ACCB4EA6A38257B95165CD304A9167A1FF438EBD3FC137B",
+    "bytes": 2899,
+    "path": "payload\\app\\dist\\deferred.js.map"
+  },
+  {
+    "sha256": "7423C4BA25FCE1F74AD50B8BE3D1B14815C831DD45CD7F23A7D3423295FF3F07",
+    "bytes": 17568,
+    "path": "payload\\app\\dist\\dev-fake.js"
+  },
+  {
+    "sha256": "B8837558B45A4F2986B23B13CE1A71CAB38393F9E7520E96469E8EC162E0388A",
+    "bytes": 16714,
+    "path": "payload\\app\\dist\\dev-fake.js.map"
+  },
+  {
+    "sha256": "CB4F0400CD8497EC0CC2161B2EE6C9AA7B7172B4BDD92FDD05A0078151D2CF0D",
+    "bytes": 8393,
+    "path": "payload\\app\\dist\\diagnostics.js"
+  },
+  {
+    "sha256": "0EE8930C073028B294932333E1D6A6A89834DA0CB5CF5E2C6920EFBD350C7B84",
+    "bytes": 7601,
+    "path": "payload\\app\\dist\\diagnostics.js.map"
+  },
+  {
+    "sha256": "6DD3A89ACE58A11394EEFE3762F0313D8AFB7601A69ABECEDC5FF717CC033179",
+    "bytes": 6766,
+    "path": "payload\\app\\dist\\dinner-check.js"
+  },
+  {
+    "sha256": "D5EF920949ABEAE82F67FE1EB9BD55A119940120F3C9EDAF474A367A4576365B",
+    "bytes": 5934,
+    "path": "payload\\app\\dist\\dinner-check.js.map"
+  },
+  {
+    "sha256": "217945A99A9F5A5C900745708D282BE4030BFED7D59499550B73AFA267E3C963",
+    "bytes": 6754,
+    "path": "payload\\app\\dist\\dinner.js"
+  },
+  {
+    "sha256": "FEAC1610E5A6565BF9900B3846DD7BC9EAD2EF26450FFB1533A9099F99DC5F65",
+    "bytes": 5753,
+    "path": "payload\\app\\dist\\dinner.js.map"
+  },
+  {
+    "sha256": "B84583E6DB56C3056F0ED52B564F3E263BF9304AE83B08F24133F18022D635C4",
+    "bytes": 9481,
+    "path": "payload\\app\\dist\\environment-paths.js"
+  },
+  {
+    "sha256": "18F6B6BF2293DA4BA06E402981336CEB649DCF32C59FF9CFDD3C4BFCDAFFB91C",
+    "bytes": 8018,
+    "path": "payload\\app\\dist\\environment-paths.js.map"
+  },
+  {
+    "sha256": "AE77F1008ADAEB6D2A38BFBA64EDD3A6E25D4C411A58F45A5CBD9A0F5B3873BA",
+    "bytes": 6510,
+    "path": "payload\\app\\dist\\espionage.js"
+  },
+  {
+    "sha256": "7DCA59BF30A309A85882CDA0B408BF2960B3296EC646C3106F5583EC3D2E73F7",
+    "bytes": 5699,
+    "path": "payload\\app\\dist\\espionage.js.map"
+  },
+  {
+    "sha256": "23EBDB9A3374C30B06E544C108E1595462B74087EB58EEB38F59D7E84E595BE7",
+    "bytes": 17629,
+    "path": "payload\\app\\dist\\faction-meeting.js"
+  },
+  {
+    "sha256": "147ED6BF72CD2BCC8DC133704DCA176226E59DB7E86540DEB07C7FA7A98CDA38",
+    "bytes": 17066,
+    "path": "payload\\app\\dist\\faction-meeting.js.map"
+  },
+  {
+    "sha256": "08CF4A5087D447E9869027A1DD8CFC3671B782D0DD227B1194C99246408A069D",
+    "bytes": 17677,
+    "path": "payload\\app\\dist\\federation.js"
+  },
+  {
+    "sha256": "EAB3334F8FD49A055580AD83888A905C396FAE243DE164E5393C410F7ED2A620",
+    "bytes": 15814,
+    "path": "payload\\app\\dist\\federation.js.map"
+  },
+  {
+    "sha256": "1AAF486815E49040613174F54574533A3E8D0AE1B7A7A981D197C8ECE92016E9",
+    "bytes": 10843,
+    "path": "payload\\app\\dist\\flagrender.js"
+  },
+  {
+    "sha256": "68586EDD6AF50343366D10E9744AE13C94FA2B129DB6822AF5DB4C72DE5A3C78",
+    "bytes": 15481,
+    "path": "payload\\app\\dist\\flagrender.js.map"
+  },
+  {
+    "sha256": "80679DABAA35C0D5DA742AE337AB609B1CE1202E453E5D99C4C6662DC2FBED6C",
+    "bytes": 13770,
+    "path": "payload\\app\\dist\\galnews.js"
+  },
+  {
+    "sha256": "FA7479804C24E5DD59D7F73E2B1FEFED7C6E3BA9200DDED781F70522A5EE31EC",
+    "bytes": 9538,
+    "path": "payload\\app\\dist\\galnews.js.map"
+  },
+  {
+    "sha256": "49F41D79F7C4E8B574A5273AC71EE8680893FF3CDF4EB7648E1477EE125604FF",
+    "bytes": 2044,
+    "path": "payload\\app\\dist\\gamedate.js"
+  },
+  {
+    "sha256": "F966A11691E125AB8D6A1B264BAD626E6649803CF53774570EA12DFECADC9A35",
+    "bytes": 2382,
+    "path": "payload\\app\\dist\\gamedate.js.map"
+  },
+  {
+    "sha256": "3418565DC7D42B107952C0849FDBAD4A1C440E77FC50E92088CA9E4D51615D44",
+    "bytes": 11526,
+    "path": "payload\\app\\dist\\gamestate.js"
+  },
+  {
+    "sha256": "2D0400C5A2B0AB725C8285ED9218D5F8794EC2EE5E4773B7A0BD37B5C32E5F7C",
+    "bytes": 13640,
+    "path": "payload\\app\\dist\\gamestate.js.map"
+  },
+  {
+    "sha256": "7DDD969F16D7E3A3E4C20C1A7A24AAAB5B656247F8C872A649196E68A83B9FB7",
+    "bytes": 7621,
+    "path": "payload\\app\\dist\\gameWindow.js"
+  },
+  {
+    "sha256": "D39DA062133890AFE3337902C86756AD3C18AD3FCE819D22A784473899AE8D0B",
+    "bytes": 6536,
+    "path": "payload\\app\\dist\\gameWindow.js.map"
+  },
+  {
+    "sha256": "B26FECEF7AA53F8ECB4660B94AFA2BC86BE1BF22B3863202977A69500A75F502",
+    "bytes": 4538,
+    "path": "payload\\app\\dist\\gossip.js"
+  },
+  {
+    "sha256": "A8C8463C35D5F57F00B3B28C3B2E5A3A9F0EB1B8DDEF327D25F6FACC49DF7F24",
+    "bytes": 5279,
+    "path": "payload\\app\\dist\\gossip.js.map"
+  },
+  {
+    "sha256": "4790FE75B7CC473128EB66D9CE7CEFDB4FA6723EF9FDA780E146DEA84BD8E359",
+    "bytes": 9194,
+    "path": "payload\\app\\dist\\govmemory.js"
+  },
+  {
+    "sha256": "4E7C2947D4FCEF0E4BED28F073D45128D3EA54FCBD583DBDE0237DB184197EDE",
+    "bytes": 7330,
+    "path": "payload\\app\\dist\\govmemory.js.map"
+  },
+  {
+    "sha256": "8EC065974BF307430E107A69628DB9CD3847A1648027F8D87793C2327C291A67",
+    "bytes": 2324,
+    "path": "payload\\app\\dist\\govreport.js"
+  },
+  {
+    "sha256": "34F722E1D124EB99E554DB044F94581DF21BE46FEE275119A9F4CCF71350BD64",
+    "bytes": 1991,
+    "path": "payload\\app\\dist\\govreport.js.map"
+  },
+  {
+    "sha256": "70B596A8855F0417F4F8AE135F9A7A2340BD0B764C4EF956898208CF09AD038B",
+    "bytes": 4933,
+    "path": "payload\\app\\dist\\hangul.js"
+  },
+  {
+    "sha256": "521968705728D36340D3E5A86022ED02D9EA9B3F0EB2F077320FE74AAB9A8C49",
+    "bytes": 5007,
+    "path": "payload\\app\\dist\\hangul.js.map"
+  },
+  {
+    "sha256": "30863270929166710D22F52BD2267E6EEA7F787CF663F1DD91079BC5A15F072E",
+    "bytes": 8469,
+    "path": "payload\\app\\dist\\images.js"
+  },
+  {
+    "sha256": "54F370FCF17952342FA53086A5A1EDDF7DA488202500975D317FC12BDBEE7FDE",
+    "bytes": 6155,
+    "path": "payload\\app\\dist\\images.js.map"
+  },
+  {
+    "sha256": "C6991A26127550D90BBCCDF59C82BAD41F51984F47A3C2F15F3263FD0B2A300D",
+    "bytes": 4397,
+    "path": "payload\\app\\dist\\inbox-store.js"
+  },
+  {
+    "sha256": "AD2C3725D8E7FA08E99A30EE030E40FA63B730B7B5A2D5CACDDC75583F1E2806",
+    "bytes": 3910,
+    "path": "payload\\app\\dist\\inbox-store.js.map"
+  },
+  {
+    "sha256": "75771938E3C58DFD52D3D14568E63B1A468C85B425EDFC1086DED2314FED048C",
+    "bytes": 3873,
+    "path": "payload\\app\\dist\\key-file.js"
+  },
+  {
+    "sha256": "05C5BE5CF4A98B0D7FC800DEFFFD8B63B2CEB289622924E28ADCB30676D20E37",
+    "bytes": 2078,
+    "path": "payload\\app\\dist\\key-file.js.map"
+  },
+  {
+    "sha256": "BD07026BC2B0C2E963A422298429420B182422B58ECEF89F09DE9FC5E15B7993",
+    "bytes": 10533,
+    "path": "payload\\app\\dist\\keyboard.js"
+  },
+  {
+    "sha256": "48C871373F938F1EB6FB6A5FE12BEB0C8E3B8E633159531C8C0F209EE0090552",
+    "bytes": 7997,
+    "path": "payload\\app\\dist\\keyboard.js.map"
+  },
+  {
+    "sha256": "E21DF271310D11F56E3DE9F3B94AFDF01AE8B261962AD20AC1F923043BC8DB51",
+    "bytes": 1703,
+    "path": "payload\\app\\dist\\language.js"
+  },
+  {
+    "sha256": "9A6FF7784A76EBC4708AD2CCE7825A7723E8906888C7AC85A25DD3BFB013F72F",
+    "bytes": 1131,
+    "path": "payload\\app\\dist\\language.js.map"
+  },
+  {
+    "sha256": "92B0C89C336CB5340BEB42017B11B6616EAADF3B3DC9E059D6B99102BA6F2C20",
+    "bytes": 8375,
+    "path": "payload\\app\\dist\\log-replay-check.js"
+  },
+  {
+    "sha256": "2EA43B0C9AC46E457E3DF1251E3BD5223EA5B33B6788A9ABF4C5F2F2D012554C",
+    "bytes": 8093,
+    "path": "payload\\app\\dist\\log-replay-check.js.map"
+  },
+  {
+    "sha256": "6DD9EEF80EEC2F5B9F2FDFA72FF1519CFBD68C501B69EDF86C5B50E66785C05F",
+    "bytes": 6511,
+    "path": "payload\\app\\dist\\logWatcher.js"
+  },
+  {
+    "sha256": "281C2BE6A209704948A11AAFAC35B05C682C5A3D49A9132F117B7702E474F27F",
+    "bytes": 5758,
+    "path": "payload\\app\\dist\\logWatcher.js.map"
+  },
+  {
+    "sha256": "12C0585970BA2ACE1B2727B7D449960A5EBB641D90977834E08270C8DA909438",
+    "bytes": 13751,
+    "path": "payload\\app\\dist\\lore.js"
+  },
+  {
+    "sha256": "5F8A8F3CEEF4F5ED8F95A719B93F8799B5F1523BB7DE9E13DB636AA48FF0D2E4",
+    "bytes": 13019,
+    "path": "payload\\app\\dist\\lore.js.map"
+  },
+  {
+    "sha256": "4E4329640D9DA8D2102C48B4A31E27B36705F4677FEBCE449F5E50C14CB57EC7",
+    "bytes": 11481,
+    "path": "payload\\app\\dist\\mail.js"
+  },
+  {
+    "sha256": "7A6830E1C094C1F99DA215693192AA761F5FEF444E72585EF85E5BA00F4B7354",
+    "bytes": 9968,
+    "path": "payload\\app\\dist\\mail.js.map"
+  },
+  {
+    "sha256": "BC2FB190021E097216D4D2E622ED0215CE37B32393732AA2977BBEB7A582D6D9",
+    "bytes": 32022,
+    "path": "payload\\app\\dist\\main.js"
+  },
+  {
+    "sha256": "5ED1E2C0F9ACDF6837098DA4B0250AA783E110A796488F7C43604F89BD08C0DE",
+    "bytes": 24498,
+    "path": "payload\\app\\dist\\main.js.map"
+  },
+  {
+    "sha256": "935388876EF7F4D805E2BBA8245B246779CEC69F2FE47717D8B2F2CB0F430B2C",
+    "bytes": 4069,
+    "path": "payload\\app\\dist\\media-custom.js"
+  },
+  {
+    "sha256": "DE22D6B4DEC4DD582CD7035F3F8575201DD5861188F1BF56AB161CF704A441DE",
+    "bytes": 2801,
+    "path": "payload\\app\\dist\\media-custom.js.map"
+  },
+  {
+    "sha256": "F4080458D7C37CA2713E97664213F07DA7783C90BF961A5904945BC27ADDF6E8",
+    "bytes": 2574,
+    "path": "payload\\app\\dist\\media-prefs.js"
+  },
+  {
+    "sha256": "5BBC091861EC2206174D6B102E0A168359F140E9EFE8A16FC453BCDC8EDAB524",
+    "bytes": 2368,
+    "path": "payload\\app\\dist\\media-prefs.js.map"
+  },
+  {
+    "sha256": "772F688E847F7CFEC12C9BE50B4345929A8D96411F1E678C2D31D5774B664B5F",
+    "bytes": 8452,
+    "path": "payload\\app\\dist\\mediation-check.js"
+  },
+  {
+    "sha256": "8CAAC2557C0E525CFA63E14882BE1BD47A2D1A8E2DC99399EDBD77ED46E0171B",
+    "bytes": 6852,
+    "path": "payload\\app\\dist\\mediation-check.js.map"
+  },
+  {
+    "sha256": "B663BE7EA7C2347D1F6CC06E3C6A5B437FC835E0548B776310108989039BD079",
+    "bytes": 13112,
+    "path": "payload\\app\\dist\\mediation.js"
+  },
+  {
+    "sha256": "EEB5A01CAC8DA249EC70AAF9FCF771ABB3A9C9E20E1C9099D3BA65DFE5E0749C",
+    "bytes": 11575,
+    "path": "payload\\app\\dist\\mediation.js.map"
+  },
+  {
+    "sha256": "DDA8C25C3277ABA3B7091F6E381D0AB7ED61FE68BC0A394D4D71635D8165FAF0",
+    "bytes": 16069,
+    "path": "payload\\app\\dist\\mod-compat.js"
+  },
+  {
+    "sha256": "41BED25A3C6E323EFCB23916845756226DFB2D3237F9843003C24DECBD1CA167",
+    "bytes": 19805,
+    "path": "payload\\app\\dist\\mod-compat.js.map"
+  },
+  {
+    "sha256": "9243BEFD121AD4DF6D0B8A0774EF642128556AC69024D151EA778916819E775A",
+    "bytes": 11122,
+    "path": "payload\\app\\dist\\mod-resources.js"
+  },
+  {
+    "sha256": "EF32720FE445F495F472CE33E90767574112C40EF7AB78474C234751AFA7F4AF",
+    "bytes": 11716,
+    "path": "payload\\app\\dist\\mod-resources.js.map"
+  },
+  {
+    "sha256": "2DF67A95739368D61B5F5C93B95F2E077E2B014A2FF3ACE405C6BD30F365AF59",
+    "bytes": 8579,
+    "path": "payload\\app\\dist\\native-bridge.js"
+  },
+  {
+    "sha256": "D5CAE978E917A922384E50EFE8E45B638154D89FABE54136D6D86844FF88A1A7",
+    "bytes": 5071,
+    "path": "payload\\app\\dist\\native-bridge.js.map"
+  },
+  {
+    "sha256": "E28BD0B77C06A253B6D6ACA528DA671C0A4F2164027EA4793830F6B89A88C410",
+    "bytes": 10255,
+    "path": "payload\\app\\dist\\offline-f-check.js"
+  },
+  {
+    "sha256": "28271AAD476185443F62B072DB07F26AEFB9FB745EA151221E5012271B0E5331",
+    "bytes": 9556,
+    "path": "payload\\app\\dist\\offline-f-check.js.map"
+  },
+  {
+    "sha256": "60105B69C8049CE91622B3460772CE4598A03EB5AC914B397171B735CD674053",
+    "bytes": 1539,
+    "path": "payload\\app\\dist\\overlayPrefs.js"
+  },
+  {
+    "sha256": "376BCCAFDF7E9497E055CC6983D6A083DD1E359687D6A4FC0E6FA5CC60EF9616",
+    "bytes": 1516,
+    "path": "payload\\app\\dist\\overlayPrefs.js.map"
+  },
+  {
+    "sha256": "A76F91D5C67EDE8A5DA85310DA6A440DF38ED0CA56681CEB81E0D6CF2CF4C8AC",
+    "bytes": 3116,
+    "path": "payload\\app\\dist\\planetart.js"
+  },
+  {
+    "sha256": "91B1F98AA7FE4379222D23B4CF097A87ED1699688EA31B871D03D529216B7006",
+    "bytes": 1540,
+    "path": "payload\\app\\dist\\planetart.js.map"
+  },
+  {
+    "sha256": "C428ECB0C4C669A99A6DEC15DA99A5100E5BBDEDD5A28031923F1395E1359BB9",
+    "bytes": 9248,
+    "path": "payload\\app\\dist\\planets.js"
+  },
+  {
+    "sha256": "29A4E864D30E3B9F08A966C1C9B6AF6102E03EB7FF811FAA78FEBA75519B9251",
+    "bytes": 8185,
+    "path": "payload\\app\\dist\\planets.js.map"
+  },
+  {
+    "sha256": "1836F5384757D56BB9316D5DBEA67D5BEAB82F688C60E4B2B6DED3FC61B467AF",
+    "bytes": 4555,
+    "path": "payload\\app\\dist\\player2.js"
+  },
+  {
+    "sha256": "BE98A888AB59605EAFD03F6327093563DE8E2F302D2672B6836AEEFC2EED21DA",
+    "bytes": 3808,
+    "path": "payload\\app\\dist\\player2.js.map"
+  },
+  {
+    "sha256": "DE3A708B1D3AA50491FEED038536619D39D6DB65E6017F9FA662195BA4D511C2",
+    "bytes": 14294,
+    "path": "payload\\app\\dist\\portraits.js"
+  },
+  {
+    "sha256": "336A69DA2B9BCC9944A3A49D826A7D49BCA7C7089AD044C009B3BDE8CB77A172",
+    "bytes": 14943,
+    "path": "payload\\app\\dist\\portraits.js.map"
+  },
+  {
+    "sha256": "CB0FA1D260FD69F8D247F1BB0F9AADB35F0B033835B6B735CFCA8A86AD281F3F",
+    "bytes": 25112,
+    "path": "payload/app/dist/preload.js"
+  },
+  {
+    "sha256": "4BC0ECC725D294F3365825775594F48210EB90B429F7547832E14AEF5D09E588",
+    "bytes": 27444,
+    "path": "payload/app/dist/preload.js.map"
+  },
+  {
+    "sha256": "AC0678230E1CEA3B6A5B1E83C0537ECD6A875BBDC3780D2643FA118C40E5AF10",
+    "bytes": 14595,
+    "path": "payload\\app\\dist\\prompt.js"
+  },
+  {
+    "sha256": "7885989C34CA972AF57E790CCF027F8DA44DFB6583EDC7E5E7FBDBB37984F67B",
+    "bytes": 10122,
+    "path": "payload\\app\\dist\\prompt.js.map"
+  },
+  {
+    "sha256": "2C0B58638E5019CDB4D4F264025B8AC287889F1AF7788F50FC79F574C16B0D0E",
+    "bytes": 8163,
+    "path": "payload\\app\\dist\\protocol.js"
+  },
+  {
+    "sha256": "8654C324D3EEF341E2B4F9BB2E90F0E5887B8264F34C527D09916BCB14F9D749",
+    "bytes": 5107,
+    "path": "payload\\app\\dist\\protocol.js.map"
+  },
+  {
+    "sha256": "C9C5DF0991495B7D06ACB952FFC491A0FC99CA70D130B12FE37995241B4A91E3",
+    "bytes": 19632,
+    "path": "payload\\app\\dist\\radio.js"
+  },
+  {
+    "sha256": "022DADEDD446C32A3AF2B16F9E8452A0BD3A2508C9564DE4F198209257B9B9BD",
+    "bytes": 13644,
+    "path": "payload\\app\\dist\\radio.js.map"
+  },
+  {
+    "sha256": "0B61EBD4E48E997C9A302FA0A09889D97F12378F5C674CD8CB817F8808C625CC",
+    "bytes": 5060,
+    "path": "payload\\app\\dist\\reslocal.js"
+  },
+  {
+    "sha256": "C77EBDCF54A430814E86EE13B86FA9EF5C2B4EAFC57E8609DF10E04B59A11493",
+    "bytes": 3786,
+    "path": "payload\\app\\dist\\reslocal.js.map"
+  },
+  {
+    "sha256": "2FE136D2F5F6792385D3527DE2F1D3A0461E26963146596C282E725825550BAC",
+    "bytes": 485,
+    "path": "payload\\app\\dist\\safe-send.js"
+  },
+  {
+    "sha256": "7DF20D8F7AA6AB97BBF6CD07E78DB127084DC899758C51EB1603C2F1DB6E6D9A",
+    "bytes": 486,
+    "path": "payload\\app\\dist\\safe-send.js.map"
+  },
+  {
+    "sha256": "40752C05DC4F84600DEBBC7A7881F51CD6AF48414E4AE344F71F2E262AE20386",
+    "bytes": 17172,
+    "path": "payload\\app\\dist\\savereader.js"
+  },
+  {
+    "sha256": "C106F42DAA496ACDA142CDCAED8D9C70B0F28772715B6B731FF660CB23690547",
+    "bytes": 17582,
+    "path": "payload\\app\\dist\\savereader.js.map"
+  },
+  {
+    "sha256": "6C795AEC629224C22BCEEBC38A9BE8248BC0BC6BAF612639E52EFB5CA83F15F1",
+    "bytes": 207476,
+    "path": "payload\\app\\dist\\selftest.js"
+  },
+  {
+    "sha256": "A9D38673AEA920725D75B1FEF738BC89A5296FAACEF5498205F837FDB8D32373",
+    "bytes": 219635,
+    "path": "payload\\app\\dist\\selftest.js.map"
+  },
+  {
+    "sha256": "6856D339ACA4DC1DC9DD44F75594F814EF233BB586D1736EBC8D6BC4AF5CC053",
+    "bytes": 992,
+    "path": "payload\\app\\dist\\session-queue.js"
+  },
+  {
+    "sha256": "6FC88D74BE7619C8996EB945A6C2D3BD07E749807C0870B0F5B08DF747A3F936",
+    "bytes": 778,
+    "path": "payload\\app\\dist\\session-queue.js.map"
+  },
+  {
+    "sha256": "181C09CA81C88C4CE9260A998E68A12DCE7A899819C9F639DD1ECAD642A62113",
+    "bytes": 458,
+    "path": "payload\\app\\dist\\single-flight.js"
+  },
+  {
+    "sha256": "32033D4E8899F84988AF97C2DE8628AA808E8AA5E5FD19E40F6DBE7B11F3C4DE",
+    "bytes": 420,
+    "path": "payload\\app\\dist\\single-flight.js.map"
+  },
+  {
+    "sha256": "97F353673E3EFCE6EEC5AF9B54770673ADF09A08DEE23013273DC5563637DC62",
+    "bytes": 2351,
+    "path": "payload\\app\\dist\\speciesClass.js"
+  },
+  {
+    "sha256": "094143557FB9A032DDF253AA58386BC93B5EED5916F21C431DB84E61683F8282",
+    "bytes": 2287,
+    "path": "payload\\app\\dist\\speciesClass.js.map"
+  },
+  {
+    "sha256": "880BE8CED8B463531A3101F24958306DC1B2A62C304BC45F592BF40B3998DA27",
+    "bytes": 26574,
+    "path": "payload\\app\\dist\\speech.js"
+  },
+  {
+    "sha256": "1CB6280515B843571685B97FAED1AA116310EF0D17AF8D7850452D4637097F9F",
+    "bytes": 22782,
+    "path": "payload\\app\\dist\\speech.js.map"
+  },
+  {
+    "sha256": "9CD92B7F191165AA3169596819DEDB94EC611F180ED1AD30A3E613E74792F13E",
+    "bytes": 2340,
+    "path": "payload\\app\\dist\\speed.js"
+  },
+  {
+    "sha256": "364F28A4E080B6E8A8D99881ACE450904D630581A142DE5A09DDA6F4558BA524",
+    "bytes": 2176,
+    "path": "payload\\app\\dist\\speed.js.map"
+  },
+  {
+    "sha256": "1785974F6311FCEBA97827788DD33A592009F50297B042739298FC39EF6A2028",
+    "bytes": 8115,
+    "path": "payload\\app\\dist\\summit-check.js"
+  },
+  {
+    "sha256": "5E974DA94633C4314F1A0F9A08B248CF1CFF8C4865ED10041CBEE22D62D8A88F",
+    "bytes": 7172,
+    "path": "payload\\app\\dist\\summit-check.js.map"
+  },
+  {
+    "sha256": "BB7686E928572ABF4128C4A88881979218D21E0C5D36B6EB44CF72355802FC74",
+    "bytes": 9570,
+    "path": "payload\\app\\dist\\summit-core.js"
+  },
+  {
+    "sha256": "C8F2B0520FA9C63D980E725A134E1C2E326C94243AE030EEBC7F9C1AF27B22A2",
+    "bytes": 8179,
+    "path": "payload\\app\\dist\\summit-core.js.map"
+  },
+  {
+    "sha256": "1FB7C37A05E7FE64F0C788BFDB82ECE9DA188D8AA23842728451FB883E5B6AA6",
+    "bytes": 12225,
+    "path": "payload\\app\\dist\\support-bundle.js"
+  },
+  {
+    "sha256": "A8AAE685CB668F40ED77EB926B3ECEC146160BDD01FDEF943BD69598C3FAD05B",
+    "bytes": 11548,
+    "path": "payload\\app\\dist\\support-bundle.js.map"
+  },
+  {
+    "sha256": "F80085AD45128B9EF521C5C12D8832F0070E0F16815DB62652E05B10B10B1F99",
+    "bytes": 1522,
+    "path": "payload\\app\\dist\\terminal-contacts.js"
+  },
+  {
+    "sha256": "6D7F5758CEA4C6882DA8F4240E8091D4D42BDB64FEE876FB30E546FD35DE9730",
+    "bytes": 1992,
+    "path": "payload\\app\\dist\\terminal-contacts.js.map"
+  },
+  {
+    "sha256": "8BC3C76521548283A9B3E49937BFDCFF2F867C887C93CD1B012D57B0464D4B49",
+    "bytes": 2108,
+    "path": "payload\\app\\dist\\theme.js"
+  },
+  {
+    "sha256": "985D8D97529E6CC6B92B1B89307CFE02D0AE5A1AE9376B96659893CB57B9CF34",
+    "bytes": 1091,
+    "path": "payload\\app\\dist\\theme.js.map"
+  },
+  {
+    "sha256": "6B30485395C7B77389C502B858ABF0A32162F8B14258D1ADE62DCD94F82974B8",
+    "bytes": 1514,
+    "path": "payload\\app\\dist\\transcript.js"
+  },
+  {
+    "sha256": "89393FEC05F55C85F3F315BDF011C3231B2A13A3F66FB1C7FF76F87462A42C52",
+    "bytes": 1376,
+    "path": "payload\\app\\dist\\transcript.js.map"
+  },
+  {
+    "sha256": "CBC11BB54AE6566A88BD7CAFED0CAC53B072B00B53842D3465202D343A984C13",
+    "bytes": 803,
+    "path": "payload\\app\\dist\\app\\ctx.js"
+  },
+  {
+    "sha256": "58A04AD9AC2B4B3EEF05B145FCC2AEC0D8D13EC18CEFEBD5DA60DD4729FB7577",
+    "bytes": 759,
+    "path": "payload\\app\\dist\\app\\ctx.js.map"
+  },
+  {
+    "sha256": "5A277B015C67C2D6DC19804C7BEA9EDFFCFC6518E1BFEE685E54592EFDBBC606",
+    "bytes": 12580,
+    "path": "payload\\app\\dist\\app\\game-link.js"
+  },
+  {
+    "sha256": "A3C2AC191F98A9EFFAA662181A413F7C774060D17E23299BC34CA697E67AD7CF",
+    "bytes": 8415,
+    "path": "payload\\app\\dist\\app\\game-link.js.map"
+  },
+  {
+    "sha256": "1AC3F4E135896AE186B2E3A0584371C50FE5F66DADE7D451E41432C939FC636A",
+    "bytes": 2631,
+    "path": "payload\\app\\dist\\app\\log-router.js"
+  },
+  {
+    "sha256": "861B0CB388BB9E8030A8C0F7B4F667273490A8BAE479BD5BCA89C33956AE8E8E",
+    "bytes": 1902,
+    "path": "payload\\app\\dist\\app\\log-router.js.map"
+  },
+  {
+    "sha256": "46445F155D59755F6083E06DAE35CB2112D2555707200F6A3BEFDE030E934FF3",
+    "bytes": 17761,
+    "path": "payload\\app\\dist\\app\\settings.js"
+  },
+  {
+    "sha256": "FAE6A3E72A370C94F2080B345075EA8FA797B8238C3B9529A89B7812173E6345",
+    "bytes": 13795,
+    "path": "payload\\app\\dist\\app\\settings.js.map"
+  },
+  {
+    "sha256": "80181F772DB272E2EC97273B4D0E5E53086481373028C93DB057141258E95544",
+    "bytes": 4697,
+    "path": "payload\\app\\dist\\features\\addons-app.js"
+  },
+  {
+    "sha256": "79D5EFFA2334BCAF9D503E22467032CCF4D9E9C5F1C722105A2016F2D447A688",
+    "bytes": 3347,
+    "path": "payload\\app\\dist\\features\\addons-app.js.map"
+  },
+  {
+    "sha256": "874C796D6BB488427C0AAD2B495D5FEBEB312EBAE574839D81D936208627D828",
+    "bytes": 8047,
+    "path": "payload\\app\\dist\\features\\ai-settings.js"
+  },
+  {
+    "sha256": "F4B381A26D5DCDD4DBED1D084EBEB786AF7BE4C37DADEEC1E68AEDDB1E869F85",
+    "bytes": 8098,
+    "path": "payload\\app\\dist\\features\\ai-settings.js.map"
+  },
+  {
+    "sha256": "0C5F94F5331FE9242E977BFD6216C7B1B61E1A5A9A909321226D643059A074DC",
+    "bytes": 4194,
+    "path": "payload\\app\\dist\\features\\banquet-app.js"
+  },
+  {
+    "sha256": "1DF330ED04CC970F33929C61740B289D7E0E712B0503FB16BC24929ABE3602A4",
+    "bytes": 2842,
+    "path": "payload\\app\\dist\\features\\banquet-app.js.map"
+  },
+  {
+    "sha256": "22A3A94857857628BAB6557A03CE5FE980D3E713228C291DD0A8CA4E4F45242C",
+    "bytes": 20738,
+    "path": "payload\\app\\dist\\features\\chat.js"
+  },
+  {
+    "sha256": "E013F0F63F97A5682A8728026E1113806DD4DBEE0D82CAE81D2427A3CB16331D",
+    "bytes": 17252,
+    "path": "payload\\app\\dist\\features\\chat.js.map"
+  },
+  {
+    "sha256": "E8A23FD20E191CC33C22E9C1E940F42540030396D2957A36C5C8D8EFD237BC0D",
+    "bytes": 5682,
+    "path": "payload\\app\\dist\\features\\chronicle-app.js"
+  },
+  {
+    "sha256": "D8232C18C637CE6B1201FCD00A1AE9860CAE0903CA1E9967E05897649EDC80C4",
+    "bytes": 4064,
+    "path": "payload\\app\\dist\\features\\chronicle-app.js.map"
+  },
+  {
+    "sha256": "3ED3F7E98324284688C6DF141C9D0A511D5EDF3B16287CE1D08DD23D8506C55F",
+    "bytes": 27035,
+    "path": "payload\\app\\dist\\features\\council.js"
+  },
+  {
+    "sha256": "F075304A9527866EBE6117322628DA140605958512121F93A1E6BE3A952C7735",
+    "bytes": 25113,
+    "path": "payload\\app\\dist\\features\\council.js.map"
+  },
+  {
+    "sha256": "29BA28D16C09D977B2C32FD24F84B1D9A26740962505CB00BE59FCA689F06DBC",
+    "bytes": 19762,
+    "path": "payload\\app\\dist\\features\\dev-tools.js"
+  },
+  {
+    "sha256": "63A1C159A9E6EB6AE20147D22AE689E4042E4645B861F4A2EF6E4F5DCA65A686",
+    "bytes": 13090,
+    "path": "payload\\app\\dist\\features\\dev-tools.js.map"
+  },
+  {
+    "sha256": "6347E1AED1739E092E346E2174995D8568FE6D1D8916280F0939E3C79EBA74DF",
+    "bytes": 13968,
+    "path": "payload\\app\\dist\\features\\dinner-app.js"
+  },
+  {
+    "sha256": "05B4BE57DE8971FCB78585F771E44071F3ADC8961E42BB3F42D23208BCCB3B75",
+    "bytes": 13082,
+    "path": "payload\\app\\dist\\features\\dinner-app.js.map"
+  },
+  {
+    "sha256": "4DDFEDC6FE8BF41C63E21E6F4F970AD5BFE929C3211F9B90D3C9B12B289E72CC",
+    "bytes": 11992,
+    "path": "payload\\app\\dist\\features\\environment.js"
+  },
+  {
+    "sha256": "365052204F3B8D55E4756701B486F87DF2203F71DA1BA55189C4CE850B125817",
+    "bytes": 8976,
+    "path": "payload\\app\\dist\\features\\environment.js.map"
+  },
+  {
+    "sha256": "83442508AC39D9CA4867E3AD05E3B74B40EBEFDE41EDC16B8551669F2736AACF",
+    "bytes": 7124,
+    "path": "payload\\app\\dist\\features\\espionage-app.js"
+  },
+  {
+    "sha256": "BD7E463FD58825D760074DCA95E9E290A1993019CD27A5CC6224B84189DDEF3A",
+    "bytes": 5542,
+    "path": "payload\\app\\dist\\features\\espionage-app.js.map"
+  },
+  {
+    "sha256": "E194686DE667F54FEDDED0BFFBC5B3A8EF6988A1D0554E0F611877DBD1273C33",
+    "bytes": 22329,
+    "path": "payload\\app\\dist\\features\\faction-app.js"
+  },
+  {
+    "sha256": "F4B15482D47E3122FD11E134837B0E55FBCEC3A4C92E8A2116BD449E9EBDEA51",
+    "bytes": 22538,
+    "path": "payload\\app\\dist\\features\\faction-app.js.map"
+  },
+  {
+    "sha256": "C73CBAD94F703FAD87D940A83C15D0964B327B14070BC4BBFDBAFD39895319AC",
+    "bytes": 2028,
+    "path": "payload\\app\\dist\\features\\gamestate-app.js"
+  },
+  {
+    "sha256": "78B835B00ED72AE5481FA56E72D2E2FF8F397FA135B604639688F50215F1336A",
+    "bytes": 1840,
+    "path": "payload\\app\\dist\\features\\gamestate-app.js.map"
+  },
+  {
+    "sha256": "AF065B81D54A0A3BD89572B86432E85F0325D426A16D6291777763440B076C49",
+    "bytes": 10014,
+    "path": "payload\\app\\dist\\features\\gov.js"
+  },
+  {
+    "sha256": "A4BE51D1A6795006BC95A21271C20F0303C17DBE0E176B6069831808DDF0EE17",
+    "bytes": 8796,
+    "path": "payload\\app\\dist\\features\\gov.js.map"
+  },
+  {
+    "sha256": "C67332D66D31144C67056A52A3564BEDCB15E17DA6040399BB56FE49F2A29B72",
+    "bytes": 10461,
+    "path": "payload\\app\\dist\\features\\govreport.js"
+  },
+  {
+    "sha256": "E1C0FB250FA403349E1F85D3331C7B0CDF66504B29D30DCC96E7F0DDFFCF8E37",
+    "bytes": 9996,
+    "path": "payload\\app\\dist\\features\\govreport.js.map"
+  },
+  {
+    "sha256": "A8ECF582167F05FE8E736D71EA21B9DBB303409C61B73CDE4D4D6A2028919C54",
+    "bytes": 8318,
+    "path": "payload\\app\\dist\\features\\images.js"
+  },
+  {
+    "sha256": "2193A19A07924DFBBBF5491F219093B06742D3778133C6F6FFD32A253B324E7C",
+    "bytes": 6486,
+    "path": "payload\\app\\dist\\features\\images.js.map"
+  },
+  {
+    "sha256": "5702C3421EE1F48251CF6CBF9E28BC35B519DC3356288C6D27F46AC5EE9AE580",
+    "bytes": 16856,
+    "path": "payload\\app\\dist\\features\\mail-app.js"
+  },
+  {
+    "sha256": "8F519D0411995AFF5B3020542963F80524845AFBFAB8A81C9D11D845D15EC313",
+    "bytes": 15116,
+    "path": "payload\\app\\dist\\features\\mail-app.js.map"
+  },
+  {
+    "sha256": "4B53A233B77B3EB0A7B15D52151E89B18740D7E09FBD9F7BC73CDB6132BE0ECA",
+    "bytes": 13068,
+    "path": "payload\\app\\dist\\features\\media.js"
+  },
+  {
+    "sha256": "4D30F2B7070C74180852005AF7ADAA1441D70BC386D537D79C4121F510FC746B",
+    "bytes": 11805,
+    "path": "payload\\app\\dist\\features\\media.js.map"
+  },
+  {
+    "sha256": "C934D19AFF6DC34F4E78148537B0814FC9F525C7C6932EB3A4D5BF28753CAA3D",
+    "bytes": 8537,
+    "path": "payload\\app\\dist\\features\\mediation-app.js"
+  },
+  {
+    "sha256": "0DD3C83218470D3949E7CCF799B0398304B498CC3BD1576A7F4A0BE5F024CA06",
+    "bytes": 6867,
+    "path": "payload\\app\\dist\\features\\mediation-app.js.map"
+  },
+  {
+    "sha256": "AF3B90BAAA510D1E5EA230CCAB3278A4B85CDBEDEB6228AD590D091E7BFD916A",
+    "bytes": 18019,
+    "path": "payload\\app\\dist\\features\\radio-app.js"
+  },
+  {
+    "sha256": "94774D76C26DC22886719FB81FDD2BE0A8BDF054178CD267F03DA72F30313093",
+    "bytes": 16052,
+    "path": "payload\\app\\dist\\features\\radio-app.js.map"
+  },
+  {
+    "sha256": "C4AE4115462EAE7C0765950FF23779CAC3CBDC391882F2FD8F3E946711FDB2F8",
+    "bytes": 6196,
+    "path": "payload\\app\\dist\\features\\settings-ui.js"
+  },
+  {
+    "sha256": "C861CA478DE1CDEC341348E0A5596D4C51ECE52089742646BC3FDD4579274A82",
+    "bytes": 3655,
+    "path": "payload\\app\\dist\\features\\settings-ui.js.map"
+  },
+  {
+    "sha256": "D83A981EB683C4EB5ABC19E2C74DA655E2259DB9E245FA94ABAD464EF6BD436F",
+    "bytes": 18602,
+    "path": "payload\\app\\dist\\features\\speech-app.js"
+  },
+  {
+    "sha256": "17339C88109FC1BBA9ACD942F7585982A0F9D321A68D131BF2D6E17E55B0D1A6",
+    "bytes": 15617,
+    "path": "payload\\app\\dist\\features\\speech-app.js.map"
+  },
+  {
+    "sha256": "0AF8F468A502F15BC13E8488D04D1D6F202BAAE6F2408419254FF65B79780402",
+    "bytes": 21005,
+    "path": "payload\\app\\dist\\features\\summit.js"
+  },
+  {
+    "sha256": "C98D14A3C194C55F72187AFAD8BAC3C0CB42272028A0EB908D61A2B317719AD6",
+    "bytes": 19690,
+    "path": "payload\\app\\dist\\features\\summit.js.map"
+  },
+  {
+    "sha256": "7E2CFC8F22335FF0DC46444D72A2B7DFDCA05244162102D163E6A13FB39ED866",
+    "bytes": 8677,
+    "path": "payload\\app\\dist\\features\\support.js"
+  },
+  {
+    "sha256": "CB2889B431D1B0CDBFBC5ABA334292C53DFFD94A8674618E41A8BF925D9311ED",
+    "bytes": 6307,
+    "path": "payload\\app\\dist\\features\\support.js.map"
+  },
+  {
+    "sha256": "2D41BC26488B934EF908272B9BA6F16DB223A938A663E86C746B2C25EDF35C93",
+    "bytes": 5263,
+    "path": "payload\\app\\dist\\features\\terminal.js"
+  },
+  {
+    "sha256": "5624A3F7E9F1310B7513A90DE5F80B20665C5F85955F504FA4352814512F1962",
+    "bytes": 4307,
+    "path": "payload\\app\\dist\\features\\terminal.js.map"
+  },
+  {
+    "sha256": "1673C8F2081EC78FD0510A73586490FF271327C6A08DE19981EA033230238D04",
+    "bytes": 43209,
+    "path": "payload\\app\\dist\\features\\windows.js"
+  },
+  {
+    "sha256": "E3F1466FA9201E2C7263492A6DD287B39C1854C6FEE98A588F14C4D5DA7C557A",
+    "bytes": 37600,
+    "path": "payload\\app\\dist\\features\\windows.js.map"
+  },
+  {
+    "sha256": "07CEB3F091E91E61E670360ED77BDE50F79EAC2280EDE8CB19BD0EB19F256EDF",
+    "bytes": 4014,
+    "path": "payload\\app\\example\\README_KO.md"
+  },
+  {
+    "sha256": "C35E758B3EBD29684200C2B103AE5300DD0FAD02D36D5E83C40F42B60C947FDF",
+    "bytes": 2762,
+    "path": "payload\\app\\example\\addon\\README_ADDON_KO.md"
+  },
+  {
+    "sha256": "F7446E91496305AF6FFA1274261A50B1CD001B364511862849FA47F464A88F03",
+    "bytes": 924,
+    "path": "payload\\app\\example\\addon\\sllm_addon_example\\addon.json"
+  },
+  {
+    "sha256": "1FE36DD91ED9A53C43291A0BF633D3BA6DDA58365D6C0AE6C32015097AF3EA06",
+    "bytes": 40035,
+    "path": "payload\\app\\example\\addon\\sllm_addon_example\\images\\ruler.png"
+  },
+  {
+    "sha256": "93CF410F91CEB58BF2DA85CC851E8C880AD0C5A742114F750F941B7C97A4108E",
+    "bytes": 546625,
+    "path": "payload\\app\\example\\backgrounds\\_한눈에보기.png"
+  },
+  {
+    "sha256": "57D3999A8F7666F41877E8533FBA1E9BAE0E6952F26220A51ED8D70976057496",
+    "bytes": 92359,
+    "path": "payload\\app\\example\\backgrounds\\council_의회장_2400x880.png"
+  },
+  {
+    "sha256": "550B1A31FDAA04D06411CD78E4325FFB8AF80534D4E0B72EFB8587DB8E3D44F9",
+    "bytes": 63235,
+    "path": "payload\\app\\example\\backgrounds\\govoffice_집무실_1600x1200.png"
+  },
+  {
+    "sha256": "A7091C735F7FBF3C72457643B547516A2CC7F2ACB596249F95DB6E448EEC1E73",
+    "bytes": 40573,
+    "path": "payload\\app\\example\\backgrounds\\govroom_총독실_1000x1000.png"
+  },
+  {
+    "sha256": "9D803638343F1E1FACB9E862A8ADA2AC7CF4115304530B75971ADD27EE0D7289",
+    "bytes": 78722,
+    "path": "payload\\app\\example\\backgrounds\\paper_신문지면_1920x1200.png"
+  },
+  {
+    "sha256": "3E3043A8B9E7B5C3321B8434DEFA6599CF227DD1E2996AD3AD1849E7054DCF53",
+    "bytes": 77301,
+    "path": "payload\\app\\example\\backgrounds\\speech_연설무대_1800x1200.png"
+  },
+  {
+    "sha256": "8F2F8E768E033AE7A4790A5B2970257F0BB22EA31C1E78BCA2E138A0776470DF",
+    "bytes": 80395,
+    "path": "payload\\app\\example\\backgrounds\\summit_정상회담장_2400x850.png"
+  },
+  {
+    "sha256": "A1456EF27D3E0BB01E10E360F6FB02A60D39DACB5EF53ED9F643E92EB7572B7D",
+    "bytes": 69120,
+    "path": "payload\\app\\native\\bridge-client.exe"
+  },
+  {
+    "sha256": "5FBDE698D08632079044174CD9BBA21C2863B76F9FDFC8317E7E2422C2290B6C",
+    "bytes": 45056,
+    "path": "payload\\app\\native\\command-bridge.dll"
+  },
+  {
+    "sha256": "93E62A1F7BABEF6D67B5A13CE43632DADA3A62CCD9126B392E8D9E66E6A2C22D",
+    "bytes": 2175,
+    "path": "payload\\app\\native\\README.md"
+  },
+  {
+    "sha256": "942FD3DA1DF18E6E166F7F3BDF719E9D5929157FC31DF8954083E4746AE0E329",
+    "bytes": 3381,
+    "path": "payload\\app\\native\\src\\bridge-client.c"
+  },
+  {
+    "sha256": "9E7D1E6666D0180056A33977EC7F0660F8B66CBBA410517A7B2203E83643068B",
+    "bytes": 1122,
+    "path": "payload\\app\\native\\src\\bridge-ipc.h"
+  },
+  {
+    "sha256": "945A8A0742485952CA6F91E67F06D50E96465507C19264446998783CE7ED83B0",
+    "bytes": 459,
+    "path": "payload\\app\\native\\src\\build-native.ps1"
+  },
+  {
+    "sha256": "5A3B2DF05690AF8916320D0151CA5EE7A4D7E533F0FDDA178AB134FB42D61AA5",
+    "bytes": 3339,
+    "path": "payload\\app\\native\\src\\command-bridge.c"
+  },
+  {
+    "sha256": "A029603617B494ADEC53D37BDEEF1F310F61B1815C0BB954A45371CDE88756E6",
+    "bytes": 5920,
+    "path": "payload\\app\\src\\action.ts"
+  },
+  {
+    "sha256": "5B0935AE6B78EE4C884F5AC9804B760303F0FCB37958D0E5DB2CBC83A76D7FD4",
+    "bytes": 11475,
+    "path": "payload\\app\\src\\addons.ts"
+  },
+  {
+    "sha256": "6A8BA8C77CB540385F357C869193F9D76A747FAAD7828B57CBDFC074A1F44DCD",
+    "bytes": 1484,
+    "path": "payload\\app\\src\\agenda.ts"
+  },
+  {
+    "sha256": "350C25C97FFD32253BE35B022D3DE583D907B172A11385CF775B6F5D8B76D400",
+    "bytes": 11586,
+    "path": "payload\\app\\src\\aiclient.ts"
+  },
+  {
+    "sha256": "EB4B99B8A4A99B04A41DA20112B0DF74E89F6EEE14BF0822EA9F943562C6E21F",
+    "bytes": 1208,
+    "path": "payload\\app\\src\\banquet.ts"
+  },
+  {
+    "sha256": "0AD3BBC4D3223C48528D12B14807C5E2B4F44FB8C3C8BCE8E2C06524A05CD80A",
+    "bytes": 2349,
+    "path": "payload\\app\\src\\briefing.ts"
+  },
+  {
+    "sha256": "661A66C17D26F5732C890C52D31919AAB3325BA3C80AD7D6FA6CA155D0E7F968",
+    "bytes": 5621,
+    "path": "payload\\app\\src\\chronicle.ts"
+  },
+  {
+    "sha256": "C3D2196654B016596D6BCCDDDCF2DCD73EE1B91A173C67F6ADFA5483E391EA8D",
+    "bytes": 6782,
+    "path": "payload\\app\\src\\council-state.ts"
+  },
+  {
+    "sha256": "478A669F1BF0CBF1BACCE68FE468C7FBF0CDCC2CFBE4B638C694151D0EE1EBB7",
+    "bytes": 9699,
+    "path": "payload\\app\\src\\councilai.ts"
+  },
+  {
+    "sha256": "502EFE53A5D7D7B106316C1AA5714E17B83D4DF9DDDB18AAE62BD26367CD7D43",
+    "bytes": 2927,
+    "path": "payload\\app\\src\\deferred.ts"
+  },
+  {
+    "sha256": "B648C09A14169E0C4E1B6C93BB7177A940A189C545D64A56BE65F7CA9A9FBA36",
+    "bytes": 16913,
+    "path": "payload\\app\\src\\dev-fake.ts"
+  },
+  {
+    "sha256": "00F3110209E606C698368A9733D00EFFC758A4B0BB491BFD1C9850FF1E414026",
+    "bytes": 5827,
+    "path": "payload\\app\\src\\diagnostics.ts"
+  },
+  {
+    "sha256": "C23243446A9700DCDBCCC738E5DA64A4D09A2D87BC149F320C5775C4703D6558",
+    "bytes": 4462,
+    "path": "payload\\app\\src\\dinner-check.ts"
+  },
+  {
+    "sha256": "584C4A52A2B39BEE8925ED106D3259D2EE5E95F1258BEDF6CFC7586860513980",
+    "bytes": 5110,
+    "path": "payload\\app\\src\\dinner.ts"
+  },
+  {
+    "sha256": "37A4DFC83A602042FD316735A5FF79CB5240C806CC2291C0170EF68B4C4A7AE9",
+    "bytes": 7072,
+    "path": "payload\\app\\src\\environment-paths.ts"
+  },
+  {
+    "sha256": "DEC83660E362C8B32515E41DCB1EF838436DE89DA1F63DBFF54F71C364C0802B",
+    "bytes": 6347,
+    "path": "payload\\app\\src\\espionage.ts"
+  },
+  {
+    "sha256": "4000F4A691BA093EE1C22D68234DC0AADAD097C516C4B68D335CB0C8E5B6A6B6",
+    "bytes": 18420,
+    "path": "payload\\app\\src\\faction-meeting.ts"
+  },
+  {
+    "sha256": "319CC30B25C485C670BEBAF2BFB3A7255CDABDCDB27296C61C2C445BCBA51FB5",
+    "bytes": 18912,
+    "path": "payload\\app\\src\\federation.ts"
+  },
+  {
+    "sha256": "837D7856ACB2E1278D968C1168E87F92ACF6655611AF8E0A60849970EA4B2B09",
+    "bytes": 8789,
+    "path": "payload\\app\\src\\flagrender.ts"
+  },
+  {
+    "sha256": "8130C3EA690CFD090226CB3CAEC87B691B3E1699DDBC740B6BA6850186D20304",
+    "bytes": 12601,
+    "path": "payload\\app\\src\\galnews.ts"
+  },
+  {
+    "sha256": "FFF48EEC0004BDCE38B171A7AE0659010C28E24404F553790D08B0DF9D363CB7",
+    "bytes": 1928,
+    "path": "payload\\app\\src\\gamedate.ts"
+  },
+  {
+    "sha256": "400E418EE8442FCCD6FD974BBC6975FAEFA6246CC6F117D724F124553B4A5EA1",
+    "bytes": 12499,
+    "path": "payload\\app\\src\\gamestate.ts"
+  },
+  {
+    "sha256": "60529E32CEB8BA7319A2F69BD5193E795F9DD8009E495F720B0E227506193C73",
+    "bytes": 7868,
+    "path": "payload\\app\\src\\gameWindow.ts"
+  },
+  {
+    "sha256": "887F55877B2EE9BB456C07369DF1B0A461E4133106DFD2939CE7BC61D5449E40",
+    "bytes": 4929,
+    "path": "payload\\app\\src\\gossip.ts"
+  },
+  {
+    "sha256": "41A28E2F72783D7E7D3B5C4C3458481BF20E2F08928ACB5FA772D9F2FBF95727",
+    "bytes": 7570,
+    "path": "payload\\app\\src\\govmemory.ts"
+  },
+  {
+    "sha256": "7ED3D2E6E8AA45ED1F931C7A54DE3AC85C4D402A2B823016957D1B581BCD0192",
+    "bytes": 2489,
+    "path": "payload\\app\\src\\govreport.ts"
+  },
+  {
+    "sha256": "59C9D711C14EF6559E297060A2540D5432EFA4B2E03685A24EFF14CF70A3A739",
+    "bytes": 4288,
+    "path": "payload\\app\\src\\hangul.ts"
+  },
+  {
+    "sha256": "7C8D9AD53712BB034545A17C43CE46E3CACFFC4743467D9CB7E8FBE89DB8643F",
+    "bytes": 6851,
+    "path": "payload\\app\\src\\images.ts"
+  },
+  {
+    "sha256": "229D43D63612DB489E2112A4D0585CCD2E730B08BAE4505EFBE6C5BA79E7D3BB",
+    "bytes": 2815,
+    "path": "payload\\app\\src\\inbox-store.ts"
+  },
+  {
+    "sha256": "31222CFEDB19C32AF2DED3E51BB949DD7A22F775F31C8450DD71113CCA9A463B",
+    "bytes": 2395,
+    "path": "payload\\app\\src\\key-file.ts"
+  },
+  {
+    "sha256": "394C1C6B4F7B1DD72112AEE2B2E22E845BBDEFF6B5266867DECC48B96FF8BA62",
+    "bytes": 9829,
+    "path": "payload\\app\\src\\keyboard.ts"
+  },
+  {
+    "sha256": "8D6DDF27B7FF47812102C7F971805D81DCE5DDB5CF9E13042C4D64DE431100DF",
+    "bytes": 1500,
+    "path": "payload\\app\\src\\language.ts"
+  },
+  {
+    "sha256": "E7228F97D3DD19EB2CE51CD8FEB87F45C685141ADFCE61706D7B8D414E06FC5A",
+    "bytes": 6456,
+    "path": "payload\\app\\src\\log-replay-check.ts"
+  },
+  {
+    "sha256": "883B7A308B84AFBFEDCABAD951F81566AFF3EC697F381C3D118D7D9836CA18CC",
+    "bytes": 3674,
+    "path": "payload\\app\\src\\logWatcher.ts"
+  },
+  {
+    "sha256": "F359B975804250B009C7991DBCC14E6CAB77ABA95CCFB341D956E4B2042778E8",
+    "bytes": 11073,
+    "path": "payload\\app\\src\\lore.ts"
+  },
+  {
+    "sha256": "680E65F732E6F5D5BF9506FB09BE0E9223603E8847DBEC0010A0791334C2D89C",
+    "bytes": 11792,
+    "path": "payload\\app\\src\\mail.ts"
+  },
+  {
+    "sha256": "15C1060B9495F99DDE8830CBEF56A8AFF1702D4E228D67EFCBCA5C68F8E0188E",
+    "bytes": 26600,
+    "path": "payload\\app\\src\\main.ts"
+  },
+  {
+    "sha256": "69ED61BDC08CB289E27F2AB1377DFDFCFF4DA1E073F67AC7C582B4B119F7DF25",
+    "bytes": 2178,
+    "path": "payload\\app\\src\\media-custom.ts"
+  },
+  {
+    "sha256": "4D0B6BD2B792C9E8B9BBC9C73BC1FF894179D2974D2286C1880E30CB8B2F9A2D",
+    "bytes": 2494,
+    "path": "payload\\app\\src\\media-prefs.ts"
+  },
+  {
+    "sha256": "4ECDE48076B74A59A79963D09F4D977842B1D8AAA6A48D638E63F7E5D629DD74",
+    "bytes": 5875,
+    "path": "payload\\app\\src\\mediation-check.ts"
+  },
+  {
+    "sha256": "3C95DC44EB38BD3DBD139EDED38AFDACECAD8686CC65371D4565B5E1FA44E327",
+    "bytes": 11978,
+    "path": "payload\\app\\src\\mediation.ts"
+  },
+  {
+    "sha256": "EC3284106E14653CF17DA710F9612B368AC78439097DEF737A383C812E0132B0",
+    "bytes": 13737,
+    "path": "payload\\app\\src\\mod-compat.ts"
+  },
+  {
+    "sha256": "DA0BCE8893045B69088B5DE81CAA0EB2791FA5053C423F6A40B9EAD27D60C215",
+    "bytes": 8501,
+    "path": "payload\\app\\src\\mod-resources.ts"
+  },
+  {
+    "sha256": "3D0D1FE806296756F8C1C920E425A37855E701EBC3EE57BD8886A97178E0C0F8",
+    "bytes": 6944,
+    "path": "payload\\app\\src\\native-bridge.ts"
+  },
+  {
+    "sha256": "F2EF7461BAB0494A90439D56826E6C9BAC2176DE02E19564E92E6AA6C950BA53",
+    "bytes": 8343,
+    "path": "payload\\app\\src\\offline-f-check.ts"
+  },
+  {
+    "sha256": "ED6CCC2751477EEEBAC95C4D69A9C67A840A838C010505C82A8BFBFF378DE68A",
+    "bytes": 1510,
+    "path": "payload\\app\\src\\overlayPrefs.ts"
+  },
+  {
+    "sha256": "5E16FCC346933C7E4076A7F2FA141CCE359B2705A62B89367E08FECD96FD0C70",
+    "bytes": 1515,
+    "path": "payload\\app\\src\\planetart.ts"
+  },
+  {
+    "sha256": "9C64CEE72F48AF198C2E094BA8D80FD38021220B4C568BD0A1FD9811E74E18EB",
+    "bytes": 9541,
+    "path": "payload\\app\\src\\planets.ts"
+  },
+  {
+    "sha256": "C34502A35AF9141045F4FBBDD5A3FD5B181CE16BB7F64C51D438740FCE51552D",
+    "bytes": 4256,
+    "path": "payload\\app\\src\\player2.ts"
+  },
+  {
+    "sha256": "D055199F21D385CD4516DBECC4050E092E867BA764E460A86332B3E4198A30EA",
+    "bytes": 23856,
+    "path": "payload/app/src/preload.ts"
+  },
+  {
+    "sha256": "B9BD19D9CB681E7A970FAD0EDCA4BA18F215873DBC60C96303058C917BA07FD8",
+    "bytes": 15619,
+    "path": "payload\\app\\src\\prompt.ts"
+  },
+  {
+    "sha256": "2D9C4069377E4D08D55B75FC134B4416EFD5199F2C53DB26E964AB87087D796F",
+    "bytes": 7921,
+    "path": "payload\\app\\src\\protocol.ts"
+  },
+  {
+    "sha256": "52BF2385E69FE946BE4A450C5FE93E0E7A59EFD6439AA9256B18196F1B8C37F2",
+    "bytes": 17633,
+    "path": "payload\\app\\src\\radio.ts"
+  },
+  {
+    "sha256": "DDE0E7A4FEE1A5C6AA9C8011320DC89FE038AF7B0FCE26B593A750096CE3B59A",
+    "bytes": 3081,
+    "path": "payload\\app\\src\\reslocal.ts"
+  },
+  {
+    "sha256": "9A9D34A1760A24E7D9D1995EA9FA54F9E5E56FEBD67D01409E58468A4D74552C",
+    "bytes": 746,
+    "path": "payload\\app\\src\\safe-send.ts"
+  },
+  {
+    "sha256": "29CA4842ED14E305AFE3C924D4ECD87854F536CDF7ED228128B5069050B04B61",
+    "bytes": 14593,
+    "path": "payload\\app\\src\\savereader.ts"
+  },
+  {
+    "sha256": "D1B3C97FB8F9ED81110AB25F6053062B57F304A90841026A2C6DD669D7254B04",
+    "bytes": 188360,
+    "path": "payload\\app\\src\\selftest.ts"
+  },
+  {
+    "sha256": "DD12B264A90CCA2ECB8FC117E3C277CEE10CC9D29056782B153399AE7004D9DF",
+    "bytes": 783,
+    "path": "payload\\app\\src\\session-queue.ts"
+  },
+  {
+    "sha256": "E9D70453ACF39621F370A993EDE79C9B3AF959BA95D49A383ED1CFA8E703B362",
+    "bytes": 342,
+    "path": "payload\\app\\src\\single-flight.ts"
+  },
+  {
+    "sha256": "7D56C68B0EB03F8D978306E72908B8FF0FB92531736BDDC9A13330266DB375EC",
+    "bytes": 2301,
+    "path": "payload\\app\\src\\speciesClass.ts"
+  },
+  {
+    "sha256": "2E6A824612758551B3102634B34460FFCFED84C8C19FF4777EACA2156A875C7B",
+    "bytes": 26447,
+    "path": "payload\\app\\src\\speech.ts"
+  },
+  {
+    "sha256": "3EA18AF0B6AEDAE8F6D4990C14DB59D19851EAC9C2375A6F0ED922C8882E08DD",
+    "bytes": 2173,
+    "path": "payload\\app\\src\\speed.ts"
+  },
+  {
+    "sha256": "A764DB19D8B974A18C8A13D384DDC3A273C6DBD56DE0ED2682E8457DE3E077A2",
+    "bytes": 5552,
+    "path": "payload\\app\\src\\summit-check.ts"
+  },
+  {
+    "sha256": "D48BA4B625C884B9592802ECF609655324AA3AE9173CDB755F16FB80B1806FFE",
+    "bytes": 8050,
+    "path": "payload\\app\\src\\summit-core.ts"
+  },
+  {
+    "sha256": "07BC1DB17CA94B755A0392FF5E84753BCD7161EC2031A733698851B946000206",
+    "bytes": 10281,
+    "path": "payload\\app\\src\\support-bundle.ts"
+  },
+  {
+    "sha256": "7F56BA6657FB5D9780C52E3245BD03D172C8C6CB0AED869431803D51268886FD",
+    "bytes": 1395,
+    "path": "payload\\app\\src\\terminal-contacts.ts"
+  },
+  {
+    "sha256": "341C68C7C053857A4E51ABFC75438F350CF1F7864F1F38E750BBC19497F7CBDD",
+    "bytes": 2065,
+    "path": "payload\\app\\src\\theme.ts"
+  },
+  {
+    "sha256": "524D22E7732EE5BB94E94036638CF1A38F66B28C839B0B6034C7320D010285AB",
+    "bytes": 1560,
+    "path": "payload\\app\\src\\transcript.ts"
+  },
+  {
+    "sha256": "450FA5CBAA9399E3B5907ED5D7BBB9DB267073144E2584C492C9833FB514E65B",
+    "bytes": 7206,
+    "path": "payload\\app\\src\\app\\ctx.ts"
+  },
+  {
+    "sha256": "DF500A0830253A23B34D5E1FA6DC2C4EC50D2DF2AF1AC6A0A3305BAAEA08134E",
+    "bytes": 10197,
+    "path": "payload\\app\\src\\app\\game-link.ts"
+  },
+  {
+    "sha256": "0B32B5385166FDA05D2A33C3DFA561EAA0288555B52EA2238A0F67051E67EAA4",
+    "bytes": 3407,
+    "path": "payload\\app\\src\\app\\log-router.ts"
+  },
+  {
+    "sha256": "C9014D7C809B39D02A5FC3A6F723B3EA3DD634CB6C4368A6C29FFAE0A0DD0D83",
+    "bytes": 15198,
+    "path": "payload\\app\\src\\app\\settings.ts"
+  },
+  {
+    "sha256": "763C80E5EBEB77C0F45803853D5BEF2877EDAE155C08A4FACDFCCB651840F57B",
+    "bytes": 2941,
+    "path": "payload\\app\\src\\features\\addons-app.ts"
+  },
+  {
+    "sha256": "894682B6215B354FA5FE1CEDF7B6C89BCFC900201B33B9EA791E3FBFB1E1E504",
+    "bytes": 6640,
+    "path": "payload\\app\\src\\features\\ai-settings.ts"
+  },
+  {
+    "sha256": "489F575A730D24E0DDFDE51684321E2301BDE188A339D768AA829162909628C6",
+    "bytes": 2146,
+    "path": "payload\\app\\src\\features\\banquet-app.ts"
+  },
+  {
+    "sha256": "C4D7A416B5D3B0C22FB3798F0B8A0403089EBA48543193C0148A3BC97127BD77",
+    "bytes": 16917,
+    "path": "payload\\app\\src\\features\\chat.ts"
+  },
+  {
+    "sha256": "82FA57AB21BEF7BF88C9B49D32F68A5DD69D6B5D453A4FDB698B1D3AB482267B",
+    "bytes": 3860,
+    "path": "payload\\app\\src\\features\\chronicle-app.ts"
+  },
+  {
+    "sha256": "4B799F0DAD21D27C658E582FB1023B56D055EED196952EB6685185180FA3F572",
+    "bytes": 22955,
+    "path": "payload\\app\\src\\features\\council.ts"
+  },
+  {
+    "sha256": "65ECC0B2635BDBE7823E10669E838C358E6D1483C815C78D1E7E9E1EDDFE04CE",
+    "bytes": 16922,
+    "path": "payload\\app\\src\\features\\dev-tools.ts"
+  },
+  {
+    "sha256": "372C5730708CF047710BC5795E1990AE3E38D3266AE7EA1941F4A6578C949D68",
+    "bytes": 9597,
+    "path": "payload\\app\\src\\features\\dinner-app.ts"
+  },
+  {
+    "sha256": "7AA8406CB110092F942A05292E2EFC882A60C8433D322AAF0560948A019DD5D9",
+    "bytes": 8193,
+    "path": "payload\\app\\src\\features\\environment.ts"
+  },
+  {
+    "sha256": "1AA338D1E4A2155FE2DC49C0906E413848B18DB59188E500F0C4B156212966F9",
+    "bytes": 4302,
+    "path": "payload\\app\\src\\features\\espionage-app.ts"
+  },
+  {
+    "sha256": "B00DEECB0DB4455EB36FF5AF68A1B4D9CD9A8B4261C3B01A4101B3EF996DB86A",
+    "bytes": 17862,
+    "path": "payload\\app\\src\\features\\faction-app.ts"
+  },
+  {
+    "sha256": "80EBBB9AE22EA12B32A3DE3B0209E8377944B78AAC61308BA1FE141335EC7B35",
+    "bytes": 1991,
+    "path": "payload\\app\\src\\features\\gamestate-app.ts"
+  },
+  {
+    "sha256": "7442D99C3BEEA7EB004ECD275BDF4E644186C89B77532CF72A4F6391116095FF",
+    "bytes": 7822,
+    "path": "payload\\app\\src\\features\\gov.ts"
+  },
+  {
+    "sha256": "474076FC4790F076E08E53E997C31815B903A5F32B317B255DF18A171969B85C",
+    "bytes": 8339,
+    "path": "payload\\app\\src\\features\\govreport.ts"
+  },
+  {
+    "sha256": "922A9513FCD3E586610C5B5693A458B62CC68F2A60630F2660EB12416063819A",
+    "bytes": 6254,
+    "path": "payload\\app\\src\\features\\images.ts"
+  },
+  {
+    "sha256": "1F9549B0A775B2668C8959DCC6196DF46595E8CFB0F6876961D902736B62594A",
+    "bytes": 13107,
+    "path": "payload\\app\\src\\features\\mail-app.ts"
+  },
+  {
+    "sha256": "D26D960141227DFC6C804BA0485961C2B24E9060A459825D18E3825F02933BE0",
+    "bytes": 9867,
+    "path": "payload\\app\\src\\features\\media.ts"
+  },
+  {
+    "sha256": "B01D0D4A8B5E97A7B36C1E5C35E7658BA5BCA4B36D5FC0C59E8F7A6B2306ADA3",
+    "bytes": 5410,
+    "path": "payload\\app\\src\\features\\mediation-app.ts"
+  },
+  {
+    "sha256": "06048B5E0B9F62A31925142A9B88388B8F91329E5D326E85086FF468FE75631C",
+    "bytes": 13633,
+    "path": "payload\\app\\src\\features\\radio-app.ts"
+  },
+  {
+    "sha256": "3458DF8FE16DA2240A51AAD34A5F3259FF4535804F9D4A7678764B19E1162A72",
+    "bytes": 3923,
+    "path": "payload\\app\\src\\features\\settings-ui.ts"
+  },
+  {
+    "sha256": "A745D3D07E0386B10531CB0A17F5B0E6BA6FFA33227893EC47F14E2BA9F092F8",
+    "bytes": 14739,
+    "path": "payload\\app\\src\\features\\speech-app.ts"
+  },
+  {
+    "sha256": "3B81900EA6D97060C2217F8C337C0E0D2C5D6A0840F4E4E0339AC6B9B975908C",
+    "bytes": 16333,
+    "path": "payload\\app\\src\\features\\summit.ts"
+  },
+  {
+    "sha256": "FF87E1BEAEBA16E795C4FEF845B3683AECA63EB14B3F1C368F2E41212378B882",
+    "bytes": 5792,
+    "path": "payload\\app\\src\\features\\support.ts"
+  },
+  {
+    "sha256": "949D02DF2EAC762D1D60A1601F52191E9FA43D258DA920AEE68698A069CC35C8",
+    "bytes": 4492,
+    "path": "payload\\app\\src\\features\\terminal.ts"
+  },
+  {
+    "sha256": "5A3B72ED53FA3884D2F37D12B2A3A6718A755EE16FBE26EC463851E42730CAD2",
+    "bytes": 35118,
+    "path": "payload\\app\\src\\features\\windows.ts"
+  },
+  {
+    "sha256": "54DBA6DF2BDA7B5AA60436EAA021E0AF30CE02BAA52D90AD1208C1534BD7448C",
+    "bytes": 136,
+    "path": "payload\\app\\tester-mod\\descriptor.mod"
+  },
+  {
+    "sha256": "25B74E44D6F48C238B1E6BCAEEF7DD12E9BC4748BD1B414B56091EA75E4FE9D8",
+    "bytes": 454419,
+    "path": "payload\\app\\tester-mod\\thumbnail.png"
+  },
+  {
+    "sha256": "9FECD3B31037A53A4382B9BDEB00D4B4C6CB3C9962E882AE7B283D5DE489BAB4",
+    "bytes": 4240,
+    "path": "payload\\app\\tester-mod\\common\\button_effects\\sllm_probe_buttons.txt"
+  },
+  {
+    "sha256": "3B5C35AA7F96713E45CD1C6AA8C54775CA64C18F067D8C5F97D622B09BE55613",
+    "bytes": 638,
+    "path": "payload\\app\\tester-mod\\common\\casus_belli\\sllm_probe_casus_belli.txt"
+  },
+  {
+    "sha256": "0CA0C6FC066CB6CC6EAC35498F9E8923548A50B8FB380F951758F408C6032211",
+    "bytes": 768,
+    "path": "payload\\app\\tester-mod\\common\\decisions\\sllm_probe_decisions.txt"
+  },
+  {
+    "sha256": "E89B6F329F220D5D8631A9218FA1343366AB0B6F2C412C7EE609501F845387F0",
+    "bytes": 740,
+    "path": "payload\\app\\tester-mod\\common\\edicts\\sllm_probe_speech_edict.txt"
+  },
+  {
+    "sha256": "68550C28A60BB78F92ED30049739A9DCDD796E675DD02B85CFC358C92450979E",
+    "bytes": 433,
+    "path": "payload\\app\\tester-mod\\common\\on_actions\\sllm_probe_galcom_on_actions.txt"
+  },
+  {
+    "sha256": "A7BDF118C15D67B06AB3ECA42AFA0A505071553E9B47BCC2E3017FA870C320F7",
+    "bytes": 688,
+    "path": "payload\\app\\tester-mod\\common\\on_actions\\sllm_probe_mail_on_actions.txt"
+  },
+  {
+    "sha256": "1E8D995BD3F94E95D2C675158B5CEA3FD3A29C99554C623D46A7FC88D7AD6B34",
+    "bytes": 211,
+    "path": "payload\\app\\tester-mod\\common\\on_actions\\sllm_probe_on_actions.txt"
+  },
+  {
+    "sha256": "10302442508F842E81C1DAE534C06BB66F3C47336BDC87A411BF4C5A457BAB74",
+    "bytes": 2895,
+    "path": "payload\\app\\tester-mod\\common\\on_actions\\sllm_probe_radio_on_actions.txt"
+  },
+  {
+    "sha256": "925BF6F76D123BB7669A2F377A18211B54B301A5E898AF0B3D51B5CEB8A6B896",
+    "bytes": 367,
+    "path": "payload\\app\\tester-mod\\common\\on_actions\\sllm_probe_state_on_actions.txt"
+  },
+  {
+    "sha256": "75CC95C57BB95570F2D7B06DF003AAB62A62DE8766CC59BF18D48BAC2FDA5345",
+    "bytes": 585,
+    "path": "payload\\app\\tester-mod\\common\\opinion_modifiers\\sllm_probe_opinion_modifiers.txt"
+  },
+  {
+    "sha256": "7C23078ABD26B22E833EE2B313FC611E7D83FCA130A63931CE9FFB8A527E03F1",
+    "bytes": 424,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_compat.txt"
+  },
+  {
+    "sha256": "B3CB5D6C3042F67C1D4BEF8A81DA2205E27AE31A5B57CFF86B6D7FA114E7E6A2",
+    "bytes": 310,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_connection.txt"
+  },
+  {
+    "sha256": "5B68196ED05DB22BBF35325A0D30AF39DC54A40D84379D848DD70B6B6C986AFC",
+    "bytes": 5377,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_dinner.txt"
+  },
+  {
+    "sha256": "7DA6AADA0E5B0036B3F5BBFB3A6548A473211DC756648E39DD8E6F9F5224E84F",
+    "bytes": 5244,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_diplo.txt"
+  },
+  {
+    "sha256": "00B2A1617B8B8ECEE0ECF7EF438ECAFD7410B249DECA8D296415E4FBDD7EB186",
+    "bytes": 23026,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_effects.txt"
+  },
+  {
+    "sha256": "4BDCC57D48A1E13D1EE038A49504758DE3C45D558F9760329EFBD8132AAE591C",
+    "bytes": 1393,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_faction.txt"
+  },
+  {
+    "sha256": "4B4FE09BAA0AE8CA65C288AADC94F6B16A2DF5BBE6BB76711394022F03A0201C",
+    "bytes": 23310,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_federation.txt"
+  },
+  {
+    "sha256": "0CF84E5F29ECF94E4276834DB4F260FBDC4FD0836F4A71C8AB2DE27EF3FC7252",
+    "bytes": 2171,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_force.txt"
+  },
+  {
+    "sha256": "FD454A251B76C176C31CE64BBE5FE2CF568B434D0C06FE8C25D27B21405063EA",
+    "bytes": 57096,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_keys.txt"
+  },
+  {
+    "sha256": "056A00F2C3036CE8B6F70547C6E4543D74195D962AB0A8880E011EDC71518D0E",
+    "bytes": 1169,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_members.txt"
+  },
+  {
+    "sha256": "C7F0964C9CE30E87CDF14CDC102029FB7440814E3345649726A339805005EBE6",
+    "bytes": 1156,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_pos.txt"
+  },
+  {
+    "sha256": "B8573E6C672832A750FF4A7FBFA2FF73330B4351971E8209831BD19F9A5AFA6F",
+    "bytes": 7555,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_profile.txt"
+  },
+  {
+    "sha256": "8B8F6293A6FFB06394A6C3453CAB87CE3C37671258EB13F4406164BE862D0D5C",
+    "bytes": 1040,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_resume.txt"
+  },
+  {
+    "sha256": "FE27DAD5583CE5FBE7BF843B4E95F8CE2704A8C813BD96A62689283F8BEAA105",
+    "bytes": 56967,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_galcom_voting_key.txt"
+  },
+  {
+    "sha256": "285844795A9F1E88F820A4D5AC8769BE376955C3F9DA71D21E95940C4647B2DB",
+    "bytes": 2833,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_mail.txt"
+  },
+  {
+    "sha256": "C691F38809DDCFF1A5C2976F134CBF2E52B025AB2E3369E8BC6A91D09D1A94EE",
+    "bytes": 666,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_pause.txt"
+  },
+  {
+    "sha256": "28AF70F1A7EC031333D3C570673B2BBE935DD367B92DD576E79256FD4F44A731",
+    "bytes": 8798,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_planets.txt"
+  },
+  {
+    "sha256": "66C395D9D767CD81DE6D36C723675C3148E0EAE4245C8D8D69F795F3C3905764",
+    "bytes": 344,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_radio.txt"
+  },
+  {
+    "sha256": "9B37D515C4B6761283703BE1FEB085CFF027FD09A6EDCC1DAE33B50520E912B9",
+    "bytes": 9701,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_scan.txt"
+  },
+  {
+    "sha256": "F4B57061B94D8862191370D6F12A1F6FFCDD46AC74352C37D5E3B3B96F5CBB05",
+    "bytes": 548,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_speech_entry.txt"
+  },
+  {
+    "sha256": "F63798DEE3615F26A97AB7064240B2C46E761EAA20BE7C96114A880BE575952C",
+    "bytes": 11255,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_speech.txt"
+  },
+  {
+    "sha256": "BD2786B796351B811BD9A63C4E60CAA4D1266BDB0DBB50BB0C2EB6763381CAEF",
+    "bytes": 2199,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_terminal.txt"
+  },
+  {
+    "sha256": "A28726942498BD0747EF2E2B61F9F73C9002310C7D8750722B52B3F34964F730",
+    "bytes": 797,
+    "path": "payload\\app\\tester-mod\\common\\scripted_effects\\sllm_probe_trust.txt"
+  },
+  {
+    "sha256": "6C0C6E3FE57F5DC60A324F9FB1671C7E32CA951FE9B8DE00782E0192970116F7",
+    "bytes": 3193,
+    "path": "payload\\app\\tester-mod\\common\\static_modifiers\\sllm_probe_faction_modifiers.txt"
+  },
+  {
+    "sha256": "2083D57FA37959974CE79A36504C364D9111964C0BFF7E251C1B6AA2AFD3E0D8",
+    "bytes": 2281,
+    "path": "payload\\app\\tester-mod\\common\\static_modifiers\\sllm_probe_speech_modifiers.txt"
+  },
+  {
+    "sha256": "1596C0A7772A30E5336BB66685D3BB09C991BFF8E04E14DA393BC3DAD67A35EE",
+    "bytes": 789,
+    "path": "payload\\app\\tester-mod\\common\\war_goals\\sllm_probe_war_goals.txt"
+  },
+  {
+    "sha256": "3835C84736B3F3DA3E1E2162B91FEAEE985557E054466CCEDC1C11F93F97A77A",
+    "bytes": 543,
+    "path": "payload\\app\\tester-mod\\events\\sllm_probe_dinner_events.txt"
+  },
+  {
+    "sha256": "660B094A77C5F84002C5DA0CE500941DDEF073ADF252602590E91B204AB9F894",
+    "bytes": 3624,
+    "path": "payload\\app\\tester-mod\\events\\sllm_probe_events.txt"
+  },
+  {
+    "sha256": "B54449CA0B806D61527A23C4D9DDA712E6A3D9E388BF56F409FDFCAFC2BBFC93",
+    "bytes": 2371,
+    "path": "payload\\app\\tester-mod\\events\\sllm_probe_galcom.txt"
+  },
+  {
+    "sha256": "AFECBD3A7F1BBDC95384DAE861AB232C1FF9EC78524A8D2CA618F943FFFAC47A",
+    "bytes": 4631,
+    "path": "payload\\app\\tester-mod\\events\\sllm_probe_mail.txt"
+  },
+  {
+    "sha256": "53147F9BCA63FE5E103326E33D258E7A5CE9305CD59DBF4A4F0C3C823CD60BEA",
+    "bytes": 6965,
+    "path": "payload\\app\\tester-mod\\events\\sllm_probe_radio_events.txt"
+  },
+  {
+    "sha256": "F16C257C0A7907B30422E3079E6A6CF647A30C61BAD4D66AA51C5D6CEC00687D",
+    "bytes": 2437,
+    "path": "payload\\app\\tester-mod\\events\\sllm_probe_state_events.txt"
+  },
+  {
+    "sha256": "4DAE486C825E13B23519DBFE567E10E667FD20CC53DE58FC0356655BA6FF9998",
+    "bytes": 22460,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc1.jpg"
+  },
+  {
+    "sha256": "10A8A9908E3F0EE9FAB7DACF1BC94115E95C9B95837C5E77E5D92616D5265FA6",
+    "bytes": 24788,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc19.jpg"
+  },
+  {
+    "sha256": "33CCE0259EDEF2E2D961DBBAC12FF4DA2BE2D04F47C0B2E7E4D2FE87EF781235",
+    "bytes": 22478,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc2.jpg"
+  },
+  {
+    "sha256": "3D67B7D2F8B78F7077A28DE6AC4150D448226A2A23EA2C97FDA862E99110845D",
+    "bytes": 26222,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc20.jpg"
+  },
+  {
+    "sha256": "69F13010FF790663B38E715007B1310624B31D7912F4C3AC5374DAAE08C8A1CC",
+    "bytes": 22297,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc21.jpg"
+  },
+  {
+    "sha256": "BE9334AE9E2D344644706D56C38316F69280BF6BC8C38D347C8B40C49558D6F6",
+    "bytes": 21362,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc3.jpg"
+  },
+  {
+    "sha256": "B9E5218545930D0A893D0415FB2E2F76F1C1B61529EA372DC7AFD910B1D7B096",
+    "bytes": 25153,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc4.jpg"
+  },
+  {
+    "sha256": "92E206611FBC618E90588E8F9E5D756071183C8396A097C58C3B56594094B223",
+    "bytes": 22534,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc5.jpg"
+  },
+  {
+    "sha256": "063AB78E746AEAB38E01DE34F27E6A1D1E52C8CFD23D3E5899680C5FD5187958",
+    "bytes": 22943,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc6.jpg"
+  },
+  {
+    "sha256": "1F76199303CDBA805D60B54D8DE9F33263EACB8A614DC69E761BA8FA77DDDA34",
+    "bytes": 22098,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_planetbg\\pc7.jpg"
+  },
+  {
+    "sha256": "F3D231D93CD51C8AF4C5123D4A85BB273F1EAF039A17E3B48C57D7FAC0D4AC72",
+    "bytes": 23298,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\aquatic.png"
+  },
+  {
+    "sha256": "97D46195AF32F947B39F937456358E776FC43F0AA62C17513E812D744DD627E8",
+    "bytes": 17857,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\arthropoid.png"
+  },
+  {
+    "sha256": "FE75E14DAEF16BEFFBF959A0F7DB65130DDFBC2F00C21D7FCCAE57971EF2A846",
+    "bytes": 21162,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\avian.png"
+  },
+  {
+    "sha256": "463CD4AB07BE6D1D20B86F55F22F0671AD9189DEC83B3140460607D8F6865210",
+    "bytes": 16931,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\cybernetic.png"
+  },
+  {
+    "sha256": "87B7A316FC1A5E511D82DD8781C7628DCA77B2832888D5EDA51DACBC887E3B44",
+    "bytes": 42725,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\fungoid.png"
+  },
+  {
+    "sha256": "8A2928098D42964373DE66DACCC4C06F3A6058232100B44B0C435F57D6360573",
+    "bytes": 23935,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\human.png"
+  },
+  {
+    "sha256": "A00FAE680E5EB92807C4D5445D5E070F02C7EFB0F4EFF00547AEACCF4CB9C88A",
+    "bytes": 42023,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\infernal.png"
+  },
+  {
+    "sha256": "036E3729075DFE6EEC7F0146BA2D5191218A1E1BE0CA49BFF382103AB93EACC5",
+    "bytes": 46610,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\lithoid.png"
+  },
+  {
+    "sha256": "1FE36DD91ED9A53C43291A0BF633D3BA6DDA58365D6C0AE6C32015097AF3EA06",
+    "bytes": 40035,
+    "path": "payload\\app\\tester-mod\\gfx\\sllm_portraits\\mammalian.png"
+  },
+  {
+    "sha256": "46AE8A996AF1CFC95FB89ABD788BF6BB08905E9D310DAC8DFDB60369A8A19AA8",
+    "bytes": 471,
+    "path": "payload\\app\\tester-mod\\interface\\sllm_probe_war_goals.gfx"
+  },
+  {
+    "sha256": "01015297BA906633AC5EDCD8F3AE2C5DF4134008C2BB170AD0ACCB8A746B4D57",
+    "bytes": 382,
+    "path": "payload\\app\\tester-mod\\localisation\\english\\sllm_dinner_l_english.yml"
+  },
+  {
+    "sha256": "A642060C69E3056C0D7474C08F79A908C0756A732255068F871AF521DAC8013D",
+    "bytes": 6075,
+    "path": "payload\\app\\tester-mod\\localisation\\english\\sllm_faction_l_english.yml"
+  },
+  {
+    "sha256": "286430393F9FF9A07E4BBDAC64679F2B30828DEC5080B067B6A994AFDA2310D3",
+    "bytes": 1902,
+    "path": "payload\\app\\tester-mod\\localisation\\english\\sllm_probe_l_english.yml"
+  },
+  {
+    "sha256": "6F16D595420FF10C81BAC4C9A2A1AC174599D235B534A062C35175677A9CE9DB",
+    "bytes": 1856,
+    "path": "payload\\app\\tester-mod\\localisation\\english\\sllm_probe_speech_l_english.yml"
+  },
+  {
+    "sha256": "C76D6AF27B5AEDBB166B4A95DDDB7FC4A5A505A72471B3FD4AB55A84BC1F42C8",
+    "bytes": 608,
+    "path": "payload\\app\\tester-mod\\localisation\\english\\sllm_speech_edict_l_english.yml"
+  },
+  {
+    "sha256": "86FDDE79468382EF12544567AB219EA68B73510AD0F2E889F55845922C8DB1DA",
+    "bytes": 413,
+    "path": "payload\\app\\tester-mod\\localisation\\korean\\sllm_dinner_l_korean.yml"
+  },
+  {
+    "sha256": "56FA88132C4FD4D13A16BBA492756C7C62504BDB2027C211560C810B4D59A8F3",
+    "bytes": 6934,
+    "path": "payload\\app\\tester-mod\\localisation\\korean\\sllm_faction_l_korean.yml"
+  },
+  {
+    "sha256": "A501B4D1C79243F77252EA218DD28CAA9A5D15D2005C7CCC769B22815830345E",
+    "bytes": 2089,
+    "path": "payload\\app\\tester-mod\\localisation\\korean\\sllm_probe_l_korean.yml"
+  },
+  {
+    "sha256": "F67DB84A6B39908C5E670B36EF292C3D9A3959FC6DAA3211330FCD50A0EFE958",
+    "bytes": 2642,
+    "path": "payload\\app\\tester-mod\\localisation\\korean\\sllm_probe_speech_l_korean.yml"
+  },
+  {
+    "sha256": "C6573C28FF92D34E07127C4B3F3883DA428CA34CA22ACF627FDD7F1205035668",
+    "bytes": 656,
+    "path": "payload\\app\\tester-mod\\localisation\\korean\\sllm_speech_edict_l_korean.yml"
+  },
+  {
+    "sha256": "256078C4F5BCA04FCD030FAACF4941A204767F6358E4A4A5270B63906324720E",
+    "bytes": 9136,
+    "path": "payload\\app\\ui\\banquet.html"
+  },
+  {
+    "sha256": "068922590B042E8EBCB47B51B1C27DFF4B86FB9AA7978268519B767153EEEB58",
+    "bytes": 822,
+    "path": "payload\\app\\ui\\compatibility-example.json"
+  },
+  {
+    "sha256": "CEBD3089FCDC4A4729D627FD81A27D77ED2BD049D259D94CB41D1CF46C2F95DD",
+    "bytes": 339,
+    "path": "payload\\app\\ui\\compatibility-gigastructures.json"
+  },
+  {
+    "sha256": "6C469FFAF95830ED38BA74D01C2B85950235A3BA72EAD3020F71421AAB52703F",
+    "bytes": 9748,
+    "path": "payload\\app\\ui\\compatibility-readme-ko.md"
+  },
+  {
+    "sha256": "FE848E22DC5DEE7D02E30C237A346DB8899AEEFE85CFE29BC95408897FC5AAD3",
+    "bytes": 49028,
+    "path": "payload\\app\\ui\\council.html"
+  },
+  {
+    "sha256": "2C03B2B72C19AAF75396AE8D98D9305037CA0861A8F2390AB8AABC4DBE579168",
+    "bytes": 4720,
+    "path": "payload\\app\\ui\\dinner-invite.html"
+  },
+  {
+    "sha256": "3446FF735084FEAF3A46463FDD2E4FCAC1A9151FF418A4553CAADB9F62E39CC5",
+    "bytes": 2420,
+    "path": "payload\\app\\ui\\environment-ui.js"
+  },
+  {
+    "sha256": "41679553AFB610A780D5BC1280C2C3EAF21F6448147E65E5AA9A70C0DF3A1AB9",
+    "bytes": 7833,
+    "path": "payload\\app\\ui\\espionage-scenes.css"
+  },
+  {
+    "sha256": "52097590C1EC3D7B2E39A86B6DD61FBB1E752560C9E4942A11DECE6E6C04AE18",
+    "bytes": 1773,
+    "path": "payload\\app\\ui\\espionage-scenes.js"
+  },
+  {
+    "sha256": "B127942EC880414F0758AF51123D1D0099480483B18900F2842C55F4D6744768",
+    "bytes": 9245,
+    "path": "payload\\app\\ui\\espionage.html"
+  },
+  {
+    "sha256": "F6912FF70389850E0A83192E3B75822F203F0CB1BAFA33B623D8556F8218769E",
+    "bytes": 4960,
+    "path": "payload\\app\\ui\\faction-room.css"
+  },
+  {
+    "sha256": "BE15BF3D86BCD08BCC021C3D11AB3F34C067F337C53DBB643E934C37358524BD",
+    "bytes": 24669,
+    "path": "payload\\app\\ui\\faction.html"
+  },
+  {
+    "sha256": "BFE13D9A7D2F97FB11636D613BE0A8DA8A14B8215EBA27432020CE17E4A52194",
+    "bytes": 35761,
+    "path": "payload\\app\\ui\\gov.html"
+  },
+  {
+    "sha256": "20327DCB8E86DB5609C4950D50A8308AB0348C4ECEA9E38985D2796233102BE2",
+    "bytes": 13695,
+    "path": "payload\\app\\ui\\govreport.html"
+  },
+  {
+    "sha256": "DE6AFCE2287BA1FA383242564B44ACDDD30CEAA7B6D042BD3F90C2975168B7D3",
+    "bytes": 61309,
+    "path": "payload\\app\\ui\\i18n-catalog.js"
+  },
+  {
+    "sha256": "0066D43C20FE34BE74424CDF6432C3393213384216C55A0E5575E0932A85B8C9",
+    "bytes": 3250,
+    "path": "payload\\app\\ui\\i18n-ui.js"
+  },
+  {
+    "sha256": "D7AF299CA980C913A65C7A5A02061436467C3632328CBC2100195A4FD0C031A7",
+    "bytes": 102050,
+    "path": "payload\\app\\ui\\index.html"
+  },
+  {
+    "sha256": "7C5178EEF1F3E2924846D8EA453C2AA998F45FF5771DFBEBADF93BA9F8654E19",
+    "bytes": 5239,
+    "path": "payload\\app\\ui\\launcher.html"
+  },
+  {
+    "sha256": "D098E5CA18359B00F80B12151C816C50FA63464C88343FEEAF4E01FAD9241CAE",
+    "bytes": 5043,
+    "path": "payload\\app\\ui\\mailbox-ui.js"
+  },
+  {
+    "sha256": "A2BD1A5C2FE1C08F7BF0964E0FDAD58ADB43EA7AC67BAF79CC375E474E6B154B",
+    "bytes": 1581,
+    "path": "payload\\app\\ui\\media-brands.js"
+  },
+  {
+    "sha256": "4CDD6D8A4FE654BD53563B80E5EDB2CC6E921BFAFB8D9310BE880E5F970C99F8",
+    "bytes": 4835,
+    "path": "payload\\app\\ui\\media-settings.js"
+  },
+  {
+    "sha256": "87BEC9D013C32FF66C536A47100064C3D103A88C8D752125F7CEC45E158430BD",
+    "bytes": 17048,
+    "path": "payload\\app\\ui\\mediation.html"
+  },
+  {
+    "sha256": "2E882AC3EE6A602E5681EAB0C354E92D067F5D24C405CAAAEDC21E67E15BA187",
+    "bytes": 13139,
+    "path": "payload\\app\\ui\\paper.html"
+  },
+  {
+    "sha256": "DE784956D608B1EE6AEA22F838095F5BD8D42BA289E202F356BEA6856C7A99D6",
+    "bytes": 1200,
+    "path": "payload\\app\\ui\\portrait-variants.js"
+  },
+  {
+    "sha256": "FBC0A8F5A2CA1410F9F3EEFA00C7F290620C74F992ACCB0D0BF48D38F0864B30",
+    "bytes": 3278,
+    "path": "payload\\app\\ui\\press-address.css"
+  },
+  {
+    "sha256": "DAF89FA297B6C1C28372E3A27614595E2E25BEB524304B493AFC780D0A2FE966",
+    "bytes": 14872,
+    "path": "payload\\app\\ui\\radio.html"
+  },
+  {
+    "sha256": "790FB81D7899D478932EA8D34EECB52A17051918781283F53B2BF49A7AF89594",
+    "bytes": 107,
+    "path": "payload\\app\\ui\\release-config.json"
+  },
+  {
+    "sha256": "1C56FD1A274A8E3F31860102FA071AE6AB55B4AD54480309D58D7896AFCEDB2B",
+    "bytes": 412,
+    "path": "payload\\app\\ui\\release-ui.js"
+  },
+  {
+    "sha256": "FE81E0EC7BAD6624383D9675DB1F7AEA546E2447C84BCFBA313D0A7A086DE468",
+    "bytes": 1529,
+    "path": "payload\\app\\ui\\response-language-ui.js"
+  },
+  {
+    "sha256": "12F83342F57E5274889F9E2F27571EF3420AB6EFFC59A3748FDF9F7A0F71578F",
+    "bytes": 6590,
+    "path": "payload\\app\\ui\\scene-slots.js"
+  },
+  {
+    "sha256": "4D849A5AB86D28743817D470AE137BC0444239CAAD1EE208390184D2B6C9D500",
+    "bytes": 14480,
+    "path": "payload\\app\\ui\\special-rooms.css"
+  },
+  {
+    "sha256": "FD401FC4FE932689EFC985C733C2252BD61376F6C5FD2BA02B677CF3DC061E27",
+    "bytes": 36438,
+    "path": "payload\\app\\ui\\speech.html"
+  },
+  {
+    "sha256": "F4EBA55FFC2D829DF3CD52A2BB7A8E17F2BBF8BDA820085C2A2EDFB240666CBC",
+    "bytes": 25212,
+    "path": "payload\\app\\ui\\summit.html"
+  },
+  {
+    "sha256": "EF2C694C004F73A662A2EA8901AA487DEE868094A8C83F7D11A42BF8F9654038",
+    "bytes": 2778,
+    "path": "payload\\app\\ui\\support-ui.js"
+  },
+  {
+    "sha256": "3D5049411C54A4CED8F20E4C52D9FB8F10D15A3406A12393CA9F1F3B0FEEB280",
+    "bytes": 1413,
+    "path": "payload\\app\\ui\\terminal-layout.css"
+  },
+  {
+    "sha256": "E2B99E1071DDBA62E80DFAED5D5A6AFC7DF0FA78E58EEBC3C9870A06BD4AB04B",
+    "bytes": 8261,
+    "path": "payload\\app\\ui\\terminal-ui.css"
+  },
+  {
+    "sha256": "0B144D94079D1FD8F8EE8DB301E002101218345300112FACEF5FCCAF41194CC0",
+    "bytes": 5213,
+    "path": "payload\\app\\ui\\terminal-ui.js"
+  },
+  {
+    "sha256": "E1992647B7381FB1A3712243468C07186FBBEE922E6A2EE74014FE6CD1BF232E",
+    "bytes": 12491,
+    "path": "payload\\app\\ui\\theme.js"
+  },
+  {
+    "sha256": "318F3A7B2E7D62E7E63A4238B81BDC7645C249739A89EDAA1567921B06466E67",
+    "bytes": 3212,
+    "path": "payload\\app\\ui\\toast.html"
+  },
+  {
+    "sha256": "5F9A2D0ECB987ED1F7BB0B92F6BD6A360D2FC6C96168D9A1DE1B83F61A043ED4",
+    "bytes": 6034,
+    "path": "payload\\app\\ui\\tray.png"
+  },
+  {
+    "sha256": "1E3EBE9EA1115E1124A0724D1E6F8AE6D2DDD381A6E0A3E6766A58386A24E25D",
+    "bytes": 884,
+    "path": "payload\\app\\ui\\window-chrome.css"
+  },
+  {
+    "sha256": "A0ADC6FEC858E92B6EA0822CBD7A7200F92AD340B015D82A4F0DB51EFBFB381F",
+    "bytes": 860,
+    "path": "payload\\app\\ui\\brands\\starcluster-paper.svg"
+  },
+  {
+    "sha256": "C1403FEC26CD5F2CE142B4AA2DFF4C848EF7988E4B3FA0FE1FABE4F75BD9D55B",
+    "bytes": 875,
+    "path": "payload\\app\\ui\\brands\\starcluster-radio.svg"
+  },
+  {
+    "sha256": "68152790DB15D6096AD48590012831BE8BC29F24CA6223EA35C688C41D9C8252",
+    "bytes": 549,
+    "path": "payload\\app\\ui\\brands\\stn-paper.svg"
+  },
+  {
+    "sha256": "11B3B8C0A481C15F5B2497E1AD86FE2E911029006D69E6E2EE6D1E4D3A18C6FF",
+    "bytes": 706,
+    "path": "payload\\app\\ui\\brands\\stn-radio.svg"
+  },
+  {
+    "sha256": "C1E8C5E2F4A70B37BB9417CD61499E2397856B64F4BB3C20BDF924277B857BA9",
+    "bytes": 557,
+    "path": "payload\\app\\ui\\brands\\void-paper.svg"
+  },
+  {
+    "sha256": "F5E8E620D5355E5C01DDE5F54F54CB80AE71201D85449D56CB9D086B31BA82B3",
+    "bytes": 579,
+    "path": "payload\\app\\ui\\brands\\void-radio.svg"
+  },
+  {
+    "sha256": "BC884C70265C4B901CD3E34494F2EFDB09734CDCE2C674582DA6D223F54D5ABB",
+    "bytes": 14688,
+    "path": "docs\\SECRETARY_ART_KO.md"
+  },
+  {
+    "sha256": "59D52E960F56B36CBB28B1CD408D172075A0AAD4BD2975407E8A10783926C0AC",
+    "bytes": 3129,
+    "path": "docs\\SECRETARY_PRESENTATION_RESULT_KO.md"
+  },
+  {
+    "sha256": "E550D745D79938A257EA6B958B3717AF4E9C95EDBC12D99F8CCCB03A7C13DC22",
+    "bytes": 22949,
+    "path": "docs\\SECRETARY_GENERATION_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "0CEEC9FC0AB7A1AC06A562BCD354CD14EE9193B1C19BB191F54BA4237ADD670B",
+    "bytes": 2061425,
+    "path": "payload\\app\\ui\\assets\\secretary\\bow.png"
+  },
+  {
+    "sha256": "B85B02B52B3CD032141EA7B3B92870EA2DD3B211D274C3F032A944362D7E0C93",
+    "bytes": 2127432,
+    "path": "payload\\app\\ui\\assets\\secretary\\worried.png"
+  },
+  {
+    "sha256": "A5A10E4FBA152F7C4FA5368426BEB6EF8D47307DF1727025383F255317B2E6C1",
+    "bytes": 2214400,
+    "path": "payload\\app\\ui\\assets\\secretary\\shy.png"
+  },
+  {
+    "sha256": "92E80D827B9F699A3C426C3F4A05CCEC63567067050AECA07B8EC27C248996A9",
+    "bytes": 2084652,
+    "path": "payload\\app\\ui\\assets\\secretary\\surprised.png"
+  },
+  {
+    "sha256": "09801360B19B1BD959E972D60F94AA7204A2E0304A3857C3FE532FA18794277F",
+    "bytes": 2075793,
+    "path": "payload\\app\\ui\\assets\\secretary\\laugh.png"
+  },
+  {
+    "sha256": "9CB7500C55A0F0979599BBDC0420784AA80AFE51EB29B9C8B44C8938EDBBF3C0",
+    "bytes": 2092478,
+    "path": "payload\\app\\ui\\assets\\secretary\\tender.png"
+  },
+  {
+    "sha256": "7CD9EF5B6E3C758419D840C974830C763E8DE6032F02E41950B4FDE4FB5F08DC",
+    "bytes": 2039949,
+    "path": "payload\\app\\ui\\assets\\secretary\\idle_casual.png"
+  },
+  {
+    "sha256": "DFBFCC4801564CDB0A2789AFCAD4DB3D0419D373ED47E599072B291E33F0EA64",
+    "bytes": 2082325,
+    "path": "payload\\app\\ui\\assets\\secretary\\smile_casual.png"
+  },
+  {
+    "sha256": "77C2CB184B2D751A8454F1C41301DAFD4BEADF8D3FDE117CDFAB858511F6F3E8",
+    "bytes": 2158360,
+    "path": "payload\\app\\ui\\assets\\secretary\\think_casual.png"
+  },
+  {
+    "sha256": "8223D1C0C9B6A9A5D01201D588B40083020593855BDA7D219AFAE381F6980A0D",
+    "bytes": 1828790,
+    "path": "payload\\app\\ui\\assets\\secretary\\idle_mourning.png"
+  },
+  {
+    "sha256": "61447D52A6EA04CCD1A179EF843AAE5C04E369EEFE790DFFC1C417698C5D6B89",
+    "bytes": 1870102,
+    "path": "payload\\app\\ui\\assets\\secretary\\sad_mourning.png"
+  },
+  {
+    "sha256": "F4414E9F82EFE053D0EE06435C0EB20939F6D708F96F26BFD04475F5A3B0AA53",
+    "bytes": 3208335,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\balcony.png"
+  },
+  {
+    "sha256": "5FC514800ED6CA46BFD4A96F27964FC91134968BE2D040001DEDB13DD2B505CB",
+    "bytes": 2732059,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\restaurant.png"
+  },
+  {
+    "sha256": "71E8F9FE8AFCDBAF2FB54F26693CC4513DE7D00EE46C1FA763E7CDA387A17BBF",
+    "bytes": 3102065,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\funeral_rain.png"
+  },
+  {
+    "sha256": "CC1FFA0996E037D0AB435C92AA564578870F7F5CF43ECDA6E5E100E385C28C61",
+    "bytes": 2650195,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\office_night.png"
+  },
+  {
+    "sha256": "0486402D57046A9BFAAB261C9C48637AE85D2CAD5F3DD34C0470BECA723862D2",
+    "bytes": 2752157,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\maint_bay.png"
+  },
+  {
+    "sha256": "5C9D50ABA854C17A5B8DAF58E7071B7AECDE60F481FF6DE8C97AF5203BB19920",
+    "bytes": 2667212,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\balcony.png"
+  },
+  {
+    "sha256": "2C8DD15A0B667CF6C6CB5DE9A9AB54D0ABF9DCFDC27CBE143337CE6826767E7B",
+    "bytes": 2581950,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\restaurant.png"
+  },
+  {
+    "sha256": "80F4B5FA9140F26E6CD4B1186FF171418B9CF21A275AF239354FCBDEA0160CBD",
+    "bytes": 2730985,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\mourning.png"
+  },
+  {
+    "sha256": "30E84632EC415023F20310CF102C9180DCEA7D41941B273BA6B5EFFC745775AF",
+    "bytes": 2614780,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\retire_tv.png"
+  },
+  {
+    "sha256": "18283B0C6394EE5EF515D54388F987BFE56361B90B3922F9C48DF5D65BDEF014",
+    "bytes": 2598002,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\farewell.png"
+  },
+  {
+    "sha256": "88EB706E8C9207B6D3AEFC21BAF6B058774A2546350CF41901059ED9D2851FC8",
+    "bytes": 2433347,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\war_night.png"
+  },
+  {
+    "sha256": "28D2F68AB7479D51D7203A8C4A4E08EAA7665624E887ADF98AA57850C29CAD57",
+    "bytes": 2641076,
+    "path": "payload\\app\\ui\\assets\\secretary\\cg\\maintenance.png"
+  },
+  {
+    "sha256": "05B72034AF086E6BC8612A6DE51CCB17EB1131B7F83A8D911DC24389DFA2F5A1",
+    "bytes": 13189,
+    "path": "docs\\OFFICE_ART_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "FD5AA2DBE34FA00BCB9D1E29B170E2149366C70A586C2826339ABEFE851A08B3",
+    "bytes": 1155,
+    "path": "docs\\OFFICE_CORPORATE_PROMPT_20261019.json"
+  },
+  {
+    "sha256": "320F7848276D76BB8ED4F89AE1AAE565E05BA94B5EC23CF272152AFCB6646C87",
+    "bytes": 2316805,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-materialist.png"
+  },
+  {
+    "sha256": "8D0B1D476F910D326C223E8BB2A296800F9CEC713B1A98440F0CB368A4E00887",
+    "bytes": 7467,
+    "path": "docs\\OFFICE_EMBLEM_ART_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "712BE0A74B635CD05FD9A3445D8D0E0633594EE29076424F0885D7A525C14B70",
+    "bytes": 9775,
+    "path": "payload\\app\\src\\flags.ts"
+  },
+  {
+    "sha256": "F4142B6D495F3CFF35CCEA4A5A7373C43549DA92F2C347A9721B2C32E639800F",
+    "bytes": 2517,
+    "path": "payload\\app\\src\\features\\office-style-app.ts"
+  },
+  {
+    "sha256": "44ED19FEFB7FD4603B8583C9F4DA27590BC384589326A3874D99264B3E29D980",
+    "bytes": 5223,
+    "path": "payload\\app\\ui\\office-style.js"
+  },
+  {
+    "sha256": "7CEF0AD29D13C8B3CD3A346794B7B5DD88D7DA400C7172C914ED9504894A88D9",
+    "bytes": 5023,
+    "path": "payload\\app\\ui\\office-art.css"
+  },
+  {
+    "sha256": "D205049F910D163F65CF978FC888034D9971081F6981C0B891D774C5AD5452DB",
+    "bytes": 12644,
+    "path": "payload\\app\\dist\\flags.js"
+  },
+  {
+    "sha256": "AEEE001BD864CACE23A510E938BA822BCF1FD931E6C75D19F8AC0E2559B5594A",
+    "bytes": 11426,
+    "path": "payload\\app\\dist\\flags.js.map"
+  },
+  {
+    "sha256": "02C42CFCC48C860F48FD07BFEE848DE53EB7A9205E9CD0D03E9EEC0925858A9E",
+    "bytes": 4299,
+    "path": "payload\\app\\dist\\features\\office-style-app.js"
+  },
+  {
+    "sha256": "62ABA468F773D9AEE62838D2A52F7CC42D2602084F270A8FCBA599D7E183846E",
+    "bytes": 3200,
+    "path": "payload\\app\\dist\\features\\office-style-app.js.map"
+  },
+  {
+    "sha256": "017F40D288BDE18179F19ABAFDC5F585472CB095AE61EAECD3C9C633738AFE99",
+    "bytes": 2086067,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-ai-v1.png"
+  },
+  {
+    "sha256": "8584C8F68BC1F0F38FC291A6026295019B58A3232E47E486CF3C35019F34C572",
+    "bytes": 2129449,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-authoritarian.png"
+  },
+  {
+    "sha256": "FDC6AA319662A6E8B1B3A53A9944A9ECEBB33DED16D750E0A620AC132EF1D4EF",
+    "bytes": 2181391,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-egalitarian.png"
+  },
+  {
+    "sha256": "9440162774FADBA39FBB2025BEEFA6A01DE641BC2BBDAEF38D075CC8C4A46AAC",
+    "bytes": 2293883,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-xenophile.png"
+  },
+  {
+    "sha256": "B7CECCA57E89D3D0C7FBCB43EB94665412BAC3259982CFB337A2B16AED441FF4",
+    "bytes": 1981261,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-xenophobe.png"
+  },
+  {
+    "sha256": "F22749F5D80BE8A3D98589E44A934BBBA3038B9F68397054C502E50C0F2267B6",
+    "bytes": 2241422,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-militarist.png"
+  },
+  {
+    "sha256": "E3E8902CDC2FBD1F83032F9C7E5670298E4AD5874037825F9FA5B6704CDF468E",
+    "bytes": 2297217,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-pacifist.png"
+  },
+  {
+    "sha256": "8A3C44EFF02264A2548C9FA4CF9489E62457ACBE3CD47C9FD3635D1658652958",
+    "bytes": 2365677,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-spiritualist.png"
+  },
+  {
+    "sha256": "A080715D0876F5770972CB2AC62838EC363DAB29C896DFAFA2BB3644063F539F",
+    "bytes": 2390846,
+    "path": "payload\\app\\ui\\assets\\rooms\\office-gestalt.png"
+  },
+  {
+    "sha256": "E341CE1CFA8814442E7448739C9720B596BFA008064971454634DCF407F0DB3E",
+    "bytes": 3511,
+    "path": "docs\\BALCONY_SIDE_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "FED3C245CDB53A33D3769F21C779648E1EAE16506B21C95DAD2F45F2C9BC7464",
+    "bytes": 2217623,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\balcony_side.png"
+  },
+  {
+    "sha256": "FB73807F463B5E8CA1EF4DBB46AFDE7668CA420D2129AACF03A9FD368658F860",
+    "bytes": 827389,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\balcony\\look.png"
+  },
+  {
+    "sha256": "3EC1E045E62DDCC7EB13C3E37C07271D4D667906D9B90B1CDA7A344B89641476",
+    "bytes": 827524,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\balcony\\neutral.png"
+  },
+  {
+    "sha256": "8D8361E867924E34EC7C63FC837986BA8E48EE8B1497717D0EADF3162595600B",
+    "bytes": 825356,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\balcony\\smile.png"
+  },
+  {
+    "sha256": "4BF76188CC4673F0BFC2D1C86B925AD23E41D5D8A7FC0ACBBE4F02747739D151",
+    "bytes": 834536,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\balcony\\worried.png"
+  },
+  {
+    "sha256": "78F1D7C58FAB4E01DBAC3223CD7897D4A90A1C27E4F07B9FA4ABF1C38B8510B9",
+    "bytes": 3392,
+    "path": "docs\\RESTAURANT_POV_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "8B28A3840E5489AE58E45D70B0E3DA6E9D0BC5C33B60B1A26BCFED9B8A59A1A6",
+    "bytes": 2126767,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\restaurant_pov.png"
+  },
+  {
+    "sha256": "1BB5CB8150425A09F7A32E8B1DE370C8071502583CFAB4C976E88DF0D25D9B29",
+    "bytes": 1265712,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\restaurant\\neutral.png"
+  },
+  {
+    "sha256": "62007C1F9E084FE219DB2ABAD3C209AA9A56D6BF6C41AA43DCA9658238307872",
+    "bytes": 1362496,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\restaurant\\smile.png"
+  },
+  {
+    "sha256": "FFE07C46FE104A6FE41E371CEC2C80313AD75423FCEB3D2B54F414BED353ED06",
+    "bytes": 1282762,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\restaurant\\worried.png"
+  },
+  {
+    "sha256": "0E09B95C2E6A962F003A662F17A2A58ECA308CB9D4EA323EF23EED5A364F2FAD",
+    "bytes": 680455,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\restaurant\\foreground.png"
+  },
+  {
+    "sha256": "A742D9A5560BBF603E74953F7A2DEC2F77BD415D022130EDACC005D99B99E51F",
+    "bytes": 2285,
+    "path": "docs\\MOURNING_POV_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "D6B48AD9C7F7EB6CCB8031303F7EC3420FB0DFAE3595F09737C3C79FACF40DFE",
+    "bytes": 2506572,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\mourning_pov.png"
+  },
+  {
+    "sha256": "51E9FEB6EACC12DBB859414B87AFECB36610077FB07987EE31D379B2AC8A095D",
+    "bytes": 789422,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\mourning\\neutral.png"
+  },
+  {
+    "sha256": "5B895B390017F34B59276B4AA3C96C7CAEF0608CBB7C96FC428973C9C37257CD",
+    "bytes": 767185,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\mourning\\sad.png"
+  },
+  {
+    "sha256": "2970F21EA12FB498DF2EE78FB5B95B69093364001D613AEA23DF5AD3EF88BCA9",
+    "bytes": 796355,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\mourning\\soft.png"
+  },
+  {
+    "path": "payload/app/src/secretary-events.ts",
+    "bytes": 37437,
+    "sha256": "5451006E2BDA64FAE2FD4D074620CF7914F53C24886F0AB1625167C145720F3B"
+  },
+  {
+    "path": "payload/app/src/features/secretary-app.ts",
+    "bytes": 42047,
+    "sha256": "34AC09B5B1C58B7302A8CB79F7F57BDCF515801E8138AD2934C888754B14C9E5"
+  },
+  {
+    "path": "payload/app/dist/secretary-events.js",
+    "bytes": 35966,
+    "sha256": "29345EFDA9852F4B556C4E80469E13CEAB9733A98D0C478934546309777E9554"
+  },
+  {
+    "path": "payload/app/dist/secretary-events.js.map",
+    "bytes": 24657,
+    "sha256": "29170B66E54D81BDA0939A656F3885719973C633684A6A4AC99AFC5AE4F74F89"
+  },
+  {
+    "path": "payload/app/dist/features/secretary-app.js",
+    "bytes": 49078,
+    "sha256": "477FCBECB7326B7808476FA8D20529DDD434D5801B08D4394FA0EFD0E223E9A8"
+  },
+  {
+    "path": "payload/app/dist/features/secretary-app.js.map",
+    "bytes": 53382,
+    "sha256": "A607B185EECD38A52406FB6D4B00FB8586E1D77A1CC05D2452807AA538E68749"
+  },
+  {
+    "sha256": "E9F364463D29B2428EF1AF158EBFE5E800DE3ECB20C8BDD8AD6786F0E7FD3892",
+    "bytes": 2167,
+    "path": "docs\\FAREWELL_POV_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "8AA5A3B8F2B0C684DC6F2AE32A5B6096F05977CE3F5A2F6E6DBFA9A91F26A915",
+    "bytes": 2195750,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\farewell_pov.png"
+  },
+  {
+    "sha256": "C36F5EEF0D737A03ABBDA67E0C025AF0AB3B06A1677255E661619EC2B2FC450A",
+    "bytes": 810149,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\farewell\\neutral.png"
+  },
+  {
+    "sha256": "1EFBFD275F82D7FDB899D8D41EC51281B8632AB9E4C4638ADF01527EF72B56F5",
+    "bytes": 839734,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\farewell\\sad.png"
+  },
+  {
+    "sha256": "EA5C7F9AA2C4DBF1723A665481E081053FB2DEB8E9B76A099F9F4940A78643CD",
+    "bytes": 853420,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\farewell\\soft.png"
+  },
+  {
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\farewell\\eye.png",
+    "bytes": 788425,
+    "sha256": "E8F335F8EC2F7F48D40CFAE08EB8444D1DFEB591E66DD34EBD3323EC68CB5923"
+  },
+  {
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\farewell\\grief.png",
+    "bytes": 785622,
+    "sha256": "C665DC14BD6652BC725BF3F0D0F38C0D97A40F623FC9E127621FB059484CE520"
+  },
+  {
+    "path": "docs\\SECRETARY_EXPRESSION_FIX_PROMPTS_20261019.json",
+    "bytes": 5512,
+    "sha256": "74AF08830628862F9FC8E0BEF23AE51B295B9EEB4997CA3D6249390C3589D9A3"
+  },
+  {
+    "sha256": "3177360A29B3E6307C649FC9730315BF9D4F242CAC2A8BE56924F3A77491F622",
+    "bytes": 3170,
+    "path": "docs\\WAR_NIGHT_POV_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "4D2B2D0D2557D9444712076437ED16FA608B89F0DB657B134E854F6B438B4B0C",
+    "bytes": 1999115,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\war_night_pov.png"
+  },
+  {
+    "sha256": "1A83F24E21B7B20EE0C67109CD2DA087858C22ECCC7748745634609CB8447082",
+    "bytes": 1077806,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\war_night\\neutral.png"
+  },
+  {
+    "sha256": "E64A8664143EFABCD2583BAF373CBCE37E13CB388E274C6E4FCB34D7B5A963F2",
+    "bytes": 1162644,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\war_night\\worried.png"
+  },
+  {
+    "sha256": "F120D0D1426C7863D51E5E921BFB79774050B58904783A3AF500C2855F9E979E",
+    "bytes": 1089939,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\war_night\\resolved.png"
+  },
+  {
+    "sha256": "C610F97BDB618E5752CE93120395927F9BB9D5192F102F0125E28B35B09B0B75",
+    "bytes": 2126977,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\war_night\\foreground.png"
+  },
+  {
+    "sha256": "F6DED2B77B71D19ED5C6283AB560918A6333B8F86273186506B4BB8A6D5EF0B9",
+    "bytes": 24590,
+    "path": "docs/GPT_SECRETARY_TODO_KO.md"
+  },
+  {
+    "sha256": "BD5C67BE57B0DF99D7C1B07CD56A067D8ADBCC380F06487A559D460DD0A8627C",
+    "bytes": 196699,
+    "path": "CURRENT_TASKS_KO.md"
+  },
+  {
+    "sha256": "4697816666F19CDC2E7C9FA79B68C319102536522EE0BE3D3FD32A4181B452D0",
+    "bytes": 1881,
+    "path": "docs\\MAINTENANCE_POV_PROMPTS_20261019.json"
+  },
+  {
+    "sha256": "03BABF1543DE4247C82328C8EEFE3B798574818E754B889902A818E1540A85EB",
+    "bytes": 42256,
+    "path": "installer/uninstall-files.nsh"
+  },
+  {
+    "sha256": "D79E0AC8033B2497460E915AF8B1AB124A08903530310B49CB81FEE37E6E983A",
+    "bytes": 49608,
+    "path": "payload/app/ui/office-secretary.js"
+  },
+  {
+    "sha256": "DB7AA0A4B281BC8B0CA37E4C0C865F6AA27D6990B2D8CBED15900EE7233732B4",
+    "bytes": 30175,
+    "path": "payload/app/ui/office-secretary.css"
+  },
+  {
+    "sha256": "20E183F097BC937C265357816A65F15CB83049E41B7578F8FA9946FC818CA768",
+    "bytes": 2243752,
+    "path": "payload\\app\\ui\\assets\\secretary\\bg\\maintenance_pov.png"
+  },
+  {
+    "sha256": "62D828B93990A261C37C1A2FBA3FEADF223B5E16E3EBEE5F2605865D39FA6559",
+    "bytes": 1290481,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\maintenance\\neutral.png"
+  },
+  {
+    "sha256": "C2D9CE9070E2AA4D85AFC7893108F9F8DBA3A18C69D9E5D66618B9F023DF47F5",
+    "bytes": 1204695,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\maintenance\\drowsy.png"
+  },
+  {
+    "sha256": "E2D9E88BC9EA6561824DFE66DAAD4D9C91C046E6B2D021C81B1C361254231520",
+    "bytes": 1284505,
+    "path": "payload\\app\\ui\\assets\\secretary\\scenes\\maintenance\\awake.png"
+  },
+  {
+    "sha256": "DE4C7686EA8D3202BA29693CFB1E24D0C612D67A3F8A47A00F83DAB48D17C264",
+    "bytes": 2092,
+    "path": "payload/app/src/secretary-knowledge.ts"
+  },
+  {
+    "sha256": "11496B535F79A88A8C8D324C963C81683F78199D4FB668366590EA5CF6D7FF23",
+    "bytes": 25367,
+    "path": "payload/app/src/secretary.ts"
+  },
+  {
+    "sha256": "40FB1BF77C7F91DD92D2188B65C83E6F1D20B700729C6B0D6F4C76AA093A7B2C",
+    "bytes": 2246,
+    "path": "payload/app/dist/secretary-knowledge.js"
+  },
+  {
+    "sha256": "821285CAF30600901636952089726189FF18C043F4A60E393FA4E1E4CEDFC777",
+    "bytes": 2380,
+    "path": "payload/app/dist/secretary-knowledge.js.map"
+  },
+  {
+    "sha256": "1E19631D2302D0E602F6FC434848AD182573BB3A56D49F754843AE02F761252D",
+    "bytes": 23019,
+    "path": "payload/app/dist/secretary.js"
+  },
+  {
+    "sha256": "9AE40C091020AE127E9CDDB66C75B07F3C3E9AFFEF0BFC28170519D0580C3EE1",
+    "bytes": 18895,
+    "path": "payload/app/dist/secretary.js.map"
+  },
+  {
+    "path": "payload/app/ui/assets/secretary/cg/retire_private_office.png",
+    "bytes": 2055566,
+    "sha256": "7E04C361BD4F9233D61136FC2B3BB1F84FCBFB93F90A4311CDF9EA96B03B658C"
+  },
+  {
+    "path": "docs/RETIRE_PRIVATE_OFFICE_ART_20261019.md",
+    "bytes": 447,
+    "sha256": "BC44A356D39791CCAB0DABAFDE99C1F9CC61783ED34664FD57735A267EBD4DA6"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-v1.png",
+    "bytes": 1962085,
+    "sha256": "D1AB69ED56747FC48EE458F3309F3D446BA9141A89717BBE3F75002A183BFB73"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-authoritarian.png",
+    "bytes": 2077059,
+    "sha256": "9BF61B75B8A1780951FDB1FF3C0A928D7767B79B003F897CD7E7258168E0FF88"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-egalitarian.png",
+    "bytes": 2114322,
+    "sha256": "338FA0D7ACBB9DA4516E78CC2A2276A1B7B8395BECAC9C6DD4961EB3D6F0B825"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-xenophile.png",
+    "bytes": 2394470,
+    "sha256": "5CE448B68C6509BACE334FD4984E841C76BE082764D85AE43F34B58DF090C5D2"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-xenophobe.png",
+    "bytes": 2017675,
+    "sha256": "34A73180B71FAAFCBFD5F50D7A51351D0C60E654000C453B897EE2A83F09023B"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-militarist.png",
+    "bytes": 1931804,
+    "sha256": "BAFD1FB90951D13A1C615DEC0994BC9061C8001AE4C7AD4D9256C617BBCB9552"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-pacifist.png",
+    "bytes": 2144598,
+    "sha256": "CB76FC7B94BB7618F1174A2DE2CC9C0B4846ADCF850E971475BB67A470F91F28"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-spiritualist.png",
+    "bytes": 2063126,
+    "sha256": "2DE5BB931F8A1BF4A8C22D15F8F292306EB9F7554389ED74D1436790F4DB260D"
+  },
+  {
+    "path": "payload/app/ui/assets/rooms/cabinet-room-materialist.png",
+    "bytes": 1877689,
+    "sha256": "97CF67463263330B6C96273DBE78D200D4E2EBE51D0D3B05E32238A67082BFC7"
+  },
+  {
+    "path": "payload/app/ui/assets/office/desk-cabinet-tablet.png",
+    "bytes": 1236471,
+    "sha256": "EF00859287AC28987D01503EFAD680704245B4AEA0D50DBF689123AD2191AA9E"
+  },
+  {
+    "path": "payload/app/ui/cabinet-room-art.css",
+    "bytes": 4797,
+    "sha256": "1F2C619EAB76FBE98D645B1D0AC2456C869B82EC906E3B0AB0F56B2D49528630"
+  },
+  {
+    "path": "payload/app/ui/cabinet-room-art.js",
+    "bytes": 1305,
+    "sha256": "2D3A38B84735697ACD22D4362BA9417D7246D6E0FB5F994E045BA2DCE939B604"
+  },
+  {
+    "path": "payload/app/ui/cabinet-room.html",
+    "bytes": 29584,
+    "sha256": "DE57D43D917FB31CF5EA637CD32AA40905EA2A7F6B89E46AA25D95DC218BF640"
+  },
+  {
+    "path": "payload/app/ui/office-cabinet.css",
+    "bytes": 4127,
+    "sha256": "58B049AAA2F9D05969FC516CA4C6A9CC600C38252DD6CE07EE37DADDE7B2E396"
+  }
+]

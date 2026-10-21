@@ -1,0 +1,19 @@
+# SLLM Probe - lists every Galactic Community member with its CURRENT diplomatic weight (EXPERIMENT ONLY).
+# The line carries a counter so repeated calls are not dropped as duplicates. Console: effect sllm_probe_gc_members = yes
+sllm_probe_gc_members = {
+	every_playable_country = { limit = { is_ai = no } sllm_probe_assign_idx = yes }
+	every_country = {
+		limit = { is_galactic_community_member = yes }
+		export_trigger_value_to_variable = {
+			trigger = diplomacy_weight
+			variable = sllm_gc_w
+		}
+		set_variable = { which = sllm_gc_ai value = 1 }
+		if = { limit = { is_ai = no } set_variable = { which = sllm_gc_ai value = 0 } }
+		set_variable = { which = sllm_gc_council value = 0 }
+		if = { limit = { is_part_of_galactic_council = yes } set_variable = { which = sllm_gc_council value = 1 } }
+		if = { limit = { NOT = { is_variable_set = sllm_gc_mn } } set_variable = { which = sllm_gc_mn value = 0 } }
+		change_variable = { which = sllm_gc_mn value = 1 }
+		log = "SLLM:GCMEMBER/;/date=\\[GetDate]/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/weight=\\[This.sllm_gc_w]/;/ai=\\[This.sllm_gc_ai]/;/council=\\[This.sllm_gc_council]/;/n=\\[This.sllm_gc_mn]"
+	}
+}

@@ -1,0 +1,16 @@
+# SLLM Probe - AI letters (EXPERIMENT ONLY). on_actions merge with vanilla.
+on_yearly_pulse_country = { events = { sllm_mail.1 } }
+on_war_beginning = { events = { sllm_mail.10 } }
+on_war_ended = { events = { sllm_mail.11 } }
+on_ruler_set = { events = { sllm_mail.12 } }
+on_join_federation = { events = { sllm_mail.13 } }
+on_leave_federation = { events = { sllm_mail.14 } }
+on_sign_commercial_pact = { events = { sllm_mail.15 } }
+on_sign_defensive_pact = { events = { sllm_mail.16 } }
+on_join_alliance = { events = { sllm_mail.17 } }
+on_leave_alliance = { events = { sllm_mail.18 } }
+on_country_destroyed = { events = { sllm_mail.19 } }
+on_becoming_subject = { events = { sllm_mail.20 } }
+# Status quo / white peace (root = actor, from = recipient, fromfrom = main attacker, fromfromfrom = main defender, fromfromfromfrom = war). 2026-10-18: on_war_ended also fires here, so the app needs to know it was not a defeat.
+on_status_quo = { events = { sllm_mail.21 } }
+on_status_quo_forced = { events = { sllm_mail.21 } }

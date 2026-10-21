@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>집무실</title>
+<style>
+ /* 집무실(2026-10-18): 나무 벽 집무실, 창 너머 별, 책상의 투사기가 띄운 홀로그램 바탕화면. 색은 테마(--hi 등)를 따른다 */
+ :root{--bg:#05090c;--panel:#0b1a22;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--bad:#e0705f;
+  --wood:#1c130c;--wood2:#22170e;--frame:#2c2014;
+  --glow:color-mix(in srgb,var(--hi) 55%,transparent);--glass:color-mix(in srgb,var(--hi) 7%,#020a10cc);
+  --line:color-mix(in srgb,var(--hi) 38%,transparent);--line2:color-mix(in srgb,var(--hi) 16%,transparent)}
+ body.crisis{--hi:#ff5a4a;--linec:#ff5a4a}
+ *{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.6 "Malgun Gothic","Apple SD Gothic Neo",sans-serif;overflow:hidden}
+ button{font:inherit;color:inherit;cursor:pointer}
+ :focus-visible{outline:2px solid var(--hi);outline-offset:2px}
+
+ /* 방 */
+ #room{position:fixed;inset:0;background:linear-gradient(90deg,var(--wood) 0 5%,transparent 5% 95%,var(--wood) 95%),repeating-linear-gradient(90deg,var(--wood2) 0 52px,var(--wood) 52px 104px)}
+ #sky{position:absolute;left:9%;right:9%;top:4%;height:40%;border:7px solid var(--frame);border-radius:3px;box-shadow:inset 0 0 50px #000d,0 0 0 2px #120c07;
+  background:radial-gradient(1px 1px at 9% 24%,#fffa,transparent),radial-gradient(1px 1px at 31% 12%,#fff8,transparent),radial-gradient(1.5px 1.5px at 47% 33%,#fff,transparent),radial-gradient(1px 1px at 66% 20%,#fff9,transparent),radial-gradient(1px 1px at 83% 58%,#fff8,transparent),radial-gradient(1px 1px at 22% 66%,#fff7,transparent),radial-gradient(1px 1px at 92% 14%,#fff8,transparent),radial-gradient(ellipse at 74% 125%,#3a5a8a55,transparent 60%),linear-gradient(#02060e,#06122a)}
+ #sky::before,#sky::after{content:"";position:absolute;background:var(--frame)} #sky::before{left:33.3%;top:0;bottom:0;width:6px} #sky::after{left:66.6%;top:0;bottom:0;width:6px}
+ #desk{position:absolute;left:-3%;right:-3%;bottom:0;height:17%;background:linear-gradient(#3a2818,#24180e 45%,#140d07);border-top:3px solid #4a3420;box-shadow:0 -12px 34px #000a}
+ #proj{position:absolute;left:50%;bottom:calc(17% - 9px);width:180px;height:20px;margin-left:-90px;border-radius:50%;background:radial-gradient(ellipse,color-mix(in srgb,var(--hi) 75%,#fff) 0,var(--glow) 42%,#0000 72%),#0c0c0c;box-shadow:0 0 34px var(--glow)}
+ #beam{position:absolute;left:50%;bottom:17%;width:min(1100px,84vw);height:calc(83% - 52px);transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(to top,color-mix(in srgb,var(--hi) 26%,transparent),transparent 70%);clip-path:polygon(46% 100%,54% 100%,100% 0,0 0);opacity:.35}
+
+ /* 윗줄(창 끌기·닫기) */
+ #bar{position:fixed;left:0;right:0;top:0;height:34px;z-index:5;-webkit-app-region:drag;display:flex;align-items:center;gap:12px;padding:0 12px;background:linear-gradient(#0009,#0000);color:#cdb79a;font-size:13px}
+ #bar b{font-weight:700;letter-spacing:.06em;color:#e2cfae} #bar .sp{flex:1}
+ #x{-webkit-app-region:no-drag;background:none;border:1px solid transparent;color:#b9a487;width:28px;height:24px;padding:0;border-radius:3px} #x:hover{border-color:#5a4630;color:#fff}
+
+ /* 홀로그램 화면 */
+ #holo{position:absolute;left:50%;top:7%;width:min(1040px,80vw);height:calc(83% - 7% - 46px);transform:translateX(-50%);
+  display:flex;flex-direction:column;background:var(--glass);border:1px solid var(--line);border-radius:6px;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--hi) 10%,transparent),0 0 46px color-mix(in srgb,var(--hi) 22%,transparent),inset 0 0 70px color-mix(in srgb,var(--hi) 10%,transparent);
+  -webkit-mask-image:linear-gradient(#000 88%,#0008);mask-image:linear-gradient(#000 88%,#0008);overflow:hidden}
+ #holo::before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(transparent 0 3px,color-mix(in srgb,var(--hi) 5%,transparent) 3px 4px);z-index:3}
+ #hh{display:flex;align-items:center;gap:14px;padding:12px 20px 10px;border-bottom:1px solid var(--line2)}
+ #emp{font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 10px color-mix(in srgb,var(--gold) 40%,transparent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #hh .sp{flex:1}
+ /* 집무실 컴퓨터 안에서 연 창: 본문 자리에 그 창이 붙고, 머리줄에 돌아가기와 이름이 뜬다 */
+ #run{display:none;align-items:center;gap:10px} body.docked #run{display:flex} body.docked #emp{display:none}
+ #runName{font-weight:700;color:var(--hi)}
+ body.docked #holo{bottom:calc(var(--emitter-bottom,17%) + 12px)!important;height:auto} /* 창을 붙였을 때는 투사기 바로 위까지 화면을 늘려 본문 자리를 넓힌다 */
+ body.docked #holo{background:linear-gradient(180deg,#06182466,#06252e40 75%,#13546630)!important;-webkit-mask-image:none!important;mask-image:none!important} /* 붙은 창이 반투명하므로 뒤 홀로그램도 유리처럼 비워 둔다 */
+
+ /* 책상 위 접힌 신문(2026-10-18): 누르면 종이 지면 신문이 큰 창으로 펼쳐진다. 배경 그림(cover, 아래 기준)의 책상 오른쪽 빈자리에 맞춰 화면비와 함께 움직인다 */
+ #deskPaper{position:fixed;z-index:3;left:calc(50% + .18 * max(100vw, 133.3vh));bottom:max(17vh, 12.75vw);width:calc(.085 * max(100vw, 133.3vh));aspect-ratio:1.3;padding:0;border:0;background:none;cursor:pointer;transform:translateX(-50%);-webkit-app-region:no-drag}
+ #deskPaper .np{position:absolute;inset:0;display:block;background:linear-gradient(#f1e8d2,#ddd0b0);border-radius:1px;transform:rotate(-7deg) skewX(-30deg) scaleY(.5);transform-origin:50% 100%;box-shadow:0 6px 10px #000b,0 0 0 1px #0003;transition:transform .25s,box-shadow .25s,filter .25s}
+ #deskPaper .np::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:#0003}
+ #deskPaper .mh{position:absolute;left:8%;right:8%;top:8%;height:12%;background:#2b2620}
+ #deskPaper .cols{position:absolute;left:8%;right:8%;top:27%;bottom:9%;background:repeating-linear-gradient(#5a5248 0 2px,transparent 2px 7px);opacity:.5}
+ #deskPaper:hover .np,#deskPaper:focus-visible .np{transform:rotate(-7deg) skewX(-26deg) scaleY(.62) translateY(-10%);box-shadow:0 14px 18px #000b,0 0 14px var(--hi);filter:brightness(1.08)}
+ #deskPaper .new{position:absolute;top:38%;right:-6%;font-size:11px;line-height:1.5;padding:0 7px;border-radius:9px;background:#c0392b;color:#fff;font-weight:700;white-space:nowrap;box-shadow:0 0 8px #c0392b88}
+ body.boot #deskPaper{visibility:hidden}
+ @media (prefers-reduced-motion:reduce){#deskPaper .np{transition:none}}
+ .readall{margin-left:auto;margin-right:10px;font-size:12px;padding:4px 10px;background:none;border:1px solid var(--line2);color:var(--text);border-radius:4px;cursor:pointer} .readall:disabled{opacity:.4;cursor:default}
+ #busy{display:none} body.docked #desktop,body.docked .app{visibility:hidden}
+ #date{font-family:"Cascadia Mono",Consolas,monospace;font-variant-numeric:tabular-nums;color:var(--hi);text-shadow:0 0 8px var(--glow)}
+ #state{display:flex;align-items:center;gap:7px;color:var(--dim);font-size:13px;white-space:nowrap}
+ #state i{width:8px;height:8px;border-radius:50%;background:var(--hi);box-shadow:0 0 8px var(--hi)}
+ body.crisis #state{color:#ffb3a8}
+
+ #body{flex:1;min-height:0;position:relative}
+ .view{position:absolute;inset:0;display:none}
+ .view.on{display:flex}
+
+ /* 바탕화면 */
+ #desktop{gap:0}
+ #icons{flex:1;min-width:0;padding:18px 22px;overflow:auto}
+ .grp{margin:0 0 18px}
+ .grp h2{margin:0 0 10px;font-size:13px;font-weight:400;color:var(--dim)}
+ .row{display:flex;flex-wrap:wrap;gap:6px 10px}
+ .ic{position:relative;width:104px;padding:12px 6px 8px;background:none;border:1px solid transparent;border-radius:6px;text-align:center;color:var(--text)}
+ .ic svg{width:44px;height:44px;display:block;margin:0 auto 7px;stroke:var(--hi);filter:drop-shadow(0 0 6px var(--glow))}
+ .ic span{display:block;font-size:13px;line-height:1.35}
+ body[data-gestalt=machine] .ic[data-open=press],body[data-gestalt=hive] .ic[data-open=press],body[data-gestalt=gestalt] .ic[data-open=press],body[data-gestalt=machine] #petCall,body[data-gestalt=hive] #petCall,body[data-gestalt=gestalt] #petCall{display:none!important} /* 단일 의식: 자유 언론·시민 청원 없음 */
+ .ic:hover{border-color:var(--line);background:color-mix(in srgb,var(--hi) 8%,transparent)}
+ .ic .n{position:absolute;top:6px;right:22px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--gold);color:#1a1206;font-size:11px;font-weight:700;line-height:18px;display:none}
+ .ic .n.show{display:block}
+ #feed{flex:none;width:300px;border-left:1px solid var(--line2);padding:18px 18px;overflow:auto}
+ #feed h2{margin:0 0 10px;font-size:13px;font-weight:400;color:var(--dim)}
+ #feed ol{list-style:none;margin:0;padding:0}
+ #feed li{padding:7px 0;border-bottom:1px solid var(--line2);font-size:13px;line-height:1.5}
+ #feed li b{display:block;font-weight:400;color:var(--hi);font-size:12px;font-variant-numeric:tabular-nums}
+ .empty{color:var(--dim);font-size:13px;line-height:1.7}
+
+ /* 집무실 안 앱(연락처·서신함·추모관) */
+ .app{flex-direction:column}
+ .apph{display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid var(--line2)}
+ .apph h3{margin:0;font-size:16px;font-weight:700;color:var(--hi)}
+ .back{background:none;border:1px solid var(--line);border-radius:4px;padding:3px 12px;color:var(--text);font-size:13px} .back:hover{background:color-mix(in srgb,var(--hi) 10%,transparent)}
+ .appb{flex:1;min-height:0;display:flex}
+ #tabs{display:flex;gap:4px;padding:10px 18px 0}
+ .tab{background:none;border:none;border-bottom:2px solid transparent;padding:4px 10px;color:var(--dim);font-size:13px}
+ .tab[aria-selected=true]{color:var(--text);border-bottom-color:var(--hi)}
+ #roster{flex:1;min-width:0;overflow:auto;padding:8px 10px 14px 18px}
+ .pp{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;padding:8px 10px;background:none;border:1px solid transparent;border-radius:5px;text-align:left;color:var(--text)}
+ .pp:hover{background:color-mix(in srgb,var(--hi) 7%,transparent)} .pp[aria-current=true]{border-color:var(--line);background:color-mix(in srgb,var(--hi) 11%,transparent)}
+ .mono{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);color:var(--hi);font-size:17px;font-weight:700;text-shadow:0 0 8px var(--glow);background:radial-gradient(circle,color-mix(in srgb,var(--hi) 14%,transparent),transparent 70%)}
+ .mono.ico{font-size:0} .mono.ico i{display:block;width:72%;height:72%;background:var(--hi);-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;filter:drop-shadow(0 0 4px var(--glow))} /* 게임 직업 아이콘을 테마 색으로 */
+ .pp .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .pp .rl{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .pp .tag{font-size:12px;color:var(--gold)}
+ #detail{flex:none;width:340px;border-left:1px solid var(--line2);padding:20px;overflow:auto}
+ #detail .mono{width:84px;height:84px;font-size:34px;margin:4px 0 14px}
+ #detail h4{margin:0;font-size:20px} #detail .rl{color:var(--dim);margin:2px 0 14px}
+ #detail dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 16px;font-size:13px} #detail dt{color:var(--dim)} #detail dd{margin:0}
+ .act{display:block;width:100%;margin:0 0 8px;padding:8px 12px;border-radius:4px;border:1px solid var(--hi);background:color-mix(in srgb,var(--hi) 16%,transparent);color:var(--text);font-weight:700}
+ .act:hover{background:color-mix(in srgb,var(--hi) 28%,transparent)}
+ .note{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2);color:var(--dim);font-size:12.5px;line-height:1.7}
+ .msg{padding:26px 22px;max-width:560px}
+ /* 인물과 1:1 통신(2026-10-18): 왼쪽 대화, 오른쪽 말투·기억 */
+ .apph .who{display:flex;align-items:center;gap:10px;min-width:0} .apph .who .mono{width:34px;height:34px;font-size:14px}
+ .apph .who b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .apph .who small{color:var(--dim);font-size:12px}
+ .trust{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);white-space:nowrap}
+ .trust .bar{position:relative;width:110px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--hi) 14%,transparent);overflow:hidden}
+ .trust .bar i{position:absolute;top:0;bottom:0;left:50%;background:var(--hi);box-shadow:0 0 6px var(--glow)} .trust .bar i.neg{background:var(--bad)}
+ .trust b{color:var(--text);font-weight:700} .trust .d{font-weight:700;opacity:0;transition:opacity .3s} .trust .d.show{opacity:1} .trust .d.up{color:#6fd6a8} .trust .d.down{color:var(--bad)}
+ #tbody{flex:1;min-height:0;display:flex}
+ #tcol{flex:1;min-width:0;display:flex;flex-direction:column}
+ #tlog{flex:1;min-height:0;overflow:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+ .ln{max-width:78%;padding:8px 12px;border-radius:8px;line-height:1.55;font-size:13.5px;white-space:pre-wrap}
+ .ln.them{align-self:flex-start;background:color-mix(in srgb,var(--hi) 10%,transparent);border:1px solid var(--line2)}
+ .ln.me{align-self:flex-end;background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent)}
+ .ln.sys{align-self:center;max-width:90%;color:var(--dim);font-size:12.5px;background:none;padding:2px 8px;text-align:center}
+ .ln.wait{color:var(--dim);font-style:italic}
+ #tin{display:flex;gap:8px;padding:10px 18px 14px;border-top:1px solid var(--line2)}
+ #tin textarea{flex:1;resize:none;height:44px;padding:8px 10px;border-radius:5px;border:1px solid var(--line);background:color-mix(in srgb,var(--hi) 5%,#0006);color:var(--text);font:inherit;font-size:13.5px}
+ #tin textarea:focus{outline:none;border-color:var(--hi)}
+ #tin button,.apph .end{border:1px solid var(--hi);background:color-mix(in srgb,var(--hi) 16%,transparent);color:var(--text);border-radius:4px;padding:0 14px;font-weight:700}
+ .apph .end{padding:4px 12px;font-size:13px}
+ #tin button:disabled,.apph .end:disabled{opacity:.45;cursor:default}
+ #tside{flex:none;width:300px;border-left:1px solid var(--line2);padding:14px 16px;overflow:auto;font-size:13px}
+ #tside h4{margin:0 0 6px;font-size:12.5px;font-weight:400;color:var(--dim)}
+ #tside .persona .traits{display:inline-block;margin-top:6px;font-size:11px;opacity:.75}
+ #tside .persona{margin:0 0 16px;line-height:1.6}
+ #tside ol{list-style:none;margin:0;padding:0} #tside li{padding:6px 0;border-bottom:1px solid var(--line2);line-height:1.5} #tside li b{display:block;font-weight:400;color:var(--hi);font-size:11.5px}
+ #detail .trust{margin:0 0 14px}
+ /* 추모관(2026-10-18): 명예의 전당(세상을 떠난 인물의 비석) · 떠난 사람들(해임·행방 불명) */
+ #mtabs{display:flex;gap:4px;margin-left:16px} #mtabs .tab{padding:4px 10px}
+ #mlist{flex:1;min-width:0;overflow:auto;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;align-content:start}
+ #mlist.rows{display:block}
+ .stone{position:relative;padding:18px 10px 14px;border:1px solid var(--line);border-radius:60px 60px 6px 6px;background:linear-gradient(180deg,color-mix(in srgb,var(--hi) 12%,transparent),color-mix(in srgb,var(--hi) 3%,transparent));color:var(--text);text-align:center}
+ .stone:hover{background:linear-gradient(180deg,color-mix(in srgb,var(--hi) 20%,transparent),color-mix(in srgb,var(--hi) 5%,transparent))} .stone[aria-current=true]{border-color:var(--hi);box-shadow:0 0 14px var(--glow)}
+ .stone.new::after{content:"";position:absolute;top:10px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px var(--gold)}
+ .stone .mono{margin:0 auto 8px} .stone b{display:block;font-size:14px;line-height:1.35} .stone small{display:block;color:var(--dim);font-size:11.5px;margin-top:3px} .stone .why{color:var(--gold);font-size:11.5px}
+ .gone{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line2)} .gone .nm{font-weight:700} .gone small{color:var(--dim);font-size:12px} .gone .why{font-size:12px;color:var(--dim)}
+ #mdetail{flex:none;width:360px;border-left:1px solid var(--line2);padding:22px;overflow:auto} #mdetail h4{margin:6px 0 2px;font-size:20px;text-align:center} #mdetail .rl{color:var(--dim);text-align:center;font-size:12.5px} #mdetail>.mono{width:84px;height:84px;font-size:34px;margin:0 auto}
+ .epi{margin:16px 0;padding:14px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;font-style:italic;line-height:1.7;color:var(--hi);text-shadow:0 0 8px var(--glow)}
+ .epi .ed{display:block;margin:8px auto 0;font-style:normal;font-size:12px} .epi input{width:100%;box-sizing:border-box;padding:6px 8px;border-radius:4px;border:1px solid var(--line);background:#0006;color:var(--text);font:inherit;font-size:13px}
+ #mdetail dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0 0 14px;font-size:13px} #mdetail dt{color:var(--dim)} #mdetail dd{margin:0}
+ #mdetail ol{list-style:none;margin:0;padding:0;font-size:12.5px} #mdetail li{padding:5px 0;border-bottom:1px solid var(--line2);line-height:1.5} #mdetail h5{margin:14px 0 4px;font-size:12.5px;font-weight:400;color:var(--dim)}
+ .env.final b::before{content:"✦ ";color:var(--gold)}
+ /* 개인 서신(2026-10-18): 왼쪽 봉투 목록, 오른쪽 편지 */
+ .freq{margin-left:auto;font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:6px}
+ .freq select{background:color-mix(in srgb,var(--hi) 6%,#0008);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:2px 6px;font:inherit;font-size:12.5px}
+ #llist{flex:none;width:340px;border-right:1px solid var(--line2);overflow:auto;padding:8px 10px}
+ .env{display:grid;grid-template-columns:10px minmax(0,1fr);gap:8px;width:100%;padding:9px 10px;margin:0 0 4px;background:none;border:1px solid transparent;border-radius:5px;text-align:left;color:var(--dim)}
+ .env:hover{background:color-mix(in srgb,var(--hi) 7%,transparent)} .env[aria-current=true]{border-color:var(--line);background:color-mix(in srgb,var(--hi) 11%,transparent)}
+ .env .dot{width:8px;height:8px;margin-top:6px;border-radius:50%} .env.new{color:var(--text)} .env.new .dot{background:var(--gold);box-shadow:0 0 6px var(--gold)}
+ .env b{display:block;font-weight:700;font-size:13.5px;line-height:1.45} .env small{font-size:12px} .env .fav{color:var(--gold)}
+ #lread{flex:1;min-width:0;overflow:auto;padding:22px 30px}
+ #lread .lh{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--line2)} #lread .lh .mono{width:46px;height:46px} #lread .lh b{display:block;font-size:16px} #lread .lh small{color:var(--dim)}
+ #lread .paper{white-space:pre-wrap;line-height:1.85;font-size:14.5px;max-width:640px}
+ .favbox{margin:20px 0 0;max-width:640px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);border-radius:6px;background:color-mix(in srgb,var(--gold) 7%,transparent);font-size:13px;line-height:1.6}
+ .favbox h5{margin:0 0 4px;font-size:13px;color:var(--gold)} .favbox .row2{display:flex;gap:8px;margin-top:10px} .favbox .act{width:auto;margin:0;padding:6px 14px}
+ .favbox .no{border-color:var(--line);background:none;font-weight:400}
+ .rbox{margin:20px 0 0;max-width:640px} .rbox textarea{width:100%;height:70px;resize:vertical;padding:8px 10px;border-radius:5px;border:1px solid var(--line);background:color-mix(in srgb,var(--hi) 5%,#0006);color:var(--text);font:inherit;font-size:13.5px;box-sizing:border-box}
+ .rbox .act{width:auto;margin-top:8px;padding:6px 16px} .rbox .ln{max-width:100%;margin-top:8px}
+ .msg p{margin:0 0 10px}
+
+ /* 켜질 때 한 번: 투사기 빛이 퍼지고 화면이 위에서 아래로 그려진다 */
+ body.boot #beam{animation:beam .7s ease-out both}
+ body.boot #holo{animation:draw .9s .25s cubic-bezier(.2,.7,.2,1) both}
+ @keyframes beam{from{opacity:0;clip-path:polygon(49.6% 100%,50.4% 100%,50.4% 100%,49.6% 100%)}to{opacity:.35}}
+ @keyframes draw{from{clip-path:inset(0 0 100% 0);filter:brightness(2.2)}to{clip-path:inset(0 0 0 0);filter:none}}
+ @media (prefers-reduced-motion:reduce){body.boot #beam,body.boot #holo{animation:none}}
+ @media (max-width:1000px){#feed{display:none}#detail{width:280px}}
+</style><script src="theme.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><script src="backstory-ui.js"></script><link rel="stylesheet" href="office-secretary.css"><link rel="stylesheet" href="office-art.css"><link rel="stylesheet" href="office-policy.css"><link rel="stylesheet" href="office-style.css"><link rel="stylesheet" href="office-petition.css"><link rel="stylesheet" href="office-embassy.css"><link rel="stylesheet" href="office-music.css"><link rel="stylesheet" href="office-mood.css"><link rel="stylesheet" href="office-cabinet.css"><link rel="stylesheet" href="office-national.css"><link rel="stylesheet" href="corridor-art.css"><link rel="stylesheet" href="private-rooms.css"></head>
+<body class="boot">
+<div id="room" aria-hidden="true"><div id="sky"></div><div id="beam"></div><div id="desk"></div><div id="proj"></div></div>
+<button id="deskPaper" type="button" title="신문 펼치기" aria-label="신문 펼치기"><span class="np"><i class="mh"></i><i class="cols"></i></span><b class="new" id="nPaperDesk" hidden>새 호</b></button>
+<div id="bar"><b>집무실</b><span class="sp"></span><button id="x" type="button" title="집무실 나가기 (Esc)" aria-label="집무실 나가기">✕</button></div>
+
+<main id="holo">
+ <header id="hh"><div id="emp" data-i18n-skip></div><div id="run"><button class="back" type="button" id="runBack">‹ 바탕화면</button><span id="runName"></span></div><span class="sp"></span><span id="date" data-i18n-skip></span><span id="state"><i></i><span id="stateTxt">평시</span></span></header>
+ <div id="body">
+
+  <div class="view" id="busy" aria-hidden="true">불러오는 중…</div>
+  <section class="view on" id="desktop" aria-label="바탕화면">
+   <div id="icons">
+    <div class="grp"><h2>제국 안의 사람들</h2><div class="row">
+     <button class="ic" type="button" data-app="contacts"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="6" width="30" height="36" rx="3"/><circle cx="24" cy="20" r="6"/><path d="M15 35c1.8-5 5-7 9-7s7.2 2 9 7"/><path d="M6 13h4M6 24h4M6 35h4"/></svg><span>연락처</span></button>
+     <button class="ic" type="button" data-app="letters"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="11" width="36" height="26" rx="2"/><path d="M6 13l18 13 18-13"/><path d="M33 30l6 6"/></svg><span>개인 서신</span><b class="n" id="nLetters"></b></button>
+     <button class="ic" type="button" data-app="memorial"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 42V20a10 10 0 0120 0v22"/><path d="M10 42h28"/><path d="M24 7v4M20 9h8"/><path d="M20 27h8M20 33h8"/></svg><span>추모관</span><b class="n" id="nMemorial"></b></button>
+    </div></div>
+    <div class="grp"><h2>국정</h2><div class="row">
+     <button class="ic" type="button" data-open="terminal"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 9h28a3 3 0 013 3v18a3 3 0 01-3 3H24l-9 7v-7h-5a3 3 0 01-3-3V12a3 3 0 013-3z"/><path d="M16 18h16M16 24h10"/></svg><span>외교 단말기</span><b class="n" id="nTerminal"></b></button>
+     <button class="ic" type="button" id="secCall"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="12" r="6"/><path d="M14 42l3-18c1-4 4-6 7-6s6 2 7 6l3 18"/><path d="M19 30h10M24 18v24"/><path d="M36 9l3-3M38 15h4"/></svg><span>비서 호출</span></button>
+     <button class="ic" type="button" data-app="policy"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6h16l8 8v28H14z"/><path d="M30 6v8h8M19 22h14M19 28h14M19 34h8"/><circle cx="34" cy="36" r="5"/></svg><span>정책</span><b class="n" id="nPolicy"></b></button>
+     <button class="ic" type="button" data-open="gov"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="M8 24h32M24 8c5 4.6 7.4 10 7.4 16S29 35.4 24 40c-5-4.6-7.4-10-7.4-16S19 12.6 24 8z"/></svg><span>행성 총독</span></button>
+     <button class="ic" type="button" data-open="fleet"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 29l18-20 18 20-18 10z"/><path d="M24 9v30M15 24h18"/></svg><span>함대 사령부</span></button>
+     <button class="ic" type="button" data-open="vassal"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 17l8 6 8-12 8 12 8-6-3.2 18H11.2z"/><path d="M11 41h26"/></svg><span>종속국 채널</span></button>
+     <button class="ic" type="button" data-open="press"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="6" width="12" height="20" rx="6"/><path d="M11 22a13 13 0 0026 0M24 35v7M17 42h14"/></svg><span>언론사 인터뷰</span></button>
+     <button class="ic" type="button" data-open="speech"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 42h20M18 42l2-14h8l2 14"/><path d="M12 28h24"/><path d="M8 14l8 4M40 14l-8 4M24 6v8"/></svg><span>연설</span></button>
+     <button class="ic" type="button" data-open="paper"><svg viewBox="0 0 48 48" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="9" width="34" height="30" rx="2"/><path d="M13 17h22M13 24h9M13 31h9M27 24h8v7h-8z"/></svg><span>은하 뉴스</span></button>
+    </div></div>
+   </div>
+   <aside id="feed" aria-label="최근 소식"><h2>우리 제국 최근 소식</h2><ol id="feedList" data-i18n-skip></ol><div class="empty" id="feedEmpty" hidden>아직 연대기에 기록된 일이 없습니다.</div></aside>
+  </section>
+
+  <section class="view app" id="policy" aria-label="정책"><div class="apph"><button class="back" type="button">‹ 바탕화면</button><h3>정책</h3></div><div class="appb" id="polRoot"></div></section>
+  <section class="view app" id="contacts" aria-label="연락처">
+   <div class="apph"><button class="back" type="button">‹ 바탕화면</button><h3>연락처</h3></div>
+   <div id="tabs" role="tablist"><button class="tab" role="tab" data-role="all" aria-selected="true">모두</button><button class="tab" role="tab" data-role="ruler" aria-selected="false">통치자</button><button class="tab" role="tab" data-role="governor" aria-selected="false">총독</button><button class="tab" role="tab" data-role="admiral" aria-selected="false">제독</button><button class="tab" role="tab" data-role="general" aria-selected="false">장군</button><button class="tab" role="tab" data-role="scientist" aria-selected="false">과학자</button></div>
+   <div class="appb"><div id="roster" data-i18n-skip></div><aside id="detail"></aside></div>
+  </section>
+
+  <section class="view app" id="talk" aria-label="통신">
+   <div class="apph"><button class="back" type="button" id="talkBack">‹ 연락처</button><div class="who" id="twho"></div><div class="trust" id="ttrust"></div><button class="end" type="button" id="tend">대화 마치기</button></div>
+   <div id="tbody"><div id="tcol"><div id="tlog" data-i18n-skip aria-live="polite"></div><div id="tin"><textarea id="ttext" maxlength="500" placeholder="할 말을 입력하세요 (Enter 보내기, Shift+Enter 줄바꿈)"></textarea><button type="button" id="tsend">보내기</button></div></div>
+   <aside id="tside"><h4>말투와 성격</h4><p class="persona" id="tpersona" data-i18n-skip></p><h4>기억하는 일</h4><ol id="tmems" data-i18n-skip></ol></aside></div>
+  </section>
+
+  <section class="view app" id="letters" aria-label="개인 서신">
+   <div class="apph"><button class="back" type="button">‹ 바탕화면</button><h3>개인 서신</h3><button type="button" class="readall" id="lreadAll" title="편지를 열지 않고 모두 읽음으로 표시합니다(본문은 나중에 열 때 씁니다)">모두 읽음 표시</button><label class="freq">편지 빈도 <select id="lfreq"><option value="off">받지 않음</option><option value="few">적게 (6개월에 1통)</option><option value="normal">보통 (6개월에 2통)</option></select></label></div>
+   <div class="appb"><div id="llist" data-i18n-skip></div><article id="lread"></article></div>
+  </section>
+
+  <section class="view app" id="memorial" aria-label="추모관">
+   <div class="apph"><button class="back" type="button">‹ 바탕화면</button><h3>추모관</h3><div id="mtabs" role="tablist"><button class="tab" role="tab" data-m="hall" aria-selected="true">명예의 전당</button><button class="tab" role="tab" data-m="gone" aria-selected="false">떠난 사람들</button></div></div>
+   <div class="appb"><div id="mlist"></div><aside id="mdetail"></aside></div>
+  </section>
+ </div>
+</main>
+
+<script>
+ const $ = (id) => document.getElementById(id);
+ // 언어 팩 호환: 화면 문구는 모두 한국어 원문을 열쇠로 번역표(SLLMCatalog)를 거친다(정적 문구는 i18n-ui 가 자동, 만든 문구는 T)
+ const T = (s) => (window.SLLMI18n ? window.SLLMI18n.t(s) : s);
+ const ROLE = { ruler: '통치자', governor: '총독', admiral: '제독', general: '장군', scientist: '과학자', commander: '지휘관', official: '관료' };
+ let st = null, role = 'all', pick = '';
+ setTimeout(() => document.body.classList.remove('boot'), 1400);
+
+ function show(id) { for (const v of document.querySelectorAll('.view')) v.classList.toggle('on', v.id === id); if (id === 'contacts') drawContacts(); if (id === 'letters') loadLetters(); if (id === 'memorial') loadMemorial(); const f = document.querySelector('#' + id + ' .back, #' + id + ' .ic'); if (f) f.focus(); }
+ document.querySelectorAll('.back').forEach((b) => (b.onclick = () => show('desktop')));
+ // (통신 화면의 돌아가기는 아래 talk 부분에서 따로 정한다)
+ document.querySelectorAll('[data-app]').forEach((b) => (b.onclick = () => show(b.dataset.app)));
+ document.querySelectorAll('[data-open]').forEach((b) => (b.onclick = () => window.sllm.officeOpen(b.dataset.open)));
+ $('x').onclick = () => window.sllm.officeClose();
+ document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (document.body.classList.contains('docked')) { window.sllm.officeBack(); return; } if ($('talk').classList.contains('on')) { endTalk(); return; } if (!$('desktop').classList.contains('on')) show('desktop'); else window.sllm.officeClose(); });
+ document.querySelectorAll('.tab').forEach((t) => (t.onclick = () => { role = t.dataset.role; document.querySelectorAll('.tab').forEach((x) => x.setAttribute('aria-selected', String(x === t))); drawContacts(); }));
+
+ const mk = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
+ const initial = (n) => (String(n || '?').trim()[0] || '?').toUpperCase();
+ // 인물 표식: 게임 직업 아이콘이 있으면 테마 색으로 칠한 아이콘, 없으면(통치자·게임 폴더 모름) 이름 첫 글자
+ const badge = (p) => { const key = p.role === 'scientist' && !p.fleet ? 'scholar' : p.role, url = st && st.icons && st.icons[key]; const m = mk('div', 'mono' + (url ? ' ico' : ''), url ? undefined : initial(p.name)); if (url) { const i = document.createElement('i'); i.style.setProperty('--m', 'url("' + url + '")'); m.append(i); m.title = T(ROLE[p.role] || ''); } return m; };
+ const isCmd = (p) => p.role === 'admiral' || p.role === 'general' || p.role === 'commander';
+
+ function draw(s) {
+  st = s;
+  document.body.dataset.gestalt = s.gestalt || ''; // 단일 의식 제국: 언론사 인터뷰·시민 청원 숨김(2026-10-19)
+  $('emp').textContent = s.empire || T('우리 제국');
+  $('date').textContent = s.date || '';
+  const cr = s.crisis && s.crisis.active;
+  document.body.classList.toggle('crisis', !!cr);
+  $('stateTxt').textContent = cr ? T('은하 위기') + ': ' + (window.SLLMI18n && window.SLLMI18n.language() === 'en' /* i18n-data: 위기 이름 자료는 한/영 두 가지 */ ? s.crisis.namesEn : s.crisis.names) : (s.running ? T('평시') : T('게임 대기 중'));
+  const nm2 = s.memorial || 0; $('nMemorial').textContent = nm2 > 9 ? '9+' : String(nm2); $('nMemorial').classList.toggle('show', nm2 > 0);
+  { const np = $('nPaperDesk'); if (np) { np.hidden = !s.paperNew; np.textContent = T('새 호'); } }
+  const n = s.letters || 0; $('nLetters').textContent = n > 9 ? '9+' : String(n); $('nLetters').classList.toggle('show', n > 0);
+  { const m = s.inbox || 0, e = $('nTerminal'); if (e) { e.textContent = m > 9 ? '9+' : String(m); e.classList.toggle('show', m > 0); } } // 외교 단말기의 안 읽은 외교 서신
+  const fl = $('feedList'); fl.textContent = '';
+  for (const f of s.feed || []) { const li = mk('li'); li.append(mk('b', '', f.date), document.createTextNode(f.text)); fl.append(li); }
+  $('feedEmpty').hidden = (s.feed || []).length > 0;
+  if ($('contacts').classList.contains('on')) drawContacts();
+  if ($('memorial').classList.contains('on') && mst && mst.unseen !== (s.memorial || 0)) loadMemorial();
+  if ($('letters').classList.contains('on') && !lbusy && (!lst || lst.unread !== (s.letters || 0))) loadLetters(); // 새 편지가 왔거나 다른 곳에서 읽음
+ }
+
+ function drawContacts() {
+  if (!st) return;
+  const box = $('roster'); box.textContent = '';
+  const list = (st.people || []).filter((p) => role === 'all' || p.role === role);
+  if (!st.planetsLoaded && (role === 'all' || role === 'governor')) { // 총독이 어느 행성을 맡았는지는 행성 목록에서 알 수 있다
+   const w = mk('div', 'empty'); w.style.padding = '8px 10px 12px';
+   w.append(mk('div', '', T('총독 명단은 게임에서 행성 목록을 받아 와야 보입니다.')));
+   const b = mk('button', 'back', T('총독 명단 불러오기')); b.style.marginTop = '8px'; b.onclick = async () => { b.disabled = true; b.textContent = T('불러오는 중…'); const r = await window.sllm.officePlanets().catch((e) => ({ ok: false, error: e.message })); if (!r.ok) { b.disabled = false; b.textContent = T('총독 명단 불러오기'); w.append(mk('div', '', r.error || '')); } };
+   w.append(b); box.append(w);
+  }
+  if (!st.rosterLoaded) { const w = mk('div', 'empty', T('제국의 지도자 명단은 게임에서 한 달이 지나면 들어옵니다. 그 전에는 총독과 함대 사령부가 아는 인물만 보입니다.')); w.style.padding = '4px 10px 10px'; box.append(w); }
+  if (!list.length) { box.append(mk('div', 'empty', T('이 분류에는 아직 인물이 없습니다.'))); }
+  for (const p of list) {
+   const b = mk('button', 'pp'); b.type = 'button'; b.setAttribute('aria-current', String(p.key === pick));
+   const mid = mk('div'); mid.append(mk('div', 'nm', p.name), mk('div', 'rl', T(ROLE[p.role]) + (p.place ? ' · ' + p.place : isCmd(p) && st.rosterLoaded ? ' · ' + T('함대 없음') : '')));
+   b.append(badge(p), mid, mk('div', 'tag', p.capital ? T('수도') : p.status === 'acclaimed' ? T('추앙') : p.status === 'reprimanded' ? T('질책') : p.council ? T('평의회') : p.lv ? 'Lv ' + p.lv : ''));
+   b.onclick = () => { pick = p.key; drawContacts(); };
+   box.append(b);
+  }
+  drawDetail(list.find((p) => p.key === pick) || null);
+ }
+
+ function drawDetail(p) {
+  const d = $('detail'); d.textContent = '';
+  if (!p) { d.append(mk('div', 'empty', T('왼쪽에서 인물을 고르면 자세한 정보와 할 수 있는 일이 보입니다.'))); return; }
+  const nm = mk('h4', '', p.name); nm.setAttribute('data-i18n-skip', '');
+  d.append(badge(p), nm, mk('div', 'rl', T(ROLE[p.role])));
+  const dl = mk('dl');
+  const row = (k, v, raw) => { if (!v && v !== 0) return; const dd = mk('dd', '', String(v)); if (raw) dd.setAttribute('data-i18n-skip', ''); dl.append(mk('dt', '', T(k)), dd); };
+  if (p.lv) row('기술 수준', p.lv);
+  if (p.council) row('직책', T('평의회 위원'));
+  if (p.role === 'governor') { row('맡은 행성', p.planet, true); if (p.capital) row('비고', T('수도 행성')); }
+  else if (isCmd(p)) { row('맡은 함대', p.fleet || (st.rosterLoaded ? T('없음 (대기 중)') : ''), !!p.fleet); if (p.battles !== undefined) { row('최근 전장', p.place && p.place !== p.fleet ? p.place : '', true); row('기억하는 전투', p.battles); row('청문회 평가', p.status === 'acclaimed' ? T('추앙') : p.status === 'reprimanded' ? T('질책') : T('없음')); } }
+  else if (p.fleet) row('맡은 함대', p.fleet, true);
+  if (p.traits && p.traits.length) row('특성', p.traits.join(' · '), true); // 이름은 게임 지역화(한국어/영어) 그대로
+  d.append(dl);
+  const tr = mk('div', 'trust'); d.append(tr);
+  const memBox = mk('div', 'note'); memBox.setAttribute('data-i18n-skip', '');
+  const a = mk('button', 'act');
+  if (p.role === 'governor' && p.planet) { a.textContent = T('통신 열기'); a.onclick = () => window.sllm.officeOpen('gov', p.planet); } // 총독은 행성 정보가 있는 총독 창으로
+  else { a.textContent = T('통신 열기'); a.onclick = () => openTalk(p); }
+  d.append(a);
+  { const b = mk('button', 'act'); b.textContent = T('📜 인물 전기'); b.style.background = 'none'; b.title = T('이 인물의 배경 이야기를 직접 적습니다. 대화·편지·보고에서 AI가 참고합니다.'); // 2026-10-18 모드 영웅 설정 등
+    b.onclick = () => window.SLLMBackstory && window.SLLMBackstory.open({ title: '인물 전기', name: p.name, intro: '이 인물의 출신·경력·성격을 적으면 AI가 이 인물을 연기할 때 사실로 참고합니다(이 세이브에서만). 저장하면 말투를 새로 정합니다.', load: () => window.sllm.backstoryPerson(p.key), save: (text) => window.sllm.backstoryPersonSet(p.key, text) });
+    d.append(b); }
+  if (p.battles !== undefined) { const f = mk('button', 'act'); f.textContent = T('함대 사령부에서 보기'); f.style.background = 'none'; f.onclick = () => window.sllm.officeOpen('fleet'); d.append(f); }
+  d.append(memBox);
+  window.sllm.personaInfo(p.key).then((v) => { if (!v || pick !== p.key) return; drawTrust(tr, v.trust, v.level); memBox.textContent = ''; if (v.mems.length) { memBox.append(mk('div', '', T('최근 기억') + ': ' + v.mems[0].text)); } else memBox.textContent = T('아직 따로 이야기를 나눈 적이 없습니다.'); }).catch(() => {});
+ }
+
+ // 집무실 컴퓨터 안에서 연 창: 본문 자리(#body)를 앱 본체에 알려 그 자리에 창을 붙인다
+ const APP_NAME = { terminal: '외교 단말기', gov: '행성 총독', fleet: '함대 사령부', vassal: '종속국 채널', press: '언론사 인터뷰', speech: '연설', paper: '은하 뉴스' };
+ const sendRect = () => { const r = $('body').getBoundingClientRect(); if (window.sllm.officeRect) window.sllm.officeRect({ x: r.left, y: r.top, w: r.width, h: r.height }); };
+ window.addEventListener('resize', sendRect); setTimeout(sendRect, 50); setTimeout(sendRect, 1500); // 켜지는 연출이 끝난 뒤 한 번 더
+ $('runBack').onclick = () => window.sllm.officeBack();
+ if (window.sllm.onOfficeDocked) window.sllm.onOfficeDocked((app) => { document.body.classList.toggle('docked', !!app); requestAnimationFrame(sendRect); $('runName').textContent = app ? T(APP_NAME[app] || '') : ''; if (!app) show('desktop'); });
+ // ---- 인물과 1:1 통신(2026-10-18): 열 때 인물이 먼저 인사(기억이 있으면 지난 이야기), 마치면 1~2줄 기억으로 남는다
+ let tkey = '', tbusy = false;
+ function drawTrust(box, t, lv) { box.textContent = ''; const bar = mk('span', 'bar'), i = document.createElement('i'); const w = Math.min(50, Math.abs(t) / 2); i.style.cssText = t >= 0 ? 'left:50%;width:' + w + '%' : 'left:' + (50 - w) + '%;width:' + w + '%'; if (t < 0) i.className = 'neg'; bar.append(i); const lb = mk('span'); lb.append(document.createTextNode(T('관계') + ' '), mk('b', '', T(lv)), document.createTextNode(' (' + (t > 0 ? '+' : '') + t + ')')); box.append(bar, lb, mk('span', 'd')); }
+ function flash(d) { const e = $('ttrust').querySelector('.d'); if (!e || !d) return; e.textContent = d > 0 ? '▲' + d : '▼' + (-d); e.className = 'd show ' + (d > 0 ? 'up' : 'down'); setTimeout(() => e.classList.remove('show'), 1800); }
+ const line = (who, text) => { const e = mk('div', 'ln ' + who, text); $('tlog').append(e); $('tlog').scrollTop = $('tlog').scrollHeight; return e; };
+ function drawMems(v) { $('tpersona').textContent = v.persona || T('아직 정해지지 않았습니다.'); if (v.traits && v.traits.length) { const tt = mk('span', 'traits', v.traits.join(' · ')); $('tpersona').append(document.createElement('br'), tt); } const ol = $('tmems'); ol.textContent = ''; if (!v.mems.length) { ol.append(mk('li', '', T('아직 없습니다. 대화를 마치면 이곳에 남습니다.'))); return; } for (const m of v.mems) { const li = mk('li'); li.append(mk('b', '', m.date || ''), document.createTextNode(m.text)); ol.append(li); } }
+ function lockTalk(v) { tbusy = v; $('tsend').disabled = v; $('tend').disabled = v; $('ttext').disabled = v; }
+ async function openTalk(p) {
+  if (tbusy) return; tkey = p.key; show('talk');
+  const who = $('twho'); who.textContent = ''; const nm = mk('b', '', p.name); nm.setAttribute('data-i18n-skip', ''); const box = mk('div'); box.append(nm, mk('small', '', ' ' + T(ROLE[p.role] || ''))); who.append(badge(p), box);
+  $('tlog').textContent = ''; $('ttrust').textContent = ''; $('tpersona').textContent = ''; $('tmems').textContent = '';
+  const w = line('sys', T('통신을 연결하는 중…')); lockTalk(true);
+  try {
+   const r = await window.sllm.personaOpen(p.key); w.remove();
+   if (!r.ok) { line('sys', r.error || T('통신을 열지 못했습니다.')); return; }
+   drawTrust($('ttrust'), r.trust, r.level); drawMems(r);
+   for (const l of r.lines) line(l.who, l.text);
+   if (r.error) line('sys', r.error);
+  } catch (e) { w.remove(); line('sys', e.message); }
+  finally { lockTalk(false); $('ttext').focus(); }
+ }
+ async function sendTalk() {
+  const t = $('ttext').value.trim(); if (!t || tbusy || !tkey) return;
+  $('ttext').value = ''; line('me', t); const w = line('them wait', '…'); lockTalk(true);
+  try { const r = await window.sllm.personaSay(tkey, t); w.remove(); if (!r.ok) { line('sys', r.error || ''); return; } line('them', r.reply); drawTrust($('ttrust'), r.trust, r.level); flash(r.delta); }
+  catch (e) { w.remove(); line('sys', e.message); }
+  finally { lockTalk(false); $('ttext').focus(); }
+ }
+ async function endTalk() {
+  if (!tkey) { show('contacts'); return; } if (tbusy) return;
+  const k = tkey; lockTalk(true); const w = line('sys', T('대화를 기억으로 정리하는 중…'));
+  try { const r = await window.sllm.personaEnd(k); w.remove(); if (r.memory) line('sys', T('기억에 남김') + ': ' + r.memory); else if (r.error) line('sys', r.error); if (r.mems) drawMems(r); }
+  catch (e) { w.remove(); }
+  finally { lockTalk(false); tkey = ''; setTimeout(() => { if (!tkey) show('contacts'); }, 1200); }
+ }
+ $('tsend').onclick = sendTalk; $('tend').onclick = endTalk; $('talkBack').onclick = endTalk;
+ $('ttext').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); sendTalk(); } });
+ // ---- 개인 서신(2026-10-18): 봉투는 앱이 만들고(AI 없음), 처음 열 때 본문을 한 번 쓴다. 부탁은 버튼, 직접 답장은 한 번.
+ let lst = null, lpick = 0, lbusy = false;
+ const FAVOR = { leave: '휴가 요청', colleague: '동료 추천', homeworld: '고향 행성 지원' };
+ async function loadLetters() { try { lst = await window.sllm.lettersList(); } catch { lst = null; } drawLetters(); }
+ function drawLetters() {
+  const box = $('llist'); box.textContent = ''; if (!lst) return;
+  $('lfreq').value = lst.freq;
+  $('lreadAll').disabled = !lst.unread;
+  if (!lst.letters.length) { const e = mk('div', 'empty', T('아직 받은 편지가 없습니다.') + ' ' + T('제국의 인물들이 승진하거나, 새 특성을 얻거나, 전투를 치르거나, 오래 연락이 없으면 그 일들을 모아 6개월마다 몇 통이 이곳으로 옵니다.')); e.style.padding = '10px'; box.append(e); $('lread').textContent = ''; return; }
+  for (const l of lst.letters) {
+   const b = mk('button', 'env' + (l.read ? '' : ' new') + (l.final ? ' final' : '')); b.type = 'button'; b.setAttribute('aria-current', String(l.id === lpick));
+   const t = mk('div'); t.append(mk('b', '', l.subject), mk('small', '', l.date + (l.favor ? ' · ' : '')));
+   if (l.favor) t.lastChild.append(mk('span', 'fav', T(l.favor.state === 'open' ? '부탁 있음' : '부탁')));
+   b.append(mk('i', 'dot'), t); b.onclick = () => openLetter(l.id); box.append(b);
+  }
+  const cur = lst.letters.find((l) => l.id === lpick); if (cur) drawRead(cur); else $('lread').textContent = '';
+ }
+ async function openLetter(id) {
+  if (lbusy) return; lpick = id; drawLetters();
+  const cur = lst.letters.find((l) => l.id === id); if (cur && cur.body) { if (!cur.read) { const r = await window.sllm.letterOpen(id).catch(() => null); if (r && r.letter) put(r.letter); } return; }
+  lbusy = true; const rd = $('lread'); rd.textContent = ''; rd.append(mk('div', 'empty', T('봉투를 여는 중…')));
+  try { const r = await window.sllm.letterOpen(id); if (r.letter) put(r.letter); else drawLetters(); if (!r.ok) rd.append(mk('div', 'note', r.error || '')); }
+  catch (e) { rd.textContent = ''; rd.append(mk('div', 'note', e.message)); }
+  finally { lbusy = false; }
+ }
+ function put(l) { const i = lst.letters.findIndex((x) => x.id === l.id); if (i >= 0) lst.letters[i] = l; lst.unread = lst.letters.filter((x) => !x.read).length; drawLetters(); }
+ function drawRead(l) {
+  const rd = $('lread'); rd.textContent = '';
+  const h = mk('div', 'lh'), who = mk('div'), nm = mk('b', '', l.name); nm.setAttribute('data-i18n-skip', '');
+  who.append(nm, mk('small', '', T(ROLE[l.role] || '') + ' · ' + l.date)); h.append(badge(l), who); rd.append(h);
+  if (!l.body) { const b = mk('button', 'act', T('편지 펼치기')); b.style.width = 'auto'; b.onclick = () => openLetter(l.id); rd.append(b); return; }
+  const pp = mk('div', 'paper', l.body); pp.setAttribute('data-i18n-skip', ''); rd.append(pp);
+  if (l.favor) {
+   const f = l.favor, fb = mk('div', 'favbox');
+   fb.append(mk('h5', '', T('부탁') + ': ' + T(FAVOR[f.kind] || '')));
+   fb.append(mk('div', '', T('들어주면: 신뢰 +6 · 특성 「지도자의 신임」(경험치 획득 +10%)') + (f.energy ? ' · ' + T('에너지') + ' −' + f.energy : '')), mk('div', '', T('거절하면: 신뢰 −3')));
+   if (f.state === 'open') { const r2 = mk('div', 'row2'), y = mk('button', 'act', T('들어주기')), n = mk('button', 'act no', T('거절하기')); y.onclick = () => favor(l.id, true, r2); n.onclick = () => favor(l.id, false, r2); r2.append(y, n); fb.append(r2); }
+   else fb.append(mk('div', 'note', f.state === 'granted' ? T('들어주었습니다.') : f.state === 'declined' ? T('거절했습니다.') : f.state === 'pending' ? T('게임에 적용하는 중…') : T('적용하지 못했습니다.')));
+   if (f.note) fb.append(mk('div', 'note', f.note));
+   rd.append(fb);
+  }
+  if (l.final === 'death' || l.final === 'fallen') { rd.append(mk('div', 'note', T('부관이 전해 온, 생전에 써 둔 편지입니다. 이름은 추모관에 남았습니다.'))); return; }
+  const rb = mk('div', 'rbox');
+  if (l.reply) { const a = mk('div', 'ln me', l.reply.me), b = mk('div', 'ln them', l.reply.them); a.setAttribute('data-i18n-skip', ''); b.setAttribute('data-i18n-skip', ''); rb.append(mk('h5', '', T('답장')), a, b); }
+  else { const ta = mk('textarea'); ta.maxLength = 800; ta.placeholder = T('직접 답장 쓰기 (한 번, 선택)'); const s = mk('button', 'act', T('답장 보내기')); s.onclick = () => reply(l.id, ta, s); rb.append(ta, s); }
+  rd.append(rb);
+ }
+ async function favor(id, yes, row) { row.querySelectorAll('button').forEach((b) => (b.disabled = true)); try { const r = await window.sllm.letterFavor(id, yes); if (r.letter) put(r.letter); else { row.append(mk('div', 'note', r.error || '')); row.querySelectorAll('button').forEach((b) => (b.disabled = false)); } } catch (e) { row.append(mk('div', 'note', e.message)); } }
+ async function reply(id, ta, btn) {
+  const t = ta.value.trim(); if (!t || lbusy) return; lbusy = true; btn.disabled = true; ta.disabled = true; btn.textContent = T('답을 기다리는 중…');
+  try { const r = await window.sllm.letterReply(id, t); if (r.letter) put(r.letter); else { btn.disabled = false; ta.disabled = false; btn.textContent = T('답장 보내기'); btn.after(mk('div', 'note', r.error || '')); } }
+  catch (e) { btn.disabled = false; ta.disabled = false; btn.textContent = T('답장 보내기'); }
+  finally { lbusy = false; }
+ }
+ // ---- 추모관(2026-10-18): 비석 자료는 앱이 모으고, 비문만 처음 볼 때 AI 한 번(직접 고쳐 새길 수 있음)
+ let mst = null, mtab = 'hall', mpick = '';
+ const DEED = { planet: '맡았던 행성', fleet: '지휘한 함대', battles: '기록된 전투', acclaimed: '청문회에서 추앙받음', council: '평의회 위원', letters: '받은 편지', talks: '나눈 대화' };
+ document.querySelectorAll('#mtabs .tab').forEach((t) => (t.onclick = () => { mtab = t.dataset.m; document.querySelectorAll('#mtabs .tab').forEach((x) => x.setAttribute('aria-selected', String(x === t))); drawMemorial(); }));
+ async function loadMemorial() { try { mst = await window.sllm.memorialList(); } catch { mst = null; } drawMemorial(); }
+ const span = (s) => (s.first ? s.first.slice(0, 7) : '?') + ' – ' + (s.gone || s.date || '').slice(0, 7);
+ function drawMemorial() {
+  const box = $('mlist'), d = $('mdetail'); box.textContent = ''; box.classList.toggle('rows', mtab === 'gone'); if (!mst) return;
+  if (mtab === 'gone') {
+   d.textContent = ''; d.append(mk('div', 'empty', T('해임되었거나 행방이 끊긴 인물입니다. 추모관(명예의 전당)에는 오르지 않습니다. 다시 돌아오면 이 목록에서 빠집니다.')));
+   if (!mst.departed.length) { box.append(mk('div', 'empty', T('아직 떠난 사람이 없습니다.'))); return; }
+   for (const g of mst.departed) { const r = mk('div', 'gone'), mid = mk('div'), nm = mk('div', 'nm', g.name); nm.setAttribute('data-i18n-skip', ''); mid.append(nm, mk('small', '', g.roleName + ' · ' + span(g))); r.append(badge(g), mid, mk('span', 'why', T(g.why === 'fired' ? '해임' : '행방 불명'))); box.append(r); }
+   return;
+  }
+  if (!mst.stones.length) { box.append(mk('div', 'empty', T('아직 이곳에 이름을 올린 인물이 없습니다.') + ' ' + T('세상을 떠난 인물은 비석과 함께 이곳에 이야기가 남습니다.'))); d.textContent = ''; return; }
+  for (const s of mst.stones) {
+   const b = mk('button', 'stone' + (s.seen ? '' : ' new')); b.type = 'button'; b.setAttribute('aria-current', String(s.key === mpick));
+   const nm = mk('b', '', s.name); nm.setAttribute('data-i18n-skip', '');
+   b.append(badge(s), nm, mk('small', '', s.roleName), mk('small', '', span(s)), mk('small', 'why', T(s.why === 'fallen' ? '전사' : '서거')));
+   b.onclick = () => openStone(s.key); box.append(b);
+  }
+  const cur = mst.stones.find((s) => s.key === mpick); if (cur) drawStone(cur); else { d.textContent = ''; d.append(mk('div', 'empty', T('비석을 고르면 그 사람의 이야기가 보입니다.'))); }
+ }
+ const putStone = (s) => { const i = mst.stones.findIndex((x) => x.key === s.key); if (i >= 0) mst.stones[i] = s; };
+ async function openStone(key) {
+  mpick = key; drawMemorial();
+  const s0 = mst.stones.find((x) => x.key === key); if (s0 && !s0.seen) { const r = await window.sllm.memorialSeen(key).catch(() => null); if (r) { putStone(r); drawMemorial(); } }
+  const s = mst.stones.find((x) => x.key === key); if (s && !s.epitaph) { const r = await window.sllm.memorialEpitaph(key).catch((e) => ({ ok: false, error: e.message })); if (r.stone) putStone(r.stone); if (mpick === key) { drawMemorial(); if (!r.ok && r.error) $('mdetail').append(mk('div', 'note', r.error)); } }
+ }
+ function drawStone(s) {
+  const d = $('mdetail'); d.textContent = '';
+  const nm = mk('h4', '', s.name); nm.setAttribute('data-i18n-skip', '');
+  d.append(badge(s), nm, mk('div', 'rl', s.roleName + ' · ' + span(s) + ' · ' + T(s.why === 'fallen' ? '전사' : '서거')));
+  const ep = mk('div', 'epi'); const et = mk('div', '', s.epitaph ? '“' + s.epitaph + '”' : T('비문을 새기는 중…')); et.setAttribute('data-i18n-skip', ''); ep.append(et);
+  const ed = mk('button', 'back ed', T('비문 직접 새기기')); ed.onclick = () => { ep.textContent = ''; const inp = mk('input'); inp.maxLength = 80; inp.value = s.epitaph || ''; const ok = mk('button', 'back ed', T('새기기')); ok.onclick = async () => { const r = await window.sllm.memorialSetEpitaph(s.key, inp.value).catch(() => null); if (r) { putStone(r); drawStone(r); } }; inp.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) ok.click(); }); ep.append(inp, ok); inp.focus(); };
+  ep.append(ed); d.append(ep);
+  const dl = mk('dl'); const row = (k, v, raw) => { const dd = mk('dd', '', String(v)); if (raw) dd.setAttribute('data-i18n-skip', ''); dl.append(mk('dt', '', T(k)), dd); };
+  if (s.lv) row('최고 기술 수준', s.lv);
+  for (const x of s.deeds) row(DEED[x.k] || x.k, x.k === 'acclaimed' || x.k === 'council' ? '✓' : x.v, x.k === 'planet' || x.k === 'fleet');
+  if (s.traitNames.length) row('특성', s.traitNames.join(' · '), true);
+  d.append(dl);
+  if (s.mems.length) { d.append(mk('h5', '', T('이 인물이 기억하던 일'))); const ol = mk('ol'); ol.setAttribute('data-i18n-skip', ''); for (const m of s.mems) ol.append(mk('li', '', m)); d.append(ol); }
+ }
+ $('lreadAll').onclick = async () => { if (!window.sllm.lettersReadAll) return; $('lreadAll').disabled = true; lst = await window.sllm.lettersReadAll().catch(() => lst); drawLetters(); }; // AI 없이 봉투만 읽음으로
+ $('lfreq').onchange = async () => { lst = await window.sllm.letterFreq($('lfreq').value).catch(() => lst); drawLetters(); };
+ if (window.sllm.onOfficeGo) window.sllm.onOfficeGo((v) => { if (v === 'letters' || v === 'memorial') show(v); });
+ $('deskPaper').onclick = () => { if (window.sllm.paperDesk) window.sllm.paperDesk(); }; // 책상 신문 → 종이 지면 큰 창 + 펼치는 효과
+ window.sllm.onOfficeState(draw);
+ window.sllm.officeState().then(draw).catch(() => {});
+ if (window.sllm.onCrisisState) window.sllm.onCrisisState((c) => { if (st) { st.crisis = c; draw(st); } });
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ if (window.sllm.launcherState) window.sllm.launcherState().then((t) => { if (t && t.theme) applyTheme(t.theme, t.custom); }, () => {});
+ document.addEventListener('sllm-language', () => { if (st) draw(st); });
+</script><script src="office-policy.js"></script><script src="office-secretary.js"></script><script src="office-style.js"></script><script src="office-petition.js"></script><script src="office-embassy.js"></script><script src="office-music.js"></script><script src="office-mood.js"></script><script src="office-cabinet.js"></script><script src="official-holidays.js"></script>
+<script src="office-national.js"></script><script src="corridor-art.js"></script><script src="private-rooms.js"></script></body></html>

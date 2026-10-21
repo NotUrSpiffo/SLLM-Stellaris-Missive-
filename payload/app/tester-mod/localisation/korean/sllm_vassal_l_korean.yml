@@ -1,0 +1,10 @@
+﻿l_korean:
+ sllm_vassal_grateful:0 "종주국에 대한 감사"
+ sllm_vassal_grateful_desc:0 "종주국이 우리의 청원을 들어주었습니다. 충성도가 매달 오릅니다."
+ sllm_vassal_resentful:0 "종주국에 대한 서운함"
+ sllm_vassal_resentful_desc:0 "종주국이 우리의 청원을 거절했습니다. 충성도가 매달 떨어집니다."
+ sllm_research_aid_given:0 "연구 지원 제공"
+ sllm_research_aid_given_desc:0 "다른 제국에 우리 과학자들을 보내 돕고 있습니다. 1년간 연구 속도가 줄어듭니다."
+ sllm_research_aid_received:0 "연구 지원 받음"
+ sllm_research_aid_received_desc:0 "다른 제국의 과학자들이 우리를 돕고 있습니다. 1년간 연구 속도가 늘어납니다."
+ sllm_overlord_defied:0 "요구를 거절함"

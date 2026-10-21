@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>성간 라디오</title>
+<style>
+ :root{--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--btnbg:linear-gradient(#10394a,#0b2a38);
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);
+  --body:color-mix(in srgb,var(--panel) 82%,#000);--deep:color-mix(in srgb,var(--bg) 70%,#000)}
+ *{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.55 "Malgun Gothic",sans-serif;overflow:hidden}
+ body{display:flex;flex-direction:column;border:1px solid var(--line)}
+ button{font:inherit;color:inherit}
+ .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+ /* 윗줄: ON AIR 램프, 이름, 닫기 */
+ #head{-webkit-app-region:drag;display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid var(--line);background:linear-gradient(var(--panel),var(--body))}
+ #head b{color:var(--hi);letter-spacing:.14em;font-size:13px}
+ #air{display:inline-flex;align-items:center;gap:6px;padding:1px 9px 1px 7px;border:1px solid #5b2a2a;border-radius:3px;background:#1a0b0b;color:#6b3a3a;font-size:10.5px;font-weight:700;letter-spacing:.16em}
+ #air i{width:9px;height:9px;border-radius:50%;background:#4a1d1d;box-shadow:inset 0 0 2px #000}
+ body.live #air{color:#ff7b7b;border-color:#a33;background:#2a0d0d;text-shadow:0 0 6px #f44}
+ body.live #air i{background:#ff4040;box-shadow:0 0 8px 2px #f33,inset 0 0 2px #fff6;animation:lamp 1.4s ease-in-out infinite}
+ @keyframes lamp{50%{opacity:.45}}
+ #now{-webkit-app-region:no-drag;background:var(--btnbg);border:1px solid var(--line);border-radius:3px;color:var(--hi);font-size:11px;padding:1px 9px;cursor:pointer} #now:hover:not(:disabled){border-color:var(--hi)} #now:disabled{opacity:.45;cursor:default} #now:focus-visible{outline:2px solid var(--hi)}
+ /* 음성으로 듣기(2026-10-17) */
+ #tts,#ttsEng{-webkit-app-region:no-drag;background:var(--btnbg);border:1px solid var(--line);border-radius:3px;color:var(--dim);font-size:11px;padding:1px 7px;cursor:pointer}
+ #tts[aria-pressed=true]{color:var(--hi);border-color:var(--hi);box-shadow:0 0 6px color-mix(in srgb,var(--hi) 40%,transparent)} #tts:focus-visible,#ttsEng:focus-visible{outline:2px solid var(--hi)}
+ #ttsEng{padding:1px 3px} #ttsEng option{background:var(--panel);color:var(--text)}
+ .l.say{background:color-mix(in srgb,var(--hi) 12%,transparent);border-radius:3px}
+ #head .sp{flex:1} #x{-webkit-app-region:no-drag;background:none;border:1px solid transparent;color:var(--dim);width:26px;height:22px;cursor:pointer;padding:0} #x:hover{border-color:var(--line);color:var(--text)}
+
+ /* 라디오 본체 */
+ #main{flex:1;min-height:0;display:flex}
+ #set{flex:none;width:372px;padding:9px 10px 6px;border-right:2px solid #000a;overflow:hidden;background:
+   repeating-linear-gradient(90deg,transparent 0 3px,#0003 3px 4px),
+   linear-gradient(var(--body),var(--deep));box-shadow:inset 0 -1px 0 var(--line2)}
+ #top{display:flex;gap:10px;align-items:stretch}
+
+ /* 스피커 그릴 + 방송사 상징 */
+ #spk{position:relative;flex:none;width:92px;height:84px;border-radius:6px;border:1px solid var(--line);overflow:hidden;
+   background:radial-gradient(circle,#000 0 1.1px,transparent 1.5px) 0 0/6px 6px,linear-gradient(#10161a,#070b0e);box-shadow:inset 0 0 12px #000,0 1px 0 var(--line2)}
+ #spk::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,transparent 45%,#0008)}
+ #stationBrand{position:absolute;left:50%;top:7px;transform:translateX(-50%);width:44px;height:44px;display:block;z-index:2;filter:drop-shadow(0 0 5px #000)}
+ #eq{position:absolute;left:8px;right:8px;bottom:6px;height:22px;display:flex;align-items:flex-end;gap:2px;z-index:2}
+ #eq i{flex:1;height:12%;background:var(--hi);opacity:.55;border-radius:1px 1px 0 0;transition:height .12s}
+ body.live #eq i{opacity:1;box-shadow:0 0 5px var(--hi);animation:eq var(--d,.7s) ease-in-out infinite alternate}
+ body.tune #eq i{opacity:.9;background:var(--gold);animation:eq .18s steps(2) infinite alternate}
+ @keyframes eq{0%{height:12%}100%{height:var(--h,80%)}}
+
+ /* 표시창(LCD) */
+ #lcd{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between;padding:6px 9px;border-radius:5px;border:1px solid #000;
+   background:linear-gradient(#071a1d,#04100f);box-shadow:inset 0 0 14px #000,0 1px 0 var(--line2);
+   font-family:Consolas,"Malgun Gothic",monospace;color:var(--hi);text-shadow:0 0 6px color-mix(in srgb,var(--hi) 55%,transparent);position:relative;overflow:hidden}
+ #lcd::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 2px,#0004 2px 3px);pointer-events:none}
+ #freq{display:flex;align-items:baseline;gap:6px;white-space:nowrap}
+ #freq b{font-size:23px;line-height:1;letter-spacing:.04em} #freq span{font-size:10.5px;opacity:.75}
+ #sname{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #sinfo{font-size:10.5px;color:var(--dim);text-shadow:none;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #cd,#qn{font-size:11px;white-space:nowrap}
+ #meta{display:flex;justify-content:space-between;gap:6px;border-top:1px solid #5fd4e422;padding-top:3px;margin-top:3px}
+
+ /* 주파수 다이얼 */
+ #dial{position:relative;margin-top:8px;height:50px;border-radius:5px;border:1px solid #000;overflow:hidden;
+   background:linear-gradient(#1b1710,#0d0b07);box-shadow:inset 0 0 10px #000,0 1px 0 var(--line2)}
+ #scale{position:absolute;left:10px;right:10px;top:5px;height:13px;
+   background:repeating-linear-gradient(90deg,#e8c872 0 1px,transparent 1px 8px) 0 100%/100% 6px no-repeat,
+              repeating-linear-gradient(90deg,#e8c872 0 1px,transparent 1px 40px) 0 100%/100% 12px no-repeat;opacity:.7}
+ #needle{position:absolute;top:3px;bottom:3px;width:2px;margin-left:-1px;background:#ff5a4a;box-shadow:0 0 7px 1px #f43;transition:left .55s cubic-bezier(.3,1.4,.5,1);z-index:3;left:10%}
+ body.tune #needle{animation:jit .14s steps(2) infinite}
+ @keyframes jit{50%{transform:translateX(2px)}}
+ #marks{position:absolute;left:10px;right:10px;bottom:3px;height:22px}
+ .st{position:absolute;bottom:0;transform:translateX(-50%);background:none;border:1px solid transparent;border-radius:3px;padding:1px 6px;cursor:pointer;color:#e8c872;font-size:10.5px;line-height:1.25;text-align:center;white-space:nowrap}
+ .st small{display:block;font-size:9px;opacity:.7;font-family:Consolas,monospace}
+ .st:hover:not(:disabled){border-color:#e8c87277}.st[aria-pressed=true]{color:#fff;text-shadow:0 0 6px #e8c872;border-color:#e8c87299}
+ .st:disabled{opacity:.5;cursor:default}.st:focus-visible{outline:2px solid var(--hi)}
+ #stationMsg{min-height:14px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;color:var(--gold)}
+
+ /* 대본 */
+ #logbox{flex:1;min-width:0;display:flex;flex-direction:column;background:var(--bg)}
+ #logh{display:flex;align-items:center;gap:8px;padding:4px 10px;color:var(--dim);font-size:10.5px;letter-spacing:.14em;border-bottom:1px solid var(--line2)}
+ #logh::before,#logh::after{content:"";flex:1;height:1px;background:var(--line2)} #logh::before{flex:0 0 12px}
+ #log{flex:1;min-height:0;overflow-y:auto;padding:9px 10px;background:var(--bg)}
+ .blk{margin:0 0 12px;padding:7px 9px 5px;border-left:3px solid var(--line);background:color-mix(in srgb,var(--panel) 55%,transparent);border-radius:0 4px 4px 0}
+ .dt{color:var(--dim);font-size:10.5px;letter-spacing:.06em;margin-bottom:5px}
+ .l{margin:0 0 5px;animation:in .45s ease both;animation-delay:calc(var(--i,0)*.35s)} @keyframes in{from{opacity:0;transform:translateY(3px)}}
+ .who{display:inline-block;font-size:10.5px;font-weight:700;margin-right:6px;padding:0 6px;border-radius:2px;border:1px solid currentColor}
+ .a .who{color:var(--hi)} .r .who{color:var(--gold)}
+ .sys{color:var(--dim);font-size:11.5px;margin:0 0 8px} .err{color:#e88;font-size:11.5px;margin:0 0 8px}
+ /* 은하 위기 특집(2026-10-17): 위기 동안 붉은 비상 테마 + 긴급 특별 방송 띠 */
+ #alert{display:none;align-items:center;gap:10px;padding:4px 10px;font-size:11.5px;font-weight:700;letter-spacing:.12em;color:#fff;
+   background:repeating-linear-gradient(-45deg,#7a0d0d 0 14px,#3a0606 14px 28px);background-size:40px 40px;border-bottom:1px solid #ff3b2f;text-shadow:0 0 6px #f00;animation:alertmove 1.2s linear infinite}
+ #alert b{padding:0 7px;border:1px solid #fff;border-radius:2px;background:#d11;animation:lamp 1s ease-in-out infinite} #alert span{font-weight:400;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ @keyframes alertmove{to{background-position:40px 0}}
+ body.crisis{--hi:#ff5a4a;--gold:#ffb347;--linec:#ff3b2f;--panel:#2a0b0b;--bg:#120505;--dim:#c99088;--btnbg:linear-gradient(#4a1010,#2a0808)}
+ body.crisis #alert{display:flex}
+ body.crisis #lcd{background:linear-gradient(#240707,#120303)} body.crisis #dial{background:linear-gradient(#231010,#0f0606)}
+ body.crisis #head b{color:#ff8a7a}
+ .blk.crisis{border-left-color:#ff3b2f;background:color-mix(in srgb,#ff3b2f 12%,transparent)} .blk.crisis .dt{color:#ff8a7a;font-weight:700}
+ /* 찬반 논평(2026-10-20 알파 10): 알림 줄과 대담 대본 */
+ #debBar{display:none;align-items:center;gap:8px;padding:6px 12px;border-bottom:1px solid var(--linec);background:color-mix(in srgb,var(--gold) 12%,transparent);font-size:12px}
+ #debBar.on{display:flex} #debBar b{color:var(--gold);white-space:nowrap} #debTxt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--dim)}
+ #debBar button{font:inherit;font-size:12px;padding:2px 10px;cursor:pointer} #debBar label{display:flex;align-items:center;gap:4px;color:var(--dim);white-space:nowrap;cursor:pointer}
+ .blk.debate{border-left-color:var(--gold)} .l.p .who{color:#7ed49a} .l.c .who{color:#f08a7a} .who small{font-weight:400;opacity:.8;margin-left:4px}
+ @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style><script src="theme.js"></script><script src="media-brands.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><script src="tts.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="special-rooms.css"></head><body data-room="radio">
+<div id="head"><b>성간 라디오</b><span id="air"><i></i>ON AIR</span><span class="sp"></span><button id="now" type="button" title="다음 방송을 기다리지 않고 지금 바로 듣기">▶ 지금 듣기</button><button id="tts" type="button" aria-pressed="false" title="방송을 음성으로 듣기">🔈</button><select id="ttsEng" title="읽어 줄 목소리"><option value="system">윈도우 음성</option><option value="ai">AI 음성(라디오 필터)</option><option value="p2">Player2 음성(라디오 필터)</option></select><button id="x" title="라디오 끄기">✕</button></div>
+<div id="debBar" role="status"><b>🎙 <span id="debHead"></span></b><span id="debTxt"></span><button id="debPlay" type="button"></button><label><input id="debAlarm" type="checkbox"> <span id="debAlarmL"></span></label></div>
+<div id="alert" role="alert"><b>⚠ 긴급 특별 방송</b><span id="alertTxt"></span></div>
+<div id="main">
+<div id="set">
+ <div id="top">
+  <div id="spk"><img id="stationBrand" src="brands/stn-radio.svg" alt="" width="44" height="44"><div id="eq" aria-hidden="true"></div></div>
+  <div id="lcd">
+   <div><div id="freq"><b id="mhz">91.3</b><span>MHz FM</span></div><div id="sname">—</div><div id="sinfo"></div></div>
+   <div id="meta"><span id="cd">다음 방송까지 —</span><span id="qn"></span></div>
+  </div>
+ </div>
+ <div id="dial" role="group" aria-label="방송사 선택">
+  <div id="scale"></div><div id="needle"></div><div id="marks"></div>
+ </div>
+ <div id="stationMsg" role="status" aria-live="polite"></div>
+</div>
+<div id="logbox"><div id="logh">대 본</div>
+<div id="log"><div class="sys" id="intro">라디오를 켠 뒤 쌓인 사건을 우선 방송합니다. 방송이 끝나면 2분 뒤 다음 소식을 전합니다. 아나운서 두 명 또는 아나운서와 기자가 4차례, 총 8개 발언을 주고받습니다. 실제 사건이 없으면 게임 사실과 무관한 가상 일상 소식을 전합니다.</div></div></div>
+</div>
+<script>
+ const $ = (i) => document.getElementById(i); let next = 0, working = false, liveT = 0, curStation = '', stations = [];
+ const FREQ = { stn: 91.3, starcluster: 95.7, void: 101.1 }, LO = 88, HI = 108;
+ const freqOf = (id, i) => FREQ[id] ?? (92 + i * 4);
+ const posOf = (f) => ((f - LO) / (HI - LO)) * 100;
+ const add = (cls, html) => { const d = document.createElement('div'); d.className = cls; d.innerHTML = html; const L = $('log'); L.appendChild(d); L.scrollTop = L.scrollHeight; while (L.children.length > 60) L.removeChild(L.children[1]); return d; };
+ const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+ // 2026-10-18 영어 화면 제보: 대본 칸(#log)은 자동 번역 대상이 아니라 진행자·방송사 이름이 한글로 남았다 → 고정 문구는 직접 번역(언어 팩 표도 함께 본다)
+ const T = (x) => (window.SLLMI18n ? window.SLLMI18n.t(x) : x);
+ const shortName = (nm) => { const t = T(nm); return t !== nm ? t.replace(/^Interstellar Broadcasting /, '').replace(/ Radio$/, '').replace(/ Public Broadcasting$/, '') : nm.replace(/^성간방송 /, '').replace(/ 라디오$/, '').replace(/ 공영방송$/, ''); };
+ // 이퀄라이저 막대
+ for (let i = 0; i < 14; i++) { const b = document.createElement('i'); b.style.setProperty('--h', (35 + Math.round(Math.random() * 60)) + '%'); b.style.setProperty('--d', (0.45 + Math.random() * 0.55).toFixed(2) + 's'); b.style.animationDelay = (-Math.random()).toFixed(2) + 's'; $('eq').appendChild(b); }
+ const setLive = (ms) => { document.body.classList.add('live'); clearTimeout(liveT); liveT = setTimeout(() => document.body.classList.remove('live'), ms); };
+ const setTune = (v) => document.body.classList.toggle('tune', !!v);
+ setInterval(() => { $('cd').textContent = working ? '방송 준비 중…' : next ? `다음 방송까지 ${Math.max(0, Math.ceil((next - Date.now()) / 1000))}초` : '다음 방송까지 —'; }, 500);
+ $('x').onclick = () => { SLLMTts.stop(); window.sllm.radioOff(); };
+ $('now').onclick = async () => { // A-15
+   if (working) return; $('now').disabled = true; lockMarks(true); $('stationMsg').textContent = '지금 방송을 준비합니다…';
+   try { const r = await window.sllm.radioNow(); if (r.state) drawState(r.state); if (!r.ok) $('stationMsg').textContent = r.error; }
+   catch { $('stationMsg').textContent = '지금 방송을 시작하지 못했습니다.'; }
+   finally { $('now').disabled = working; lockMarks(working); }
+ };
+ async function choose(id) {
+   if (working || id === curStation) return;
+   lockMarks(true);
+   try { const r = await window.sllm.radioSelect(id); drawState(r.state); $('stationMsg').textContent = r.ok ? '다음 방송부터 선택한 방송사로 전합니다.' : r.error; }
+   catch { $('stationMsg').textContent = '방송사를 변경하지 못했습니다. 다시 선택해 주세요.'; }
+   finally { lockMarks(working); }
+ }
+ function lockMarks(v) { for (const b of $('marks').children) b.disabled = !!v; }
+ function drawState(s) {
+   next = s.next; working = !!s.working; window.NAMES = s.names; stations = s.stations; curStation = s.station;
+   $('qn').textContent = `쌓인 소식 ${s.queued}건`;
+   const m = $('marks'); m.replaceChildren(...s.stations.map((st, i) => {
+     const b = document.createElement('button'); b.className = 'st'; b.type = 'button'; b.style.left = posOf(freqOf(st.id, i)) + '%';
+     b.setAttribute('aria-pressed', st.id === s.station ? 'true' : 'false'); b.setAttribute('aria-label', T(st.name) + ' ' + freqOf(st.id, i).toFixed(1) + TL(' 메가헤르츠', ' MHz'));
+     b.innerHTML = `${esc(shortName(st.name))}<small>${freqOf(st.id, i).toFixed(1)}</small>`;
+     b.onclick = () => choose(st.id); b.disabled = working; return b;
+   }));
+   const idx = Math.max(0, s.stations.findIndex((x) => x.id === s.station)), station = s.stations[idx], f = freqOf(s.station, idx);
+   $('needle').style.left = `calc(10px + (100% - 20px) * ${posOf(f) / 100})`;
+   $('mhz').textContent = f.toFixed(1);
+   $('sname').textContent = station ? station.name : '—';
+   $('sinfo').textContent = station ? TL(station.parent + ' 산하', T(station.parent) + ' affiliate') + ' · ' + T(station.outlook) : '';
+   MediaBrands.radio($('stationBrand'), s.station);
+   $('stationMsg').textContent = working ? '방송 준비 중에는 방송사를 변경할 수 없습니다.' : '';
+   setTune(working); $('now').disabled = working;
+ }
+ window.sllm.onRadioState(drawState);
+ const INTRO = $('intro').textContent; const drawIntro = () => { $('intro').textContent = T(INTRO); }; document.addEventListener('sllm-language', drawIntro); drawIntro();
+ window.sllm.onRadioQueue((n) => { $('qn').textContent = `쌓인 소식 ${n}건`; });
+ window.sllm.onRadioWorking((v) => { working = v; setTune(v); lockMarks(v); $('now').disabled = !!v; $('stationMsg').textContent = v ? '방송 준비 중에는 방송사를 변경할 수 없습니다.' : ''; });
+ window.sllm.onRadioIdle(() => add('sys', esc(T('게임이 실행 중이 아니라 방송을 쉽니다. 게임을 켜면 다시 방송합니다.'))));
+ window.sllm.onRadioError((e) => add('err', esc(TL('방송 오류: ', 'Broadcast error: ')) + esc(e)));
+ window.sllm.onRadioBroadcast((b) => {
+   void window.sllm.roomsRadioPublish(b).catch(() => {});
+   if (b.debate) return drawDebate(b);
+   const N = b.names || window.NAMES || { announcer: '아나운서', reporter: '기자' };
+   setLive(Math.max(6000, b.lines.length * 2800));
+   const blk = add('blk' + (b.crisis ? ' crisis' : ''), `<div class="dt">${b.crisis ? '⚠ ' + esc(TL('긴급 특별 방송', 'EMERGENCY BROADCAST')) + ' · ' : ''}${esc(b.date || '')} · ${esc(T(b.station || '성간 라디오'))} · ${esc(T(b.format === 'studio' ? '스튜디오 대담' : '기자 연결'))} · ${esc(T(b.fictional ? '가상 일상 소식 (창작)' : '게임 사건'))}</div>` + b.lines.map((l, i) => `<div class="l ${l.who === 'announcer' ? 'a' : 'r'}" style="--i:${i}"><span class="who">${esc(T(N[l.who] || (l.who === 'cohost' ? '아나운서 B' : '기자')))}</span>${esc(l.text)}</div>`).join(''));
+   if (ttsOn) speak(b.lines, blk);
+ });
+ // 음성으로 듣기(2026-10-17): 켜 두면 새 방송을 소리 내어 읽는다. 켬/끔·목소리 종류는 이 컴퓨터에만 기억한다.
+ const TL = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const mem = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* 저장 못 해도 동작 */ } } };
+ let ttsOn = mem.get('sllm.radio.tts') === '1';
+ { const e0 = mem.get('sllm.radio.ttsEngine'); $('ttsEng').value = e0 === 'ai' || e0 === 'p2' ? e0 : 'system'; }
+ const drawTts = () => { $('tts').setAttribute('aria-pressed', ttsOn ? 'true' : 'false'); $('tts').textContent = ttsOn ? '🔊' : '🔈'; $('tts').title = ttsOn ? TL('음성 끄기', 'Turn voice off') : TL('방송을 음성으로 듣기', 'Listen to broadcasts'); };
+ drawTts();
+ const markLine = (blk, i) => { if (!blk) return; blk.querySelectorAll('.l').forEach((d, j) => d.classList.toggle('say', j === i)); };
+ async function speak(lines, blk) {
+   SLLMTts.stop(); const done = () => markLine(blk, -1);
+   if ($('ttsEng').value === 'p2') {
+     const chk = await window.sllm.ttsP2Check().catch(() => ({ ok: false, ko: 'Player2 음성을 확인하지 못했습니다.', en: 'Could not check the Player2 voice.' }));
+     if (chk.ok) { const r = await SLLMTts.speakAi(lines, (t, who) => window.sllm.ttsP2Speak(t, who), (i) => markLine(blk, i), (who) => who); done(); if (r.ok) return; $('stationMsg').textContent = TL('Player2 음성 실패 — 윈도우 음성으로 읽습니다: ', 'Player2 voice failed — using Windows voice: ') + (r.error || ''); }
+     else $('stationMsg').textContent = TL(chk.ko, chk.en) + ' ' + TL('윈도우 음성으로 읽습니다.', 'Using the Windows voice instead.');
+   } else if ($('ttsEng').value === 'ai') {
+     const chk = await window.sllm.ttsAiCheck().catch(() => ({ ok: false, ko: 'AI 음성을 확인하지 못했습니다.', en: 'Could not check AI voice.' }));
+     if (chk.ok) { const r = await SLLMTts.speakAi(lines, (t, v) => window.sllm.ttsAiSpeak(t, v), (i) => markLine(blk, i)); done(); if (r.ok) return; $('stationMsg').textContent = TL('AI 음성 실패 — 윈도우 음성으로 읽습니다: ', 'AI voice failed — using Windows voice: ') + (r.error || ''); }
+     else $('stationMsg').textContent = TL(chk.ko, chk.en);
+   }
+   const r = await SLLMTts.speakSystem(lines, (i) => markLine(blk, i)); done();
+   if (!r.ok) $('stationMsg').textContent = r.reason === 'novoice' ? (r.lang === 'ko' ? TL('이 컴퓨터에 한국어 음성이 없습니다. 윈도우 설정 → 시간 및 언어 → 음성에서 한국어 음성을 추가하세요.', 'No Korean voice on this PC. Add one in Windows Settings → Time & language → Speech.') : TL('이 컴퓨터에 영어 음성이 없습니다.', 'No English voice on this PC.')) : TL('이 화면에서는 음성 기능을 쓸 수 없습니다.', 'Speech is not available here.');
+ }
+ $('tts').onclick = () => { ttsOn = !ttsOn; mem.set('sllm.radio.tts', ttsOn ? '1' : '0'); drawTts(); if (!ttsOn) { SLLMTts.stop(); document.querySelectorAll('.l.say').forEach((d) => d.classList.remove('say')); } else $('stationMsg').textContent = TL('다음 방송부터 소리 내어 읽습니다.', 'Broadcasts will be read aloud from the next one.'); };
+ $('ttsEng').onchange = () => { mem.set('sllm.radio.ttsEngine', $('ttsEng').value); SLLMTts.stop(); };
+ window.addEventListener('beforeunload', () => SLLMTts.stop());
+ // 찬반 논평(2026-10-20 알파 10): 사건이 나면 알림 줄이 뜨고, [듣기]를 누르면 진행자·찬성 의원·반대 의원이 세 번씩 주고받는 대담을 방송한다.
+ let debList = [], debAlarm = true;
+ function drawDebBar() {
+   const d = debList[0]; $('debBar').classList.toggle('on', !!d);
+   $('debHead').textContent = TL('찬성파와 반대파의 논평이 진행중입니다', 'For and against: a debate is on the air');
+   $('debTxt').textContent = d ? `${d.pro} ↔ ${d.con} — ${d.topic}` : '';
+   $('debPlay').textContent = TL('듣기', 'Listen'); $('debAlarmL').textContent = TL('알림', 'Alerts'); $('debAlarm').checked = debAlarm;
+   $('debAlarm').title = TL('찬반 논평이 생기면 화면에 알림 띄우기', 'Show an alert when a new debate airs');
+ }
+ const setDeb = (v) => { if (!v) return; debList = v.list || []; debAlarm = v.alarm !== false; drawDebBar(); };
+ $('debPlay').onclick = async () => {
+   const d = debList[0]; if (!d || working) return; $('debPlay').disabled = true; $('stationMsg').textContent = TL('찬반 논평을 준비합니다…', 'Preparing the debate…');
+   try { const r = await window.sllm.radioDebatePlay(d.id); if (r && !r.ok && r.error) $('stationMsg').textContent = r.error; else if (r && r.ok) $('stationMsg').textContent = ''; }
+   catch { $('stationMsg').textContent = TL('찬반 논평을 시작하지 못했습니다.', 'Could not start the debate.'); }
+   finally { $('debPlay').disabled = false; }
+ };
+ $('debAlarm').onchange = () => { window.sllm.radioDebateAlarm($('debAlarm').checked).then((r) => { debAlarm = r.alarm; }).catch(() => {}); };
+ function drawDebate(b) {
+   const N = b.names || {}, F = b.factions || {};
+   setLive(Math.max(6000, b.lines.length * 3200));
+   const tag = (w) => w === 'pro' ? `${esc(N.pro || '')}<small>${esc(F.pro || '')} · ${esc(TL('찬성', 'For'))}</small>` : w === 'con' ? `${esc(N.con || '')}<small>${esc(F.con || '')} · ${esc(TL('반대', 'Against'))}</small>` : esc(T(N.announcer || '아나운서'));
+   const blk = add('blk debate', `<div class="dt">🎙 ${esc(TL('찬반 논평', 'For and against'))} · ${esc(b.date || '')} · ${esc(T(b.station || '성간 라디오'))}</div><div class="sys">${esc(b.topic || '')}</div>` + b.lines.map((l, i) => `<div class="l ${l.who === 'announcer' ? 'a' : l.who === 'pro' ? 'p' : 'c'}" style="--i:${i}"><span class="who">${tag(l.who)}</span>${esc(l.text)}</div>`).join(''));
+   const V = b.voice || { pro: 'reporter', con: 'cohost' };
+   if (ttsOn) speak(b.lines.map((l) => ({ who: l.who === 'announcer' ? 'announcer' : V[l.who], text: l.text })), blk); // 의원 목소리는 성별에 맞춰 기자·공동 진행자 목소리를 빌린다
+ }
+ if (window.sllm.onRadioDebates) window.sllm.onRadioDebates(setDeb);
+ if (window.sllm.radioDebates) window.sllm.radioDebates().then(setDeb).catch(() => {});
+ document.addEventListener('sllm-language', drawDebBar);
+ // 은하 위기 특집(2026-10-17): 위기 동안 창 전체가 붉은 비상 테마로 바뀐다
+ const drawCrisis = (c) => { const on = !!(c && c.active); document.body.classList.toggle('crisis', on); $('alertTxt').textContent = on ? TL('은하 위기 ' + c.names + ' — 정규 방송을 중단하고 특별 편성으로 전합니다', 'Galactic crisis: ' + c.namesEn + ' — regular programming suspended') : ''; };
+ if (window.sllm.onCrisisState) window.sllm.onCrisisState(drawCrisis);
+ if (window.sllm.crisisState) window.sllm.crisisState().then(drawCrisis, () => {});
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.getSettings().then((st) => { if (st && st.theme) applyTheme(st.theme, st.custom); }).catch(() => {});
+ window.sllm.radioGet().then(drawState).catch(() => { $('stationMsg').textContent = '방송사 정보를 불러오지 못했습니다.'; });
+</script></body></html>
+

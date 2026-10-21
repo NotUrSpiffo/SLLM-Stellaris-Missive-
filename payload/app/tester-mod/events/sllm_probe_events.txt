@@ -1,0 +1,114 @@
+# SLLM Probe - events (EXPERIMENT ONLY, unverified syntax)
+namespace = sllm_probe
+
+# Test 4a: run from console after 'effect set_variable ...'. Prints the variables.
+country_event = {
+	id = sllm_probe.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		sllm_probe_init_vars = yes
+		sllm_probe_log_vars = yes
+	}
+}
+
+# Test 4c / 4d: one fixed trade (100 energy from the marked empire to the player)
+# with sequence counter and duplicate guard.
+# The run file sets sllm_req_id on the player first. A second run with the same id must print 'dup'.
+country_event = {
+	id = sllm_probe.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		sllm_probe_init_vars = yes
+		if = {
+			limit = { check_variable = { which = sllm_req_id value > sllm_last_req } }
+			set_variable = { which = sllm_last_req value = sllm_req_id }
+			change_variable = { which = sllm_exec_seq value = 1 }
+			if = {
+				limit = {
+					any_country = {
+						has_country_flag = sllm_probe_marked
+						has_resource = { type = energy amount >= 100 }
+					}
+				}
+				random_country = {
+					limit = { has_country_flag = sllm_probe_marked }
+					add_resource = { energy = -100 }
+					log = "SLLM:ACK_TARGET/;/\\[This.GetName]"
+				}
+				add_resource = { energy = 100 }
+				set_variable = { which = sllm_last_result value = 1 }
+				log = "SLLM:ACK/;/seq=\\[Root.sllm_exec_seq]/;/req=\\[Root.sllm_req_id]/;/trade100/;/ok"
+			}
+			else = {
+				set_variable = { which = sllm_last_result value = 2 }
+				log = "SLLM:ACK/;/seq=\\[Root.sllm_exec_seq]/;/req=\\[Root.sllm_req_id]/;/trade100/;/fail/;/no_target_or_energy"
+			}
+		}
+		else_if = {
+			limit = { check_variable = { which = sllm_req_id value = sllm_last_req } }
+			log = "SLLM:ACK/;/seq=\\[Root.sllm_exec_seq]/;/req=\\[Root.sllm_req_id]/;/trade100/;/dup/;/result=\\[Root.sllm_last_result]"
+		}
+		else = {
+			log = "SLLM:ACK/;/seq=\\[Root.sllm_exec_seq]/;/req=\\[Root.sllm_req_id]/;/trade100/;/stale/;/last=\\[Root.sllm_last_req]"
+		}
+	}
+}
+
+# Test 4b (console target strategy): 'event sllm_probe.20 <country id>'. Shows what root/from become.
+country_event = {
+	id = sllm_probe.20
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		log = "SLLM:CONSOLE_TARGET/;/root=\\[Root.GetName]/;/from=\\[From.GetName]"
+	}
+}
+
+# Test 4b (flag strategy): prints which empire carries the mark.
+country_event = {
+	id = sllm_probe.21
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		random_country = {
+			limit = { has_country_flag = sllm_probe_marked }
+			log = "SLLM:MARKED/;/\\[This.GetName]"
+		}
+	}
+}
+
+# Monthly heartbeat (on_monthly_pulse_country, this = country): date + counters of the human player.
+country_event = {
+	id = sllm_probe.100
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_ai = no }
+	immediate = {
+		sllm_probe_init_vars = yes
+		sllm_probe_contacts = { REQ = 0 }
+		log = "SLLM:MONTH/;/date=\\[GetDate]/;/seq=\\[This.sllm_exec_seq]/;/last=\\[This.sllm_last_req]"
+		sllm_probe_gc_resume = yes
+		sllm_probe_state_scan = yes
+	}
+}
+
+# Save load (on_single_player_save_game_load, no scope): prints counters so the app can detect a reload.
+event = {
+	id = sllm_probe.101
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_playable_country = {
+			limit = { is_ai = no }
+			sllm_probe_init_vars = yes
+			log = "SLLM:LOADED/;/date=\\[GetDate]/;/seq=\\[This.sllm_exec_seq]/;/last=\\[This.sllm_last_req]/;/sid=\\[This.sllm_save_id]"
+			sllm_probe_contacts = { REQ = 0 }
+			sllm_probe_gc_resume = yes
+			sllm_probe_state_scan = yes
+		}
+	}
+}
+
+

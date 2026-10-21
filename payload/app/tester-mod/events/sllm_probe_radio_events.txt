@@ -1,0 +1,266 @@
+# SLLM Probe - 성간 라디오용 사건 기록 이벤트 (F-37, 2026-10-15). on_actions(common/on_actions/sllm_probe_radio_on_actions.txt)가 부른다.
+# 본문은 예전 on_actions 의 effect 블록 그대로. 범위(This/From/FromFrom)는 on_action 이 넘겨준 그대로다.
+namespace = sllm_radio
+
+# 연구: 기술 단계가 올랐다 (This = 국가)
+country_event = {
+	id = sllm_radio.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=tech/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]"
+		}
+	}
+}
+
+# 전통을 골랐다 (This = 국가)
+country_event = {
+	id = sllm_radio.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=tradition/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]"
+		}
+	}
+}
+
+# 승천 특전을 골랐다 (This = 국가)
+country_event = {
+	id = sllm_radio.3
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=ascension/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]"
+		}
+	}
+}
+
+# 새 통치자가 정해졌다 (This = 국가)
+country_event = {
+	id = sllm_radio.4
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=ruler_set/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]"
+		}
+	}
+}
+
+# 통치자가 물러났다 (From = 이전 통치자)
+country_event = {
+	id = sllm_radio.5
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=ruler_removed/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/leader=\\[From.GetName]"
+		}
+	}
+}
+
+# 지도자가 죽었다 (This = 국가, From = 지도자)
+country_event = {
+	id = sllm_radio.6
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=leader_death/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/leader=\\[From.GetName]"
+		}
+	}
+}
+
+# 지도자가 승급했다 (This = 국가, From = 지도자)
+country_event = {
+	id = sllm_radio.7
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=leader_level/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/leader=\\[From.GetName]"
+		}
+	}
+}
+
+# 거대구조물이 완공됐다 (Root = 국가, From = 구조물, FromFrom = 성계)
+country_event = {
+	id = sllm_radio.8
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=megastructure/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/what=\\[From.GetName]/;/system=\\[FromFrom.GetName]"
+		}
+	}
+}
+
+# 성계 탐사가 끝났다 (Root = 국가, From = 성계)
+country_event = {
+	id = sllm_radio.9
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=survey_system/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/system=\\[From.GetName]"
+		}
+	}
+}
+
+# 선거가 끝났다 (국가)
+country_event = {
+	id = sllm_radio.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=election/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]"
+		}
+	}
+}
+
+# 전쟁이 시작됐다 (Root = 국가, From = 전쟁)
+country_event = {
+	id = sllm_radio.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			sllm_probe_evt_bump = yes
+			log = "SLLM:EVT/;/kind=war_start/;/date=\\[GetDate]/;/n=\\[This.sllm_ev_n]/;/who=\\[This.GetName]/;/war=\\[From.GetName]"
+			# 전쟁 정보(명분·주도국·관계) — 2026-10-20 알파 10. 규칙: common/scripted_effects/sllm_probe_warinfo.txt
+			save_event_target_as = sllm_wi_player
+			from = { sllm_probe_warinfo = yes sllm_probe_warvoice = yes }
+		}
+		# 남의 전쟁(우리가 참전하지 않은 전쟁) — 2026-10-20 알파 10 규탄 성명 방향 2. 주 공격국 범위에서 한 번만, 플레이어가 양쪽 중 하나와 통신할 때만.
+		else_if = {
+			limit = {
+				is_ai = yes
+				from = { attacker = { is_same_value = root } }
+				any_playable_country = { is_ai = no OR = { has_communications = root from = { defender = { has_communications = prevprev } } } }
+			}
+			random_playable_country = { limit = { is_ai = no } save_event_target_as = sllm_wi_player }
+			if = {
+				limit = { from = { NOT = { is_war_participant = { who = event_target:sllm_wi_player side = attackers } } NOT = { is_war_participant = { who = event_target:sllm_wi_player side = defenders } } } }
+				from = { sllm_probe_foreignwar = yes }
+			}
+		}
+	}
+}
+
+# 두 제국이 서로를 발견했다 (This = 제국 1, From = 제국 2)
+country_event = {
+	id = sllm_radio.12
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		every_playable_country = { limit = { is_ai = no } sllm_probe_contacts = { REQ = 0 } }
+		if = {
+			limit = { OR = { is_ai = no from = { is_ai = no } } }
+			log = "SLLM:EVT/;/kind=first_contact/;/date=\\[GetDate]/;/a=\\[This.GetName]/;/b=\\[From.GetName]"
+		}
+	}
+}
+
+# 전쟁에서 이겼다 (Root = 승자 전쟁 주도국, From = 패자 주도국, FromFrom = 전쟁)
+country_event = {
+	id = sllm_radio.13
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { OR = { is_ai = no from = { is_ai = no } } }
+			log = "SLLM:EVT/;/kind=war_won/;/date=\\[GetDate]/;/this=\\[This.GetName]/;/other=\\[From.GetName]/;/war=\\[FromFrom.GetName]"
+		}
+	}
+}
+
+# 전쟁에서 졌다 (Root = 패자 주도국, From = 승자 주도국, FromFrom = 전쟁)
+country_event = {
+	id = sllm_radio.14
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { OR = { is_ai = no from = { is_ai = no } } }
+			log = "SLLM:EVT/;/kind=war_lost/;/date=\\[GetDate]/;/this=\\[This.GetName]/;/other=\\[From.GetName]/;/war=\\[FromFrom.GetName]"
+		}
+	}
+}
+
+# 전쟁이 끝났다 (Root = 패자, From = 주 승자)
+country_event = {
+	id = sllm_radio.15
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { OR = { is_ai = no from = { is_ai = no } } }
+			log = "SLLM:EVT/;/kind=war_end/;/date=\\[GetDate]/;/loser=\\[This.GetName]/;/winner=\\[From.GetName]"
+		}
+	}
+}
+
+# 행성 조사 (Root = 행성, From = 국가)
+planet_event = {
+	id = sllm_radio.16
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { from = { is_ai = no } }
+			from = { sllm_probe_evt_bump = yes }
+			log = "SLLM:EVT/;/kind=survey_planet/;/date=\\[GetDate]/;/n=\\[From.sllm_ev_n]/;/planet=\\[This.GetName]"
+		}
+	}
+}
+
+# 행성이 점령당했다 (Root = 행성, From = 소유국, FromFrom = 점령국)
+planet_event = {
+	id = sllm_radio.17
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { OR = { from = { is_ai = no } fromfrom = { is_ai = no } } }
+			log = "SLLM:EVT/;/kind=occupied/;/date=\\[GetDate]/;/planet=\\[This.GetName]/;/owner=\\[From.GetName]/;/occupier=\\[FromFrom.GetName]"
+		}
+	}
+}
+
+# 지도자를 고용했다 (This = 지도자)
+leader_event = {
+	id = sllm_radio.18
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { exists = owner owner = { is_ai = no } }
+			log = "SLLM:EVT/;/kind=leader_hired/;/date=\\[GetDate]/;/leader=\\[This.GetName]"
+		}
+	}
+}

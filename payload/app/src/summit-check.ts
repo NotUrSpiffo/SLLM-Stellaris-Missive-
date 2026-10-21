@@ -1,0 +1,53 @@
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import { parseSummitReplies, summitMessages, federationFingerprint, summitApplyProblem, summitApplyEffect, summitResultConfirmed, summitOperationId, SummitJournal } from './summit-core';
+import { FedInfo, decisionRule } from './federation';
+import { fedReadEffect } from './protocol';
+export function runSummitChecks() {
+  const check = (v: boolean, label: string) => { console.log((v ? 'PASS ' : 'FAIL ') + 'summit: ' + label); if (!v) process.exitCode = 1; };
+  const throws = (f:()=>unknown) => { try { f(); return false; } catch { return true; } };
+  const f: FedInfo = { sid: '123456', name: 'Union', type: 'default_federation', level: 2, cohesion: 30, laws: ['vote_weight_equal','centralization_minimal'], warTargets: [{idx:7,name:'Enemy'}], members: [{idx:1,name:'Player',ruler:'A',weight:10,player:true,leader:false,stance:0},{idx:2,name:'Member',ruler:'B',weight:20,player:false,leader:true,stance:60}] };
+  const a = {kind:'war' as const,target:7}, clone = () => JSON.parse(JSON.stringify(f)) as FedInfo;
+  check(parseSummitReplies('{"replies":[{"idx":2,"say":"Agree","stance":40}]}',[2])[0].stance===40,'valid reply');
+  for (const [label,raw] of [ ['missing','{"replies":[]}'], ['foreign','{"replies":[{"idx":3,"say":"x","stance":0}]}'], ['range','{"replies":[{"idx":2,"say":"x","stance":101}]}'], ['string stance','{"replies":[{"idx":2,"say":"x","stance":"30"}]}'], ['empty speech','{"replies":[{"idx":2,"say":" ","stance":30}]}'], ['malformed','garbage'], ['null','null'] ]) check(throws(()=>parseSummitReplies(raw,[2])),label+' rejected');
+  check(throws(()=>parseSummitReplies('{"replies":[{"idx":2,"say":"x","stance":30},{"idx":2,"say":"x","stance":30}]}',[2,3])),'duplicate replies rejected');
+  check(!summitApplyProblem(f,a,'yes',new Set([2])),'all heard and passed');
+  check(!!summitApplyProblem(f,a,'yes',new Set()),'unheard blocked');
+  check(!!summitApplyProblem({...f,demo:true},a,'yes',new Set([2])),'demo blocked');
+  check(!!summitApplyProblem(f,a,'no',new Set([2])),'failed vote blocked');
+  check(!!summitApplyProblem(f,{kind:'war',target:2},'yes',new Set([2])),'war on a member blocked');
+  check(!!summitApplyProblem(f,{kind:'war',target:99},'yes',new Set([2])),'war on unknown target blocked');
+  check(!!summitApplyProblem(f,{kind:'war'},'yes',new Set([2])),'war without target blocked');
+  check(throws(()=>summitApplyEffect(f,{kind:'war',target:2},4)),'war effect on a member refused');
+  check(throws(()=>summitApplyEffect(f,{kind:'war',target:'7 } kill_country = yes' as unknown as number},4)),'target injection blocked');
+  check(throws(()=>summitApplyEffect({...f,sid:'1 }'},a,4)),'save injection blocked');
+  check(throws(()=>summitApplyEffect(f,a,NaN)),'invalid request blocked');
+  check(summitApplyEffect(f,a,7).includes('sllm_probe_fed_war = { TARGET = 7 }') && summitApplyEffect(f,a,7).includes('value < 7'),'war command uses the mod effect and request dedup guard');
+  check(summitApplyEffect(f,{kind:'cohesion'},8).includes('add_cohesion = 10'),'bounded cohesion');
+  check(!summitResultConfirmed(f,f,a),'war not confirmed without the game line');
+  check(!summitResultConfirmed(f,f,a,false),'war at=0 not confirmed');
+  check(summitResultConfirmed(f,f,a,true),'war at=1 confirmed');
+  const changed = clone(); changed.cohesion=40;
+  check(!summitResultConfirmed(f,{...changed,sid:'987'},{kind:'cohesion'}),'other save rejected');
+  check(!summitResultConfirmed(f,null,{kind:'cohesion'}),'missing response rejected');
+  check(!summitResultConfirmed(f,{...changed,members:changed.members.slice(1)},{kind:'cohesion'}),'different roster rejected');
+  check(!summitResultConfirmed(f,f,{kind:'cohesion'}),'unchanged cohesion rejected');
+  check(summitResultConfirmed(f,{...f,cohesion:40},{kind:'cohesion'}),'cohesion increase confirmed');
+  check(federationFingerprint(f)===federationFingerprint({...f,members:f.members.map(m=>({...m,stance:-100}))}),'stance does not invalidate world snapshot');
+  check(federationFingerprint(f)!==federationFingerprint({...f,laws:[]}),'changed laws invalidate snapshot');
+  check(federationFingerprint(f)!==federationFingerprint({...f,members:f.members.map(m=>({...m,ruler:'changed'}))}),'new ruler invalidates snapshot');
+  check(decisionRule({...f,type:'hegemony_federation'},'war').pass==='unanimous','unknown hegemony rule never invents president authority');
+  check(decisionRule({...f,laws:['vote_weight_diplomatic_imperial_loyalists','declare_war_president_vote_imperial_loyalists']},'war').known,'variant rules recognized');
+  check(fedReadEffect(42).includes('sllm_fed_read_req value = 42'),'read correlation');
+  check(throws(()=>fedReadEffect(-1)),'invalid read request');
+  check(summitMessages(f,a,[2],'test',[],[])[0].content.includes('Never claim a game effect'),'AI cannot declare game success');
+  const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'sllm-summit-'));
+  try {
+    const file=path.join(tmp,'journal.json'), j=new SummitJournal(file), id=summitOperationId(f,a,'2200.01.01');
+    j.reserve(id,'test'); check(throws(()=>new SummitJournal(file).reserve(id,'retry')),'uncertain reservation survives restart');
+    j.finish(id,'confirmed'); check(throws(()=>j.reserve(id,'retry')),'confirmed request cannot repeat');
+    check(summitOperationId(f,a,'2200.01.01')===summitOperationId({...f,cohesion:40},a,'2200.01.01'),'same-day operation stable across changed cohesion');
+    fs.writeFileSync(file,'broken'); check(throws(()=>j.reserve('new','test')),'corrupt journal fails closed');
+  } finally { fs.rmSync(tmp,{recursive:true,force:true}); }
+}

@@ -1,0 +1,22 @@
+# Test-only definitions for the effect verifier. Live espionage penalties use sllm_spy_output_* (sllm_spy_modifiers.txt).
+sllm_verify_spy_output_1 = {
+ country_energy_produces_mult = -0.09
+ country_minerals_produces_mult = -0.09
+ country_food_produces_mult = -0.09
+ country_alloys_produces_mult = -0.09
+ country_consumer_goods_produces_mult = -0.09
+}
+sllm_verify_spy_output_2 = {
+ country_energy_produces_mult = -0.18
+ country_minerals_produces_mult = -0.18
+ country_food_produces_mult = -0.18
+ country_alloys_produces_mult = -0.18
+ country_consumer_goods_produces_mult = -0.18
+}
+sllm_verify_spy_output_3 = {
+ country_energy_produces_mult = -0.27
+ country_minerals_produces_mult = -0.27
+ country_food_produces_mult = -0.27
+ country_alloys_produces_mult = -0.27
+ country_consumer_goods_produces_mult = -0.27
+}

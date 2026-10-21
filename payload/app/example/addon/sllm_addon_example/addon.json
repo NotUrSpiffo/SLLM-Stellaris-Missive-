@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "id": "sllm_addon_example",
+  "name": "SLLM 예시 애드온",
+  "author": "SLLM",
+  "addonVersion": "1.0",
+  "description": "애드온 형식 예시: 테마 색, 플레이어 통치자 초상화, 모드 가치관 설명과 사건 해석.",
+  "theme": {
+    "name": "황혼 함교",
+    "colors": { "bg": "#1a1210", "panel": "#261a16", "text": "#f2e6dc", "hi": "#e8915a", "gold": "#f0c674" }
+  },
+  "images": {
+    "ruler:player": "images/ruler.png"
+  },
+  "compatibility": {
+    "ethics": {
+      "ethic_example_technocrat": { "name": "기술 관료주의", "description": "전문가 위원회가 결정을 내린다고 믿는다.", "behavior": "근거와 수치를 요구하며 감정적 호소를 낮게 평가한다." }
+    },
+    "events": {
+      "example_wonder_built": { "title": "예시 경이 건설", "description": "예시 모드가 거대 건축물 완공을 알렸습니다." }
+    }
+  }
+}

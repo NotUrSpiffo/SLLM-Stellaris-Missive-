@@ -1,0 +1,47 @@
+# SLLM Probe - 제독 청문회 결과 특성(2026-10-17). 1년(앱이 붙일 때 남은 달 sllm_adm_m = 12, sllm_fleet.10 이 매달 줄여 지움).
+# 지상전 추가(2026-10-17): 장군으로 지휘하는 지상군도 같은 비율(army_damage_mult, 바닐라 00_general_traits.txt 와 같은 키).
+# 키·형식은 바닐라 00_admiral_traits.txt(fleet_modifier)·00_generic_leader_traits.txt(leaders_upkeep_mult) 와 같다.
+sllm_trait_admiral_acclaimed = {
+	leader_trait_type = veteran
+	randomized = no
+	inline_script = {
+		script = trait/icon
+		CLASS = commander
+		ICON = "GFX_leader_trait_aggressive"
+		RARITY = veteran
+		COUNCIL = no
+		TIER = 1
+	}
+	fleet_modifier = {
+		ship_weapon_damage = 0.05
+	}
+	army_modifier = {
+		army_damage_mult = 0.05
+	}
+	opposites = { sllm_trait_admiral_reprimanded }
+	leader_class = { commander }
+	selectable_weight = 0
+}
+
+sllm_trait_admiral_reprimanded = {
+	leader_trait_type = negative
+	randomized = no
+	inline_script = {
+		script = trait/icon_negative
+		ICON = "GFX_leader_trait_nervous"
+		COUNCIL = no
+		TIER = 1
+	}
+	fleet_modifier = {
+		ship_weapon_damage = -0.05
+	}
+	army_modifier = {
+		army_damage_mult = -0.05
+	}
+	self_modifier = {
+		leaders_upkeep_mult = -0.25
+	}
+	opposites = { sllm_trait_admiral_acclaimed }
+	leader_class = { commander }
+	selectable_weight = 0
+}

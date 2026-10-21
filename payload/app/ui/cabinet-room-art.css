@@ -1,0 +1,36 @@
+/* 내각 회의실 꾸밈(GPT 담당, 2026-10-19). cabinet-room.html 의 틀(#bg·#screen·.seat.real/.seat.holo·#hud) 위에 덧씌운다. 비어 있어도 된다. */
+
+/* Cabinet room presentation. Seat coordinates and meeting logic stay in cabinet-room.html. */
+:root{--gold:#d6ba83;--hi:#8ad9e1;--dim:#a5b8c2;--text:#edf2f5}
+#bg::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,#02070b30,transparent 38%,#02070b18 65%,#02070b99),radial-gradient(ellipse at center,transparent 35%,#02070b55)}
+#bg.img ~ #table{display:none}
+#screen{top:5%;height:30%;border:1px solid #b7dce64d;border-top:2px solid #c6ad7d;box-shadow:0 12px 36px #0008,inset 0 0 36px #4bb7cf0b;border-radius:5px;background:linear-gradient(145deg,#091822f5,#061017f5);padding:14px 18px}
+#screen::before{opacity:.2}#screen .over{color:#c8b58d;letter-spacing:.14em;padding-bottom:7px;border-bottom:1px solid #ffffff15}
+.prop{border-color:#8bb5c22b;background:linear-gradient(110deg,#152b36,#0b1a24);border-radius:4px;padding:9px 12px;transition:background .18s,border-color .18s}
+.prop:hover{background:#203843;border-color:#b5dce3aa}.prop .an{font-weight:600}.prop .by{margin-top:3px}.rw span{border-color:#c9b3884d;border-radius:3px;background:#c9b38809}
+.seat .pt{border-width:1px;border-radius:22px 22px 5px 5px;box-shadow:0 14px 24px #000a,inset 0 0 14px #ffffff10;background:linear-gradient(140deg,#2b3740,#10181e)}
+.seat.real .pt{border-color:color-mix(in srgb,var(--ec) 40%,#a39478);box-shadow:0 13px 24px #000b,0 0 0 3px #302a2199}
+.seat .plate{border-color:#b9a78066;background:linear-gradient(120deg,#292720f5,#151c21f5);padding:5px 10px;border-radius:3px;box-shadow:0 4px 12px #0008}
+.seat .post{margin-top:2px;letter-spacing:.02em}.seat .v{border-radius:20px;padding:2px 9px;background:#071017e8}.seat .wait{padding:2px 7px;background:#071017bb;border-radius:12px}
+/* 홀로그램(원격 참석)은 실물과 한눈에 구분되게(2026-10-19 Claude): 청록 단색조·반투명·주사선·가끔 깜빡임 */
+.seat.holo .pt{animation:holo 3.6s steps(1,end) infinite;opacity:.8;background:linear-gradient(#0b3d48aa,#05222b99);box-shadow:0 0 26px #69e4f055,inset 0 0 22px #6fe3f033;border-color:#91e8efcc}
+.seat.holo .pt img{filter:grayscale(1) sepia(1) hue-rotate(140deg) saturate(3.2) brightness(1.05) contrast(1.1);mix-blend-mode:screen;opacity:.82}
+.seat.holo .pt::after{background:repeating-linear-gradient(0deg,#9ff6ff33 0 1px,transparent 1px 3px),linear-gradient(0deg,#6fe3f022,transparent 60%)}
+.seat.holo .plate{background:linear-gradient(120deg,#0b2a33ee,#071a22ee);border-color:#6fe3f066}
+.seat.real .pt img{filter:saturate(1.05) contrast(1.05)}
+.seat.holo::before{width:120px;height:16px;background:radial-gradient(ellipse,#adf8ff99,#6fe3f02a 40%,transparent 70%)}
+.seat .remote{padding:2px 5px;background:#08252bd9;border-radius:3px;color:#b1eef2}
+.seat.to .pt{outline:2px solid #eed5a2;outline-offset:4px}.seat:focus-visible{outline:2px solid #eed5a2;outline-offset:5px;border-radius:8px}
+.seat.talk .pt{box-shadow:0 0 0 2px #ecfaffaa,0 0 30px color-mix(in srgb,var(--ec) 55%,transparent)}
+.bubble{background:#101f2bf5;color:#ecf3f6;border:1px solid #a5cbd777;border-radius:7px;box-shadow:0 10px 30px #0009;padding:12px 16px;line-height:1.7}.bubble.me{background:#28251ef5;color:#f1e8d6}.bubble b{filter:brightness(1.3)}
+#hud{background:linear-gradient(180deg,#0b1721e8,#070f17fa);border-top:1px solid #bfa57866;box-shadow:0 -10px 40px #0006;padding:12px 18px;gap:16px;z-index:30}
+#log{line-height:1.65} /* 탁자 위 반투명 기록판(틀은 cabinet-room.html) */
+.prompt{border-radius:5px;overflow:hidden;border-color:#9ec5d266;background:#07121e}.prompt input{min-width:0;user-select:text}.prompt:focus-within{border-color:#d6ba83;box-shadow:0 0 0 2px #d6ba8319}.prompt button{background:#28424e;color:#f1f7f9}
+#acts button,#other,#toAll{border-radius:4px;border-color:#8daab64d}#apply{background:linear-gradient(120deg,#493b21,#30291d)!important}#back{background:#16232c!important}
+button:focus-visible{outline:2px solid #e6c996;outline-offset:3px}#top{background:linear-gradient(#02070bc9,transparent);padding:9px 16px}#top .t{letter-spacing:.12em;text-shadow:0 2px 5px #000}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:#7b9ca966;border-radius:5px}::-webkit-scrollbar-track{background:#07111933}
+@media(max-width:850px){#hud{grid-template-columns:1fr auto;padding:8px;gap:8px}#log{width:60vw}#screen{width:52%;padding:9px 11px}#acts button{padding:7px 9px}#hint{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.prop{transition:none}}
+
+/* Show all eight calibrated chairs without cropping or shifting their portraits. */
+#bg.img{background-size:contain;background-repeat:no-repeat;background-color:#04080c}

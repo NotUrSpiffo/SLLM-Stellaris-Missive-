@@ -1,0 +1,4 @@
+# THIS = country. Includes early activation; do not also subscribe to on_agenda_finished_early.
+on_agenda_finished = {
+    events = { sllm_council_agenda.1 }
+}

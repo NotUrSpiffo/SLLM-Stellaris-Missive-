@@ -1,0 +1,1240 @@
+﻿
+> stellaris-llm-companion@0.1.0-alpha.5.5 test
+> tsx src/selftest.ts
+
+PASS summit: valid reply
+PASS summit: missing rejected
+PASS summit: foreign rejected
+PASS summit: range rejected
+PASS summit: string stance rejected
+PASS summit: empty speech rejected
+PASS summit: malformed rejected
+PASS summit: null rejected
+PASS summit: duplicate replies rejected
+PASS summit: all heard and passed
+PASS summit: unheard blocked
+PASS summit: demo blocked
+PASS summit: failed vote blocked
+PASS summit: war on a member blocked
+PASS summit: war on unknown target blocked
+PASS summit: war without target blocked
+PASS summit: war effect on a member refused
+PASS summit: target injection blocked
+PASS summit: save injection blocked
+PASS summit: invalid request blocked
+PASS summit: war command uses the mod effect and request dedup guard
+PASS summit: bounded cohesion
+PASS summit: war not confirmed without the game line
+PASS summit: war at=0 not confirmed
+PASS summit: war at=1 confirmed
+PASS summit: other save rejected
+PASS summit: missing response rejected
+PASS summit: different roster rejected
+PASS summit: unchanged cohesion rejected
+PASS summit: cohesion increase confirmed
+PASS summit: stance does not invalidate world snapshot
+PASS summit: changed laws invalidate snapshot
+PASS summit: new ruler invalidates snapshot
+PASS summit: unknown hegemony rule never invents president authority
+PASS summit: variant rules recognized
+PASS summit: read correlation
+PASS summit: invalid read request
+PASS summit: AI cannot declare game success
+PASS summit: uncertain reservation survives restart
+PASS summit: confirmed request cannot repeat
+PASS summit: same-day operation stable across changed cohesion
+PASS summit: corrupt journal fails closed
+PASS mediation: start is invitation, no game effect
+PASS mediation: attending is not peace agreement
+PASS mediation: transition does not mutate original
+PASS mediation: counteroffer blocks agreement
+PASS mediation: both agree to same proposal without game application
+PASS mediation: new terms reset both consents and reopen unsaved agreement
+PASS mediation: reciprocal claims have explicit destinations
+PASS mediation: white peace cannot smuggle transfers
+PASS mediation: unknown claim rejected
+PASS mediation: duplicate claim rejected
+PASS mediation: foreign war goal rejected
+PASS mediation: saved agreement immutable
+PASS mediation: status quo uses supplied outcomes independently from white peace
+PASS mediation: AI receives current structured compromise
+PASS mediation: old proposal revision cannot agree to new terms
+PASS mediation: terminal agreement cannot continue
+PASS mediation: stale revision rejected
+PASS mediation: refused invitation ends mediation
+PASS mediation: declined invitation cannot negotiate
+PASS mediation: rejected proposal still permits negotiation
+PASS mediation: empty rejected atomically
+PASS mediation: null rejected atomically
+PASS mediation: bad JSON rejected atomically
+PASS mediation: foreign ID rejected atomically
+PASS mediation: duplicate rejected atomically
+PASS mediation: unknown decision rejected atomically
+PASS mediation: empty text rejected atomically
+PASS mediation: counter invalid during invitation
+PASS mediation: same empire twice rejected
+PASS mediation: free text cannot redefine the actionable treaty
+PASS mediation: unfinished results not recorded
+PASS mediation: false agreement not recorded
+PASS mediation: duplicate save idempotent
+PASS mediation: restart preserves not-applied state
+PASS mediation: refused invitations can be recorded
+PASS mediation: test source is preserved
+PASS mediation: corrupt storage preserved
+PASS dinner: valid Stellaris calendar
+PASS dinner: war rejects invitation
+PASS dinner: friendly relation more likely to accept
+PASS dinner: hostile relation can reject
+PASS dinner: rivalry reduces acceptance
+PASS dinner: structured reply
+PASS dinner: missing body rejected
+PASS dinner: three-month reply crosses year
+PASS dinner: not due early
+PASS dinner: due at three months
+PASS dinner: other time branch cannot deliver
+PASS dinner: other save cannot deliver
+PASS dinner: one active visit per timeline
+PASS dinner: reply delay below three blocked
+PASS dinner: reply delay above six blocked
+PASS dinner: accepted waits for six-month arrival
+PASS dinner: arrival due at six months
+PASS dinner: reservation survives restart
+PASS dinner: save and visit scoped command
+PASS dinner: uncertainty uses read-only status
+PASS dinner: invalid target command blocked
+PASS dinner: AI gets authoritative arrival date
+PASS dinner: reply is idempotent
+PASS dinner: reply stays idempotent after restart
+PASS dinner: corrupt inbox preserved for invitation reply
+PASS dinner: corrupt reservations fail closed
+PASS dinner: requested resource costs
+PASS dinner: humiliating reception free
+PASS dinner: three in-game reception options
+PASS dinner: selection guard prevents repeat charges
+PASS variant: 계열·의원만 #2~#8(통치자·연설 지도자 제외)
+PASS variant: 여러 인물에 고루 쓰임
+PASS variant: 같은 인물은 늘 같은 얼굴
+PASS variant: 기본 그림이 없으면 모드 기본 그림도 한 장으로 섞임
+PASS variant: 아무것도 없으면 기본
+PASS variant: 의원 그림이 있으면 의원 묶음, 없으면 계열 묶음
+PASS variant: 화면 도우미와 앱 규칙 일치
+PASS variant: 초상화를 쓰는 창마다 도우미 포함
+PASS variant: 모든 종족 초상화 자리에서 변형 사용
+PASS variant: 통치자는 변형 없이
+PASS addon: 실험 기능 표시
+PASS addon: 매니페스트 검사(나쁜 경로·키·확장자 거부, 잘못된 색 제외)
+PASS addon: 거부 이유 기록
+PASS addon: 필수 항목·형식 오류는 거부
+PASS addon: 상대 경로만
+PASS addon: 저장된 순서 → 새로 찾은 것, 중복 id 하나만
+PASS addon: 위쪽 애드온 그림이 이김
+PASS addon: 꺼 둔 애드온은 무시
+PASS addon: 설정 값 정리
+PASS addon: 모드 애드온·직접 설치·깨진 것 모두 목록에
+PASS addon: 없는 그림·깨진 매니페스트 경고
+PASS addon: 기본은 모드 애드온이 위(먼저 찾은 순)
+PASS addon: 순서를 바꾸면 위쪽 애드온 그림
+PASS addon: 위쪽 애드온의 가치관 이름
+PASS addon: 끄면 다음 애드온 자료로 즉시 바뀜
+PASS addon: 애드온 사건 해석
+PASS addon: 꺼 둔 애드온 그림 제외
+PASS addon: 예시 애드온 형식
+PASS reps: 전체 의석을 인구 비율대로(파벌별 개별 확률 아님)
+PASS reps: 큰 나머지 순 — 소수 종족은 자리가 모자라면 빠짐
+PASS reps: 외계인 혐오 → 최대 종족만
+PASS reps: 외계인 친화 → 모든 종족 최소 한 자리
+PASS reps: 친화라도 자리가 모자라면 많은 순
+PASS reps: 같은 세이브·날짜면 같은 배정
+PASS reps: 종족 자료 없으면 플레이어 계열
+PASS ruler: 플레이어 통치자 그림 키
+PASS ruler: 통치자 그림 → 연설 지도자 → 계열
+PASS ruler: 플레이어 통치자 장면 모두 통치자 그림 우선
+PASS ruler: 설정에서 바꿀 수 있음
+PASS reps: 월간 수집의 외계인 성향
+PASS fm: 번호·가치관 없는 파벌 제외
+PASS fm: 파벌마다 의제 하나
+PASS fm: 서로 다른 버프 2개를 미리 뽑음
+PASS fm: 다시 열어도 같은 버프(결정적)
+PASS fm: 실제 게임 의제는 가치관당 하나(같은 가치관이면 같은 의제)
+PASS fm: 버프는 발의 파벌 가치관 풀에서
+PASS fm: 풀마다 승인도·끌림 포함
+PASS fm: 풀보다 많이 뽑지 않음
+PASS fm: 첫 입장(발의·반대 가치관·같은 가치관·무관)
+PASS fm: 지지율 가중 통과
+PASS fm: 통치자 반대면 통과 안 됨
+PASS fm: 반대한 파벌만 승인도 하락, 제국 가치관 모르면 게임 의제 없이 버프만
+PASS fm: 가치관 의제 8개 모두 실제 키
+PASS fm: 군국주의 제국만 무력시위
+PASS fm: 유랑 제국은 유랑용 키
+PASS fm: 화면 안내
+PASS fm: 군국 제국이면 통과 시 게임 의제도 설정
+PASS fm: 조건 안 맞으면 의제 명령 없음
+PASS fm: 월간 수집의 제국 가치관 비트
+PASS fm: 모드가 제국 가치관 비트 출력
+PASS fm: 적용 명령 구성
+PASS fm: 미리 보여 준 버프와 같은 수정자 적용
+PASS fm: 진 파벌 수정자
+PASS fm: 잘못된 세이브 번호 거부
+PASS fm: 정상 통과 가능한 의제는 강제 통과 거부
+PASS fm: 반대 과반이면 강제 통과 가능
+PASS fm: 통치자 반대면 강제 통과도 불가
+PASS fm: 반대 과반은 정상 통과 거부
+PASS fm: 강제 통과 — 기권 파벌까지 하락, 제국 디버프 포함
+PASS fm: 강제 통과 수정자
+PASS fm: 다른 가치관 버프 거부
+PASS fm: AI 응답 해석
+PASS fm: 요청하지 않은 파벌 응답 거부
+PASS fm: 의제 키 형식
+PASS fm: 가치관마다 실제 게임 의제 하나
+PASS fm: 모드 수정자·현지화 일치
+PASS fm: 현지화 BOM
+PASS fm: 모드 적용 효과
+PASS fm: 로그 문자열에 매개변수 없음(F-39)
+PASS fm: 월간 수집에 의제 칸·파벌 번호
+PASS fm: 의제 칸·파벌 번호 해석
+PASS gs: SPEECHWAR 은 모으기만
+PASS gs: 연설 상황 전쟁·영유권·미탐험
+PASS gs: 행성당 산출·연구 단계
+PASS gs: 평시 상황
+PASS gs: 예전 단계값 형식도 받음
+PASS gs: 다른 n 의 전쟁 줄은 섞지 않음
+PASS gs: 묶음 도중엔 결과 없음 STATE_BEG
+PASS gs: 묶음 도중엔 결과 없음 WAR/;/nam
+PASS gs: 묶음 도중엔 결과 없음 WARSIDE/;
+PASS gs: 묶음 도중엔 결과 없음 WARSIDE/;
+PASS gs: 묶음 도중엔 결과 없음 FACTION/;
+PASS gs: 묶음 도중엔 결과 없음 FACTION/;
+PASS gs: 묶음 도중엔 결과 없음 SPYNET/;/
+PASS gs: 묶음 도중엔 결과 없음 SUBJECT/;
+PASS gs: 월간 상황 묶음
+PASS gs: 0..100 값도 0..1 로
+PASS gs: 묶음 밖 줄은 무시
+PASS gs: 번호가 다른 끝은 버림
+PASS gs: 공격전에서 우리가 더 지침 → 패배 예상
+PASS gs: 방어전 상대가 더 지침 → 승리 예상
+PASS gs: 피로도 0.9 이상 붕괴 위험
+PASS gs: 지친 쪽이 중재를 더 받아들임
+PASS gs: 중재 성향 0..100
+PASS gs: 파벌 태도
+PASS gs: 군국주의 파벌 요구
+PASS gs: 반란 출신
+PASS gs: 모르는 출신 종류 거부
+PASS gs: 우리를 노린 작전 후보
+PASS gs: 무관한 작전 제외
+PASS gs: 밸런스 값 순서
+PASS gs: 모드 수집 효과
+PASS gs: 수집 효과는 Root 를 쓰지 않음(불러오기 이벤트 범위)
+PASS gs: 연설 프로필이 상황 수집을 부름
+PASS gs: 매월·불러오기에서 상황 수집
+PASS gs: on_action ↔ 이벤트 sllm_state.1
+PASS gs: on_action ↔ 이벤트 sllm_state.2
+PASS gs: on_action ↔ 이벤트 sllm_state.10
+PASS gs: on_action ↔ 이벤트 sllm_state.11
+PASS F-38: 민간격려 자원별 수정자 5종 × 3등급
+PASS spy: 효과 기간 2년 = 720일
+PASS spy: 기자회견 관계 하락 2년
+PASS spy: 전부 논파하면 기간 없음
+PASS spy: 실패 1회 → 2년, 게임 미적용
+PASS parse kind
+PASS parse kv
+PASS strip leading backslash
+PASS ignore other lines
+PASS apply command text
+PASS reqSeenIn last
+PASS reqSeenIn req
+PASS talk parse (score = op_b)
+PASS attitude
+PASS build messages
+PASS prompt has name
+PASS non-talk ignored
+PASS profile parse
+PASS stance from game flags
+PASS stance falls back to score
+PASS prompt has profile and relations
+PASS profile att/organ/adj parse
+PASS prompt has attitude, adjective; organ stays hidden by default
+PASS organ appears only when asked or on a rare once
+PASS body mode: 1% once, asked when the player asks
+PASS body mode: about 1 in 100 over 10000 tries (115)
+PASS buildMessages hides organ for a plain greeting
+PASS buildMessages reveals organ when asked
+PASS no attitude line when unknown
+PASS action ok
+PASS fenced json + none
+PASS json with surrounding text
+PASS plain text -> no action
+PASS amount capped
+PASS unknown action dropped
+PASS negative dropped
+PASS non-integer dropped
+PASS take warns player
+PASS transfer command
+PASS ack outcomes
+PASS mood warmer_large
+PASS mood colder_small without action
+PASS unknown mood ignored
+PASS mood with action
+PASS mood text
+PASS opinion shift command
+PASS open_borders
+PASS make_peace
+PASS declare war command
+PASS declare_war default reason
+PASS declare_war tribute
+PASS declare_war unknown reason falls back
+PASS diplo kind 5
+PASS describe declare_war
+PASS three small warmths = one large
+PASS cold sum -25 = large + 2 small
+PASS cancel out
+PASS moodDelta
+PASS batched shifts in one line
+PASS open chat command
+PASS locSafe
+PASS diplo command
+PASS cleanLoc
+PASS force pass cmd
+PASS force cancel cmd
+PASS force bad key
+PASS force bad req
+PASS status cmd
+PASS parseDebate shift
+PASS parseDebate shift clamp
+PASS parseDebate bad shift -> 0
+PASS parseDebate variants
+PASS parseDebate truncated salvage
+PASS debateMessages shape
+PASS applyShift flexible
+PASS applyShift stubborn
+PASS applyShift strongly opposed harder
+PASS applyShift repeat reduced
+PASS applyShift backlash kept
+PASS applyShift dir against
+PASS similar same
+PASS similar diff
+PASS redact key
+PASS redact bearer
+PASS validBase https
+PASS validBase localhost http
+PASS validBase http remote rejected
+PASS normalizeBase
+PASS router refresh deferred while in flight
+PASS shape: empty object rejected
+PASS shape: empty replies rejected
+PASS shape: id string rejected
+PASS shape: empty text rejected
+PASS shape: shift string rejected
+PASS shape: valid accepted
+PASS radio: parse war_won
+PASS radio: unknown kind dropped
+PASS radio: other kinds ignored
+PASS radio: aggregates tech
+PASS radio: count 5
+PASS radio: queue drained
+PASS radio: parse lines
+PASS radio: parse truncated
+PASS radio: messages
+PASS radio chron add
+PASS radio chron same text different n kept
+PASS radio chron replay deduped
+PASS radio chron name
+PASS chron: add on failing disk still adds
+PASS chron: save error surfaced
+PASS chron: onAdd fired
+PASS chron: duplicate no notify
+PASS chron: onAdd not fired for duplicate
+PASS chron: save ok clears error
+PASS chron: tmp renamed
+PASS radio chron: all within 90 days kept across the new year
+PASS radio chron: within 360 days kept (F-03)
+PASS radio chron: older than 360 days dropped (F-03)
+PASS chron: normal empire not year-pruned
+PASS speech: start
+PASS speech: no double start
+PASS speech: ready after 3 months
+PASS speech: new prep replaces stale ready
+PASS speech: back to prep
+PASS speech: due in 3 months across year (two-digit month)
+PASS speech: not yet
+PASS speech: ready on due
+PASS speech: ready only once
+PASS speech: phase ready
+PASS speech: finished
+PASS speech: rewind cancels
+PASS speech: rewind cleared
+PASS speech: grade 0 sends nothing
+PASS speech: unknown kind
+PASS speech: effect line
+PASS speech: pf fanatic militarist
+PASS speech: pf authority
+PASS speech: not gestalt
+PASS speech: militarist crowd likes total war
+PASS speech: militarist crowd cool to discovery
+PASS speech: xenophobe militarist prefers aggressive
+PASS speech: democratic xenophile prefers defensive
+PASS ctx: blank is neutral
+PASS ctx: blank value skipped
+PASS ctx: defensive war favors defensive speech
+PASS ctx: winning favors aggressive
+PASS ctx: many claims favor aggressive in peace
+PASS ctx: high output hurts civil
+PASS ctx: discovery
+PASS ctx: crowd lines
+PASS speech: pacifist crowd dislikes total war
+PASS speech: base mood clamped
+PASS speech: democracy trait
+PASS speech: unknown pf ok
+PASS speech: hive crowd
+PASS speech: start at base mood
+PASS speech: mood step clamped
+PASS speech: action stars stripped
+PASS speech: needs reactions
+PASS speech: needs mood
+PASS speech: fenced
+PASS speech: mood added
+PASS speech: turn counted
+PASS speech: repeated line does not raise mood
+PASS speech: done at the limit
+PASS speech: grade 3
+PASS speech: grade 2
+PASS speech: grade 1
+PASS speech: grade 0
+PASS speech: grade 0 low
+PASS speech: turn too short
+PASS speech: turn too long
+PASS speech: turn ok
+PASS speech: default turns
+PASS speech: too few turns → default
+PASS speech: turns capped
+PASS speech: turns kept
+PASS speech: final prompt
+PASS speech: prompt carries crowd traits
+PASS F-01 war text starts with war name
+PASS F-01 war facts grouped per war
+PASS F-01 merged participants
+PASS F-01 non-war facts untouched
+PASS F-01 prompt asks for AI-AI article
+PASS F-02 truncated JSON recovers reactions
+PASS F-02 mood-first survives truncation
+PASS F-02 recovered who
+PASS F-02 missing mood → 0 (neutral)
+PASS F-02 prose is not recovered
+PASS F-02 reaction cut to <=100
+PASS F-02 retry prompt asks for short reactions
+PASS F-02 json truncation adds no marker
+PASS F-02 onTruncated called
+PASS F-02 plain truncation keeps marker
+PASS F-02 normal finish untouched
+PASS F-02 late applied matches
+PASS F-02 other request ignored
+PASS F-02 other save ignored
+PASS F-02 nothing pending
+PASS F-03 duplicate id not queued
+PASS F-03 take(6) default
+PASS F-03 rest stays queued
+PASS F-03 putBack restores taken
+PASS F-03 restored at front
+PASS F-03 backlog: last 360 days, not aired, not future
+PASS F-03 recap facts
+PASS F-03 aired ids persist per save
+PASS F-03 radio chronicle keeps 300-day-old event (360 days)
+PASS A-15 ready → allowed
+PASS A-15 radio off → refused
+PASS A-15 busy → refused (no re-entry)
+PASS A-15 no game → refused
+PASS A-15 cooldown shows seconds left
+PASS A-15 cooldown over → allowed
+PASS F-12 exit 4 (no game) is a sure failure
+PASS F-12 exit 4 removes request file
+PASS F-12 exit 4 message
+PASS F-12 running state is uncertain
+PASS F-12 uncertain keeps file
+PASS F-12 cancelled is a sure failure
+PASS F-12 ok
+PASS F-12 unhook failure still ok
+PASS F-12 unsupported build
+PASS F-12 killed is uncertain
+PASS F-12 spawn failure
+PASS F-13 gc effects wrapped for player
+PASS F-10 deltas from applyShift (unknown speaker 0)
+PASS F-10 against direction lowers score
+PASS A-00b every preload channel has a main handler
+PASS A-00b every main handler is exposed in preload
+PASS A-00b IPC channel count not reduced (95)
+PASS A-00b every renderer event is still sent somewhere
+PASS A-00b router calls handlers in slot order
+PASS A-00b router rejects duplicate slot
+PASS A-00b router names in call order
+PASS A-00b SLOT numbers are unique
+PASS A-00b every SLOT is registered by some module
+PASS A-00b ctx getter reads main variable
+PASS A-00b ctx setter writes main variable
+PASS A-00b ctx passes Map by value
+PASS F-fix month is two digits (2200.04.02)
+PASS F-fix month 12
+PASS F-fix custom theme applies without curCustom error
+PASS F-fix custom theme uses passed colors
+PASS A-16 same seats and tally as council.html for 200 random councils 
+PASS A-16 79.9% refused
+PASS A-16 80% allowed
+PASS A-16 opposite direction refused
+PASS A-16 other save refused
+PASS A-16 other agenda refused
+PASS A-16 persuasion shift lowers tally and refuses
+PASS A-16 debate for other save ignored
+PASS A-16 unreliable council refused
+PASS A-16 dev fixed tally follows setting
+PASS A-16 cleared state refused
+PASS A-16 demo council has no state
+PASS A-16 delta clamp/round, threshold 80
+PASS A-00d name containing /;/ rejoined
+PASS A-00d name containing = kept
+PASS A-00d name with /;/ and = rejoined
+PASS A-00d positional ok/apply unchanged
+PASS A-00d first-field name rejoined
+PASS A-00d several names in one line
+PASS A-00d found mod log templates (1056)
+PASS A-00d every mod log template parses into the same fields as before
+PASS A-17 beh parsed (36.000 → 36)
+PASS A-17 bits 4+32 → vassalize, trade
+PASS A-17 no behavior text when 0/unknown
+PASS A-17 prompt carries hidden intent
+PASS A-17 old mod without beh= → no line
+PASS A-17 mod checks 6 behaviors and logs beh=
+PASS safety mod-compat: refresh survives bad packs and a vanished file (F-17)
+PASS safety mod-compat: only valid active packs load
+PASS safety mod-compat: bad version / inactive target warned
+PASS safety mod-compat: builtin gigastructures pack skipped without the mod
+PASS safety mod-compat: describe dedupes ids
+PASS safety mod-compat: ethic name/desc from loc ($ref$ expanded, § stripped), behavior from pack
+PASS safety mod-compat: installed ethic keeps game source
+PASS safety mod-compat: unknown ethic placeholder
+PASS safety mod-compat: text line format
+PASS safety mod-compat: basic country types allowed
+PASS safety mod-compat: pack can open a country type
+PASS safety mod-compat: actions need contact, invalid/unknown types closed
+PASS safety mod-compat: pack lore (trimmed name)
+PASS safety mod-compat: png flag inside pack folder
+PASS safety mod-compat: flag path escape / fake png / non-image rejected
+PASS safety mod-compat: compat event → radio event
+PASS safety mod-compat: same compat event once
+PASS safety mod-compat: wrong save/date/unknown event/phase/kind rejected
+PASS safety mod-compat: queryBody uses only installed ethics
+PASS safety mod-compat: queryBody rejects bad idx/req
+PASS safety mod-compat: live ethics only after ETHIC_END
+PASS safety mod-compat: live ethics collected (dedup, other idx/bad id ignored)
+PASS safety mod-compat: live ethics bound to save
+PASS safety mod-compat: clearLive
+PASS safety mod-compat: language change reloads (no english loc → id)
+PASS safety mod-compat: builtin pack loads when its mod is active
+PASS safety env: steam override first
+PASS safety env: Program Files fallbacks keep backslash (F-11)
+PASS safety env: libraries from libraryfolders.vdf, deduped
+PASS safety env: game candidates (env first, then libraries)
+PASS safety env: user dir from documents first
+FAIL safety env: only existing dir → that dir got="C:\\Users\\mingyu\\Documents\\Paradox Interactive\\Stellaris" want="C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-selftest-jmKw6f\\env-S2VyUT\\envuser"
+FAIL safety env: settings.txt beats a bare dir got="C:\\Users\\mingyu\\Documents\\Paradox Interactive\\Stellaris" want="C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-selftest-jmKw6f\\env-S2VyUT\\docs\\Paradox Interactive\\Stellaris"
+PASS safety env: game.log beats settings.txt
+PASS safety env: save roots (env, user dirs, numeric cloud ids only)
+PASS safety env: workshop candidate path
+PASS safety env: default mod = first workshop candidate
+PASS safety env: SLLM_MOD_DIR wins when valid
+FAIL safety env: invalid SLLM_MOD_DIR → bundled tester-mod got="F:\\SteamLibrary\\steamapps\\workshop\\content\\281990\\3819625112" want="C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-tsc\\app\\tester-mod"
+PASS safety env: isConnectionMod checks sllm_probe_effects.txt
+PASS safety env: resolveEnvironment honours prefs
+FAIL safety env: resolveEnvironment auto (SLLM_GAME_LOG, no game found) got=["C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-selftest-jmKw6f\\env-S2VyUT\\envuser","C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-selftest-jmKw6f\\env-S2VyUT\\envuser\\logs\\game.log",true,"F:\\SteamLibrary\\steamapps\\common\\Stellaris",true] want=["C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-selftest-jmKw6f\\env-S2VyUT\\envuser","C:\\Users\\mingyu\\AppData\\Local\\Temp\\sllm-selftest-jmKw6f\\env-S2VyUT\\envuser\\logs\\game.log",true,null,false]
+PASS safety env: runtime user dir override
+PASS safety bridge: exit 2-7 without JSON are sure failures
+PASS safety bridge: other exits without JSON are uncertain
+PASS safety bridge: completed with error result
+PASS safety bridge: completed but game status unknown
+PASS safety bridge: state 1 (never delivered)
+PASS safety bridge: state 2 keeps request even with exit 0
+PASS safety bridge: EACCES spawn failure
+PASS safety keyboard: warmUpInput is a no-op without SLLM_LEGACY_CONSOLE=1
+PASS dev fake: every fake line parses
+PASS dev fake: LOADED uses dev save id
+PASS dev fake: player IDX 9000
+PASS dev fake: fake empires 9001-9004
+PASS dev fake: NEWS AI-vs-AI pacts and same-name war (one a=0)
+PASS dev fake: SPEECHPF + SPEECH prep
+PASS dev fake: radio EVT lines parse as radio events
+PASS hotfix 5.5: leader_death radio text does not assert death
+PASS hotfix 5.5: leader_death not written to empire chronicle (newspaper)
+PASS hotfix 5.5: chat input lock flag is declared (input re-enables after reply)
+PASS dev fake: council lines (all members AI → player non-member)
+PASS dev guard: refuses when dev mode is off
+PASS dev guard: injection refused while a game is connected
+PASS dev radio bypass works only in dev mode
+PASS dev radio bypass ignored outside dev mode (radioNow still blocked)
+PASS dev speech: truncated reply recovered through parseTurn/recoverTurn
+PASS dev F-12 delivery message cases
+PASS dev A-16 samples: 80% allowed, 79.9% refused
+PASS dev A-17 behavior preview shows prompt lines
+PASS dev samples are well-formed and labelled
+PASS dev tools: every IPC handler is wrapped by the dev-mode guard
+PASS dev tools never send anything to the game
+PASS A-16 councilForce checks before building or sending any command
+PASS A-16 openCouncil records the same info as the window (after reliability)
+PASS A-16 closing the council window clears the state
+PASS A-16 councilDebate records persuasion (AI path and no-AI dev path)
+PASS A-00b addons-app.ts does not import main.ts
+PASS A-00b ai-settings.ts does not import main.ts
+PASS A-00b archive-app.ts does not import main.ts
+PASS A-00b banquet-app.ts does not import main.ts
+PASS A-00b chat.ts does not import main.ts
+PASS A-00b chronicle-app.ts does not import main.ts
+PASS A-00b conversation-favors.ts does not import main.ts
+PASS A-00b council.ts does not import main.ts
+PASS A-00b dev-tools.ts does not import main.ts
+PASS A-00b dinner-app.ts does not import main.ts
+PASS A-00b effect-verifier.ts does not import main.ts
+PASS A-00b environment.ts does not import main.ts
+PASS A-00b espionage-app.ts does not import main.ts
+PASS A-00b faction-app.ts does not import main.ts
+PASS A-00b gamestate-app.ts does not import main.ts
+PASS A-00b gov.ts does not import main.ts
+PASS A-00b govreport.ts does not import main.ts
+PASS A-00b images.ts does not import main.ts
+PASS A-00b mail-app.ts does not import main.ts
+PASS A-00b media.ts does not import main.ts
+PASS A-00b mediation-app.ts does not import main.ts
+PASS A-00b peace-app.ts does not import main.ts
+PASS A-00b portrait-lib-app.ts does not import main.ts
+PASS A-00b radio-app.ts does not import main.ts
+PASS A-00b settings-ui.ts does not import main.ts
+PASS A-00b speech-app.ts does not import main.ts
+PASS A-00b summit.ts does not import main.ts
+PASS A-00b support.ts does not import main.ts
+PASS A-00b terminal.ts does not import main.ts
+PASS A-00b windows.ts does not import main.ts
+PASS A-00b feature imports have no cycle
+PASS A-00b step 6 modules exist (council, mail-app, terminal, chat)
+PASS F-36 safeSend skips destroyed window/webContents and swallows a late destroy
+PASS F-36 only the live window received a message
+PASS F-36 radio-app sends only through safeSend (launcher icon included)
+PASS F-33B corrupt aired file → empty record
+PASS F-33B corrupt aired file is logged
+PASS F-33B missing aired file stays quiet
+PASS F-33B aired save failure logged, kept in memory
+PASS F-33B request cleanup and console log failures are logged
+PASS A-00b step 7 windows.ts sends to windows only through safeSend
+PASS A-00b step 7 settings-ui.ts sends to windows only through safeSend
+PASS A-00b step 7 main.ts creates no windows (features/windows.ts does)
+PASS F-33A missing file = first run
+PASS F-33A valid file (BOM ok)
+PASS F-33A key map keeps non-empty strings only
+PASS F-33A corrupt file kept as .bad, treated as empty
+PASS F-33A non-object JSON treated as corrupt
+PASS F-33A unreadable file = failure (must not be overwritten)
+PASS F-33A atomic write, no temp left
+PASS F-33A write failure returns a reason
+PASS F-33A settings.ts: unreadable key file blocks overwrite, no silent catch, read-only guard, decrypt failure logged
+PASS F-28 old names re-export gamedate
+PASS F-28 dateNum one/two-digit month
+PASS F-28 dayNo 30-day months, 360-day year
+PASS F-28 cmpDate mixed formats
+PASS F-28 addMonths/addYears
+PASS F-28 no private date math left in old modules
+PASS A-01 agendas: only cohesion and war declaration
+PASS A-01 rule: war reads declare_war_* law
+PASS A-01 rule: cohesion defaults to unanimous
+PASS A-01 rule: president vote = leader decides
+PASS A-01 rule: unknown laws = unanimous, one nation one vote
+PASS A-01 tally: diplomatic weights, unanimous blocked by no/abstain
+PASS A-01 tally: unanimous passes when everyone votes yes
+PASS A-01 tally: player abstain blocks unanimous
+PASS A-01 tally: war vote, weighted majority, nobody excluded
+PASS A-01 tally: majority still passes without the player (79/147)
+PASS A-01 tally: equal votes 2/5 is not a majority
+PASS A-01 tally: leader decides (leader stance 70 = yes)
+PASS A-01 agenda: war needs a target that is a non-member contact; cohesion needs none
+PASS A-01 seats: leader at the head (left end), player at the far end (right), others across and near side
+PASS A-01 seats: 2..12 members (player leader or not) get distinct, balanced seats
+PASS A-01 demo replies: deterministic, AI only, move toward player vote
+PASS A-01 live debate and guarded experimental apply are connected
+PASS F-37 radio on_actions has no effect = { } block (4.5.2 rejects it)
+PASS F-37 every radio on_action event id exists in events file
+PASS F-37 radio events braces balanced
+PASS F-39 sllm_probe_connection.txt logs req through a variable (req=$REQ$ prints req6$ in 4.5.2)
+PASS F-39 sllm_probe_terminal.txt logs req through a variable (req=$REQ$ prints req6$ in 4.5.2)
+PASS F-39 sllm_probe_galcom_force.txt logs req through a variable (req=$REQ$ prints req6$ in 4.5.2)
+PASS F-42 resume effect logs vote and none
+PASS F-42 resume runs on load and monthly
+PASS F-42 app ignores resume line for an agenda it already knows
+PASS A-21 font kept, old style text dropped
+PASS A-21 default/unknown font -> auto
+PASS A-21 font list: serious serif + modern sans
+PASS A-21 news prompt has no user style line
+PASS A-21 paper applies per-paper font
+PASS A-22 paper surface removes glow
+PASS A-21 settings: font select instead of style text
+PASS A-23 unknown → plaza
+PASS A-23 authoritarian → podium
+PASS A-23 strongest ethic wins
+PASS A-23 tie → order (aut first)
+PASS A-23 machine → core
+PASS A-23 hive → nexus
+PASS A-23 prompt names venue and asks for an action line
+PASS A-25 separate speech writer first, then start
+PASS A-25 title field + lined paper
+PASS A-25 side speech text can fold, not sent as a turn
+PASS A-25 speech text is private
+PASS A-25 no draft turn in app
+PASS paper brand pinned left of masthead
+PASS A-24 council seats get flag + hover card with weight %
+PASS A-22 every ethic theme survives sanitize
+PASS A-22 theme.js defines every theme
+PASS A-22 settings select lists every theme
+PASS A-22 current look is named 기본형
+PASS A-22 no real extremist symbols in themes
+PASS A-04 founder portrait from founder_species_ref
+PASS A-09 species share counts only own planets
+PASS A-09 game class LITHOID
+PASS A-09 game class MAM
+PASS A-09 unknown class
+PASS A-09 seatMix classes and shares
+PASS A-09 same class merged
+PASS A-09 no save info -> class fallback 100%
+PASS A-04 game texture portraits removed (user decision)
+PASS A-09 council.html uses member species mix
+PASS A-09 council members carry species mix
+PASS A-01 member line before FED ignored
+PASS A-01 not done before FEDEND
+PASS A-01 collected federation
+PASS A-01 FedInfo: player, leader, neutral stance, latest weight
+PASS A-01 FedInfo: no law-change choices any more
+PASS A-01 law groups
+PASS A-01 no federation
+PASS A-01 player not a member -> null
+PASS A-01 mod checks every federation law key
+PASS A-01 mod type numbers match FED_TYPE_KEYS
+PASS A-01 mod read effect is read-only and uses no Root
+PASS A-01 read command
+PASS A-01 federation lines routed
+PASS A-01 war mod: leader declares war, result line, no $PARAM$ inside log
+PASS A-01 summit UI offers only cohesion and war declaration
+PASS A-22 scene image keys
+PASS A-26 govreport has office and governor-room background slots
+PASS A-22 scene slot in council.html
+PASS A-22 scene slot in summit.html
+PASS A-22 scene slot in paper.html
+PASS A-22 scene slot in speech.html
+PASS A-22 per-stage speech background
+PASS A-22 scene-slots uses image IPC only
+PASS A-22 vanilla hologram theme
+PASS A-22 holo in theme select
+PASS A-22 paper surface paper/display
+PASS A-22 paper follows theme changes
+PASS A-22 example folder has a spec image for every scene slot + README
+PASS A-22 README lists every scene key
+PASS A-22 slot popups show recommended size and open the examples
+PASS A-22 picker dialog parented to the calling window
+PASS F-46 sendConsole refuses before the session is ready (before any input)
+PASS F-46 new game process resets readiness; app started mid-game keeps it if mod lines exist
+PASS F-46 first mod line after game start marks the session ready
+PASS F-46 window watcher reports game process
+PASS F-46 no feature calls runConsoleCommand directly (all go through sendConsole)
+PASS workshop id and path rule
+PASS official workshop item is checked before local tester copies
+PASS A-26 healthy planet scores 0
+PASS A-26 trouble score adds stability/amenity/housing
+PASS A-26 unknown values ignored
+PASS A-26 picks the worst planet
+PASS A-26 small trouble → no report
+PASS A-26 no list → no report
+PASS A-26 opening asks for the report
+PASS A-26 once per save-year, not during log replay, only with the game running
+PASS A-26 hologram window exists
+PASS peace: 전쟁 목록 명령
+PASS peace: AI 전쟁 점령 읽기 명령
+PASS peace: 플레이어 전쟁 찾기
+PASS peace: 성계 이전 뒤 종전
+PASS peace: 잘못된 번호·중복 성계·같은 방향 거부
+PASS peace: 같은 성계 줄은 한 번
+PASS peace: 영유권 안 점령지만, 점령국 쪽으로
+PASS peace: 영유권 밖 점령지는 이전 후보 아님
+PASS peace: 전쟁 줄 읽기
+PASS peace: 같은 나라끼리 전쟁 줄 무시
+PASS peace: 실제 전쟁 → 중재 자료(주장국 = 점령국)
+PASS peace: 영유권 밖 점령지는 사실에 표시
+PASS peace: 협상안 → 넘길 성계
+PASS peace: 영유권 밖 성계는 협상안에 넣을 수 없음
+PASS peace: 화면 검사도 영유권 밖 성계 거부
+PASS peace: 현상 유지 미리보기 = 영유권 안 점령지 목록
+PASS peace: 적용 결과 읽기
+PASS peace: 전쟁 없으면 아무것도 안 함
+PASS peace: 결과 요약
+PASS peace: 적용한 합의 기록·다시 읽기
+PASS peace: 모드 로그 문자열에 매개변수 없음(F-39)
+PASS peace: 모든 모드 로그 줄에 요청 번호
+PASS peace: 종전·양쪽 휴전·이전·영유권 재확인·참전국 제한
+PASS peace: 적용 순간에도 영유권·점령 확인 후 이전
+PASS peace: 대화 평화·강제 평화는 현상 유지 경로
+PASS peace: 보내기 전에 적용 표시(재전송 방지)
+PASS spy: 끝나기 전에는 제재 없음
+PASS spy: 기자회견 = 관계 −100만
+PASS spy: 대면 실패 2건 = 생산 −18% · 관계 −200
+PASS spy: 퇴장 = 최대 제재
+PASS spy: 제재 명령(한 번만·통신 상대·2년)
+PASS spy: 기자회견은 생산 제재 없음
+PASS spy: 잘못된 인자 거부
+PASS spy: 실사용 수정자 3등급
+PASS spy: 관계 하락은 줄어들며 사라짐
+PASS spy: 이름표(BOM·한영)
+PASS spy: 효과 검증에 실사용 수정자 포함
+PASS spy: 끝·퇴장 때 적용, 보내기 전에 대기 표시
+PASS offer: 5% + 45%×각 피로도, 최대 90%
+PASS offer: 이상한 피로도는 0..1 로
+PASS offer: 굴림 실패 → 알림 없음
+PASS offer: 둘 다 걸리면 더 지친 전쟁 하나
+PASS offer: 전쟁 없으면 없음
+PASS offer: 처음 본 세이브는 기록만, 해가 바뀔 때만
+PASS offer: 알림은 LLM 없이, [중재하기] 버튼, 실제 게임 연결 중에만
+PASS offer: 알림 버튼 → 중재 회담
+PASS offer: 알림에 A-B 전쟁과 각국 피로도
+PASS offer: 모드가 공격국·방어국 모두 일반 제국만
+PASS offer: 앱도 양쪽이 이름 있는 일반 제국 연락처일 때만
+PASS chat: 일반 통신에는 횟수·호의 없음, 만찬 대화에만
+PASS 정체: 연락처 gest·플레이어 gest 를 읽는다
+PASS 정체: PROFILE gest
+PASS 정체: gest 없으면 일반
+PASS 정체: 모드가 CONTACT·PROFILE 에 gest 를 기록
+PASS 기계·군체: 파벌 회의는 열지 않는다
+PASS 말투: 일반은 추가 없음, 기계·군체는 전용 지시
+PASS 말투: 기계와 군체가 서로 다른 지시
+PASS 만찬: 정체에 따라 데이터 동기화·의식 공유
+PASS 만찬: 화면 이름 바꿈
+PASS 통신 로그: 원본 게임 줄은 개발자 모드에서만, 평소엔 통신 로그
+PASS 통신 기록: 상대마다 따로, 돌아오면 복원
+PASS 대화 기록: 새 상대는 빈 기록
+PASS 대화 기록: 돌아오면 그 상대 기록만 이어서(다른 상대 말이 섞이지 않는다)
+PASS 대화 기록: 보관은 최근 40명까지
+PASS 버전 비교: 알파 번호·정식·자리 수
+PASS 버전 비교: 알파 5.1·5.5 처럼 점이 하나 더 붙은 표기(예전엔 읽지 못해 안내가 꺼져 있었다)
+PASS 버전 확인: descriptor.mod 에서 version 읽기(supported_version 과 혼동 없음)
+PASS 버전 확인: 상태 판정
+PASS 버전 확인: 안내 문구와 출처(게임 응답 우선, 없으면 모드 폴더)
+PASS 버전 확인: 환경 정보와 화면 배너 연결
+PASS 사용자 폴더: 문서·Paradox Interactive·logs 를 골라도 Stellaris 폴더
+PASS 사용자 폴더: 관련 없는 폴더는 거절
+PASS 연결 모드: 모드 폴더·창작마당 폴더·steamapps 를 골라도 인식
+PASS 연결 모드: 압축을 풀며 폴더가 겹쳐도 인식
+PASS 연결 모드: 모드가 없으면 거절
+PASS 게임 폴더: 라이브러리·common·flags 를 골라도 Stellaris 폴더
+PASS 세이브 폴더: 사용자 폴더를 골라도 save games 로 보정
+PASS 경로 안내: 못 찾았을 때 할 일을 안내(경로 노출 없음)
+PASS 경로 안내: 플레이셋에 SLLM 이 없으면 알려 줌
+PASS 경로 안내: 모두 정상이면 조용함
+PASS 버프: 항목 id 중복 없음
+PASS 버프: 모디파이어 이름 중복 없음
+PASS 버프: 모든 모디파이어가 모드 파일에 같은 키·값으로 정의됨
+PASS 버프: 한글·영문 표시 이름 모두 있음
+PASS 버프: 항목마다 5단계, 90개 이상
+PASS 버프: 이름 규칙과 수치 상한(치트 수준 배수 없음)
+PASS 버프: 현지화 파일은 BOM 포함 UTF-8
+PASS 경제 사정: 모드가 PROFILE 에 ec= 를 기록
+PASS 경제 사정: 효과 파일 중괄호 균형
+PASS 경제 사정: ec 는 0~4 다섯 자리만 인정
+PASS 경제 사정: 정보 없으면 아무 줄도 넣지 않음
+PASS 경제 사정: 부족 자원을 이름·상태와 함께 알림
+PASS 경제 사정: 풍족한 자원은 따로
+PASS 경제 사정: 모두 무난하면 부족하다고 지어내지 않게
+PASS 경제 사정: 묻기 전에는 먼저 말하지 않게
+PASS 경제 사정: 시스템 프롬프트에 포함
+PASS 신문: 4건 이상 와도 3건까지만 싣는다
+PASS 신문: 프롬프트도 2~3건
+PASS 호외: 큰 사건 종류만
+PASS 호외: 기사 한 건, 본문 없으면 버림
+PASS 호외: 프롬프트
+PASS 호외: 해마다 센다
+PASS 호외는 같은 날 정기 호를 막지 않는다
+PASS 번역 누락: 
+PASS 다른 창 번역 누락: 
+PASS 번역 패턴
+PASS 신문 지면 문구 번역: 호외 · 號外
+PASS 신문 지면 문구 번역: 지면: 
+PASS 라이브러리: 직접 만든 통치자는 design 초상화·성별
+PASS 라이브러리: 지도자 초상화가 없으면 종족 초상화
+PASS 라이브러리: 통치자 정보가 없어도 빈 결과
+PASS 라이브러리: 안전하지 않은 항목은 버림
+PASS 라이브러리: 폴더 밖 파일 이름 거부
+PASS 라이브러리: 이상한 그룹 이름 거부
+PASS 라이브러리: 항목 이름에서 성별
+PASS 라이브러리: 그룹 이름 + 성별 맞춤
+PASS 라이브러리: 초상화 ID 맞춤
+PASS 라이브러리: 같은 시드는 같은 항목
+PASS 라이브러리: 맞는 게 없으면 null
+PASS 의원: 여러 얼굴·남녀가 섞임
+PASS 의원: 같은 시드는 같은 얼굴
+PASS 의원: 외계인 혐오는 의석 계열과 상관없이 통치자 모델(남녀 쌍)만
+PASS 의원: 통치자를 모르면 제국당 한 모델
+PASS 의원: 라이브러리가 비면 null(기존 계열 그림으로)
+PASS pak: 풀기 성공
+PASS pak: 안전한 이름만 풀림(폴더 밖·png 거부)
+PASS pak: 내용 그대로
+PASS pak: 같은 pak 은 다시 풀지 않음
+PASS pak: 파일이 없으면 false
+PASS pak: 깨진 파일은 false
+PASS 라이브러리: 의회 화면이 의원 선택기를 쓴다
+PASS 라이브러리: 사용자가 올린 그림이 먼저
+PASS 라이브러리: 대화 상대 자동 초상화
+PASS 라이브러리: 의회 의원에 외계인 혐오·통치자 항목 전달
+PASS 라이브러리: main 연결
+PASS 라이브러리 영어 문구: 포트레이트 라이브러리
+PASS 라이브러리 영어 문구: 라이브러리 자동 선택
+PASS 라이브러리 영어 문구: 의회 의원 초상화(계열)
+PASS 라이브러리 영어 문구: 플레이어 통치자 초상화
+PASS 라이브러리 영어 문구: 라이브러리 그림을 찾지 못했습니다.
+PASS game path: 0바이트 파일은 빈 값
+PASS game path: 비면 자동 탐색 폴더로 후보
+PASS game path: BOM·NUL 제거
+PASS game path: 설치 기록이 먼저, 같은 폴더는 한 번만
+PASS game path: 파일이 없으면 빈 값
+PASS game path: 실패 문구에 확인한 경로를 적는다
+PASS 선물: 제안 읽기
+PASS 선물: 한글 자원·쉼표 숫자
+PASS 선물: 이상한 자원·양은 무시
+PASS 선물: AI 응답에서 gift 칸
+PASS 선물: gift 없음·JSON 아님
+PASS 선물: ec 로 부족 판정(1~3)
+PASS 선물: 부족 자원 100 이상 → 호의
+PASS 선물: 100 미만은 감사만
+PASS 선물: 부족하지 않은 자원은 감사만
+PASS 선물: 만찬당 한 번
+PASS 선물: 대화 정산으로 이미 5면 없음
+PASS 선물: 끝 정산은 5 - 선물 호의
+PASS 선물: 명령은 보유 확인 후 빼고 상대에게 더함
+PASS 선물: 같은 선물 중복 방지·대상 없음 기록
+PASS 선물: 창고 확인은 자원을 옮기지 않음
+PASS 선물: 괄호 짝
+PASS 선물: 잘못된 세이브 번호 거부
+PASS 선물: 양 검증
+PASS 선물: 프롬프트에 gift 칸 지시
+PASS 선물: 상대 경제 사정·받은 선물을 문맥에 넣음
+PASS 선물: 창고 확인이 같은 자원·양일 때만 보내기
+PASS 선물: 보내기 전에 기록, 불확실하면 재전송 없음
+PASS 선물: 호의는 별도 기록 키, 끝 정산은 상한에서 뺌
+PASS 선물: 만찬 화면 카드
+PASS 선물 영어 문구: 선물 보내기
+PASS 선물 영어 문구: 🎁 선물
+PASS 선물 영어 문구: 창고에 이만큼 없습니다.
+PASS 선물 영어 문구: 상대가 부족한 자원 · 호의 +1
+PASS 선물 영어 문구: 선물을 전달했습니다(게임 확인).
+PASS 선물 영어 문구: 광물
+PASS 선물 영어 문구: 소비재
+PASS 표본: 게임 파일 258종
+PASS 표본: 키·한/영 이름이 모두 있고 치환 문자 없음
+PASS 표본: 키 중복 없음
+PASS 표본: 읽기 명령
+PASS 표본: 모드가 258종 모두 확인
+PASS 표본: 모드 키 = 앱 표 키
+PASS 표본: 모드 괄호 짝
+PASS 표본: 1단계는 읽기만(게임 변경 없음)
+PASS 표본: 분류별 전시 수 1~30
+PASS 표본: BEGIN 전 줄은 무시
+PASS 표본: 다른 요청 줄은 섞이지 않음
+PASS 표본: 목록·분류 순서·모르는 키·전시 수
+PASS 표본: 이름은 게임 현지화
+PASS 표본: 프롬프트 요약
+PASS 표본: 로그 자리·등록
+PASS 표본: 만찬 창 패널
+PASS 표본 영어 문구: 🏛 수집품
+PASS 표본 영어 문구: 외계 지질학
+PASS 표본 영어 문구: 미적 경이
+PASS 표본 영어 문구: 은하 역사
+PASS 표본 영어 문구: 모든 분류
+PASS 표본 영어 문구: 탁월
+PASS 표본 영어 문구: 게임에서 다시 읽기
+PASS 표본 선물: 희귀도 보상(사용자 확정)
+PASS 표본 선물: 만찬 상한 5 안에서만
+PASS 표본 선물: 상대에게 준 뒤 내 것을 뺀다
+PASS 표본 선물: 상대가 받은 것을 확인한 뒤에만 뺀다
+PASS 표본 선물: 받을 수 있는지·보유 확인
+PASS 표본 선물: 관계 보정은 rare·exceptional 만
+PASS 표본 선물: 중복 방지·대상 없음
+PASS 표본 선물: 확인은 옮기지 않음
+PASS 표본 선물: 괄호 짝
+PASS 표본 선물: 표에 없는 키 거부
+PASS 표본 선물: 모드 관계 보정 정의
+PASS 표본 선물: 현지화 BOM·키 korean
+PASS 표본 선물: 현지화 BOM·키 english
+PASS 표본 선물: 보내기 전 기록, 호의 기록 키는 표본마다
+PASS 표본 선물: 표본 호의는 따로 세고 끝 정산에서 뺀다
+PASS 표본 선물: 게임 확인이 끝난 표본만 보내기
+PASS 표본 선물: 받은 표본을 대화 문맥에 넣음
+PASS 표본 선물: 수집품 [선물] → 만찬 카드
+PASS 표본 선물 영어 문구: 표본 선물
+PASS 표본 선물 영어 문구: 선물
+PASS 표본 선물 영어 문구: 관계 크게 상승
+PASS 표본 선물 영어 문구: 관계 소폭 상승
+PASS 표본 선물 영어 문구: 표본을 전달했습니다(게임 확인).
+PASS 표본 선물 영어 문구: 상대가 이미 가졌거나 받을 전시 자리가 없습니다.
+PASS 표본 선물 영어 문구: 전달 거부
+PASS session pinned across retry
+PASS safety bridge: empty/NUL/oversized command rejected before any file is written
+PASS safety bridge: requests run one at a time in order
+PASS safety keyboard: DLL path by default, input hook ends on failure, clipboard untouched
+PASS router switches after idle, no fallback
+PASS watcher skips old, joins split line
+PASS watcher handles truncation
+PASS F-41 replay restores max req/last without feature delivery
+PASS F-41 old speech/month leaves saved speech untouched
+PASS F-41 old loaded/month leaves governor timeline untouched
+PASS F-41 new monthly signal completes speech once
+PASS F-41 real save rewind still creates a governor branch
+PASS F-41 watcher restart does not repeat speech or rewind
+PASS F-41 split Korean bytes across startup EOF stay historical; following line is live
+PASS F-41 large startup log spans bounded reads
+PASS F-41 append during replay remains live after frozen boundary
+PASS F-41 truncated game log starts a live session
+PASS F-41 same-size replacement is detected by file identity
+PASS F-41 file created after startup is live
+PASS F-41 path change protects pre-existing history
+PASS F-41 app history handler only learns request numbers
+PASS F-41 live messages still use the complete feature router
+PASS F-39 speech exact receipt 1/sllm_speech_war_2/41
+PASS F-39 speech exact receipt 2/sllm_speech_war_2/41
+PASS F-39 speech exact receipt /sllm_speech_war_2/41
+PASS F-39 speech exact receipt 1/sllm_speech_war_1/41
+PASS F-39 speech exact receipt 1//41
+PASS F-39 speech exact receipt 1/sllm_speech_war_2/NaN
+PASS F-39 speech exact receipt 1/sllm_speech_war_2/40
+PASS F-39 speech exact receipt 1/sllm_speech_war_2_extra/41
+PASS F-39 council receipt does not need fragile key echo
+PASS F-39 unrelated or invalid council receipt rejected {"sid":"2"}
+PASS F-39 unrelated or invalid council receipt rejected {"req":"43"}
+PASS F-39 unrelated or invalid council receipt rejected {"mode":"cancel"}
+PASS F-39 unrelated or invalid council receipt rejected {"state":"anything"}
+PASS F-39 unrelated or invalid council receipt rejected {"key":"resolution_y"}
+PASS F-39 explicit ended status accepted
+PASS F-39 empty status is not treated as ended
+PASS F-35 custom class name preserved
+PASS F-35 governor knows custom class
+PASS F-35 empty numeric fields remain unknown
+PASS F-35 unexpanded class getter uses known fallback
+PASS F-46 queued work cancelled after same-save session change
+PASS F-46 stale command was never executed
+PASS F-46 cancellation does not stop later current-session work
+PASS F-46 queued work cancelled on save id change
+PASS F governor concurrent refresh uses one request
+PASS F governor shared refresh returns result to both callers
+PASS F governor completed refresh permits a fresh read
+PASS F governor failed refresh does not permanently block reads
+PASS F-39 every speech kind/grade has a literal receipt
+PASS F-39 speech receipt requires actual modifier
+PASS F-39 speech receipt has numeric variables and save identity only
+PASS F-39 council log has no string parameter substitution
+PASS F-43 opposite opinion uses direct previous country scope
+PASS F-31 one shared scan-code script
+PASS F-31 common fallback and no in-flight retry: success
+PASS F-31 common fallback and no in-flight retry: startup-failure
+PASS F-31 common fallback and no in-flight retry: inflight-failure
+PASS p2 health
+PASS p2 chat auto-login
+PASS p2 joules
+PASS health sends game attribution
+PASS local chat sends game attribution
+PASS compose basic
+PASS compose double final moves
+PASS compose double vowel
+PASS decode korean + shift + punct
+PASS decode english/digit
+PASS unknown key
+PASS parse key list
+PASS open kb effect
+PASS parse KBP line
+PASS mail country parse
+PASS news empty number
+PASS news text
+PASS parse pick filters unknown and duplicates
+PASS parse pick garbage
+PASS plan not yet
+PASS plan due month
+PASS plan flush on new year
+PASS add years
+PASS compare dates
+PASS letter prompt has context
+PASS pick prompt lists empire
+PASS transcript format
+PASS transcript fallback
+PASS transcript trims old lines
+PASS game line
+PASS game not running
+PASS game line garbage
+PASS dock right beside icon
+PASS icon on other side: normal margin
+PASS dock right
+PASS dock left
+PASS dock offset clamped
+PASS launcher top-right
+PASS launcher bottom-left
+PASS launcher offset clamped
+PASS dock beside icon, no overlap 1280x720
+PASS layout 1280x720
+PASS dock beside icon, no overlap 1920x1080
+PASS layout 1920x1080
+PASS dock beside icon, no overlap 2560x1440
+PASS layout 2560x1440
+PASS dock beside icon, no overlap 3440x1440
+PASS layout 3440x1440
+PASS dock beside icon, no overlap 3840x2160
+PASS layout 3840x2160
+PASS dock beside icon, no overlap 1366x768
+PASS layout 1366x768
+PASS scale 1080 auto
+PASS scale 4k capped
+PASS scale 720 floor
+PASS scale manual
+PASS scale clamp user
+PASS toFrac
+PASS dock frac
+PASS dock frac scales with resolution
+PASS theme ok
+PASS theme invalid falls back
+PASS custom colors sanitized
+PASS custom null
+PASS css template comments close properly
+PASS image name sanitized
+PASS image ext rejected
+PASS stored name unsafe rejected
+PASS image map sanitized
+PASS image key species
+PASS image key needs species
+PASS country beats species
+PASS species fallback
+PASS no portrait
+PASS image key class
+PASS image key class needs class
+PASS class fallback
+PASS species beats class
+PASS image key ok
+PASS image key bad rejected
+PASS save id clean
+PASS country key by id in save
+PASS country key legacy by name
+PASS country key needs idx
+PASS species key in save
+PASS save key ok
+PASS save key bad rejected
+PASS same save country
+PASS rename keeps portrait
+PASS other save does not get portraits
+PASS save species fallback
+PASS no save id uses legacy name
+PASS talk sid
+PASS talk without sid
+PASS planet before header ignored
+PASS header
+PASS planets 2
+PASS planet header
+PASS real governor name
+PASS default governor name
+PASS capital flag
+PASS 주민 수: 정확한 값(pn)이 있으면 그것을 쓴다(300 으로 잘리지 않는다)
+PASS 주민 수: pn 이 없으면 단계 값은 '이상' 표시
+PASS 주민 수: 총독 프롬프트에 정확한 수 / 이상 구분
+PASS 주민 수: 모드가 정확한 수(num_pops)를 로그로 보낸다
+PASS unread values are null
+PASS facts
+PASS facts empty
+PASS gov prompt
+PASS gov messages
+PASS planet type
+PASS mem add + dedupe
+PASS mem persists after restart (save rollback keeps it)
+PASS mem is per save line
+PASS mem cap
+PASS mem remove
+PASS levels
+PASS prompt has memory
+PASS generic governor has no memory
+PASS level 0 prompt
+PASS planets effect
+PASS end without header ignored
+PASS agenda title
+PASS agenda title empty
+PASS delegate key
+PASS delegate beats class
+PASS delegate falls back to class
+PASS delegate none
+PASS leader key ok
+PASS leader beats class
+PASS leader falls back to class
+PASS leader none
+PASS class key sanitized
+PASS opacity clamp
+PASS hotkey sanitize
+PASS fade clamp
+PASS point in rect
+PASS fade target
+PASS fade step
+PASS class key
+PASS default portrait name
+PASS 깃발: 나라 2개 읽음
+PASS 깃발: 문양/배경
+PASS 깃발: 색
+PASS 깃발: sllm_idx 연결(sllm_idx_next 는 무시)
+PASS 깃발: country 구역 밖은 읽지 않음
+PASS zip 읽기(deflate)
+PASS zip 읽기(stored)
+PASS zip: 없는 파일은 null
+PASS DDS: BGRA 해석
+PASS DDS: 잘못된 파일은 null
+PASS 색표 읽기
+PASS 합성: 문양(초록 채널=두번째 색 검정)이 배경을 덮음
+PASS PNG 머리말
+PASS 합성: 이미지 없으면 null
+PASS 경로: .sav 3개 찾음(루트 + 하위 폴더, 대소문자 무시)
+PASS 경로: 제국 폴더를 직접 골라도 찾음
+PASS 경로: 없는 폴더는 빈 목록
+PASS 경로: 가장 최근 세이브
+PASS 경로: 직접 고른 세이브 폴더만 본다
+PASS 경로: 게임 폴더 검사(colors.txt 없으면 거부)
+PASS 전기: 전기 없는 설계는 건너뜀
+PASS 전기: 따옴표 안의 # 와 이스케이프 처리
+PASS 전기: 최상위 설계 2개
+PASS 전기: EMPIRE_DESIGN_ 키만 읽음
+PASS 전기: 이름-설명 짝(설명 없는 제국은 제외)
+PASS 전기: 줄바꿈 정리와 길이 제한
+PASS 전기: 기본 제국 설명 찾기
+PASS 전기: 같은 이름이면 내가 만든 설계가 우선
+PASS 전기: 모르면 null(게임 폴더 없어도 죽지 않음)
+PASS 전기: 파일이 바뀌면 다시 읽음
+PASS 전기: 프롬프트에 상대/플레이어 배경이 들어가고, 없으면 안 들어감
+PASS 세이브 전기: 종족별 전기 읽기(없는 종족은 제외, 이스케이프 처리)
+PASS 세이브 전기: 국가 -> 건국 종족 -> 전기, 모드 번호 연결
+PASS 세이브 전기: 전기 없는 종족의 제국은 없음
+PASS 모드: 설명 파일에서 path 읽기(archive 만 있으면 null)
+PASS 모드: 켜진 모드 폴더를 로드 순서대로(절대/상대 경로, archive 와 없는 파일은 건너뜀)
+PASS 모드: dlc_load.json 이 없으면 빈 목록
+PASS 모드: 제국 이름 키만 모음(종족 안의 name 은 제외)
+PASS 모드: 번역 줄 읽기(필터, 주석, 이스케이프)
+PASS 모드: 모드 제국의 이름과 설명
+PASS 모드: 설명 키가 없는 모드 제국은 제외
+PASS 모드: 한국어가 없으면 영어 번역으로 대신함
+PASS 모드: 뒤에 로드된 모드의 한국어 번역이 게임 기본 설명을 덮어씀(영어 번역은 한국어를 덮지 않음)
+PASS 모드: 제국과 관계없는 번역은 섞이지 않음
+PASS 모드: LoreStore 에서 모드 제국 찾기
+PASS 모드: 모드를 끄면 사라짐
+PASS extractGovSay
+PASS DXT5 해독
+PASS 총독 기억 시간선(분기)
+PASS 브리핑·연대기
+PASS 속도 재기
+PASS 조약 얼버무리기
+PASS 제국별 연대기
+PASS AI끼리 대화(소문)
+PASS 소문·신문 토큰 낭비 수정
+PASS 은하 뉴스
+PASS 뉴스를 읽는 AI
+PASS 신문사·논평
+PASS 신문사 성향·큰 사건
+PASS 위기 안건
+PASS 총독: 잘림 표시 → 끊김
+PASS 총독: 닫히지 않은 JSON → 끊김
+PASS 총독: 완결 JSON → 정상
+PASS 총독: 평문 → 정상
+합계: PASS 1229 · FAIL 4
+SOME FAILED
+

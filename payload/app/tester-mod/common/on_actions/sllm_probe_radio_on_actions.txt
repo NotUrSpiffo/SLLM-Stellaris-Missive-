@@ -1,0 +1,97 @@
+# SLLM Probe - 성간 라디오용 이벤트 기록 (EXPERIMENT).
+# 플레이어(is_ai = no)와 관련된 게임 사건만 게임 로그에 한 줄로 남긴다. 앱이 이를 읽어 성간 라디오 방송 재료로 쓴다.
+# 게임 규칙을 바꾸지 않고 기록만 한다. 로그 형식: SLLM:EVT/;/kind=<종류>/;/date=<날짜>/;/...
+# 같은 줄은 게임이 한 번만 기록하므로 연속 사건에는 n=(카운터)를 붙인다.
+# 4.5.2 on_actions 는 effect = { } 블록을 받지 않는다(Unexpected token: effect, 2026-10-15 게임 확인) → 숨은 이벤트 sllm_radio.N 을 부른다(events/sllm_probe_radio_events.txt).
+# 모드의 on_actions 는 게임 것과 합쳐진다. 범위(This/From/FromFrom)는 00_on_actions.txt 의 주석을 따랐다.
+
+
+# 연구: 기술 단계가 올랐다 (This = 국가)
+on_tech_increased = {
+	events = { sllm_radio.1 }
+}
+
+# 전통을 골랐다 (This = 국가)
+on_tradition_picked = {
+	events = { sllm_radio.2 }
+}
+
+# 승천 특전을 골랐다 (This = 국가)
+on_ascension_perk_picked = {
+	events = { sllm_radio.3 }
+}
+
+# 새 통치자가 정해졌다 (This = 국가)
+on_ruler_set = {
+	events = { sllm_radio.4 }
+}
+
+# 통치자가 물러났다 (From = 이전 통치자)
+on_ruler_removed = {
+	events = { sllm_radio.5 }
+}
+
+# 지도자가 죽었다 (This = 국가, From = 지도자)
+on_leader_death = {
+	events = { sllm_radio.6 }
+}
+
+# 지도자가 승급했다 (This = 국가, From = 지도자)
+on_leader_level_up = {
+	events = { sllm_radio.7 }
+}
+
+# 거대구조물이 완공됐다 (Root = 국가, From = 구조물, FromFrom = 성계)
+on_megastructure_built = {
+	events = { sllm_radio.8 }
+}
+
+# 성계 탐사가 끝났다 (Root = 국가, From = 성계)
+on_system_survey = {
+	events = { sllm_radio.9 }
+}
+
+# 선거가 끝났다 (국가)
+on_election_ended = {
+	events = { sllm_radio.10 }
+}
+
+# 전쟁이 시작됐다 (Root = 국가, From = 전쟁)
+on_war_beginning = {
+	events = { sllm_radio.11 }
+}
+
+# 두 제국이 서로를 발견했다 (This = 제국 1, From = 제국 2)
+on_first_contact = {
+	events = { sllm_radio.12 }
+}
+
+# 전쟁에서 이겼다 (Root = 승자 전쟁 주도국, From = 패자 주도국, FromFrom = 전쟁)
+on_war_won = {
+	events = { sllm_radio.13 }
+}
+
+# 전쟁에서 졌다 (Root = 패자 주도국, From = 승자 주도국, FromFrom = 전쟁)
+on_war_lost = {
+	events = { sllm_radio.14 }
+}
+
+# 전쟁이 끝났다 (Root = 패자, From = 주 승자)
+on_war_ended = {
+	events = { sllm_radio.15 }
+}
+
+# 행성 조사 (Root = 행성, From = 국가)
+on_planet_surveyed = {
+	events = { sllm_radio.16 }
+}
+
+# 행성이 점령당했다 (Root = 행성, From = 소유국, FromFrom = 점령국)
+on_planet_occupied = {
+	events = { sllm_radio.17 }
+}
+
+# 지도자를 고용했다 (This = 지도자)
+on_leader_hired = {
+	events = { sllm_radio.18 }
+}

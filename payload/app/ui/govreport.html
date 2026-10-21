@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>통치자 집무실 · 총독 보고</title>
+<style>
+ :root{--bg:#05090c;--panel:#0b1a22;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--bad:#e0705f;--good:#6fd6a8;--mono:"D2Coding","Cascadia Mono",Consolas,"Malgun Gothic",monospace;
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent)}
+ *{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.6 "Malgun Gothic",sans-serif;overflow:hidden}
+ #wrap{display:flex;flex-direction:column;height:100%}
+ #head{-webkit-app-region:drag;display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:1px solid var(--line);background:#0008}
+ #head b{color:var(--gold);letter-spacing:.12em} #head .sp{flex:1} #head .dim{color:var(--dim);font-size:12px}
+ #x{-webkit-app-region:no-drag;background:none;border:1px solid transparent;color:var(--dim);width:26px;height:22px;cursor:pointer} #x:hover{border-color:var(--line);color:var(--text)}
+ #main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) clamp(220px,26vw,300px)}
+ /* 집무실: 나무 벽, 큰 창 너머 별, 책상과 홀로그램 투사기 */
+ #office{position:relative;overflow:hidden;background:
+   linear-gradient(90deg,#1a120c 0 6%,transparent 6% 94%,#1a120c 94%),
+   repeating-linear-gradient(90deg,#20160e 0 46px,#1c130c 46px 92px)}
+ #window{position:absolute;left:12%;right:12%;top:5%;height:46%;border:6px solid #2c2014;border-radius:4px;box-shadow:inset 0 0 40px #000c,0 0 0 2px #120c07;
+   background:radial-gradient(1px 1px at 12% 22%,#fffa,transparent),radial-gradient(1px 1px at 72% 18%,#fff8,transparent),radial-gradient(1.5px 1.5px at 44% 40%,#fff,transparent),radial-gradient(1px 1px at 86% 62%,#fff8,transparent),radial-gradient(1px 1px at 28% 70%,#fff7,transparent),radial-gradient(ellipse at 70% 120%,#3a5a8a66,transparent 60%),linear-gradient(#02060e,#06122a)}
+ #window::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;background:#2c2014}
+ #desk{position:absolute;left:-4%;right:-4%;bottom:0;height:24%;background:linear-gradient(#3a2818,#24180e 40%,#160e08);border-top:3px solid #4a3420;box-shadow:0 -10px 30px #0008}
+ #proj{position:absolute;left:50%;bottom:20%;width:150px;height:22px;margin-left:-75px;border-radius:50%;background:radial-gradient(ellipse,color-mix(in srgb,var(--hi) 70%,#fff) 0,color-mix(in srgb,var(--hi) 40%,transparent) 40%,#0000 70%),#111;box-shadow:0 0 30px color-mix(in srgb,var(--hi) 60%,transparent)}
+ #beam{position:absolute;left:50%;bottom:calc(20% + 10px);width:320px;height:58%;margin-left:-160px;pointer-events:none;
+   background:linear-gradient(to top,color-mix(in srgb,var(--hi) 30%,transparent),transparent 85%);clip-path:polygon(44% 100%,56% 100%,92% 0,8% 0);opacity:.55}
+ #holo{position:absolute;left:50%;bottom:calc(20% + 18px);width:220px;height:52%;margin-left:-110px;display:flex;align-items:flex-end;justify-content:center;animation:fl 4s infinite}
+ #holo .fig{width:100%;height:100%;position:relative;-webkit-mask-image:linear-gradient(to top,transparent 0,#000 18%,#000 100%);mask-image:linear-gradient(to top,transparent 0,#000 18%,#000 100%)}
+ #holo img{width:100%;height:100%;object-fit:contain;object-position:50% 100%;display:block;filter:grayscale(1) sepia(1) hue-rotate(150deg) saturate(2.6) brightness(1.15) drop-shadow(0 0 8px var(--hi));opacity:.8;
+   -webkit-mask-image:repeating-linear-gradient(to bottom,#000 0 2px,rgba(0,0,0,.45) 2px 3px);mask-image:repeating-linear-gradient(to bottom,#000 0 2px,rgba(0,0,0,.45) 2px 3px)}
+ #holo svg{width:100%;height:100%;display:block;opacity:.55;filter:drop-shadow(0 0 10px var(--hi))} #holo svg *{fill:var(--hi)}
+ @keyframes fl{0%,100%{opacity:1}47%{opacity:1}48%{opacity:.6}49%{opacity:1}72%{opacity:.92}}
+ #plate{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);text-align:center;padding:4px 16px;border:1px solid #8a6a3a;background:linear-gradient(#3a2a16,#24180c);color:#e8d29a;font-size:12px;letter-spacing:.06em;white-space:nowrap}
+ #plate b{display:block;font-size:14px;color:#f4e2b0}
+ #sub{position:absolute;left:8%;right:8%;top:8%;padding:8px 14px;background:#000a;border:1px solid var(--line2);text-align:center;font-size:clamp(14px,1.6vw,19px);line-height:1.6;text-shadow:0 0 8px var(--hi),0 2px 6px #000;color:color-mix(in srgb,var(--hi) 30%,#fff)}
+ #sub.wait{opacity:.6;animation:pulse 1.4s ease-in-out infinite} @keyframes pulse{50%{opacity:.3}}
+ #side{border-left:1px solid var(--line);background:color-mix(in srgb,var(--panel) 85%,transparent);display:flex;flex-direction:column;min-height:0}
+ #stats{padding:10px 12px;border-bottom:1px solid var(--line2)}
+ .sec{font-size:11px;letter-spacing:.16em;color:var(--dim);margin:0 0 6px}
+ .st{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dotted var(--line2)} .st b{font-family:var(--mono)} .st.bad b{color:var(--bad)} .st.ok b{color:var(--good)}
+ .why{display:inline-block;margin:6px 4px 0 0;padding:1px 8px;border:1px solid var(--bad);color:var(--bad);font-size:11.5px}
+ #log{flex:1;overflow-y:auto;padding:10px 12px}
+ .ln{margin:0 0 8px} .ln .w{font-size:11px;color:var(--dim)} .ln.gov .t{color:color-mix(in srgb,var(--hi) 35%,#fff)} .ln.me .t{color:var(--gold)}
+ #in{border-top:1px solid var(--line);padding:8px 12px;background:#0006}
+ #txt{width:100%;min-height:54px;max-height:120px;resize:vertical;padding:8px;background:var(--bg);border:1px solid var(--line);color:var(--text);font:inherit;line-height:1.5}
+ #row{display:flex;gap:8px;align-items:center;margin-top:6px} #row .sp{flex:1}
+ .btn{padding:6px 16px;border:1px solid var(--hi);background:color-mix(in srgb,var(--hi) 16%,transparent);color:var(--hi);cursor:pointer} .btn:disabled{opacity:.45;cursor:default}
+ .btn.sub{border-color:var(--line);color:var(--dim);background:none}
+ #msg{min-height:1.2em;font-size:12px;color:var(--dim)} #msg.err{color:var(--bad)}
+ .demo{color:var(--gold);font-size:11px;margin-left:6px}
+ /* 사용자 배경(scene:govoffice 집무실, scene:govroom 총독실). 집무실 그림을 고르면 그린 벽·창·책상 대신 그 그림 */
+ #office.custom{background:#000 var(--office) center/cover no-repeat} #office.custom #window,#office.custom #desk{display:none}
+ #office.custom::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,#0009,transparent 40%)}
+ #holo .room{position:absolute;left:-30%;right:-30%;top:4%;bottom:0;background:var(--room) center/cover no-repeat;filter:grayscale(1) sepia(1) hue-rotate(150deg) saturate(2.2) brightness(.95);opacity:.42;
+   -webkit-mask-image:radial-gradient(ellipse 60% 62% at 50% 55%,#000 40%,transparent 100%),repeating-linear-gradient(to bottom,#000 0 2px,rgba(0,0,0,.5) 2px 3px);-webkit-mask-composite:source-in;
+   mask-image:radial-gradient(ellipse 60% 62% at 50% 55%,#000 40%,transparent 100%),repeating-linear-gradient(to bottom,#000 0 2px,rgba(0,0,0,.5) 2px 3px);mask-composite:intersect}
+ #holo .room[hidden]{display:none} #holo .fig{z-index:1}
+</style><script src="theme.js"></script><script src="scene-slots.js"></script><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="special-rooms.css"></head><body data-room="govreport">
+<div id="wrap">
+ <div id="head"><b>통치자 집무실</b><span class="dim">통신 홀로그램 · 총독 보고</span><span id="demo" class="demo" hidden>[시험]</span><span class="sp"></span><span class="dim" id="when"></span><span id="sceneBtn"></span><button id="x" title="통신 종료 (Esc)">✕</button></div>
+ <div id="main">
+  <div id="office" aria-hidden="false">
+   <div id="window"></div><div id="beam"></div>
+   <div id="holo"><div class="room" id="room" hidden></div><div class="fig" id="fig"></div></div>
+   <div id="sub" role="status" aria-live="polite"></div>
+   <div id="desk"></div><div id="proj"></div><div class="orbital-ring" aria-hidden="true"></div>
+   <div id="plate"><b id="gname"></b><span id="pname"></span></div>
+  </div>
+  <div id="side">
+   <div id="stats"><p class="sec">행성 현황</p><div id="sts"></div><div id="whys"></div></div>
+   <div id="log" aria-label="통신 기록"></div>
+   <div id="in"><textarea id="txt" aria-label="총독에게 지시" placeholder="총독에게 지시하거나 질문하세요… (Enter: 보내기)"></textarea>
+    <div id="row"><button class="btn sub" id="retry" hidden>다시 보고 받기</button><span class="sp"></span><button class="btn sub" id="end">통신 종료</button><button class="btn" id="send">보내기</button></div><div id="msg" role="status" aria-live="polite"></div></div>
+  </div>
+ </div>
+</div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+ let V = null, IMG = null, busy = false, ME = ''; // ME: 플레이어 통치자 이름(2026-10-18: 「나」 대신)
+ if (window.sllm.playerRuler) window.sllm.playerRuler().then((n) => { ME = n || ''; if (V) render(); }, () => {});
+ const SIL = '<svg viewBox="0 0 92 160" aria-hidden="true"><circle cx="46" cy="40" r="22" fill="#9cf"/><path d="M6 160c2-48 18-82 40-82s38 34 40 82z" fill="#9cf"/></svg>';
+ function figure() {
+  const u = V && V.cls && IMG ? SLLMVariant.pick(IMG.images, ['class:' + V.cls], V.governor || V.planet, IMG.defaults[V.cls]) : null;
+  $('fig').innerHTML = (u ? '<img alt="">' : SIL);
+  if (u) $('fig').querySelector('img').src = u;
+ }
+ function stat(label, val, bad, fmt) { return `<div class="st ${val === null || val === undefined ? '' : bad ? 'bad' : 'ok'}"><span>${label}</span><b>${val === null || val === undefined ? '—' : fmt(val)}</b></div>`; }
+ function render() {
+  if (!V) { $('sub').textContent = '받을 보고가 없습니다.'; return; }
+  $('demo').hidden = !V.demo; $('when').textContent = (V.empire || '') + (V.year ? ' · ' + V.year + '년 보고' : '');
+  $('gname').textContent = V.governor; $('pname').textContent = V.planet + (V.type ? ' · ' + V.type : '') + (V.capital ? ' · 수도' : '');
+  $('sts').innerHTML = stat('안정도', V.stability, V.stability !== null && V.stability < 50, (v) => Math.round(v))
+   + stat('여가 시설', V.amenities, V.amenities !== null && V.amenities < 0, (v) => (v < 0 ? '' : '+') + Math.round(v))
+   + stat('주거', V.housing, V.housing !== null && V.housing < 0, (v) => (v < 0 ? '' : '+') + Math.round(v))
+   + stat('주민', V.pops, false, (v) => v + (V.popsApprox ? '+' : ''));
+  $('whys').innerHTML = (V.reasons || []).map((r) => `<span class="why">${esc(r)}</span>`).join('');
+  const lines = V.log || [];
+  $('log').innerHTML = lines.map((l) => `<div class="ln ${l.who}"><div class="w">${l.who === 'gov' ? esc(V.governor) : (ME ? esc(ME) : '나 (통치자)')}</div><div class="t">${esc(l.text)}</div></div>`).join('');
+  $('log').scrollTop = $('log').scrollHeight;
+  const last = [...lines].reverse().find((l) => l.who === 'gov');
+  if (V.busy) { $('sub').className = 'wait'; $('sub').textContent = lines.length ? '총독이 답하는 중…' : '홀로그램 연결 중… 총독이 보고를 준비합니다'; }
+  else { $('sub').className = ''; $('sub').textContent = last ? last.text : '연결되었지만 보고를 받지 못했습니다.'; }
+  $('retry').hidden = V.busy || !!V.first;
+  $('send').disabled = V.busy || busy || !V.first;
+ }
+ async function send() {
+  const t = $('txt').value.trim(); if (!t || busy || !V || V.busy || !V.first) return;
+  busy = true; $('msg').className = ''; $('msg').textContent = '';
+  const r = await window.sllm.govReportSay(t).catch((e) => ({ ok: false, error: e.message }));
+  busy = false;
+  if (!r.ok) { $('msg').className = 'err'; $('msg').textContent = r.error || '보내지 못했습니다.'; render(); return; }
+  $('txt').value = ''; $('txt').focus();
+ }
+ $('send').onclick = send; $('txt').onkeydown = (e) => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } };
+ $('retry').onclick = async () => { $('msg').textContent = ''; const r = await window.sllm.govReportRetry().catch((e) => ({ ok: false, error: e.message })); if (!r.ok) { $('msg').className = 'err'; $('msg').textContent = r.error || '보고를 받지 못했습니다.'; } };
+ $('x').onclick = $('end').onclick = () => window.sllm.govReportClose();
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.sllm.govReportClose(); });
+ window.sllm.onGovReport((v) => { const first = !V; V = v; if (first) figure(); render(); });
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.getSettings().then((st) => { if (st && st.theme) applyTheme(st.theme, st.custom); });
+ window.sllm.getImageState().then((st) => { IMG = st; figure(); }).catch(() => figure());
+ // 배경 직접 고르기: 집무실(창 전체)과 총독실(홀로그램 안, 총독 뒤로 비치는 방)
+ SceneSlots.mount({ button: $('sceneBtn'), title: '집무실 · 총독실 배경', slots: [
+  { key: 'scene:govoffice', label: '집무실', hint: '통치자가 보고를 받는 방. 창 전체 배경', spec: '1600×1200 · 4:3 · 가운데 아래는 홀로그램 자리', drop: $('office'), apply: (u) => { $('office').classList.toggle('custom', !!u); $('office').style.setProperty('--office', u ? `url("${u}")` : 'none'); } },
+  { key: 'scene:govroom', label: '총독실', hint: '홀로그램 속 총독 뒤로 보이는 방', spec: '1000×1000 · 1:1 · 가장자리는 흐려짐', drop: $('holo'), apply: (u) => { $('room').hidden = !u; $('room').style.setProperty('--room', u ? `url("${u}")` : 'none'); } },
+ ] });
+ window.sllm.govReportState().then((v) => { if (v) { V = v; figure(); render(); } });
+</script></body></html>

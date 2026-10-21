@@ -1,0 +1,112 @@
+# SLLM Probe - button effects (EXPERIMENT ONLY)
+
+# Test 1 + 2 + 3: which scope is the other empire, log latency, variable printing.
+sllm_probe_scope_button = {
+	# Hide the button for empires the player has not met (Root = viewed empire, From = player).
+	potential = {
+		is_country_type = default
+		has_communications = from
+	}
+	allow = { always = yes }
+	effect = {
+		# Test 1: print every candidate scope. The one that changes between two empires is the target.
+		log = "SLLM:SCOPE/;/root=\\[Root.GetName]/;/this=\\[This.GetName]/;/from=\\[From.GetName]/;/fromfrom=\\[FromFrom.GetName]"
+
+		# Test 4b (flag strategy): mark the target. Test 1 result (4.5.2): Root = This = viewed empire, From = player.
+		every_country = {
+			limit = { has_country_flag = sllm_probe_marked }
+			remove_country_flag = sllm_probe_marked
+		}
+		set_country_flag = sllm_probe_marked
+
+		# Test 3: variable printing. Expect num=42.
+		root = {
+			set_variable = { which = sllm_probe_num value = 41 }
+			change_variable = { which = sllm_probe_num value = 1 }
+		}
+		log = "SLLM:VAR/;/num=\\[Root.sllm_probe_num]"
+
+		# Snapshot of action counters (Test 4c, 4e).
+		root = { sllm_probe_init_vars = yes sllm_probe_log_vars = yes }
+
+		# Conversation start: make sure every empire has a number, then log one TALK line.
+		# op_a = opinion in the player's scope toward the target, op_b = the same in the target's scope toward the player.
+		# Which of the two is "the AI's opinion of the player" is still unverified; the app uses their sum.
+		from = { sllm_probe_init_vars = yes sllm_probe_assign_idx = yes }
+		from = {
+			export_trigger_value_to_variable = {
+				trigger = opinion
+				parameters = { who = root }
+				variable = sllm_talk_op_a
+			}
+		}
+		root = {
+			export_trigger_value_to_variable = {
+				trigger = opinion
+				parameters = { who = from }
+				variable = sllm_talk_op_b
+			}
+		}
+		# The game drops log lines identical to one it already wrote, so every press needs a counter (n=).
+		root = {
+			if = { limit = { NOT = { is_variable_set = sllm_talk_seen } } set_variable = { which = sllm_talk_seen value = 0 } }
+			change_variable = { which = sllm_talk_seen value = 1 }
+		}
+		log = "SLLM:TALK/;/idx=\\[Root.sllm_idx]/;/name=\\[Root.GetName]/;/player=\\[From.GetName]/;/op_a=\\[From.sllm_talk_op_a]/;/op_b=\\[Root.sllm_talk_op_b]/;/sid=\\[From.sllm_save_id]/;/n=\\[Root.sllm_talk_seen]"
+		root = { sllm_probe_talk_profile = yes }
+
+		# Direction check: their_opinion (player scope) should equal op_b if op_b is the AI's view of the player.
+		from = {
+			export_trigger_value_to_variable = {
+				trigger = their_opinion
+				parameters = { who = root }
+				variable = sllm_talk_op_their
+			}
+		}
+		log = "SLLM:OPDIR/;/op_b=\\[Root.sllm_talk_op_b]/;/their=\\[From.sllm_talk_op_their]"
+	}
+}
+
+# Optional Test 3b: opinion export. If error.log complains, delete this block.
+sllm_probe_opinion_button = {
+	# Hide the button for empires the player has not met (Root = viewed empire, From = player).
+	potential = {
+		is_country_type = default
+		has_communications = from
+	}
+	allow = { always = yes }
+	effect = {
+		# A: opinion value computed in the player's scope with who = target (Root)
+		from = {
+			export_trigger_value_to_variable = {
+				trigger = opinion
+				parameters = { who = root }
+				variable = sllm_probe_opinion_a
+			}
+		}
+		# B: the same trigger in the target's scope with who = player (From)
+		root = {
+			export_trigger_value_to_variable = {
+				trigger = opinion
+				parameters = { who = from }
+				variable = sllm_probe_opinion_b
+			}
+		}
+		log = "SLLM:OPINION/;/target=\\[Root.GetName]/;/a_player_scope=\\[From.sllm_probe_opinion_a]/;/b_target_scope=\\[Root.sllm_probe_opinion_b]"
+	}
+}
+
+# Governor talk button on the planet screen (EXPERIMENT ONLY, untested).
+# Scope of a planet-screen button: Root/This = the planet (to be confirmed with the logged line).
+sllm_probe_gov_button = {
+	potential = {
+		exists = owner
+		owner = { is_ai = no }
+	}
+	allow = { always = yes }
+	effect = {
+		if = { limit = { NOT = { is_variable_set = sllm_gov_btn_seen } } set_variable = { which = sllm_gov_btn_seen value = 0 } }
+		change_variable = { which = sllm_gov_btn_seen value = 1 }
+		log = "SLLM:GOVTALK/;/seen=\\[This.sllm_gov_btn_seen]/;/name=\\[This.GetName]"
+	}
+}

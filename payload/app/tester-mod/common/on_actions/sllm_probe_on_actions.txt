@@ -1,0 +1,11 @@
+# SLLM Probe - heartbeat and reload detection (on_actions merge with vanilla)
+on_monthly_pulse_country = {
+	events = {
+		sllm_probe.100
+	}
+}
+on_single_player_save_game_load = {
+	events = {
+		sllm_probe.101
+	}
+}

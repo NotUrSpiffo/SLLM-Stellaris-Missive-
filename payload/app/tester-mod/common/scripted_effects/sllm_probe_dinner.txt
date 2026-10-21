@@ -1,0 +1,71 @@
+sllm_probe_dinner_init = {
+ if = { limit = { NOT = { is_variable_set = sllm_dinner_vid } } set_variable = { which = sllm_dinner_vid value = 0 } }
+ if = { limit = { NOT = { is_variable_set = sllm_dinner_tid } } set_variable = { which = sllm_dinner_tid value = 0 } }
+ if = { limit = { NOT = { is_variable_set = sllm_dinner_choice } } set_variable = { which = sllm_dinner_choice value = 0 } }
+}
+
+# Leader arrival and reception. One active visit per human empire. Verify in Stellaris 4.5.2.
+sllm_probe_dinner_status = {
+ sllm_probe_dinner_init = yes
+ set_variable = { which = sllm_dinner_query_vid value = $VID$ }
+ set_variable = { which = sllm_dinner_query_tid value = $TID$ }
+ set_variable = { which = sllm_dinner_req value = $REQ$ }
+ if = { limit = { check_variable = { which = sllm_dinner_vid value = $VID$ } check_variable = { which = sllm_dinner_tid value = $TID$ } }
+  if = { limit = { has_country_flag = sllm_dinner_open } log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=open" }
+  else_if = { limit = { check_variable = { which = sllm_dinner_choice value = 1 } } log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=finished/;/greeting=grand" }
+  else_if = { limit = { check_variable = { which = sllm_dinner_choice value = 2 } } log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=finished/;/greeting=normal" }
+  else_if = { limit = { check_variable = { which = sllm_dinner_choice value = 3 } } log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=finished/;/greeting=humiliating" }
+  else = { log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=missing" }
+ }
+ else = { log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_query_vid]/;/tid=\\[This.sllm_dinner_query_tid]/;/phase=missing" }
+}
+
+sllm_probe_dinner_arrival = {
+ sllm_probe_dinner_init = yes
+ set_variable = { which = sllm_dinner_query_vid value = $VID$ }
+ set_variable = { which = sllm_dinner_query_tid value = $TID$ }
+ set_variable = { which = sllm_dinner_req value = $REQ$ }
+ if = { limit = { check_variable = { which = sllm_dinner_vid value = $VID$ } check_variable = { which = sllm_dinner_tid value = $TID$ } } sllm_probe_dinner_status = { VID = $VID$ TID = $TID$ REQ = $REQ$ } }
+ else_if = { limit = { check_variable = { which = sllm_dinner_vid value > $VID$ } } log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_query_vid]/;/tid=\\[This.sllm_dinner_query_tid]/;/phase=stale" }
+ else_if = { limit = { has_country_flag = sllm_dinner_open } log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=busy" }
+ else = {
+ set_variable = { which = sllm_dinner_found value = 0 }
+ every_country = { limit = { is_ai = yes check_variable = { which = sllm_idx value = $TID$ } has_communications = prev NOT = { is_at_war_with = prev } } prev = { set_variable = { which = sllm_dinner_found value = 1 } } }
+ set_variable = { which = sllm_dinner_vid value = $VID$ }
+ set_variable = { which = sllm_dinner_tid value = $TID$ }
+ if = { limit = { check_variable = { which = sllm_dinner_found value = 1 } }
+  set_variable = { which = sllm_dinner_choice value = 0 }
+  set_country_flag = sllm_dinner_open
+  country_event = { id = sllm_dinner.1 }
+  log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=open"
+ }
+ else = { log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=unavailable" }
+ }
+}
+
+sllm_probe_dinner_grand = {
+ if = { limit = { has_country_flag = sllm_dinner_open has_resource = { type = energy amount >= 1000 } }
+ add_resource = { energy = -1000 }
+ set_variable = { which = sllm_dinner_choice value = 1 }
+ remove_country_flag = sllm_dinner_open
+ log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=finished/;/greeting=grand"
+ }
+}
+
+sllm_probe_dinner_normal = {
+ if = { limit = { has_country_flag = sllm_dinner_open has_resource = { type = energy amount >= 100 } }
+ add_resource = { energy = -100 }
+ set_variable = { which = sllm_dinner_choice value = 2 }
+ remove_country_flag = sllm_dinner_open
+ log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=finished/;/greeting=normal"
+ }
+}
+
+sllm_probe_dinner_humiliating = {
+ if = { limit = { has_country_flag = sllm_dinner_open  }
+ 
+ set_variable = { which = sllm_dinner_choice value = 3 }
+ remove_country_flag = sllm_dinner_open
+ log = "SLLM:DINNER/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_dinner_req]/;/vid=\\[This.sllm_dinner_vid]/;/tid=\\[This.sllm_dinner_tid]/;/phase=finished/;/greeting=humiliating"
+ }
+}

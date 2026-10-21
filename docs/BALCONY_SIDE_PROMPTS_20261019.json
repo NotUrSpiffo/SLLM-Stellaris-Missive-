@@ -1,0 +1,27 @@
+[
+  {
+    "key": "background",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-e9eb7424-13af-4f30-a2d8-abcc6b334f23.png",
+    "prompt": "Remove only the woman, reconstructing the railing, floor and palace behind her. Keep original camera, scene geometry and lighting EXACTLY. Empty background only. No humans. Full canvas MUST remain 1672x941 landscape with subject in original position on right. Never center, crop, zoom or reframe. This is an aligned layer in a fixed game scene. No text, no UI."
+  },
+  {
+    "key": "look",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-563529bf-28cb-439a-aecc-ac2c3d14ad9a.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA. Preserve EXACT pose looking left at landscape, original position, all hands/arms/hair/uniform and lighting. Remove all background and railing to alpha. Full canvas MUST remain 1672x941 landscape with subject in original position on right. Never center, crop, zoom or reframe. This is an aligned layer in a fixed game scene. No text, no UI."
+  },
+  {
+    "key": "neutral",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-f5897a8b-4e19-415f-8436-83f77fe3510f.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA. Her body, shoulders, arms and hands remain in EXACTLY the original pose and pixel positions, hands resting on invisible railing. Turn ONLY her head gently toward the camera beside her, three-quarter view with eyes meeting player, calm attentive neutral mouth. Preserve same identity hairstyle and light. Remove all background and railing to alpha. Full canvas MUST remain 1672x941 landscape with subject in original position on right. Never center, crop, zoom or reframe. This is an aligned layer in a fixed game scene. No text, no UI."
+  },
+  {
+    "key": "smile",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-4f58451f-4823-4e65-abf6-1788a65e33a9.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA. Her body, shoulders, arms and hands remain in EXACTLY the original pose and pixel positions, hands resting on invisible railing. Turn ONLY her head gently toward the camera beside her, three-quarter view with eyes meeting player, warm small closed-mouth smile. Preserve same identity hairstyle and light. Remove all background and railing to alpha. Full canvas MUST remain 1672x941 landscape with subject in original position on right. Never center, crop, zoom or reframe. This is an aligned layer in a fixed game scene. No text, no UI."
+  },
+  {
+    "key": "worried",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-821f8641-a5c1-4605-9d4d-694a53ceee2c.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA. Her body, shoulders, arms and hands remain in EXACTLY the original pose and pixel positions, hands resting on invisible railing. Turn ONLY her head gently toward the camera beside her, three-quarter view with eyes meeting player, concerned thoughtful expression with slightly lowered brows, no tears. Preserve same identity hairstyle and light. Remove all background and railing to alpha. Full canvas MUST remain 1672x941 landscape with subject in original position on right. Never center, crop, zoom or reframe. This is an aligned layer in a fixed game scene. No text, no UI."
+  }
+]

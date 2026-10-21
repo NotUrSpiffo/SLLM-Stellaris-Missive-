@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>내각 회의</title>
+<style>
+ :root{--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--shade:#06141b;--bad:#e0705f;--good:#6fd7a8;
+  --btnbg:linear-gradient(#10394a,#0b2a38);--cardbg:linear-gradient(160deg,#0d2a38,#081a24);
+  --mono:"D2Coding","Cascadia Mono",Consolas,"Malgun Gothic",monospace;--line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);
+  --yes:#52b4e6;--no:#ee6a58;--abs:#8aa0a8;
+  --d-defense:#d0604e;--d-research:#7fd0e8;--d-state:#b48ae8;--d-economy:#e8c872;--d-interior:#6fd7a8}
+ *{box-sizing:border-box}
+ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.45 "Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+ body{display:flex;flex-direction:column;border:1px solid var(--line)}
+ #titlebar{-webkit-app-region:drag;display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--line2);flex:none}
+ #titlebar b{color:var(--hi);letter-spacing:.1em} .cap{font:10.5px var(--mono);letter-spacing:.12em;color:var(--dim)} .sp{flex:1}
+ .tag{border:1px solid var(--gold);color:var(--gold);padding:0 6px;font:10.5px var(--mono)} .tag.dev{border-style:dashed}
+ #titlebar button{-webkit-app-region:no-drag;width:26px;height:22px;padding:0;border-color:transparent;background:none;color:var(--dim)}
+ input,button{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);padding:5px 9px;outline:none;border-radius:0}
+ button{white-space:nowrap;cursor:pointer;letter-spacing:.04em;background:var(--btnbg)} button:hover:not(:disabled){background:var(--hi);color:var(--hi-text);border-color:var(--hi)} button:disabled{opacity:.4;cursor:not-allowed}
+ button.primary{border-color:var(--gold);color:var(--gold)} button.on{background:var(--hi);color:var(--hi-text)}
+ #main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(300px,30%) 1fr;gap:10px;padding:10px 12px 0}
+ /* 왼쪽: 발의된 의제 */
+ #props{min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+ #props h3,#right h3{margin:0 0 2px;font:600 11px var(--mono);letter-spacing:.14em;color:var(--dim)}
+ .prop{border:1px solid var(--line2);border-left:4px solid var(--ec,var(--line));background:var(--cardbg);padding:9px 11px;cursor:pointer;transition:border-color .15s}
+ .prop:hover{border-color:var(--line)} .prop.sel{border-color:var(--gold);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 40%,transparent)}
+ .prop .an{font-size:14.5px;font-weight:700} .prop .by{color:var(--dim);font-size:12px;margin:2px 0 7px}
+ .prop .by i{font-style:normal;color:var(--ec)}
+ .rw{display:flex;flex-wrap:wrap;gap:5px} .rw span{font-size:12px;padding:2px 8px;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);color:var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+ .rw span.f{border-style:dashed}
+ .prop .pick{margin-top:8px;font-size:11px;color:var(--dim);font-family:var(--mono)} .prop.sel .pick{color:var(--gold)}
+ .prop .ad{color:var(--dim);font-size:11px;line-height:1.5;margin:-4px 0 6px}
+ .unv{font:10px var(--mono);color:var(--dim);border:1px dashed var(--line2);padding:0 5px;margin-left:6px;vertical-align:2px}
+ /* 오른쪽: 의석 비율 + 회의 테이블 + 토론 */
+ #right{min-height:0;display:grid;grid-template-rows:auto minmax(260px,1.35fr) minmax(110px,.65fr) auto;gap:8px}
+ #seatbar{border:1px solid var(--line2);background:var(--cardbg);padding:7px 10px}
+ #sbar{display:flex;height:16px;border:1px solid var(--line2);overflow:hidden}
+ #sbar i{display:block;height:100%;position:relative;border-right:1px solid var(--bg);transition:filter .2s}
+ #sbar i::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--vc)}
+ #sbar i.talk{filter:brightness(1.5)}
+ .sbrow{display:flex;align-items:center;gap:10px;margin-top:6px}
+ #tally{display:flex;gap:6px;font:600 12.5px var(--mono)} #tally span{padding:0 8px;border:1px solid var(--line2)}
+ #tally .y{color:var(--yes)} #tally .n{color:var(--no)} #tally .a{color:var(--dim)}
+ #verdict{font-size:12.5px;color:var(--dim)} #verdict.ok{color:var(--gold)} #verdict.force{color:var(--bad)}
+ /* 회의장 */
+ #hall{position:relative;border:1px solid var(--line2);overflow:hidden;min-height:0;
+  background:radial-gradient(ellipse 55% 45% at 52% 52%,color-mix(in srgb,var(--gold) 10%,transparent),transparent 72%),linear-gradient(#0a1d27,var(--shade) 70%)}
+ #hall::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 79px,color-mix(in srgb,var(--linec) 5%,transparent) 79px 80px);pointer-events:none}
+ #table{position:absolute;left:15%;right:6%;top:36%;bottom:30%;border-radius:999px;
+  background:linear-gradient(180deg,#3a2c1c 0%,#2a1f14 55%,#1b140d 100%);border:1px solid #6b5332;
+  box-shadow:inset 0 2px 0 rgba(255,235,200,.15),inset 0 -8px 18px rgba(0,0,0,.45),0 10px 0 #120d08,0 26px 30px rgba(0,0,0,.6)}
+ #table::after{content:"";position:absolute;inset:22% 6%;border-radius:999px;border:1px solid rgba(232,200,114,.22);background:rgba(232,200,114,.04)}
+ #tname{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:rgba(232,200,114,.55);pointer-events:none;z-index:1;white-space:nowrap}
+ #tname b{display:block;font-size:clamp(12px,1.25vw,16px);letter-spacing:.06em} #tname small{font:10px var(--mono);letter-spacing:.2em}
+ .lamp{position:absolute;width:26px;height:10px;margin-left:-13px;border-radius:50%;background:#2b2418;border:1px solid #5a4a30;z-index:2;transition:all .25s}
+ .lamp.on{background:#ffe7a0;border-color:#fff2c4;box-shadow:0 0 12px 4px rgba(255,214,120,.8),0 0 40px 14px rgba(255,214,120,.25)}
+ .seat{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;z-index:3;cursor:pointer;width:118px;text-align:center}
+ .av{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:20px;font-weight:700;color:#06141b;background:var(--ec);border:2px solid color-mix(in srgb,var(--ec) 60%,#000);position:relative;transition:transform .2s,box-shadow .2s;filter:saturate(.75) brightness(.85)}
+ .seat.talk .av{transform:scale(1.12);filter:none;box-shadow:0 0 0 3px #fff3,0 0 18px 6px color-mix(in srgb,var(--ec) 70%,transparent);animation:pulse 1s ease-in-out infinite}
+ @keyframes pulse{50%{box-shadow:0 0 0 6px #fff1,0 0 28px 10px color-mix(in srgb,var(--ec) 55%,transparent)}}
+ .seat .nm{font-size:12px;font-weight:600;line-height:1.2;max-width:118px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .seat small{font:10.5px var(--mono);color:var(--dim)}
+ .seat .v{font:600 10.5px var(--mono);padding:0 5px;border:1px solid} .v.yes{color:var(--yes)} .v.no{color:var(--no)} .v.abstain{color:var(--dim)} .seat .wait{font:10.5px var(--mono);color:var(--dim)}
+ .seat.to .av{outline:2px dashed var(--hi);outline-offset:3px} .seat .crown{position:absolute;top:-9px;right:-6px;font-size:13px;color:var(--gold);text-shadow:0 0 4px #000}
+ .bars{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);display:none;gap:2px;align-items:flex-end;height:12px}
+ .seat.talk .bars{display:flex} .bars i{width:3px;background:#fff;border-radius:1px;animation:eq .5s ease-in-out infinite alternate} .bars i:nth-child(2){animation-delay:.15s} .bars i:nth-child(3){animation-delay:.3s}
+ @keyframes eq{from{height:3px}to{height:12px}}
+ .seat.ruler .av{background:var(--gold);border-color:#8a6d2a}
+ .av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%} .av.pic{border-width:3px;border-color:var(--ec);background:#0b2230}
+ .av .crown,.av .bars{z-index:2}
+ .bubble{position:absolute;z-index:5;max-width:min(420px,46%);padding:8px 12px;background:#f2ecd9;color:#1a1a1a;border-radius:10px;font-size:12.5px;line-height:1.45;box-shadow:0 6px 18px rgba(0,0,0,.5);transform:translate(-50%,0);pointer-events:none;opacity:0;transition:opacity .2s}
+ .bubble.on{opacity:1} .bubble b{display:block;font-size:11px;color:var(--bc);margin-bottom:2px}
+ .bubble::after{content:"";position:absolute;left:50%;margin-left:-7px;border:7px solid transparent}
+ .bubble.below::after{top:-14px;border-bottom-color:#f2ecd9} .bubble.above::after{bottom:-14px;border-top-color:#f2ecd9}
+ #log{min-height:0;overflow-y:auto;border:1px solid var(--line2);padding:8px 10px;background:color-mix(in srgb,var(--shade) 80%,transparent)}
+ .ln{margin:0 0 6px;white-space:pre-wrap} .ln .who{font-weight:700;margin-right:8px} .ln.me .who{color:var(--gold)} .ln.ai .who{color:var(--ec,var(--hi))} .ln.sys{color:var(--dim);font-size:12px;border-left:2px solid var(--line2);padding-left:8px}
+ #ctl{display:flex;flex-direction:column;gap:6px} .row{display:flex;gap:6px;align-items:center}
+ .seg{display:flex} .seg button{border-right-width:0} .seg button:last-child{border-right-width:1px}
+ .prompt{flex:1;display:flex;align-items:center;border:1px solid var(--line);background:#04121a} .prompt input{flex:1;border:0} .pr{color:var(--gold);padding-left:9px}
+ #foot{display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid var(--line2);margin-top:8px;flex:none}
+ #hint{color:var(--dim);font-size:12px} #workStatus{color:var(--gold);font-size:12px}
+ #force{border-color:var(--bad);color:var(--bad);display:none} #force.on{display:inline-block} #force:hover:not(:disabled){background:var(--bad);color:#fff;border-color:var(--bad)}
+ #cancel{margin:0 12px;padding:6px 10px;border:1px solid var(--bad);color:var(--bad);display:none} #cancel.on{display:block}
+ @media (max-width:980px){#main{grid-template-columns:1fr;overflow-y:auto;align-content:start} #props{overflow:visible;min-height:auto} #right{min-height:auto;grid-template-rows:auto 330px 160px auto}}
+ .prop .tr{color:var(--dim);font-size:11px;margin:-4px 0 6px} .seat .post{font:600 10px var(--mono);color:var(--ec);letter-spacing:.04em}
+ #stances{display:flex;gap:6px;font:600 12.5px var(--mono)} #stances span{padding:0 8px;border:1px solid var(--line2)} #stances .y{color:var(--yes)} #stances .n{color:var(--no)} #stances .a{color:var(--dim)}
+ .trust{font:10px var(--mono);color:var(--dim)}
+ .seat small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:142px}
+</style><script src="theme.js"></script><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="faction-room.css"><link rel="stylesheet" href="faction-art.css"></head><body>
+<div id="titlebar"><b id="ttl"></b><span class="cap" id="ttlCap"></span><span class="tag" id="tagExp"></span><span class="tag dev" id="tagDemo" hidden></span><span class="sp"></span><button id="x">✕</button></div>
+<div id="cancel" role="alert"></div>
+<div id="main">
+ <div id="props"><h3 id="propsH"></h3><div id="plist"></div></div>
+<div id="right">
+  <div id="seatbar"><div class="sbrow" style="margin-top:0"><div id="stances"><span class="y"><span id="lY"></span> <b id="vY">0</b></span><span class="n"><span id="lN"></span> <b id="vN">0</b></span><span class="a"><span id="lA"></span> <b id="vA">0</b></span></div><div id="verdict"></div></div></div>
+  <div id="hallViewport"><div class="room-count"><span id="roomCount"></span><span id="roomGuide"></span></div><div id="hall"><div class="room-overline">IMPERIAL CABINET / COUNCIL OF MINISTERS</div><div class="room-floor"></div><div class="room-band"></div><div id="table"><div id="tname"><b id="empire" data-i18n-skip>—</b><small>CABINET MEETING</small></div></div><div id="seats"></div><div id="bubble" class="bubble"></div></div></div>
+  <div id="log"></div>
+  <div id="ctl">
+   <div class="row"><span class="cap" id="toCap"></span> <span id="toWho"></span> <button id="toAll" hidden></button></div>
+   <div class="row"><div class="prompt"><span class="pr">›</span><input id="q" autocomplete="off"></div><button id="send"></button></div>
+  </div>
+ </div>
+</div>
+<div id="foot"><span id="hint"></span><span class="sp"></span><span id="workStatus" role="status"></span><button id="end"></button><button id="apply" class="primary" disabled></button></div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+ const ui=(ko,en)=>window.SLLMI18n?.pick?window.SLLMI18n.pick(ko,en):ko;
+ const VN = () => ({ yes: ui('찬성', 'Support'), no: ui('반대', 'Oppose'), abstain: ui('유보', 'Undecided') });
+ const dc = (d) => `var(--d-${d})`;
+ let S = null, to = null, busy = false, talking = null, POS = {}, IMG = { images: {}, defaults: {} };
+ // 장관 얼굴: 통치자 종족 계열 초상화(변형) → 모드 기본 그림. 통치자: 플레이어 통치자 그림 → 연설 지도자(계열) → 계열 → 기본.
+ const pic = (k, seed = '') => (k && SLLMVariant.pick(IMG.images, ['delegate:' + k, 'class:' + k], seed, IMG.defaults[k])) || null;
+ const rulerPic = (k) => IMG.images['ruler:player'] || (k && (IMG.images['leader:' + k] || IMG.images['class:' + k] || IMG.defaults[k])) || null;
+ const lock = () => !!(S && (S.busy || S.applied || S.uncertain || S.cancelled));
+ function statics() {
+  document.title = ui('내각 회의', 'Cabinet Meeting');
+  $('ttl').textContent = ui('내각 회의', 'Cabinet Meeting'); $('ttlCap').textContent = ui('// 평의회 의제', '// Council agenda'); $('tagExp').textContent = ui('실험', 'Experimental');
+  $('tagDemo').textContent = ui('시험 · 가짜 장관', 'Test · fake ministers'); $('x').title = ui('닫기 (Esc)', 'Close (Esc)');
+  $('propsH').textContent = ui('장관 발의 안건 · 채택 시 직책 버프(미리 뽑음, 1년)', 'Ministers\' proposals · post buffs if adopted (pre-rolled, 1 year)');
+  $('lY').textContent = ui('찬성', 'Support'); $('lN').textContent = ui('반대', 'Oppose'); $('lA').textContent = ui('유보', 'Undecided');
+  $('toCap').textContent = ui('발언 대상', 'Speaking to'); $('toAll').textContent = ui('전체에게', 'To everyone');
+  $('q').placeholder = ui('장관들에게 발언…', 'Speak to the ministers…'); $('send').textContent = ui('발언', 'Speak'); $('end').textContent = ui('회의 종료', 'End meeting');
+ }
+ /** 자리 배치: 통치자는 테이블 왼쪽 끝, 장관은 위·아래 줄에 번갈아(직책 순). 값은 회의장 % 좌표. */
+ function layout(ms) {
+  const top=[], bot=[]; ms.forEach((m,i)=>(i%2?bot:top).push(m));
+  const width=Math.max(800,300+Math.ceil(ms.length/2)*170);
+  $('hall').style.minWidth=width+'px'; $('hall').style.height='calc(100% - 35px)';
+  const actual=Math.max(width,$('hallViewport').clientWidth);
+  const place=(row,y,ly)=>row.forEach((m,i)=>{const x=100*(230+(actual-300)*(i+.5)/Math.max(row.length,1))/actual;POS[m.lid]={x,y,lx:x,ly,top:y<50};});
+  POS={};place(top,22,39);place(bot,81,68);
+  POS.ruler={x:100*85/actual,y:50,lx:100*169/actual,ly:52,top:false};
+  $('roomCount').textContent=ui('참석 장관','Ministers present')+' '+ms.length+' · '+ui('통치자석','Ruler seat')+' 1';
+  $('roomGuide').textContent=width>$('hallViewport').clientWidth?ui('좌우로 이동하여 모든 자리 보기','Scroll sideways to see all seats'):ui('자리를 선택하면 그 장관에게만 발언','Select a seat to address that minister');
+ }
+ function seatHtml(m, st) {
+  const sp = st.proposals.find((x) => x.lid === st.pick), lead = sp && (sp.lid === m.lid || (sp.co || []).includes(m.lid)), p = POS[m.lid], talk = talking === m.lid, shown = st.pick && (m.heard || lead), img = pic(st.playerCls, m.name);
+  return `<div class="lamp${talk ? ' on' : ''}" style="left:${p.lx}%;top:${p.ly}%"></div>
+   <div class="seat${talk ? ' talk' : ''}${to === m.lid ? ' to' : ''}" role="button" tabindex="0" aria-label="${esc(m.name)}" data-l="${m.lid}" style="left:${p.x}%;top:${p.y}%;--ec:${dc(m.domain)}">
+    <div class="av${img ? ' pic' : ''}">${img ? `<img src="${esc(img)}" alt="">` : esc([...m.name][0] || '?')}${lead ? '<span class="crown">★</span>' : ''}<span class="bars"><i></i><i></i><i></i></span></div>
+    <div class="nm" data-i18n-skip title="${esc(m.name)}">${esc(m.name)}</div><small data-i18n-skip><span class="post">${esc(m.title)}</span> · Lv ${m.lv}</small>
+    ${st.pick ? (shown ? `<span class="v ${m.vote}">${VN()[m.vote]}</span>` : `<span class="wait">${ui('의견 대기', 'Awaiting opinion')}</span>`) : ''}</div>`;
+ }
+ function drawHall(st) {
+  layout(st.members);
+  const r = POS.ruler;
+  $('seats').innerHTML = st.members.map((m) => seatHtml(m, st)).join('') +
+   `<div class="lamp${talking === 'ruler' ? ' on' : ''}" style="left:${r.lx}%;top:${r.ly}%"></div><div class="seat ruler${talking === 'ruler' ? ' talk' : ''}" style="left:${r.x}%;top:${r.y}%;--ec:var(--gold)"><div class="av${rulerPic(st.playerCls) ? ' pic' : ''}">${rulerPic(st.playerCls) ? `<img src="${esc(rulerPic(st.playerCls))}" alt="">` : '👑'}<span class="bars"><i></i><i></i><i></i></span></div><div class="nm">${ui('통치자', 'Ruler')}</div><small data-i18n-skip>${esc(st.empire)}</small></div>`;
+  for (const el of $('seats').querySelectorAll('.seat[data-l]')) {el.onclick=()=>setTo(Number(el.dataset.l));el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setTo(Number(el.dataset.l));}};}
+  $('empire').textContent = st.empire;
+ }
+ function render(st) {
+  S = st; if (!st) return; if(to!==null&&!st.members.some(m=>m.lid===to))to=null;
+  $('tagDemo').hidden = !st.demo;
+  $('cancel').textContent = st.cancelled || ''; $('cancel').classList.toggle('on', !!st.cancelled);
+  const byL = Object.fromEntries(st.members.map((m) => [m.lid, m]));
+  $('plist').innerHTML = st.proposals.map((p) => { const m = byL[p.lid] || {}; return `<div class="prop${p.lid === st.pick ? ' sel' : ''}" data-l="${p.lid}" style="--ec:${dc(m.domain)}">
+    <div class="an" data-i18n-skip>${esc(p.agenda)}${p.gameNote ? `<span class="unv">${esc(p.gameNote)}</span>` : ''}</div>${p.desc ? `<div class="ad" data-i18n-skip>${esc(p.desc)}</div>` : ''}
+    <div class="by">${(p.co || []).length ? ui('공동 발의', 'Joint proposal by') : ui('발의', 'Proposed by')} <i data-i18n-skip>${[m, ...(p.co || []).map((id) => byL[id]).filter(Boolean)].map((x) => esc(x.title) + ' ' + esc(x.name)).join(', ')}</i></div>${m.traits && m.traits.length ? `<div class="tr" data-i18n-skip>${esc(m.traits.join(' · '))}</div>` : ''}
+    <div class="rw" data-i18n-skip>${p.rewards.map((r) => `<span title="${esc(ui('제국 전체', 'Whole empire'))}">${esc(r)}</span>`).join('')}</div>
+    <div class="pick">${p.lid === st.pick ? ui('▶ 논의 중인 안건', '▶ Agenda under discussion') : ui('눌러서 논의에 올리기', 'Click to discuss')}</div></div>`; }).join('');
+  for (const el of $('plist').querySelectorAll('.prop')) el.onclick = () => { if (!lock() && !talking) window.sllm.facPick(Number(el.dataset.l)); };
+  drawHall(st);
+  const sp0 = st.proposals.find((x) => x.lid === st.pick), heard = st.members.filter((m) => st.pick && (m.heard || (sp0 && (sp0.lid === m.lid || (sp0.co || []).includes(m.lid))))), cnt = (v) => heard.filter((m) => m.vote === v).length;
+  $('vY').textContent = cnt('yes'); $('vN').textContent = cnt('no'); $('vA').textContent = cnt('abstain');
+  const ok = !!st.pick && !lock();
+  $('verdict').className = st.pick ? 'ok' : '';
+  $('verdict').textContent = st.applied ? ui('채택됨.', 'Adopted.') : !st.pick ? ui('왼쪽에서 논의할 안건을 고르세요.', 'Pick an agenda on the left to discuss.') : !st.allHeard ? ui('장관들의 의견을 들어 본 뒤 채택하세요. (바로 채택해도 됩니다)', 'Hear the ministers out before adopting. (You may also adopt right away.)') : ui('모든 장관의 의견을 들었습니다. 결정은 통치자의 몫입니다.', 'You have heard every minister. The decision is yours.');
+  $('send').disabled = lock() || !st.pick || !!talking; $('q').disabled = lock() || !st.pick;
+  $('apply').disabled = !ok || !!talking;
+  $('apply').textContent = st.demo ? ui('안건 채택 (시험)', 'Adopt (test)') : ui('안건 채택 · 게임 적용', 'Adopt · apply to game');
+  $('workStatus').textContent = st.busy ? (talking ? '' : ui('장관들이 의견을 정리하는 중…', 'The ministers are gathering their thoughts…')) : st.applied ? ui('채택 완료', 'Adopted') : st.uncertain ? ui('적용 여부 확인 필요 · 재전송 중지', 'Result unconfirmed · resend stopped') : '';
+  $('hint').textContent = st.demo ? (st.aiDemo ? ui('시험 장관 · 실제 AI 사용 · 게임 적용 없음', 'Test ministers · real AI · not applied to the game') : ui('시험 장관 · 정해진 대사 · 게임 적용 없음', 'Test ministers · canned lines · not applied to the game')) : ui(`채택하면 발의한 장관의 직책 버프 2개가 ${st.days}일(1년) 걸립니다. 그 장관은 신뢰가 오르고, 밀리거나 반대한 장관은 조금 서운해합니다.`, `If adopted, the proposing minister's two post buffs apply for ${st.days} days (1 year). That minister's trust rises; ministers who were passed over or opposed are a little disappointed.`);
+  drawLog(); updTo();
+ }
+ function drawLog() {
+  const lg = $('log'), atEnd = lg.scrollTop + lg.clientHeight >= lg.scrollHeight - 8, byL = Object.fromEntries(S.members.map((m) => [m.lid, m]));
+  lg.innerHTML = S.log.map((l) => `<div class="ln ${l.kind}" style="${l.lid && byL[l.lid] ? '--ec:' + dc(byL[l.lid].domain) : ''}">${l.who ? `<span class="who" data-i18n-skip>${esc(l.who)}</span>` : ''}<span data-i18n-skip>${esc(l.text)}</span></div>`).join('');
+  if (atEnd) lg.scrollTop = lg.scrollHeight;
+ }
+ /** 한 사람이 말한다: 자리 불 켜짐 + 말풍선에 글자가 흘러나옴. */
+ async function speak(who, name, color, text) {
+  talking = who; if (S) render(S);
+  const p = POS[who], hall = $('hall'), bb = $('bubble'); if(!p){talking=null;return;} const viewport=$('hallViewport'); viewport.scrollTo({left:Math.max(0,hall.clientWidth*p.x/100-viewport.clientWidth/2),behavior:'auto'});
+  bb.className = 'bubble ' + (p.top ? 'below' : 'above'); bb.style.setProperty('--bc', color);
+  bb.style.left = Math.min(hall.clientWidth-180,Math.max(180,hall.clientWidth*p.x/100))+'px';
+  if (p.top) { bb.style.top = `calc(${p.y}% + 58px)`; bb.style.bottom = ''; } else { bb.style.bottom = `calc(${100 - p.y}% + 58px)`; bb.style.top = ''; }
+  bb.innerHTML = `<b data-i18n-skip>${esc(name)}</b><span data-i18n-skip></span>`; const span = bb.lastChild;
+  requestAnimationFrame(() => bb.classList.add('on'));
+  const chars = [...text], step = Math.max(12, Math.min(38, 2600 / Math.max(chars.length, 1)));
+  for (let i = 1; i <= chars.length; i++) { if(!S || (who!=='ruler'&&!S.members.some(m=>m.lid===who))){bb.classList.remove('on');talking=null;return;} span.textContent = chars.slice(0, i).join(''); await new Promise((r) => setTimeout(r, step)); }
+  await new Promise((r) => setTimeout(r, Math.min(2200, 700 + chars.length * 12)));
+  bb.classList.remove('on');
+  await new Promise((r) => setTimeout(r, 200));
+  talking = null; if (S) render(S);
+ }
+ function setTo(lid) { to = to === lid ? null : lid; if (S) render(S); }
+ function updTo() { const m = to !== null && S.members.find((x) => x.lid === to); $('toWho').textContent = m ? ui(`${m.name}에게만`, `Only ${m.name}`) : ui('전체', 'Everyone'); $('toAll').hidden = !m; }
+ $('toAll').onclick = () => setTo(to);
+ async function send() {
+  const text = $('q').value.trim(); if (!text || busy || talking) return;
+  busy = true; $('send').disabled = true;
+  try {
+   $('q').value = '';
+   const said = speak('ruler', ui('통치자', 'Ruler'), 'var(--gold)', text);
+   const r = await window.sllm.facSay({ text, to });
+   await said;
+   if (!r || !r.ok) { $('workStatus').textContent = r?.error || ui('발언을 처리하지 못했습니다.', 'Could not process what you said.'); return; }
+   for (const rp of r.replies || []) { const m = S && S.members.find((x) => x.lid === rp.lid); if (m) await speak(m.lid, `${m.name} · ${m.title}`, dc(m.domain), rp.say); }
+  } catch (e) { $('workStatus').textContent = e.message; } finally { busy = false; if (S) render(S); $('q').focus(); }
+ }
+ $('send').onclick = send; $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) send(); });
+ async function apply() {
+  const p = S && S.proposals.find((x) => x.lid === S.pick); if (!p) return;
+  if (!S.demo && !confirm(`${ui('이 안건을 채택하고 게임에 적용할까요?', 'Adopt this agenda and apply it to the game?')}\n\n${p.agenda}\n${ui('효과(1년): ', 'Effects (1 year): ')}${p.rewards.join(', ')}`)) return;
+  $('apply').disabled = true;
+  try { const r = await window.sllm.facApply(); if (!r.ok) $('workStatus').textContent = r.error || ui('적용하지 못했습니다.', 'Could not apply.'); } catch (e) { $('workStatus').textContent = e.message; }
+ }
+ $('apply').onclick = () => apply();
+ $('end').onclick = $('x').onclick = () => window.sllm.facClose();
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.sllm.facClose(); });
+ new ResizeObserver(()=>{if(S&&!talking)drawHall(S);}).observe($('hallViewport'));
+ statics();
+ document.addEventListener('sllm-language', () => { statics(); if (S) render(S); }); // 언어를 바꾸면 고정 문구도 다시
+ window.sllm.onFacState((st) => { if (st) render(st); });
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.launcherState().then((s) => applyTheme(s.theme, s.custom));
+ window.sllm.getImageState().then((st) => { IMG = st || IMG; }, () => {}).then(() => window.sllm.facState()).then((st) => { if (st) render(st); });
+</script>
+</body></html>

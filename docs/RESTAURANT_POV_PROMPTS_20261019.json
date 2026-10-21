@@ -1,0 +1,27 @@
+[
+  {
+    "key": "background",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-bb9e11b6-408d-4d2e-a9dc-a624801f55e3.png",
+    "prompt": "Remove woman ONLY and fill in the empty chair and restaurant behind her. Keep table, plates, food, glasses, candle, window exactly fixed. Background layer, no person. EXACT same full 1672x941 wide canvas, no crop, no recenter, no pose change, no zoom. Aligned game scene layer. Photoreal identity preserved. No text or UI."
+  },
+  {
+    "key": "neutral",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-bbcfaa6b-2022-4ea2-9de2-7db046a604b8.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA with exact original expression and lighting. Preserve exact body hands clothing pose position scale. Remove ALL background AND table/plates/food/glass/candle. Preserve her existing occlusion boundary where glass and plate hide her; do not extend arms behind those props. EXACT same full 1672x941 wide canvas, no crop, no recenter, no pose change, no zoom. Aligned game scene layer. Photoreal identity preserved. No text or UI."
+  },
+  {
+    "key": "smile",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-4d224fc4-5163-4413-a3ec-f04eb4944dfd.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA. Change ONLY her face expression to a warm happy smile with slight visible teeth. Keep head tilt, eye position, hairstyle, body hands coat and clothing pixel aligned to original. Keep cyan temple ring. Remove all background AND table/plates/food/glass/candle; preserve occlusion boundary where props hide body. EXACT same full 1672x941 wide canvas, no crop, no recenter, no pose change, no zoom. Aligned game scene layer. Photoreal identity preserved. No text or UI."
+  },
+  {
+    "key": "worried",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-3f4158ff-97fa-4710-ba31-91d0ff5a367f.png",
+    "prompt": "Extract ONLY the woman into true transparent RGBA. Change ONLY her face expression to thoughtful concern, subtly furrowed brows, closed mouth, looking at camera. Keep head tilt, eye position, hairstyle, body hands coat and clothing pixel aligned to original. Keep cyan temple ring. Remove all background AND table/plates/food/glass/candle; preserve occlusion boundary where props hide body. EXACT same full 1672x941 wide canvas, no crop, no recenter, no pose change, no zoom. Aligned game scene layer. Photoreal identity preserved. No text or UI."
+  },
+  {
+    "key": "foreground",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-a10eeb8c-2e7c-4d1d-8668-51c57811ce62.png",
+    "prompt": "Extract ONLY foreground dining table, plate, food, glasses, candle and cutlery from this exact image into transparent RGBA. Preserve exact 1672x941 canvas and every prop's pixel position. Remove woman completely including her hands, remove chairs and all background. Table occupies bottom with glass and candle projecting up on left. Preserve glass silhouette and visible original reflections; outside foreground objects fully transparent. This layer is placed OVER a separate seated woman to correctly occlude her sleeve. Do not reframe, crop or recenter. No text."
+  }
+]

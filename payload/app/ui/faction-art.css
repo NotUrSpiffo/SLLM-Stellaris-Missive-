@@ -1,0 +1,23 @@
+/* AI cabinet chamber; seat allocation, agenda and voting remain unchanged. */
+#hall{background:linear-gradient(#06121b35,#06121b55),url('assets/rooms/faction-hall-v2.png') center/cover no-repeat}
+#hall::before,.room-floor,.room-band{display:none}
+#table{top:27%;bottom:15%;border:0;border-radius:0;background:url('assets/rooms/summit-table-v1.png') center/100% 100% no-repeat;box-shadow:none}
+#table::after{display:none}
+#tname{top:39%;color:#e5d6ad;text-shadow:0 2px 4px #000}
+#tname small{color:#b6c4bd}
+.room-overline{color:#e1cfaa;text-shadow:0 2px 4px #000;background:#10171c99;padding:4px 8px;border-left:2px solid #b69b64}
+.room-count{background:linear-gradient(100deg,#302c23,#14232c);border-color:#6b6047}
+.seat .av{background:linear-gradient(#344449e8,#13252cf5);box-shadow:0 6px 12px #0009}
+.seat .nm{background:linear-gradient(#253943f5,#132630f5);text-shadow:0 1px 3px #000}
+.seat small{background:#132630f5;color:#bec9c7}
+.seat.ruler .av{background:linear-gradient(#514736e8,#18282ef5)}
+
+/* Seat contrast: opaque backplates separate representatives from the room. */
+.seat .av,.seat.ruler .av{width:102px;height:106px;background:radial-gradient(ellipse at 50% 75%,#243b48 0%,#080f18 70%);border:2px solid color-mix(in srgb,var(--ec) 75%,#e4e9ed);box-shadow:0 0 0 3px #050c12,0 7px 14px #000b;overflow:hidden}
+.seat .av img{filter:brightness(1.2) contrast(1.06) drop-shadow(0 0 3px #b5d8e877)}
+.seat .nm{background:#07111b;color:#f5f7f5;font-size:12px;font-weight:700;line-height:1.4;padding:7px 4px 4px;border-top:3px solid var(--ec);text-shadow:0 1px 2px #000;box-shadow:0 3px 7px #0008}
+.seat small{background:#07111b;color:#d9e3e8;font-size:11px;line-height:1.4;padding:0 3px 5px;box-shadow:0 4px 7px #0008}
+.seat .v,.seat .wait{font-size:11px;font-weight:700;padding:2px 8px;background:#060d15;box-shadow:0 2px 5px #000b}
+.seat .v.yes{color:#8edcff}.seat .v.no{color:#ffac9e}.seat .v.abstain,.seat .wait{color:#e2e7ec}
+.seat .crown{top:2px;right:4px}
+#hall{min-height:500px} /* Keep the lower row inside the room at short window heights. */

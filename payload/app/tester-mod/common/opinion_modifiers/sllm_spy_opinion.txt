@@ -1,0 +1,13 @@
+# SLLM 첩보 발각 대응 - 상대 제국이 우리를 보는 관계(2026-10-17). 실패 1건당 -100. 매달 줄어 약 2년(24개월) 뒤 사라진다.
+sllm_spy_opinion_1 = {
+	opinion = { base = -100 }
+	decay = { base = 4.2 }
+}
+sllm_spy_opinion_2 = {
+	opinion = { base = -200 }
+	decay = { base = 8.4 }
+}
+sllm_spy_opinion_3 = {
+	opinion = { base = -300 }
+	decay = { base = 12.5 }
+}

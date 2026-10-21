@@ -1,0 +1,31 @@
+# SLLM Probe - AI letters (EXPERIMENT ONLY, untested syntax).
+# Scope: an AI country. event_target:sllm_mail_player = the player.
+# Logs one MAILC line: the same fields as PROFILE (relations are toward the player) plus name and opinion.
+sllm_mail_profile = {
+	if = { limit = { NOT = { is_variable_set = sllm_mail_n } } set_variable = { which = sllm_mail_n value = 0 } }
+	change_variable = { which = sllm_mail_n value = 1 }
+	export_trigger_value_to_variable = {
+		trigger = opinion
+		parameters = { who = event_target:sllm_mail_player }
+		variable = sllm_mail_op
+	}
+	set_variable = { which = sllm_pf_war value = 0 }
+	set_variable = { which = sllm_pf_truce value = 0 }
+	set_variable = { which = sllm_pf_rival value = 0 }
+	set_variable = { which = sllm_pf_hostile value = 0 }
+	set_variable = { which = sllm_pf_unfriendly value = 0 }
+	set_variable = { which = sllm_pf_friendly value = 0 }
+	set_variable = { which = sllm_pf_fed value = 0 }
+	set_variable = { which = sllm_pf_nap value = 0 }
+	set_variable = { which = sllm_pf_def value = 0 }
+	if = { limit = { is_at_war_with = event_target:sllm_mail_player } set_variable = { which = sllm_pf_war value = 1 } }
+	if = { limit = { has_truce = event_target:sllm_mail_player } set_variable = { which = sllm_pf_truce value = 1 } }
+	if = { limit = { is_rival = event_target:sllm_mail_player } set_variable = { which = sllm_pf_rival value = 1 } }
+	if = { limit = { is_hostile_to = event_target:sllm_mail_player } set_variable = { which = sllm_pf_hostile value = 1 } }
+	if = { limit = { is_unfriendly_to = event_target:sllm_mail_player } set_variable = { which = sllm_pf_unfriendly value = 1 } }
+	if = { limit = { is_friendly_to = event_target:sllm_mail_player } set_variable = { which = sllm_pf_friendly value = 1 } }
+	if = { limit = { is_in_federation_with = event_target:sllm_mail_player } set_variable = { which = sllm_pf_fed value = 1 } }
+	if = { limit = { has_non_aggression_pact = event_target:sllm_mail_player } set_variable = { which = sllm_pf_nap value = 1 } }
+	if = { limit = { has_defensive_pact = event_target:sllm_mail_player } set_variable = { which = sllm_pf_def value = 1 } }
+	log = "SLLM:MAILC/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/op=\\[This.sllm_mail_op]/;/gov=\\[This.GetGovernmentName]/;/species=\\[This.GetSpeciesName]/;/personality=\\[This.GetPersonalityName]/;/origin=\\[This.GetOriginName]/;/ruler=\\[This.GetRulerName]/;/title=\\[This.GetRulerTitle]/;/home=\\[This.GetHomeWorldName]/;/organ=\\[This.GetSpeciesOrganName]/;/adj=\\[This.GetSpeciesAdj]/;/war=\\[This.sllm_pf_war]/;/truce=\\[This.sllm_pf_truce]/;/rival=\\[This.sllm_pf_rival]/;/hostile=\\[This.sllm_pf_hostile]/;/unfriendly=\\[This.sllm_pf_unfriendly]/;/friendly=\\[This.sllm_pf_friendly]/;/fed=\\[This.sllm_pf_fed]/;/nap=\\[This.sllm_pf_nap]/;/def=\\[This.sllm_pf_def]/;/n=\\[This.sllm_mail_n]"
+}

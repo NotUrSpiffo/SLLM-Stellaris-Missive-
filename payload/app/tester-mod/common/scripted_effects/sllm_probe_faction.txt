@@ -1,0 +1,27 @@
+# SLLM Probe - 내정·파벌 회의 결과 적용(2026-10-16). 국가 범위(플레이어). 앱이 콘솔 한 줄로 begin → (agenda) → buff... → end 순서로 부른다.
+# 로그 문자열 안에는 $KEY$ 같은 매개변수를 넣지 않는다(F-39). 성공한 적용 개수만 세어 끝에 한 줄로 알린다.
+sllm_probe_fac_begin = {
+	set_variable = { which = sllm_fm_req value = $REQ$ }
+	set_variable = { which = sllm_fm_ok value = 0 }
+}
+# 평의회 의제를 게임에 설정(키가 확인된 의제만 앱이 부른다).
+sllm_probe_fac_agenda = {
+	set_council_agenda = $KEY$
+	if = { limit = { has_agenda_selected = $KEY$ } change_variable = { which = sllm_fm_ok value = 1 } }
+}
+# 국가 범위 버프 1년
+sllm_probe_fac_country = {
+	add_modifier = { modifier = $KEY$ days = $DAYS$ }
+	if = { limit = { has_modifier = $KEY$ } change_variable = { which = sllm_fm_ok value = 1 } }
+}
+# 특정 파벌(sllm_f_id)에 거는 수정자(승인도 상승·하락)
+sllm_probe_fac_faction = {
+	every_pop_faction = {
+		limit = { check_variable = { which = sllm_f_id value = $FID$ } }
+		add_modifier = { modifier = $KEY$ days = $DAYS$ }
+		if = { limit = { has_modifier = $KEY$ } prev = { change_variable = { which = sllm_fm_ok value = 1 } } }
+	}
+}
+sllm_probe_fac_end = {
+	log = "SLLM:FACMEET/;/phase=applied/;/ok=\\[This.sllm_fm_ok]/;/req=\\[This.sllm_fm_req]/;/sid=\\[This.sllm_save_id]"
+}

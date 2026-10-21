@@ -1,0 +1,12 @@
+#hall{background:url('assets/rooms/mediation-hall-v1.png') center/cover no-repeat}
+#hall .floor{display:none}
+#hall .utable{left:15%;top:35px;width:70%;height:330px;border:0;border-radius:0;background:url('assets/rooms/mediation-table-v1.png') center/contain no-repeat;box-shadow:none}
+#hall .utable::after{display:none}
+#hall #demands{left:36%;right:36%;top:55px;height:175px;gap:8px}
+#hall .demand{padding:8px;font-size:11px}
+#hall .demand h2{font-size:12px}
+#hall .summary-label{top:280px}
+#hall .demand{background:#081a24f2}
+#hall .portrait{background:radial-gradient(ellipse,#1a3440c9,#07151de6);box-shadow:0 6px 18px #000b}
+#hall .seat .name,#hall .seat .ruler{background:#06141cdb;text-shadow:0 2px 4px #000;padding:1px 4px}
+#hall .summary-label{background:#06141cc9;padding:3px;border-radius:3px}

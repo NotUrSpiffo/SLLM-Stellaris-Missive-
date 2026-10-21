@@ -1,0 +1,57 @@
+# SLLM Probe - 대사관 보고서(2026-10-19). 플레이어 국가 범위에서 부른다: sllm_probe_embassy = { TID = 제국번호 REQ = 요청번호 }
+# 상대 제국(sllm_idx = TID, 통신 중)에 대해: 첩보 수준 구간·영유권 주장·전쟁 명분·함대 상대 전력·우리에 대한 호감, PROFILE(태도·행동 방침·관계) 한 줄,
+# 그 나라 파벌마다 SLLM:EMBFAC, 끝에 SLLM:EMBASSY(끝 줄). 앱이 첩보 수준에 따라 보여 줄 만큼만 보여 준다(앱 src/embassy.ts).
+# 게임 규칙은 바꾸지 않는다. 로그 문자열 안에 $..$ 매개변수를 넣지 않는다(F-39). 게임 안 검수 전(트리거 문법은 4.x 문서 기준).
+sllm_probe_embassy = {
+	sllm_probe_init_vars = yes
+	set_variable = { which = sllm_out_req value = $REQ$ }
+	sllm_probe_assign_idx = yes
+	set_variable = { which = sllm_emb_found value = 0 }
+	save_event_target_as = sllm_emb_p
+	every_country = {
+		limit = { check_variable = { which = sllm_idx value = $TID$ } is_ai = yes has_communications = prev }
+		save_event_target_as = sllm_emb_t
+		set_variable = { which = sllm_emb_req value = prev.sllm_out_req }
+		# 첩보 수준(우리 → 상대, 0~100)을 구간으로: 0 없음 1 낮음(10+) 2 보통(30+) 3 높음(60+) 4 완전(90+)
+		prev = {
+			set_variable = { which = sllm_emb_found value = 1 }
+			set_variable = { which = sllm_emb_iv value = 0 }
+			if = { limit = { intel = { who = event_target:sllm_emb_t value >= 90 } } set_variable = { which = sllm_emb_iv value = 4 } }
+			else_if = { limit = { intel = { who = event_target:sllm_emb_t value >= 60 } } set_variable = { which = sllm_emb_iv value = 3 } }
+			else_if = { limit = { intel = { who = event_target:sllm_emb_t value >= 30 } } set_variable = { which = sllm_emb_iv value = 2 } }
+			else_if = { limit = { intel = { who = event_target:sllm_emb_t value >= 10 } } set_variable = { which = sllm_emb_iv value = 1 } }
+		}
+		set_variable = { which = sllm_emb_intel value = prev.sllm_emb_iv }
+		# 상대가 우리에 대해 갖는 것
+		set_variable = { which = sllm_emb_claim value = 0 }
+		if = { limit = { has_claim = event_target:sllm_emb_p } set_variable = { which = sllm_emb_claim value = 1 } }
+		set_variable = { which = sllm_emb_cb value = 0 }
+		if = { limit = { has_casus_belli = { target = event_target:sllm_emb_p } } set_variable = { which = sllm_emb_cb value = 1 } }
+		# 함대 전력: 상대가 우리보다 0 형편없음 1 열세 2 대등 3 우세 4 압도, -1 모름
+		set_variable = { which = sllm_emb_fleet value = -1 }
+		if = { limit = { relative_power = { who = event_target:sllm_emb_p category = fleet value = overwhelming } } set_variable = { which = sllm_emb_fleet value = 4 } }
+		else_if = { limit = { relative_power = { who = event_target:sllm_emb_p category = fleet value = superior } } set_variable = { which = sllm_emb_fleet value = 3 } }
+		else_if = { limit = { relative_power = { who = event_target:sllm_emb_p category = fleet value = equivalent } } set_variable = { which = sllm_emb_fleet value = 2 } }
+		else_if = { limit = { relative_power = { who = event_target:sllm_emb_p category = fleet value = inferior } } set_variable = { which = sllm_emb_fleet value = 1 } }
+		else_if = { limit = { relative_power = { who = event_target:sllm_emb_p category = fleet value = pathetic } } set_variable = { which = sllm_emb_fleet value = 0 } }
+		export_trigger_value_to_variable = { trigger = opinion parameters = { who = event_target:sllm_emb_p } variable = sllm_emb_op }
+		# 태도·행동 방침·관계(대화와 같은 PROFILE 줄 — prev 는 플레이어)
+		sllm_probe_gc_profile_one = yes
+		# 파벌(군체·기계는 없음). 파벌 가치관 번호는 월간 상황(FACTION)과 같다.
+		every_pop_faction = {
+			export_trigger_value_to_variable = { trigger = support variable = sllm_emb_fsup }
+			set_variable = { which = sllm_emb_feth value = 0 }
+			if = { limit = { has_ethic = ethic_militarist } set_variable = { which = sllm_emb_feth value = 1 } }
+			else_if = { limit = { has_ethic = ethic_pacifist } set_variable = { which = sllm_emb_feth value = 2 } }
+			else_if = { limit = { has_ethic = ethic_authoritarian } set_variable = { which = sllm_emb_feth value = 3 } }
+			else_if = { limit = { has_ethic = ethic_egalitarian } set_variable = { which = sllm_emb_feth value = 4 } }
+			else_if = { limit = { has_ethic = ethic_xenophile } set_variable = { which = sllm_emb_feth value = 5 } }
+			else_if = { limit = { has_ethic = ethic_xenophobe } set_variable = { which = sllm_emb_feth value = 6 } }
+			else_if = { limit = { has_ethic = ethic_materialist } set_variable = { which = sllm_emb_feth value = 7 } }
+			else_if = { limit = { has_ethic = ethic_spiritualist } set_variable = { which = sllm_emb_feth value = 8 } }
+			log = "SLLM:EMBFAC/;/req=\\[Prev.sllm_emb_req]/;/eth=\\[This.sllm_emb_feth]/;/sup=\\[This.sllm_emb_fsup]/;/name=\\[This.GetName]"
+		}
+		log = "SLLM:EMBASSY/;/req=\\[This.sllm_emb_req]/;/sid=\\[Prev.sllm_save_id]/;/found=1/;/idx=\\[This.sllm_idx]/;/intel=\\[This.sllm_emb_intel]/;/claim=\\[This.sllm_emb_claim]/;/cb=\\[This.sllm_emb_cb]/;/fleet=\\[This.sllm_emb_fleet]/;/op=\\[This.sllm_emb_op]/;/name=\\[This.GetName]"
+	}
+	if = { limit = { check_variable = { which = sllm_emb_found value = 0 } } log = "SLLM:EMBASSY/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]/;/found=0" }
+}

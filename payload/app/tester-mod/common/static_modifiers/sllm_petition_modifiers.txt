@@ -1,0 +1,4 @@
+# SLLM 시민 청원(2026-10-19): 건설 과제 청원을 이뤘을 때 그 행성에 2년 동안 붙는 보상(안정도). 행복·산출 보상은 sllm_buff_happiness_t2·sllm_buff_jobs_t1 을 쓴다.
+sllm_petition_stability = {
+	planet_stability_add = 5
+}

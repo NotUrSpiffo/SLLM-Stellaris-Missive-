@@ -1,0 +1,229 @@
+# SLLM Probe - 게임 상황 수집(2026-10-16 초석). 게임 규칙은 바꾸지 않고 로그만 남긴다.
+# 파일 이름은 sllm_probe_speech.txt 보다 먼저 읽히도록 scan 으로 지었다(연설 프로필이 sllm_probe_speech_ctx 를 부른다).
+# 트리거/효과/스코프 이름은 OldEnt 의 4.5.1 script_documentation 목록과 대조했다. 4.5.2 실제 동작·스코프는 게임에서 확인해야 한다.
+# 로그 값은 원시 수치다. 단계(낮음/보통/높음) 판정과 밸런스 수치는 앱이 정한다(나중에 앱만 바꿔 조정 가능).
+
+# ---- 연설 상황(SPEECHCTX) : 국가 범위(플레이어). 연설 준비 때 sllm_probe_speech_profile 이 부른다. ----
+# 전쟁마다 SLLM:SPEECHWAR 한 줄(우리 편, 양측 피로도) → 끝에 SLLM:SPEECHCTX 한 줄. 같은 n 끼리 묶는다.
+sllm_probe_speech_ctx = {
+	set_variable = { which = sllm_cx_war value = 0 }
+	if = { limit = { is_at_war = yes } set_variable = { which = sllm_cx_war value = 1 } }
+	every_war = {
+		export_trigger_value_to_variable = { trigger = attacker_war_exhaustion variable = sllm_w_ax }
+		export_trigger_value_to_variable = { trigger = defender_war_exhaustion variable = sllm_w_dx }
+		if = {
+			limit = { is_war_participant = { who = prev side = attackers } }
+			log = "SLLM:SPEECHWAR/;/name=\\[This.GetName]/;/side=att/;/ax=\\[This.sllm_w_ax]/;/dx=\\[This.sllm_w_dx]/;/n=\\[Prev.sllm_sp_n]"
+		}
+		else = {
+			log = "SLLM:SPEECHWAR/;/name=\\[This.GetName]/;/side=def/;/ax=\\[This.sllm_w_ax]/;/dx=\\[This.sllm_w_dx]/;/n=\\[Prev.sllm_sp_n]"
+		}
+	}
+	export_trigger_value_to_variable = { trigger = off_war_exhaustion_sum variable = sllm_cx_offex }
+	export_trigger_value_to_variable = { trigger = def_war_exhaustion_sum variable = sllm_cx_defex }
+	# 영유권을 주장한 성계 수, 전체 성계 수, 아직 탐사하지 않은 성계 수
+	set_variable = { which = sllm_cx_claims value = 0 }
+	set_variable = { which = sllm_cx_sys value = 0 }
+	set_variable = { which = sllm_cx_unsv value = 0 }
+	every_system = {
+		prev = { change_variable = { which = sllm_cx_sys value = 1 } }
+		if = {
+			limit = { prev = { has_claim = prev } }
+			prev = { change_variable = { which = sllm_cx_claims value = 1 } }
+		}
+		if = {
+			limit = { NOT = { is_surveyed = { who = prev status = yes } } }
+			prev = { change_variable = { which = sllm_cx_unsv value = 1 } }
+		}
+	}
+	# 월 수입(민간격려: 에너지·광물·식량·합금·소비재, 학구적: 연구 3종)과 행성 수
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = energy } variable = sllm_cx_ie }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = minerals } variable = sllm_cx_im }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = food } variable = sllm_cx_if }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = alloys } variable = sllm_cx_ia }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = consumer_goods } variable = sllm_cx_ic }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = physics_research } variable = sllm_cx_rp }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = society_research } variable = sllm_cx_rs }
+	export_trigger_value_to_variable = { trigger = has_monthly_income parameters = { resource = engineering_research } variable = sllm_cx_re }
+	export_trigger_value_to_variable = { trigger = num_owned_planets variable = sllm_cx_pl }
+	log = "SLLM:SPEECHCTX/;/war=\\[This.sllm_cx_war]/;/offex=\\[This.sllm_cx_offex]/;/defex=\\[This.sllm_cx_defex]/;/claimsn=\\[This.sllm_cx_claims]/;/sys=\\[This.sllm_cx_sys]/;/unsv=\\[This.sllm_cx_unsv]/;/ie=\\[This.sllm_cx_ie]/;/im=\\[This.sllm_cx_im]/;/if=\\[This.sllm_cx_if]/;/ia=\\[This.sllm_cx_ia]/;/ic=\\[This.sllm_cx_ic]/;/rp=\\[This.sllm_cx_rp]/;/rs=\\[This.sllm_cx_rs]/;/re=\\[This.sllm_cx_re]/;/pl=\\[This.sllm_cx_pl]/;/n=\\[This.sllm_sp_n]"
+}
+
+# 첩보망 범위에서 부른다: 가진 첩보 자산마다 SPYASSET 한 줄(앱: 공작원의 현지 협력자, 2026-10-20 알파 9). 게임 수치는 바꾸지 않는다.
+sllm_probe_spy_assets = {
+	if = { limit = { has_espionage_asset = asset_bureaucrat } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=bureaucrat/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_clerk } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=clerk/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_economist } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=economist/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_scientist } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=scientist/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_junior_officer } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=junior_officer/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_criminal_underling } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=criminal_underling/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_attache } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=attache/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_laborer } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=laborer/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_hacker } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=hacker/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_arms_smuggler } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=arms_smuggler/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_agitator } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=agitator/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_newscaster } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=newscaster/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_pop_icon } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=pop_icon/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_academic } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=academic/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_veteran } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=veteran/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_internal_organs } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=internal_organs/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_synapse_drone } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=synapse_drone/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_ephapse_relay } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=ephapse_relay/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_labor_drone } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=labor_drone/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_research_drone } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=research_drone/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_warrior_drone } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=warrior_drone/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_behavioral_regulator } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=behavioral_regulator/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_pheromone_emitter } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=pheromone_emitter/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_resource_distribution_node } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=resource_distribution_node/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_cortex_node } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=cortex_node/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_subspace_tendril } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=subspace_tendril/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_coordination_system } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=coordination_system/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_engagement_protocol } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=engagement_protocol/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_logistics_system } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=logistics_system/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_research_database } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=research_database/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_war_algorithm } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=war_algorithm/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_command_relay } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=command_relay/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_dispatch_uplink } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=dispatch_uplink/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_resource_pylon } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=resource_pylon/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_memory_cache } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=memory_cache/;/n=\\[Prev.sllm_s_n]" } }
+	if = { limit = { has_espionage_asset = asset_weapons_platform } target = { log = "SLLM:SPYASSET/;/target=\\[This.GetName]/;/a=weapons_platform/;/n=\\[Prev.sllm_s_n]" } }
+}
+
+
+# ---- 월간 상황 : 국가 범위(플레이어). 매월 박동(sllm_probe.100)과 불러오기(sllm_probe.101)에서 부른다. ----
+# STATE_BEGIN → WAR*, WARSIDE*, COUNCILAG, FACTION*, SPYNET*, SUBJECT?, VASSAL* → STATE_END. 앱은 BEGIN~END 사이 줄을 한 묶음으로 본다(WARSIDE·SPYNET 의 n 은 전쟁·첩보망 범위에 복사한 값: 불러오기 이벤트는 Root 가 국가가 아니라 Root 를 쓰지 않는다).
+sllm_probe_state_scan = {
+	if = { limit = { NOT = { is_variable_set = sllm_st_n } } set_variable = { which = sllm_st_n value = 0 } }
+	change_variable = { which = sllm_st_n value = 1 }
+	log = "SLLM:STATE_BEGIN/;/sid=\\[This.sllm_save_id]/;/n=\\[This.sllm_st_n]/;/date=\\[GetDate]"
+	# 전쟁(평화 중재·연설): 우리 편, 양측 피로도(0..1), 주 공격국·주 방어국
+	every_war = {
+		export_trigger_value_to_variable = { trigger = attacker_war_exhaustion variable = sllm_w_ax }
+		export_trigger_value_to_variable = { trigger = defender_war_exhaustion variable = sllm_w_dx }
+		set_variable = { which = sllm_w_n value = prev.sllm_st_n }
+		set_variable = { which = sllm_w_total value = 0 }
+		if = { limit = { is_total_war = yes } set_variable = { which = sllm_w_total value = 1 } }
+		if = {
+			limit = { is_war_participant = { who = prev side = attackers } }
+			log = "SLLM:WAR/;/name=\\[This.GetName]/;/side=att/;/ax=\\[This.sllm_w_ax]/;/dx=\\[This.sllm_w_dx]/;/total=\\[This.sllm_w_total]/;/n=\\[Prev.sllm_st_n]"
+		}
+		else = {
+			log = "SLLM:WAR/;/name=\\[This.GetName]/;/side=def/;/ax=\\[This.sllm_w_ax]/;/dx=\\[This.sllm_w_dx]/;/total=\\[This.sllm_w_total]/;/n=\\[Prev.sllm_st_n]"
+		}
+		attacker = { log = "SLLM:WARSIDE/;/war=\\[Prev.GetName]/;/role=att/;/name=\\[This.GetName]/;/n=\\[Prev.sllm_w_n]" }
+		defender = { log = "SLLM:WARSIDE/;/war=\\[Prev.GetName]/;/role=def/;/name=\\[This.GetName]/;/n=\\[Prev.sllm_w_n]" }
+	}
+	# 파벌(내정·파벌 회의): 가치관, 지지율·승인도(0..1)
+	# 평의회 의제 칸(내정·파벌 회의 알림): 1 = 비어 있음(새 의제를 고를 수 있음). 군집·기계는 파벌이 없다.
+	set_variable = { which = sllm_st_ag value = 0 }
+	if = { limit = { has_agenda_selected = no } set_variable = { which = sllm_st_ag value = 1 } }
+	set_variable = { which = sllm_st_gest value = 0 }
+	if = { limit = { has_ethic = ethic_gestalt_consciousness } set_variable = { which = sllm_st_gest value = 1 } }
+	# 플레이어 외계인 성향(파벌 대표 종족 구성): 0 없음 / 1 보통 / 2 광적
+	set_variable = { which = sllm_st_xph value = 0 }
+	if = { limit = { has_ethic = ethic_fanatic_xenophile } set_variable = { which = sllm_st_xph value = 2 } }
+	else_if = { limit = { has_ethic = ethic_xenophile } set_variable = { which = sllm_st_xph value = 1 } }
+	set_variable = { which = sllm_st_xpb value = 0 }
+	if = { limit = { has_ethic = ethic_fanatic_xenophobe } set_variable = { which = sllm_st_xpb value = 2 } }
+	else_if = { limit = { has_ethic = ethic_xenophobe } set_variable = { which = sllm_st_xpb value = 1 } }
+	# 제국 가치관 비트(파벌 회의가 게임 의제를 고를 수 있는지): 1 군국 2 평화 4 권위 8 평등 16 친화 32 혐오 64 물질 128 정신 512 유랑
+	set_variable = { which = sllm_st_eth value = 0 }
+	if = { limit = { is_militarist = yes } change_variable = { which = sllm_st_eth value = 1 } }
+	if = { limit = { is_pacifist = yes } change_variable = { which = sllm_st_eth value = 2 } }
+	if = { limit = { is_authoritarian = yes } change_variable = { which = sllm_st_eth value = 4 } }
+	if = { limit = { is_egalitarian = yes } change_variable = { which = sllm_st_eth value = 8 } }
+	if = { limit = { is_xenophile = yes } change_variable = { which = sllm_st_eth value = 16 } }
+	if = { limit = { is_xenophobe = yes } change_variable = { which = sllm_st_eth value = 32 } }
+	if = { limit = { is_materialist = yes } change_variable = { which = sllm_st_eth value = 64 } }
+	if = { limit = { is_spiritualist = yes } change_variable = { which = sllm_st_eth value = 128 } }
+	if = { limit = { is_nomadic = yes } change_variable = { which = sllm_st_eth value = 512 } }
+	# 평의회 의제 중 지금 고를 수 있는 것(2026-10-19 집 PC: 게임 common/council_agendas 의 potential·allow 를 그대로 옮김). 앱 faction-meeting.ts AGENDAS 의 avail 비트.
+	set_variable = { which = sllm_st_agv value = 0 }
+	if = { limit = { is_gestalt = no } change_variable = { which = sllm_st_agv value = 1 } } # agenda_infinite_opportunities
+	if = { limit = { is_gestalt = no } change_variable = { which = sllm_st_agv value = 2 } } # agenda_evolving_society
+	if = { limit = { has_paragon_dlc = yes is_machine_empire = no has_tradition = tr_adaptability_adopt } change_variable = { which = sllm_st_agv value = 4 } } # agenda_conquer_nature
+	if = { limit = { has_paragon_dlc = yes NOR = { has_valid_civic = civic_inwards_perfection has_valid_civic = civic_hive_devouring_swarm } has_tradition = tr_diplomacy_adopt } change_variable = { which = sllm_st_agv value = 8 } } # agenda_build_relations
+	if = { limit = { has_paragon_dlc = yes has_tradition = tr_discovery_adopt } change_variable = { which = sllm_st_agv value = 16 } } # agenda_chart_the_unknown
+	if = { limit = { has_paragon_dlc = yes is_gestalt = no has_tradition = tr_domination_adopt } change_variable = { which = sllm_st_agv value = 32 } } # agenda_civil_exclusion
+	if = { limit = { has_paragon_dlc = yes is_nomadic = no is_wilderness_empire = no has_tradition = tr_expansion_adopt } change_variable = { which = sllm_st_agv value = 64 } } # agenda_superior_colonies
+	if = { limit = { has_paragon_dlc = yes is_gestalt = no has_tradition = tr_harmony_adopt } change_variable = { which = sllm_st_agv value = 128 } } # agenda_inner_stability
+	if = { limit = { has_paragon_dlc = yes is_regular_empire = yes NOT = { has_valid_civic = civic_criminal_heritage } has_tradition = tr_mercantile_adopt } change_variable = { which = sllm_st_agv value = 256 } } # agenda_open_markets
+	if = { limit = { has_paragon_dlc = yes is_wilderness_empire = no has_tradition = tr_prosperity_adopt } change_variable = { which = sllm_st_agv value = 512 } } # agenda_favored_society
+	if = { limit = { has_paragon_dlc = yes has_tradition = tr_statecraft_adopt } change_variable = { which = sllm_st_agv value = 1024 } } # agenda_departmental_efficiency
+	if = { limit = { has_paragon_dlc = yes has_tradition = tr_statecraft_inspiring_agendas } change_variable = { which = sllm_st_agv value = 2048 } } # agenda_rightful_claims
+	if = { limit = { has_paragon_dlc = yes has_tradition = tr_statecraft_inspiring_agendas } change_variable = { which = sllm_st_agv value = 4096 } } # agenda_oppose_the_fallen
+	if = { limit = { has_paragon_dlc = yes has_tradition = tr_supremacy_adopt } change_variable = { which = sllm_st_agv value = 8192 } } # agenda_military_buildup
+	if = { limit = { has_paragon_dlc = yes NOR = { is_homicidal = yes has_valid_civic = civic_machine_assimilator has_valid_civic = civic_inwards_perfection } has_tradition = tr_enmity_adopt } change_variable = { which = sllm_st_agv value = 16384 } } # agenda_second_strike
+	if = { limit = { has_paragon_dlc = yes has_tradition = tr_aptitude_adopt } change_variable = { which = sllm_st_agv value = 32768 } } # agenda_leadership_conditioning
+	if = { limit = { has_paragon_dlc = yes host_has_dlc = Federations is_homicidal = no has_tradition = tr_politics_adopt } change_variable = { which = sllm_st_agv value = 65536 } } # agenda_pioneer_politics
+	if = { limit = { has_paragon_dlc = yes OR = { host_has_dlc = "Apocalypse" has_overlord_dlc = yes } has_tradition = tr_unyielding_adopt } change_variable = { which = sllm_st_agv value = 131072 } } # agenda_impenetrable_border
+	if = { limit = { has_paragon_dlc = yes has_nemesis = yes has_tradition = tr_subterfuge_adopt } change_variable = { which = sllm_st_agv value = 262144 } } # agenda_uncover_secrets
+	log = "SLLM:COUNCILAG/;/free=\\[This.sllm_st_ag]/;/gest=\\[This.sllm_st_gest]/;/xph=\\[This.sllm_st_xph]/;/xpb=\\[This.sllm_st_xpb]/;/eth=\\[This.sllm_st_eth]/;/agv=\\[This.sllm_st_agv]/;/n=\\[This.sllm_st_n]"
+	every_pop_faction = {
+		# 파벌마다 한 번 고정 번호를 준다(회의 결과를 그 파벌에 걸 때 쓴다).
+		if = {
+			limit = { NOT = { is_variable_set = sllm_f_id } }
+			prev = {
+				if = { limit = { NOT = { is_variable_set = sllm_fid_next } } set_variable = { which = sllm_fid_next value = 0 } }
+				change_variable = { which = sllm_fid_next value = 1 }
+			}
+			set_variable = { which = sllm_f_id value = prev.sllm_fid_next }
+		}
+		export_trigger_value_to_variable = { trigger = support variable = sllm_f_sup }
+		export_trigger_value_to_variable = { trigger = faction_approval variable = sllm_f_app }
+		set_variable = { which = sllm_f_eth value = 0 }
+		if = { limit = { has_ethic = ethic_militarist } set_variable = { which = sllm_f_eth value = 1 } }
+		else_if = { limit = { has_ethic = ethic_pacifist } set_variable = { which = sllm_f_eth value = 2 } }
+		else_if = { limit = { has_ethic = ethic_authoritarian } set_variable = { which = sllm_f_eth value = 3 } }
+		else_if = { limit = { has_ethic = ethic_egalitarian } set_variable = { which = sllm_f_eth value = 4 } }
+		else_if = { limit = { has_ethic = ethic_xenophile } set_variable = { which = sllm_f_eth value = 5 } }
+		else_if = { limit = { has_ethic = ethic_xenophobe } set_variable = { which = sllm_f_eth value = 6 } }
+		else_if = { limit = { has_ethic = ethic_materialist } set_variable = { which = sllm_f_eth value = 7 } }
+		else_if = { limit = { has_ethic = ethic_spiritualist } set_variable = { which = sllm_f_eth value = 8 } }
+		log = "SLLM:FACTION/;/fid=\\[This.sllm_f_id]/;/name=\\[This.GetName]/;/eth=\\[This.sllm_f_eth]/;/sup=\\[This.sllm_f_sup]/;/app=\\[This.sllm_f_app]/;/n=\\[Prev.sllm_st_n]"
+	}
+	# 우리 첩보망(첩보): 대상 제국, 침투 수준
+	every_spynetwork = {
+		limit = { is_owned_by = prev }
+		set_variable = { which = sllm_s_n value = prev.sllm_st_n }
+		export_trigger_value_to_variable = { trigger = has_spy_power variable = sllm_s_pow }
+		target = { log = "SLLM:SPYNET/;/dir=out/;/target=\\[This.GetName]/;/pow=\\[Prev.sllm_s_pow]/;/n=\\[Prev.sllm_s_n]/;/as=1" }
+		sllm_probe_spy_assets = yes # 이 첩보망의 자산(협력자) 줄, 2026-10-20 알파 9
+	}
+	# 종속 관계(반란·독립 출신 기록의 보조 자료)
+	if = {
+		limit = { has_any_overlord = yes }
+		export_trigger_value_to_variable = { trigger = has_loyalty variable = sllm_st_loy }
+		overlord = { log = "SLLM:SUBJECT/;/overlord=\\[This.GetName]/;/loyalty=\\[Prev.sllm_st_loy]/;/n=\\[Prev.sllm_st_n]" }
+	}
+	# 우리 종속국(종속국 통신 채널, 2026-10-17): 종속국마다 번호·이름·충성도. 번호가 없으면 먼저 매긴다.
+	if = {
+		limit = { any_subject = { NOT = { is_variable_set = sllm_idx } } }
+		sllm_probe_assign_idx = yes
+	}
+	every_subject = {
+		export_trigger_value_to_variable = { trigger = has_loyalty variable = sllm_vs_loy }
+		set_variable = { which = sllm_vs_n value = prev.sllm_st_n }
+		log = "SLLM:VASSAL/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/loyalty=\\[This.sllm_vs_loy]/;/n=\\[This.sllm_vs_n]"
+	}
+	# 대사관 감시(2026-10-20 알파 9 시험): 두 달에 한 번, 대사관이 있는 나라마다 SLLM:EMBMON 한 줄(sllm_probe_embmon.txt). 처음 한 번은 바로 기록한다(기준값).
+	if = { limit = { NOT = { is_variable_set = sllm_em_tick } } set_variable = { which = sllm_em_tick value = 1 } }
+	change_variable = { which = sllm_em_tick value = 1 }
+	if = {
+		limit = { check_variable = { which = sllm_em_tick value >= 2 } }
+		set_variable = { which = sllm_em_tick value = 0 }
+		sllm_probe_embmon = yes
+	}
+	# 민심(알파 10, 2026-10-20): 사람이 사는 행성의 안정도 합·수, 불안(안정도 25 미만) 행성 수, 공격·방어 전쟁 피로도 합. 점수 계산은 앱(src/mood.ts).
+	set_variable = { which = sllm_md_sum value = 0 } set_variable = { which = sllm_md_n value = 0 } set_variable = { which = sllm_md_low value = 0 }
+	every_owned_planet = {
+		limit = { is_colony = yes }
+		export_trigger_value_to_variable = { trigger = planet_stability variable = sllm_md_st }
+		prev = { change_variable = { which = sllm_md_sum value = prev.sllm_md_st } change_variable = { which = sllm_md_n value = 1 } }
+		if = { limit = { planet_stability < 25 } prev = { change_variable = { which = sllm_md_low value = 1 } } }
+	}
+	export_trigger_value_to_variable = { trigger = off_war_exhaustion_sum variable = sllm_md_ox }
+	export_trigger_value_to_variable = { trigger = def_war_exhaustion_sum variable = sllm_md_dx }
+	log = "SLLM:MOOD/;/n=\\[This.sllm_st_n]/;/sum=\\[This.sllm_md_sum]/;/cnt=\\[This.sllm_md_n]/;/low=\\[This.sllm_md_low]/;/ox=\\[This.sllm_md_ox]/;/dx=\\[This.sllm_md_dx]"
+	log = "SLLM:STATE_END/;/sid=\\[This.sllm_save_id]/;/n=\\[This.sllm_st_n]"
+}

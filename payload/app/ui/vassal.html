@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>종속국 통신 채널</title>
+<style>
+ :root{--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--good:#7bd88f;--bad:#e88;
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);--glow:95,212,228}
+ *{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.6 "Malgun Gothic",sans-serif;overflow:hidden}
+ body{display:flex;flex-direction:column;border:1px solid var(--line)}
+ button,textarea{font:inherit;color:inherit} [hidden]{display:none!important}
+ #head{-webkit-app-region:drag;display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+ #emb{width:30px;height:30px;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;margin:0 6px;border-radius:4px}
+ #emb svg{width:18px;height:18px}
+ #head b{color:var(--hi);letter-spacing:.14em} #head .t{display:flex;flex-direction:column;line-height:1.25} #head small{color:var(--dim)} #head .sp{flex:1}
+ #x{-webkit-app-region:no-drag;background:none;border:1px solid transparent;color:var(--dim);width:26px;height:22px;cursor:pointer;padding:0} #x:hover{border-color:var(--line);color:var(--text)}
+ #main{flex:1;min-height:0;display:grid;grid-template-columns:clamp(220px,26vw,290px) minmax(0,1fr);gap:12px;padding:14px 16px}
+ #side{overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:0}
+ .sec{font-size:11px;color:var(--dim);letter-spacing:.14em;margin:6px 0 0}
+ .ch{text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:10px 12px;cursor:pointer;display:block;width:100%;position:relative}
+ .ch:hover{border-color:var(--hi)} .ch.on{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)} .ch.off{opacity:.55}
+ .ch b{display:block;font-size:13.5px;padding-right:26px} .ch small{color:var(--dim);font-size:11px}
+ .ch .badge{position:absolute;top:8px;right:10px;min-width:18px;height:18px;border-radius:9px;background:var(--gold);color:#111;font:700 10px/18px "Malgun Gothic",sans-serif;text-align:center;padding:0 5px}
+ .loy{height:6px;border:1px solid var(--line2);background:linear-gradient(90deg,#5a2a2a,#243038 50%,#245a3a);position:relative;margin:6px 0 2px;border-radius:3px}
+ .loy i{position:absolute;top:-3px;bottom:-3px;width:3px;margin-left:-1.5px;background:var(--gold);box-shadow:0 0 5px var(--gold)}
+ .loy u{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#fff4}
+ #rules{border:1px solid var(--line2);border-radius:6px;padding:10px 12px;font-size:11.5px;color:var(--dim);background:color-mix(in srgb,var(--bg) 70%,transparent);margin-top:6px}
+ #pane{display:flex;flex-direction:column;min-height:0;border:1px solid var(--line2);border-radius:8px;background:color-mix(in srgb,var(--panel) 40%,transparent)}
+ #ph{padding:12px 16px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:12px} #ph b{font-size:15px;color:var(--gold)} #ph small{color:var(--dim)}
+ #log{flex:1;min-height:0;overflow-y:auto;padding:14px 16px}
+ .letter{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:12px 14px;margin:0 0 12px;max-width:92%}
+ .letter .k{font-size:10.5px;letter-spacing:.12em;color:var(--hi)} .letter h3{margin:2px 0 6px;font-size:14px;color:var(--text)} .letter .d{float:right;color:var(--dim);font-size:11px}
+ .letter p{margin:0;white-space:pre-wrap}
+ .req{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px} .req b{color:var(--gold);font-weight:600}
+ .req .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap} .req .st{color:var(--dim);font-size:12px;margin-top:6px}
+ .req .st.good{color:var(--good)} .req .st.bad{color:var(--bad)}
+ .me{margin:0 0 12px auto;max-width:80%;text-align:right} .me div{display:inline-block;text-align:left;background:color-mix(in srgb,var(--gold) 10%,transparent);border:1px solid color-mix(in srgb,var(--gold) 30%,transparent);border-radius:6px;padding:6px 10px;white-space:pre-wrap}
+ .them{margin:0 0 12px;max-width:85%} .them b{display:block;font-size:11px;color:var(--hi)} .them div{white-space:pre-wrap}
+ .sys{margin:0 0 12px;color:var(--dim);font-size:12px;border-left:2px solid var(--line);padding-left:10px}
+ .btn{padding:7px 16px;border:1px solid var(--hi);background:color-mix(in srgb,var(--hi) 16%,transparent);color:var(--hi);cursor:pointer;border-radius:3px}
+ .btn:hover:not(:disabled){background:color-mix(in srgb,var(--hi) 28%,transparent)} .btn:disabled{opacity:.45;cursor:default}
+ .btn.yes{border-color:var(--good);color:var(--good);background:color-mix(in srgb,var(--good) 12%,transparent)} .btn.no{border-color:var(--bad);color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,transparent)}
+ #in{border-top:1px solid var(--line2);padding:10px 14px;display:flex;gap:10px;align-items:flex-end}
+ #txt{flex:1;height:58px;resize:none;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:8px 10px;color:var(--text)}
+ #err{color:var(--bad);font-size:12px;padding:0 14px 8px;min-height:1em}
+ .empty{margin:60px auto;max-width:520px;text-align:center;color:var(--dim)} .empty h2{color:var(--gold);font-size:15px;font-weight:600}
+ .btn:focus-visible,.ch:focus-visible,#txt:focus-visible{outline:2px solid var(--hi)}
+</style><script src="theme.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="vassal-scenes.css"></head><body data-room="vassal">
+<div id="head"><div id="emb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5l4 3 4-6 4 6 4-3-1.6 9H5.6z"/><path d="M5.6 20.5h12.8"/></svg></div><div class="t"><b id="ttl" data-i18n-skip></b><small id="sub" data-i18n-skip></small></div><div class="sp"></div><button id="x" aria-label="닫기">✕</button></div>
+<div id="main" data-i18n-skip><div id="side"></div><div id="pane"></div></div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+ let S = null, sel = '', busy = false, lastErr = '', draft = '';
+ const KIND = { complaint: ['불만', 'Complaint'], thanks: ['감사', 'Thanks'], petition: ['청원', 'Petition'], praise: ['치하', 'Commendation'], warning: ['경고', 'Warning'], demand: ['요구', 'Demand'] };
+ const kindLabel = (k) => (KIND[k] ? L(KIND[k][0], KIND[k][1]) : '');
+ // 청원·요구 내용(ask, 2026-10-18): 자원 지원 또는 1년 연구 지원. 수락하면 게임에서 실제로 이행된다.
+ const RES = { energy: ['에너지', 'Energy'], minerals: ['광물', 'Minerals'], food: ['식량', 'Food'], alloys: ['합금', 'Alloys'] };
+ const resName = (r) => (RES[r] ? L(RES[r][0], RES[r][1]) : r);
+ function askLabel(a, ch) { return a.type === 'research' ? L('1년간 연구 지원', 'Research aid for 1 year') : L(`${resName(a.res)} ${a.amt} 지원`, `${a.amt} ${resName(a.res)} in aid`); }
+ function askNote(a, ch) {
+  const ov = ch.role === 'overlord', pct = 5;
+  const give = a.type === 'research' ? L(`1년간 우리 연구 속도 −${pct}%, ${ov ? '종주국' : '종속국'} +${pct}%`, `our research speed −${pct}%, ${ov ? 'overlord' : 'subject'} +${pct}% for 1 year`) : L(`우리 창고에서 ${resName(a.res)} ${a.amt}을(를) 보냄`, `we send ${a.amt} ${resName(a.res)} from our stockpile`);
+  return ov ? L(`수락: ${give} · 거절: 종주국의 우리 관계 −60 (약 1년에 걸쳐 회복)`, `Agree: ${give} · Refuse: overlord's opinion of us −60 (recovers over about a year)`)
+   : L(`승인: ${give}, 충성도 매달 +${S.monthly} (1년) · 반려: 충성도 매달 −${S.monthly} (1년)`, `Approve: ${give}, loyalty +${S.monthly}/month (1 yr) · Reject: loyalty −${S.monthly}/month (1 yr)`);
+ }
+ const loyPos = (v) => Math.max(0, Math.min(100, 50 + (Number(v) || 0) / 2));
+ function statusText(m, ch) {
+  const s = m.status, vas = ch.role === 'vassal';
+  if (s === 'accepted') return [vas ? L(`들어줌${m.ask ? ' · 이행함' : ''} · 충성도 매달 +${S.monthly} (1년)`, `Granted${m.ask ? ' · fulfilled' : ''} · loyalty +${S.monthly}/month (1 yr)`) : m.ask ? L('받아들임 · 이행함', 'Agreed · fulfilled') : L('받아들임(기록만)', 'Agreed (record only)'), 'good'];
+  if (s === 'refused') return [vas ? L(`거절함 · 충성도 매달 −${S.monthly} (1년)`, `Refused · loyalty −${S.monthly}/month (1 yr)`) : m.ask ? L('거절함 · 종주국 관계 −60', 'Refused · overlord opinion −60') : L('거절함(기록만)', 'Refused (record only)'), 'bad'];
+  if (s === 'sending') return [L('게임에 적용하는 중…', 'Applying in game…'), ''];
+  if (s === 'no_target') return [L('게임에서 종속국을 찾지 못함', 'Subject not found in game'), 'bad'];
+  if (s === 'duplicate') return [L('이미 적용된 결정', 'Already applied'), ''];
+  if (s === 'failed' || s === 'uncertain') return [L('적용을 확인하지 못함(자동 재전송 없음)', 'Not confirmed (no automatic resend)'), 'bad'];
+  return ['', ''];
+ }
+ // 외교 공문실(2026-10-18): 깃발은 게임 깃발(flagFor), 한 번 읽으면 기억한다.
+ const FLAGS = {};
+ const flagOf = (idx) => { if (idx == null || idx === '' || !window.sllm.flagFor) return Promise.resolve(null); return (FLAGS[idx] ??= window.sllm.flagFor(idx).catch(() => null)); };
+ function flagImg(idx) { const i = document.createElement('img'); i.className = 'flag'; i.alt = ''; flagOf(idx).then((u) => { if (u) i.src = u; else i.classList.add('none'); }); return i; }
+ function drawSide() {
+  const side = $('side'); side.innerHTML = '';
+  const ov = S.channels.filter((c) => c.role === 'overlord'), vs = S.channels.filter((c) => c.role === 'vassal');
+  const add = (c) => {
+   const b = document.createElement('button'); b.className = 'ch' + (c.key === sel ? ' on' : '') + (c.active ? '' : ' off');
+   b.innerHTML = `<b>${esc(c.name)}</b>${c.unread ? `<span class="badge">${c.unread}</span>` : ''}<div class="loy"><u></u><i style="left:${loyPos(c.loyalty)}%"></i></div><small>${c.active ? L(`충성도 ${c.loyalty ?? '?'}`, `Loyalty ${c.loyalty ?? '?'}`) : L('관계 종료', 'Relationship ended')}</small>`;
+   if (c.role === 'overlord') b.classList.add('ov'); b.prepend(flagImg(c.idx));
+   b.onclick = () => { sel = c.key; draft = ''; lastErr = ''; window.sllm.vassalRead(c.key); draw(); };
+   side.appendChild(b);
+  };
+  if (ov.length) { const h = document.createElement('p'); h.className = 'sec'; h.textContent = L('종주국', 'OVERLORD'); side.appendChild(h); ov.forEach(add); }
+  const h2 = document.createElement('p'); h2.className = 'sec'; h2.textContent = L('우리 종속국', 'OUR SUBJECTS'); side.appendChild(h2);
+  if (vs.length) vs.forEach(add); else { const p = document.createElement('small'); p.style.color = 'var(--dim)'; p.textContent = L('아직 종속국이 없습니다.', 'No subjects yet.'); side.appendChild(p); }
+  const r = document.createElement('div'); r.id = 'rules';
+  r.innerHTML = L(`충성도가 크게(10 이상) 오르내리면 서신이 오고, 그 밖에는 가끔 청원이 옵니다.<br>종속국 청원: 들어주면 충성도 매달 +${S.monthly}, 거절하면 −${S.monthly} (1년, 새 결정이 이전 것을 대신함).<br>청원·요구 내용은 자원 지원 또는 1년 연구 지원(우리 −5%, 상대 +5%)이며, 받아들이면 게임에서 바로 이행됩니다(자원이 모자라면 적용되지 않음).<br>종주국 요구를 거절하면 종주국의 우리 관계가 −60 (약 1년에 걸쳐 회복). 대화는 기록만 남습니다.`, `Letters arrive when loyalty moves a lot (10+); otherwise petitions arrive now and then.<br>Subject petitions: grant = loyalty +${S.monthly}/month, refuse = −${S.monthly}/month (1 yr, a new decision replaces the old).<br>Petitions and demands ask for resources or 1 year of research aid (us −5%, them +5%); accepting carries it out in game right away (not applied if you lack the resources).<br>Refusing an overlord demand: overlord opinion of us −60 (recovers over about a year). Conversations are recorded only.`);
+  side.appendChild(r);
+ }
+ function drawPane() {
+  const pane = $('pane'), ch = S.channels.find((c) => c.key === sel);
+  if (!ch) {
+   pane.innerHTML = `<div class="empty"><h2>${S.channels.length ? L('채널을 고르세요', 'Pick a channel') : L('열린 채널이 없습니다', 'No open channels')}</h2><p>${S.channels.length ? L('왼쪽에서 종주국이나 종속국을 고르면 서신과 통신 기록이 보입니다.', 'Choose your overlord or a subject on the left to see letters and messages.') : L('게임에서 종속국이 생기거나 우리가 다른 제국의 종속국이 되면, 다음 달 상황 수집 때 채널이 열립니다.', 'When you gain a subject or become one, a channel opens at the next monthly update.')}</p></div>`;
+   return;
+  }
+  const ov = ch.role === 'overlord', vas = !ov;
+  pane.innerHTML = `<div id="ph" class="lh ${ch.role}"><div class="side them"><span id="fThem"></span><div><small>${ov ? L('종주국', 'OVERLORD') : L('종속국', 'SUBJECT')}</small><b></b></div></div>
+   <div class="rel"><span class="arrow">${ov ? '▼' : '▲'}</span><small>${ov ? L('종주국 → 우리 제국', 'Overlord → our empire') : L('우리 제국 → 종속국', 'Our empire → subject')}</small><div class="loy"><u></u><i style="left:${loyPos(ch.loyalty)}%"></i></div><small>${ch.active ? L(`충성도 ${ch.loyalty ?? '?'}`, `Loyalty ${ch.loyalty ?? '?'}`) : L('관계 종료', 'Relationship ended')}</small></div>
+   <div class="side us"><div><small>${L('우리 제국', 'OUR EMPIRE')}</small><b></b></div><span id="fUs"></span></div></div>
+   <div id="log"></div><div id="in" class="compose"><div class="cto"><small>${L('발신', 'FROM')}</small><b></b><small>→ ${L('수신', 'TO')}</small><b></b></div><div class="crow"><textarea id="txt" maxlength="${S.textMax}"></textarea><button class="btn" id="send"></button></div></div><div id="err"></div>`;
+  pane.querySelector('.side.them b').textContent = ch.name; pane.querySelector('.side.us b').textContent = S.empire || L('플레이어 제국', 'Player empire');
+  const ctoB = pane.querySelectorAll('.cto b'); ctoB[0].textContent = S.empire || L('플레이어 제국', 'Player empire'); ctoB[1].textContent = ch.name;
+  $('fThem').replaceWith(flagImg(ch.idx)); $('fUs').replaceWith(flagImg(S.playerIdx));
+  const log = $('log');
+  for (const m of ch.msgs) {
+   if (m.who === 'system') { const d = document.createElement('div'); d.className = 'sys'; d.textContent = (m.date ? `[${m.date}] ` : '') + m.text; log.appendChild(d); continue; }
+   if (m.who === 'me' || m.kind === 'reply') {
+    const me = m.who === 'me', d = document.createElement('div'); d.className = 'wire ' + (me ? 'me' : 'them');
+    const h = document.createElement('div'); h.className = 'wh';
+    const a1 = document.createElement('span'); a1.textContent = me ? L(`발신 → ${ch.name}`, `OUTGOING → ${ch.name}`) : L(`수신 ← ${ch.name}`, `INCOMING ← ${ch.name}`);
+    const a2 = document.createElement('span'); a2.textContent = m.date || ''; h.append(a1, a2);
+    const t = document.createElement('div'); t.className = 'wb'; t.textContent = m.text; d.append(h, t); log.appendChild(d); continue;
+   }
+   const d = document.createElement('div'); d.className = 'paper' + (ov ? ' ov' : '');
+   d.innerHTML = `<div class="lhd"><span class="fs"></span><div><small>${ov ? L('종주국 정부 명령서', 'DIRECTIVE OF THE OVERLORD') : L('종속국 정부 공문', 'DISPATCH FROM A SUBJECT STATE')}</small><b></b></div>${kindLabel(m.kind) ? `<span class="kind k-${esc(m.kind)}">${esc(kindLabel(m.kind))}</span>` : ''}</div>
+    <div class="meta">${L('문서 번호', 'Ref.')} ${esc(String(m.id || '').slice(-6).toUpperCase())} · ${esc(m.date)}</div><h3></h3><p></p><div class="sig"></div>`;
+   d.querySelector('.lhd b').textContent = ch.name; d.querySelector('h3').textContent = m.title || ''; d.querySelector('p').textContent = m.text;
+   d.querySelector('.sig').textContent = '— ' + L(`${ch.name} 정부`, `Government of ${ch.name}`);
+   d.querySelector('.fs').replaceWith(flagImg(ch.idx));
+   if (m.request) {
+    const r = document.createElement('div'); r.className = 'req';
+    const rq = document.createElement('div'); rq.className = 'rq'; rq.innerHTML = `<b>${vas ? L('청원 사항', 'PETITION') : L('요구 사항', 'DEMAND')}</b>`; rq.append(document.createTextNode(m.ask ? askLabel(m.ask, ch) : m.request)); r.appendChild(rq);
+    const sign = document.createElement('div'); sign.className = 'sign';
+    const note = document.createElement('div'); note.className = 'note';
+    const pending = m.status === 'pending' && ch.active;
+    note.textContent = pending && m.ask ? askNote(m.ask, ch) : pending ? (vas ? L(`결재: 승인하면 충성도 매달 +${S.monthly}, 반려하면 −${S.monthly} (1년)`, `Decision: approve for loyalty +${S.monthly}/month, reject for −${S.monthly}/month (1 yr)`) : L('결재: 받아들이거나 거절합니다(기록만 남음).', 'Decision: agree or refuse (recorded only).')) : '';
+    const box = (yes) => {
+     const el = document.createElement(pending ? 'button' : 'div'); el.className = 'box ' + (yes ? 'yes' : 'no');
+     const lb = document.createElement('span'); lb.textContent = yes ? (vas ? L('승인', 'APPROVE') : L('수락', 'AGREE')) : (vas ? L('반려', 'REJECT') : L('거절', 'REFUSE')); el.appendChild(lb);
+     if (pending) { el.disabled = busy; el.dataset.hint = L('눌러서 결재', 'Click to sign'); el.title = yes ? (vas ? L(`들어준다 (충성도 +${S.monthly}/월)`, `Grant (loyalty +${S.monthly}/mo)`) : L('받아들인다', 'Agree')) : (vas ? L(`거절한다 (충성도 −${S.monthly}/월)`, `Refuse (loyalty −${S.monthly}/mo)`) : L('거절한다', 'Refuse')); el.onclick = () => decide(ch.key, m.id, yes); }
+     const hit = (yes && m.status === 'accepted') || (!yes && m.status === 'refused');
+     if (hit) { const st = document.createElement('i'); st.className = 'stamp'; st.textContent = yes ? (vas ? L('승인', 'OK') : L('수락', 'OK')) : (vas ? L('반려', 'NO') : L('거절', 'NO')); el.appendChild(st); }
+     return el;
+    };
+    if (pending || m.status === 'accepted' || m.status === 'refused') { sign.append(note, box(true), box(false)); r.appendChild(sign); }
+    if (!pending) { const [t, c] = statusText(m, ch); if (t) { const st = document.createElement('div'); st.className = 'st ' + c; st.textContent = t; r.appendChild(st); } }
+    d.appendChild(r);
+   }
+   log.appendChild(d);
+  }
+  if (!ch.msgs.length) { const d = document.createElement('div'); d.className = 'sys'; d.textContent = L('아직 주고받은 서신이 없습니다. 먼저 통신을 보내 볼 수 있습니다.', 'No letters yet. You can send the first message.'); log.appendChild(d); }
+  log.scrollTop = log.scrollHeight;
+  const t = $('txt'); t.value = draft; t.disabled = busy || !ch.active; t.placeholder = ch.active ? L(`${ch.name}에게 보낼 통신 (Ctrl+Enter)`, `Message to ${ch.name} (Ctrl+Enter)`) : L('관계가 끝난 채널입니다.', 'This relationship has ended.');
+  t.oninput = () => { draft = t.value; }; t.onkeydown = (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); send(); } };
+  $('send').textContent = busy ? L('응답 기다리는 중…', 'Waiting…') : L('통신 발송', 'Transmit'); $('send').disabled = busy || !ch.active; $('send').onclick = send;
+  $('err').textContent = lastErr;
+ }
+ async function run(fn) { if (busy) return; lastErr = ''; busy = true; draw(); try { const r = await fn(); if (r && !r.ok) lastErr = r.error; return r; } catch (e) { lastErr = String(e); } finally { busy = false; draw(); } }
+ async function send() { const v = ($('txt') && $('txt').value || '').trim(); if (!v || !sel) return; const r = await run(() => window.sllm.vassalSay(sel, v)); if (r && r.ok) { draft = ''; draw(); } }
+ function decide(key, id, yes) { return run(() => window.sllm.vassalDecide(key, id, yes)); }
+ function draw() {
+  if (!S) return;
+  $('ttl').textContent = L('종속국 통신 채널', 'SUBJECT CHANNEL'); $('sub').textContent = S.empire || L('플레이어 제국', 'Player empire');
+  if (sel && !S.channels.some((c) => c.key === sel)) sel = '';
+  if (!sel && S.channels.length) { const u = S.channels.find((c) => c.unread) || S.channels[0]; sel = u.key; window.sllm.vassalRead(sel); }
+  drawSide(); drawPane();
+ }
+ $('x').onclick = () => window.sllm.vassalClose();
+ window.sllm.onVassalState((s) => { S = s; if (!busy) draw(); });
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.onLanguageChanged(() => draw());
+ document.addEventListener('sllm-language', () => draw());
+ window.sllm.getSettings().then((st) => { if (st && st.theme) applyTheme(st.theme, st.custom); }).catch(() => {});
+ window.sllm.vassalState().then((s) => { S = s; draw(); });
+</script></body></html>

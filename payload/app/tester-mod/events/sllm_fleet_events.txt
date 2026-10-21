@@ -1,0 +1,159 @@
+# SLLM Probe - 함대 사령부 이벤트(2026-10-17). 우리(플레이어) 함대에 제독이 있을 때만 기록한다. 게임 규칙은 바꾸지 않는다.
+# 지상전(2026-10-17): sllm_fleet.3 점령 승리·sllm_fleet.4 부대 괴멸 패배, BATTLE 에 type=ground. sys 는 행성 이름.
+# 로그: BATTLE(전투) → BATTLESYS(성계) → BATTLEADM(제독, 묶음 끝). 같은 n 끼리 한 전투. 상대가 일반·몰락 제국이 아니면 kind=1(괴물·해적 등).
+namespace = sllm_fleet
+
+# 전투가 끝났다: 이긴 쪽 (This = 우리 국가, From = 상대 국가, FromFrom = 우리 함대, FromFromFrom = 상대 함대)
+country_event = {
+	id = sllm_fleet.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no fromfrom = { exists = leader } }
+			if = { limit = { NOT = { is_variable_set = sllm_bt_n } } set_variable = { which = sllm_bt_n value = 0 } }
+			change_variable = { which = sllm_bt_n value = 1 }
+			set_variable = { which = sllm_bt_kind value = 1 }
+			if = {
+				limit = { from = { OR = { is_country_type = default is_country_type = fallen_empire is_country_type = awakened_fallen_empire } } }
+				set_variable = { which = sllm_bt_kind value = 0 }
+			}
+			log = "SLLM:BATTLE/;/res=won/;/n=\\[This.sllm_bt_n]/;/date=\\[GetDate]/;/kind=\\[This.sllm_bt_kind]/;/fleet=\\[FromFrom.GetName]/;/enemy=\\[From.GetName]/;/efleet=\\[FromFromFrom.GetName]"
+			fromfrom = {
+				solar_system = { log = "SLLM:BATTLESYS/;/n=\\[Root.sllm_bt_n]/;/sys=\\[This.GetName]" }
+				leader = {
+					if = { limit = { NOT = { is_variable_set = sllm_lid } }
+						if = { limit = { root = { NOT = { is_variable_set = sllm_lid_next } } } root = { set_variable = { which = sllm_lid_next value = 1 } } }
+						set_variable = { which = sllm_lid value = root.sllm_lid_next }
+						root = { change_variable = { which = sllm_lid_next value = 1 } }
+					}
+					log = "SLLM:BATTLEADM/;/n=\\[Root.sllm_bt_n]/;/lid=\\[This.sllm_lid]/;/adm=\\[This.GetName]"
+				}
+			}
+		}
+	}
+}
+
+# 전투가 끝났다: 진 쪽 (This = 우리 국가, From = 상대 국가, FromFrom = 우리 함대, FromFromFrom = 상대 함대)
+country_event = {
+	id = sllm_fleet.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no fromfrom = { exists = leader } }
+			if = { limit = { NOT = { is_variable_set = sllm_bt_n } } set_variable = { which = sllm_bt_n value = 0 } }
+			change_variable = { which = sllm_bt_n value = 1 }
+			set_variable = { which = sllm_bt_kind value = 1 }
+			if = {
+				limit = { from = { OR = { is_country_type = default is_country_type = fallen_empire is_country_type = awakened_fallen_empire } } }
+				set_variable = { which = sllm_bt_kind value = 0 }
+			}
+			log = "SLLM:BATTLE/;/res=lost/;/n=\\[This.sllm_bt_n]/;/date=\\[GetDate]/;/kind=\\[This.sllm_bt_kind]/;/fleet=\\[FromFrom.GetName]/;/enemy=\\[From.GetName]/;/efleet=\\[FromFromFrom.GetName]"
+			fromfrom = {
+				solar_system = { log = "SLLM:BATTLESYS/;/n=\\[Root.sllm_bt_n]/;/sys=\\[This.GetName]" }
+				leader = {
+					if = { limit = { NOT = { is_variable_set = sllm_lid } }
+						if = { limit = { root = { NOT = { is_variable_set = sllm_lid_next } } } root = { set_variable = { which = sllm_lid_next value = 1 } } }
+						set_variable = { which = sllm_lid value = root.sllm_lid_next }
+						root = { change_variable = { which = sllm_lid_next value = 1 } }
+					}
+					log = "SLLM:BATTLEADM/;/n=\\[Root.sllm_bt_n]/;/lid=\\[This.sllm_lid]/;/adm=\\[This.GetName]"
+				}
+			}
+		}
+	}
+}
+
+
+# 지상전 승리: 우리가 행성을 점령했다 (Root = 행성, From = 원래 소유국, FromFrom = 점령국). 그 행성의 우리 부대 중 장군이 있는 부대마다 기록.
+planet_event = {
+	id = sllm_fleet.3
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = {
+				fromfrom = { is_ai = no }
+				any_planet_army = { exists = leader owner = { is_ai = no } }
+			}
+			fromfrom = {
+				if = { limit = { NOT = { is_variable_set = sllm_bt_n } } set_variable = { which = sllm_bt_n value = 0 } }
+				change_variable = { which = sllm_bt_n value = 1 }
+			}
+			set_variable = { which = sllm_bt_n value = fromfrom.sllm_bt_n }
+			set_variable = { which = sllm_bt_kind value = 1 }
+			if = {
+				limit = { from = { OR = { is_country_type = default is_country_type = fallen_empire is_country_type = awakened_fallen_empire } } }
+				set_variable = { which = sllm_bt_kind value = 0 }
+			}
+			log = "SLLM:BATTLE/;/type=ground/;/res=won/;/n=\\[This.sllm_bt_n]/;/date=\\[GetDate]/;/kind=\\[This.sllm_bt_kind]/;/fleet=/;/enemy=\\[From.GetName]/;/efleet="
+			log = "SLLM:BATTLESYS/;/n=\\[This.sllm_bt_n]/;/sys=\\[This.GetName]"
+			every_planet_army = {
+				limit = { exists = leader owner = { is_ai = no } }
+				leader = {
+					if = { limit = { NOT = { is_variable_set = sllm_lid } }
+						if = { limit = { fromfrom = { NOT = { is_variable_set = sllm_lid_next } } } fromfrom = { set_variable = { which = sllm_lid_next value = 1 } } }
+						set_variable = { which = sllm_lid value = fromfrom.sllm_lid_next }
+						fromfrom = { change_variable = { which = sllm_lid_next value = 1 } }
+					}
+					log = "SLLM:BATTLEADM/;/n=\\[Root.sllm_bt_n]/;/lid=\\[This.sllm_lid]/;/adm=\\[This.GetName]"
+				}
+			}
+		}
+	}
+}
+
+# 지상전 패배: 우리 부대가 괴멸했다 (This = 우리 국가, From = 부대, FromFrom = 상대 국가, FromFromFrom = 행성). 장군이 있는 부대만.
+country_event = {
+	id = sllm_fleet.4
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no from = { exists = leader } }
+			if = { limit = { NOT = { is_variable_set = sllm_bt_n } } set_variable = { which = sllm_bt_n value = 0 } }
+			change_variable = { which = sllm_bt_n value = 1 }
+			set_variable = { which = sllm_bt_kind value = 1 }
+			if = {
+				limit = { fromfrom = { OR = { is_country_type = default is_country_type = fallen_empire is_country_type = awakened_fallen_empire } } }
+				set_variable = { which = sllm_bt_kind value = 0 }
+			}
+			log = "SLLM:BATTLE/;/type=ground/;/res=lost/;/n=\\[This.sllm_bt_n]/;/date=\\[GetDate]/;/kind=\\[This.sllm_bt_kind]/;/fleet=\\[From.GetName]/;/enemy=\\[FromFrom.GetName]/;/efleet="
+			log = "SLLM:BATTLESYS/;/n=\\[This.sllm_bt_n]/;/sys=\\[FromFromFrom.GetName]"
+			from = {
+				leader = {
+					if = { limit = { NOT = { is_variable_set = sllm_lid } }
+						if = { limit = { root = { NOT = { is_variable_set = sllm_lid_next } } } root = { set_variable = { which = sllm_lid_next value = 1 } } }
+						set_variable = { which = sllm_lid value = root.sllm_lid_next }
+						root = { change_variable = { which = sllm_lid_next value = 1 } }
+					}
+					log = "SLLM:BATTLEADM/;/n=\\[Root.sllm_bt_n]/;/lid=\\[This.sllm_lid]/;/adm=\\[This.GetName]"
+				}
+			}
+		}
+	}
+}
+
+# 매달: 청문회 특성(추앙·질책)의 남은 달을 줄이고, 다 되면 지운다.
+country_event = {
+	id = sllm_fleet.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		if = {
+			limit = { is_ai = no }
+			every_owned_leader = {
+				limit = { is_variable_set = sllm_adm_m }
+				change_variable = { which = sllm_adm_m value = -1 }
+				if = {
+					limit = { check_variable = { which = sllm_adm_m value <= 0 } }
+					remove_trait = sllm_trait_admiral_acclaimed
+					remove_trait = sllm_trait_admiral_reprimanded
+					clear_variable = sllm_adm_m
+					log = "SLLM:ADMEXPIRE/;/lid=\\[This.sllm_lid]/;/adm=\\[This.GetName]"
+				}
+			}
+		}
+	}
+}

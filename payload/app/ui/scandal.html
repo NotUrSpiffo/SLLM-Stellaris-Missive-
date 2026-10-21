@@ -1,0 +1,73 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Scandal</title>
+<!-- 비방 공작 → 우리 정부 추문 대응(2026-10-20 알파 9 ③). 앱: src/features/scandal-app.ts, 규칙: src/scandal.ts.
+     기자회견·라디오 반박·무시 중 하나. 성명문은 플레이어가 직접 쓴다(AI 초안 없음 — 자율성, 2026-10-20 사용자 결정). 문구는 L('한국어','English') 로만(언어 팩). -->
+<style>
+ :root{--bg:#06141b;--panel:#0a1c26;--line:#1f3a4a;--text:#d8e6ee;--dim:#88a3b3;--hi:#4cc9f0;--red:#e06b5f}
+ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.6 "Noto Sans KR","Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+ #w{position:absolute;inset:0;display:flex;flex-direction:column;padding:18px 22px;box-sizing:border-box;-webkit-app-region:drag}
+ #w *{-webkit-app-region:no-drag}
+ .hd{display:flex;align-items:baseline;gap:10px}.hd b{font-size:18px;color:#f3c2b8}.hd span{flex:1}
+ .tag{display:inline-block;font-size:11px;letter-spacing:.14em;color:var(--red);border:1px solid var(--red);padding:0 6px;border-radius:3px;margin-bottom:6px}
+ .cause{font-size:13px;color:var(--dim);margin:6px 0 12px}
+ .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+ .opts button{text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:#0e2230;color:var(--text);cursor:pointer;font:inherit}
+ .opts button b{display:block;font-size:14px}.opts button small{display:block;font-size:12px;color:var(--dim)}
+ .opts button .fx{font-size:12px;margin-top:2px}.fx.pos{color:#9fdcb0}.fx.neg{color:#f0a090}
+ .opts button.on{border-color:var(--hi);background:rgba(76,201,240,.12)}
+ textarea{flex:1;resize:none;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:10px 12px;font:inherit;line-height:1.7}
+ textarea:disabled{opacity:.45}
+ .row{display:flex;gap:8px;align-items:center;margin-top:10px}.row span.sp{flex:1}
+ .btn{padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:#0e2230;color:var(--text);cursor:pointer;font:inherit;font-size:13px}.btn.hi{border-color:var(--hi);color:var(--hi)}.btn:disabled{opacity:.5}
+ .note{font-size:12px;color:var(--dim)}.err{font-size:12px;color:#f08a7a}
+</style>
+<script src="theme.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script></head>
+<body><div id="w">
+ <div><span class="tag" id="tag"></span></div>
+ <div class="hd"><b id="title"></b><span></span><button class="btn" id="close" type="button">✕</button></div>
+ <div class="cause" id="cause"></div>
+ <div class="opts" id="opts"></div>
+ <textarea id="text" spellcheck="false"></textarea>
+ <div class="row"><span class="sp"></span><span class="note" id="note"></span><button class="btn hi" id="go" type="button"></button></div>
+ <div class="row"><span class="err" id="err"></span></div>
+</div>
+<script>
+(() => {
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const $ = (id) => document.getElementById(id);
+ let S = null, pick = '', busy = false;
+ const sign = (n) => (n > 0 ? '+' : '') + n;
+ function draw() {
+   $('tag').textContent = L('추문 보도', 'SCANDAL');
+   $('title').textContent = L('우리 정부를 둘러싼 추문', 'A scandal about our government');
+   $('cause').textContent = (S.date ? S.date + ' · ' : '') + L(`출처를 알 수 없는 문서가 퍼지며 정부 관리들이 외국 정부를 모욕·기만했다는 의혹이 제기됐습니다. 문서는 위조로 보이며, 정보기관은 ${S.suspect}의 첩보망을 의심합니다. 이미 민심 ${sign(S.mood.hit)}.`, `Anonymous documents claim our officials insulted and deceived foreign governments. They look forged; our intelligence suspects the spy network of ${S.suspect}. Public mood already ${sign(S.mood.hit)}.`);
+   const O = [
+     ['press', L('기자회견', 'Press conference'), L('언론사 인터뷰 화면에서 기자의 질문에 직접 답합니다.', 'Answer the reporter yourself in the press interview room.'), [S.mood.pressGood, S.mood.pressBad]],
+     ['radio', L('라디오 반박', 'Radio rebuttal'), S.radioOn ? L('국영 라디오 다음 방송에서 반박합니다.', 'Rebut it in the next state radio broadcast.') : L('라디오가 꺼져 있어도 반박문은 기록됩니다.', 'Recorded even if the radio is off.'), S.mood.radio],
+     ['ignore', L('무시', 'Ignore'), L('대응하지 않습니다. 소문이 굳을 수 있습니다.', 'Say nothing. The rumors may stick.'), S.mood.ignore],
+   ];
+   const box = $('opts'); box.textContent = '';
+   for (const [k, t, d, m] of O) {
+     const b = document.createElement('button'); b.type = 'button'; b.className = pick === k ? 'on' : '';
+     const bt = document.createElement('b'); bt.textContent = t; const sd = document.createElement('small'); sd.textContent = d;
+     const fx = document.createElement('div'); fx.className = 'fx ' + (Array.isArray(m) || m > 0 ? 'pos' : 'neg'); fx.textContent = Array.isArray(m) ? L(`민심 해명 성공 ${sign(m[0])} · 실패 ${sign(m[1])}`, `Mood ${sign(m[0])} if convincing · ${sign(m[1])} if not`) : L('민심 ', 'Mood ') + sign(m);
+     b.append(bt, sd, fx); b.onclick = () => { pick = k; draw(); }; box.append(b);
+   }
+   const writes = pick === 'radio'; // 기자회견은 인터뷰 창에서 직접 답한다
+   $('text').disabled = !writes;
+   $('text').placeholder = writes ? L('성명문(선택). 직접 쓰세요. 비우면 짧은 기본 문구로 발표합니다.', 'Statement (optional). Write it yourself; leave empty for a short default line.') : (pick === 'press' ? L('기자회견은 다음 화면(언론사 인터뷰)에서 기자의 질문에 직접 답합니다.', 'At the press conference you answer the reporter directly in the next screen (press interview room).') : L('라디오 반박을 고르면 반박문을 쓸 수 있습니다.', 'Pick a radio rebuttal to write a statement.'));
+   $('go').textContent = pick === 'ignore' ? L('무시하기', 'Ignore it') : pick === 'radio' ? L('라디오로 반박', 'Rebut on radio') : L('기자회견 열기', 'Hold the press conference');
+   $('go').disabled = !pick || busy; $('close').title = L('닫기(나중에 대응)', 'Close (respond later)');
+   $('note').textContent = L('대응 뒤 라디오에서 찬반 논평이 이어집니다.', 'A for-and-against debate follows on the radio.');
+ }
+ $('close').onclick = () => window.sllm.scandalClose();
+ $('go').onclick = async () => { if (busy || !pick) return; busy = true; draw();
+   const r = await window.sllm.scandalRespond(pick, $('text').value).catch((e) => ({ ok: false, error: String((e && e.message) || e) }));
+   busy = false; if (r && r.ok) window.sllm.scandalClose(); else { $('err').textContent = (r && r.error) || ''; draw(); } };
+ document.addEventListener('sllm-language', () => { if (S) draw(); });
+ document.addEventListener('DOMContentLoaded', async () => {
+   try { S = await window.sllm.scandalState(); } catch (e) { S = null; }
+   if (!S) { $('title').textContent = L('대응할 추문이 없습니다.', 'There is no scandal to respond to.'); return; }
+   draw();
+ });
+})();
+</script></body></html>

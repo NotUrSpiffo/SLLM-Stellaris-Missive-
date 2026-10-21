@@ -1,0 +1,88 @@
+/* 집무실 「정책」 화면(office-policy.js). office.html 변수(--hi --line --line2 --dim --gold --bad)를 그대로 쓴다. */
+#polRoot{display:block;overflow-y:auto;padding:0 12px}
+.pol-pad{padding:24px}
+.pol-main,.pol-wiz,.pol-docwrap{display:flex;flex-direction:column;gap:12px;padding:4px 2px 12px}
+.pol-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.pol-card{border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,.02)}
+.pol-card.internal{border-top:3px solid var(--gold)}
+.pol-card.external{border-top:3px solid var(--hi)}
+.pol-kind{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.pol-head{display:flex;flex-direction:column;gap:2px}
+.pol-title{font-size:16px}
+.pol-target{font-size:12px;color:var(--hi)}
+.pol-head small,.pol-note{color:var(--dim);font-size:11px}
+.pol-goal{border:1px solid var(--line2);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px}
+.pol-goal.warn{border-color:var(--gold)}
+.pol-goal.failed{border-color:var(--bad);opacity:.7}
+.pol-goal.done{border-color:var(--hi)}
+.pol-gtop{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.pol-gtop b{font-size:11px;padding:1px 6px;border-radius:9px;border:1px solid var(--line2)}
+.pol-goal.warn .pol-gtop b{color:var(--gold);border-color:var(--gold)}
+.pol-goal.failed .pol-gtop b{color:var(--bad);border-color:var(--bad)}
+.pol-buff{font-weight:600}
+.pol-diff{font-size:11px;color:var(--dim);font-style:normal;margin-left:auto}
+.pol-cond{font-size:13px}
+.pol-cond.big{font-size:15px;margin:4px 0}
+.pol-bar{position:relative;height:6px;border-radius:3px;background:var(--line2);overflow:hidden}
+.pol-bar i{position:absolute;top:0;bottom:0;left:0;background:var(--hi);border-radius:3px}
+.pol-goal.warn .pol-bar i{background:var(--gold)}
+.pol-goal.failed .pol-bar i{background:var(--bad)}
+.pol-bar u{position:absolute;top:-2px;bottom:-2px;width:2px;background:#fff;text-decoration:none}
+.pol-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:4px}
+.pol-sub,.pol-danger,.pol-chip{background:transparent;color:inherit;border:1px solid var(--line2);border-radius:6px;padding:6px 10px;cursor:pointer;font:inherit;font-size:12px}
+.pol-sub:hover,.pol-chip:hover{border-color:var(--hi)}
+.pol-danger{border-color:var(--bad);color:var(--bad)}
+.pol-sub:disabled,.pol-danger:disabled{opacity:.45;cursor:default}
+.pol-chip{border-radius:14px;border-color:var(--hi)}
+.pol-err{color:var(--bad);font-size:12px}
+.pol-rules{font-size:11px;line-height:1.55;color:var(--dim);border-top:1px solid var(--line2);padding-top:8px}
+.pol-legacy{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;align-items:baseline}
+.pol-legacy b{color:var(--gold)}
+.pol-hist h4,.pol-wiz h4{margin:6px 0;font-size:13px}
+.pol-hrow{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:baseline;width:100%;text-align:left;background:transparent;color:inherit;border:0;border-bottom:1px solid var(--line2);padding:7px 2px;cursor:pointer;font:inherit;font-size:12px}
+.pol-hrow:hover{background:rgba(255,255,255,.04)}
+.pol-hrow .k,.pol-hrow small{color:var(--dim);font-size:11px}
+.pol-hrow .st{font-style:normal;font-size:11px}
+.st.success{color:var(--hi)}.st.collapsed{color:var(--bad)}.st.repealed{color:var(--dim)}
+.pol-steps{display:flex;gap:6px;list-style:none;padding:0;margin:0 0 4px;font-size:12px;counter-reset:s}
+.pol-steps li{counter-increment:s;padding:4px 10px;border-radius:12px;border:1px solid var(--line2);color:var(--dim)}
+.pol-steps li::before{content:counter(s) ". "}
+.pol-steps li.on{border-color:var(--hi);color:inherit}
+.pol-steps li.done{color:var(--hi)}
+.pol-field{display:flex;flex-direction:column;gap:4px;font-size:12px}
+.pol-field span{color:var(--dim)}
+.pol-field input,.pol-field textarea,.pol-field select,.pol-gpick select{background:rgba(0,0,0,.25);color:inherit;border:1px solid var(--line2);border-radius:6px;padding:7px 9px;font:inherit;font-size:13px}
+.pol-field textarea{resize:vertical;line-height:1.55}
+.pol-rec{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pol-why{flex-basis:100%;color:var(--dim)}
+.pol-gpick{border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.pol-diffs{display:flex;gap:6px;flex-wrap:wrap}
+.pol-diffs label{border:1px solid var(--line2);border-radius:6px;padding:5px 9px;font-size:12px;cursor:pointer;display:flex;gap:5px;align-items:center}
+.pol-diffs label.on{border-color:var(--hi)}
+.pol-diffs input{margin:0}
+/* 선언문: 공문서 종이 */
+.pol-paper{position:relative;background:#efe6d2;color:#2b241a;border-radius:3px;padding:30px 34px 24px;box-shadow:0 6px 24px rgba(0,0,0,.45);font-family:"Noto Serif KR","Batang",Georgia,serif;max-width:640px;margin:0 auto;width:100%;box-sizing:border-box}
+.pol-paper.external{background:#e4e8ee;color:#1e2530}
+.pol-seal{position:absolute;right:22px;top:18px;width:44px;height:44px;border-radius:50%;border:2px solid #9b2b20;color:#9b2b20;display:grid;place-items:center;font-size:20px;transform:rotate(-12deg)}
+.pol-dk{letter-spacing:.2em;font-size:11px;opacity:.7}
+.pol-paper h2{margin:6px 60px 10px 0;font-size:22px;line-height:1.3}
+.pol-dt{font-size:13px;margin-bottom:8px;opacity:.8}
+.pol-dbody{white-space:pre-wrap;line-height:1.8;font-size:14px;margin:0 0 14px}
+.pol-dgoals{font-size:12px;border-top:1px solid rgba(0,0,0,.2);padding:10px 0 0 18px;margin:0 0 14px;line-height:1.7}
+.pol-sig{text-align:right;font-size:12px;font-style:italic}
+.pol-dstate{position:absolute;left:28px;bottom:14px;font-size:11px;font-family:inherit;padding:1px 6px;border:1px solid currentColor;border-radius:3px;opacity:.7}
+.pol-dstate.collapsed{color:#9b2b20;opacity:1}
+.pol-docwrap>.pol-sub{align-self:center}
+.pol-btns .act{width:auto;flex:0 0 auto;margin:0;padding-left:22px;padding-right:22px}
+.pol-paper,.pol-paper *{text-shadow:none;filter:none}
+.pol-ysel{background:rgba(0,0,0,.25);color:inherit;border:1px solid var(--line2);border-radius:6px;padding:5px 8px;font:inherit;font-size:12px}
+
+/* 파벌 심사(2026-10-19) */
+.pol-review{margin:10px 0;padding:10px 12px;border:1px solid color-mix(in srgb,var(--hi,#7cf) 40%,transparent);border-radius:4px;background:color-mix(in srgb,var(--hi,#7cf) 6%,transparent)}
+.pol-review>b{display:block;margin-bottom:4px;letter-spacing:.06em}
+.pol-votes{list-style:none;margin:6px 0;padding:0}
+.pol-votes li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:4px 0;border-bottom:1px dashed color-mix(in srgb,var(--hi,#7cf) 20%,transparent)}
+.pol-votes li small{grid-column:1/-1;opacity:.7;font-size:11px}
+.pol-votes li.v-yes b{color:#8fe3a8}.pol-votes li.v-no b{color:#ff9a8a}.pol-votes li.v-abstain b{opacity:.6}
+.pol-tally{margin-top:6px;font-weight:600}.pol-tally.ok{color:#8fe3a8}.pol-tally.bad{color:#ff9a8a}
+.pol-btns .act.danger{border-color:#ff9a8a;color:#ffd0c8;background:rgba(255,120,100,.14)}

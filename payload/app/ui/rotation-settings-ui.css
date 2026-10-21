@@ -1,0 +1,6 @@
+.sllm-rotation-settings{display:grid;gap:10px;max-width:720px;padding:16px;border:1px solid #69899866;border-radius:6px;background:#101c26;color:#e4edf1;font:14px/1.6 "Malgun Gothic","Segoe UI",sans-serif}
+.sllm-rotation-settings h3,.sllm-rotation-settings p{margin:0}.sllm-rotation-settings p{color:#b4c4cf}
+.sllm-rotation-settings label{display:block}.sllm-rotation-settings input{margin-right:8px}
+.sllm-rotation-settings textarea{display:block;box-sizing:border-box;width:100%;margin-top:6px;resize:vertical;min-height:100px;background:#09131c;color:inherit;border:1px solid #829fac77;padding:9px;font:inherit}
+.sllm-rotation-settings button{justify-self:start;border:1px solid #a3c6d0;background:#203c49;color:inherit;border-radius:4px;padding:7px 14px;font:inherit;cursor:pointer}
+.sllm-rotation-settings :focus-visible{outline:2px solid #e0c58b;outline-offset:3px}.sllm-rotation-settings :disabled{opacity:.6;cursor:default}

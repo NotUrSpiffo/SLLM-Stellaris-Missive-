@@ -1,0 +1,140 @@
+# SLLM Probe - A-01 연방 정상회담 2단계(2026-10-15): 플레이어 연방의 이름·종류·단계·응집력·회원·켜진 법을 로그로 남긴다.
+# 플레이어 국가 범위에서 부른다(앱: protocol.ts fedReadEffect). 연방이 없으면 SLLM:FED none=1 한 줄.
+# 응집력과 단계는 숫자 내보내기 대신 바닐라에 있는 비교 트리거(federation = { federation_cohesion >= N })로 10 단위로 찍는다.
+# 법·종류 키 목록은 4.5.2 바닐라 common/federation_laws, common/federation_types 에서 만든 것(모드가 추가한 법은 빠짐).
+sllm_probe_fed_read = {
+	sllm_probe_assign_idx = yes
+	if = { limit = { NOT = { is_variable_set = sllm_fed_n } } set_variable = { which = sllm_fed_n value = 0 } }
+	change_variable = { which = sllm_fed_n value = 1 }
+	if = {
+		limit = { has_federation = no }
+		log = "SLLM:FED/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/date=\\[GetDate]/;/none=1/;/n=\\[This.sllm_fed_n]"
+	}
+	else = {
+		set_variable = { which = sllm_fed_coh value = -100 }
+		if = { limit = { federation = { federation_cohesion >= -90 } } set_variable = { which = sllm_fed_coh value = -90 } }
+		if = { limit = { federation = { federation_cohesion >= -80 } } set_variable = { which = sllm_fed_coh value = -80 } }
+		if = { limit = { federation = { federation_cohesion >= -70 } } set_variable = { which = sllm_fed_coh value = -70 } }
+		if = { limit = { federation = { federation_cohesion >= -60 } } set_variable = { which = sllm_fed_coh value = -60 } }
+		if = { limit = { federation = { federation_cohesion >= -50 } } set_variable = { which = sllm_fed_coh value = -50 } }
+		if = { limit = { federation = { federation_cohesion >= -40 } } set_variable = { which = sllm_fed_coh value = -40 } }
+		if = { limit = { federation = { federation_cohesion >= -30 } } set_variable = { which = sllm_fed_coh value = -30 } }
+		if = { limit = { federation = { federation_cohesion >= -20 } } set_variable = { which = sllm_fed_coh value = -20 } }
+		if = { limit = { federation = { federation_cohesion >= -10 } } set_variable = { which = sllm_fed_coh value = -10 } }
+		if = { limit = { federation = { federation_cohesion >= 0 } } set_variable = { which = sllm_fed_coh value = 0 } }
+		if = { limit = { federation = { federation_cohesion >= 10 } } set_variable = { which = sllm_fed_coh value = 10 } }
+		if = { limit = { federation = { federation_cohesion >= 20 } } set_variable = { which = sllm_fed_coh value = 20 } }
+		if = { limit = { federation = { federation_cohesion >= 30 } } set_variable = { which = sllm_fed_coh value = 30 } }
+		if = { limit = { federation = { federation_cohesion >= 40 } } set_variable = { which = sllm_fed_coh value = 40 } }
+		if = { limit = { federation = { federation_cohesion >= 50 } } set_variable = { which = sllm_fed_coh value = 50 } }
+		if = { limit = { federation = { federation_cohesion >= 60 } } set_variable = { which = sllm_fed_coh value = 60 } }
+		if = { limit = { federation = { federation_cohesion >= 70 } } set_variable = { which = sllm_fed_coh value = 70 } }
+		if = { limit = { federation = { federation_cohesion >= 80 } } set_variable = { which = sllm_fed_coh value = 80 } }
+		if = { limit = { federation = { federation_cohesion >= 90 } } set_variable = { which = sllm_fed_coh value = 90 } }
+		if = { limit = { federation = { federation_cohesion >= 100 } } set_variable = { which = sllm_fed_coh value = 100 } }
+		set_variable = { which = sllm_fed_lvl value = 1 }
+		if = { limit = { federation = { federation_level >= 2 } } set_variable = { which = sllm_fed_lvl value = 2 } }
+		if = { limit = { federation = { federation_level >= 3 } } set_variable = { which = sllm_fed_lvl value = 3 } }
+		if = { limit = { federation = { federation_level >= 4 } } set_variable = { which = sllm_fed_lvl value = 4 } }
+		if = { limit = { federation = { federation_level >= 5 } } set_variable = { which = sllm_fed_lvl value = 5 } }
+		set_variable = { which = sllm_fed_type value = 0 }
+		if = { limit = { federation = { has_federation_type = default_federation } } set_variable = { which = sllm_fed_type value = 1 } }
+		if = { limit = { federation = { has_federation_type = trade_federation } } set_variable = { which = sllm_fed_type value = 2 } }
+		if = { limit = { federation = { has_federation_type = research_federation } } set_variable = { which = sllm_fed_type value = 3 } }
+		if = { limit = { federation = { has_federation_type = military_federation } } set_variable = { which = sllm_fed_type value = 4 } }
+		if = { limit = { federation = { has_federation_type = hegemony_federation } } set_variable = { which = sllm_fed_type value = 5 } }
+		if = { limit = { federation = { has_federation_type = spiritualist_federation } } set_variable = { which = sllm_fed_type value = 6 } }
+		if = { limit = { federation = { has_federation_type = imperial_loyalists_federation } } set_variable = { which = sllm_fed_type value = 7 } }
+		federation = { log = "SLLM:FED/;/sid=\\[Prev.sllm_save_id]/;/req=\\[Prev.sllm_fed_read_req]/;/date=\\[GetDate]/;/name=\\[This.GetName]/;/type=\\[Prev.sllm_fed_type]/;/level=\\[Prev.sllm_fed_lvl]/;/coh=\\[Prev.sllm_fed_coh]/;/n=\\[Prev.sllm_fed_n]" } # Prev = 플레이어 국가
+		federation = {
+			set_variable = { which = sllm_fed_read_req value = prev.sllm_fed_read_req }
+			set_variable = { which = sllm_fed_read_sid value = prev.sllm_save_id }
+			every_member = {
+				set_variable = { which = sllm_fed_read_req value = prev.sllm_fed_read_req }
+				set_variable = { which = sllm_fed_read_sid value = prev.sllm_fed_read_sid }
+				export_trigger_value_to_variable = { trigger = diplomacy_weight variable = sllm_fed_w }
+				set_variable = { which = sllm_fed_ai value = 1 }
+				if = { limit = { is_ai = no } set_variable = { which = sllm_fed_ai value = 0 } }
+				if = { limit = { NOT = { is_variable_set = sllm_fed_mn } } set_variable = { which = sllm_fed_mn value = 0 } }
+				change_variable = { which = sllm_fed_mn value = 1 } # 같은 날 다시 읽어도 같은 줄로 버려지지 않게
+				set_variable = { which = sllm_fed_lead value = 0 }
+				if = { limit = { is_federation_leader = yes } set_variable = { which = sllm_fed_lead value = 1 } }
+				log = "SLLM:FEDMEMBER/;/sid=\\[This.sllm_fed_read_sid]/;/req=\\[This.sllm_fed_read_req]/;/date=\\[GetDate]/;/idx=\\[This.sllm_idx]/;/name=\\[This.GetName]/;/ruler=\\[This.GetRulerName]/;/title=\\[This.GetRulerTitle]/;/weight=\\[This.sllm_fed_w]/;/ai=\\[This.sllm_fed_ai]/;/leader=\\[This.sllm_fed_lead]/;/n=\\[This.sllm_fed_mn]"
+			}
+		}
+		if = { limit = { federation = { has_federation_law = allow_subjects_to_join_no } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=allow_subjects_to_join_no/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = allow_subjects_to_join_yes } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=allow_subjects_to_join_yes/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = allow_subjects_to_join_yes_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=allow_subjects_to_join_yes_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = centralization_high } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=centralization_high/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = centralization_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=centralization_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = centralization_low } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=centralization_low/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = centralization_medium } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=centralization_medium/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = centralization_minimal } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=centralization_minimal/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = centralization_very_high } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=centralization_very_high/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = challenge_type_arena_combat } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=challenge_type_arena_combat/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = challenge_type_bidding_war } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=challenge_type_bidding_war/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = challenge_type_conclave } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=challenge_type_conclave/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = challenge_type_psionic_battle } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=challenge_type_psionic_battle/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = challenge_type_thesis } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=challenge_type_thesis/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = commercial_pact_no } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=commercial_pact_no/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = commercial_pact_yes } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=commercial_pact_yes/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = declare_war_majority_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=declare_war_majority_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = declare_war_majority_vote_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=declare_war_majority_vote_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = declare_war_president_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=declare_war_president_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = declare_war_president_vote_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=declare_war_president_vote_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = declare_war_unanimous_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=declare_war_unanimous_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = federation_build_fleets_everyone } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=federation_build_fleets_everyone/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = federation_build_fleets_only_leader } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=federation_build_fleets_only_leader/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_high } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_high/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_high_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_high_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_high_martial } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_high_martial/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_high_trade } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_high_trade/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_low } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_low/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_low_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_low_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_low_martial } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_low_martial/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_low_research } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_low_research/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_low_trade } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_low_trade/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_medium } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_medium/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_medium_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_medium_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_medium_martial } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_medium_martial/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_medium_research } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_medium_research/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_medium_trade } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_medium_trade/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = fleet_contribution_none } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=fleet_contribution_none/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = free_migration_no } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=free_migration_no/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = free_migration_yes } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=free_migration_yes/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = invite_members_majority_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=invite_members_majority_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = invite_members_president_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=invite_members_president_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = invite_members_president_vote_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=invite_members_president_vote_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = invite_members_president_vote_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=invite_members_president_vote_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = invite_members_unanimous_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=invite_members_unanimous_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = kick_members_majority_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=kick_members_majority_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = kick_members_president_vote } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=kick_members_president_vote/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = kick_members_president_vote_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=kick_members_president_vote_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = kick_members_president_vote_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=kick_members_president_vote_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = research_pact_no } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=research_pact_no/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = research_pact_yes } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=research_pact_yes/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_power_diplomatic_weight } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_power_diplomatic_weight/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_power_economy } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_power_economy/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_power_fleet } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_power_fleet/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_power_tech } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_power_tech/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_term_perpetual } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_term_perpetual/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_term_status_change } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_term_status_change/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_term_years_10 } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_term_years_10/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_term_years_20 } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_term_years_20/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_term_years_30 } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_term_years_30/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_term_years_40 } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_term_years_40/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_type_challenge } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_type_challenge/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_type_none } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_type_none/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_type_random } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_type_random/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_type_rotation } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_type_rotation/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_type_strongest } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_type_strongest/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = succession_type_strongest_hegemony } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=succession_type_strongest_hegemony/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = treaties_separate_no } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=treaties_separate_no/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = treaties_separate_no_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=treaties_separate_no_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = treaties_separate_yes } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=treaties_separate_yes/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = vote_weight_diplomatic } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=vote_weight_diplomatic/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = vote_weight_diplomatic_imperial_loyalists } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=vote_weight_diplomatic_imperial_loyalists/;/n=\\[This.sllm_fed_n]" }
+		if = { limit = { federation = { has_federation_law = vote_weight_equal } } log = "SLLM:FEDLAW/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/key=vote_weight_equal/;/n=\\[This.sllm_fed_n]" }
+		log = "SLLM:FEDEND/;/sid=\\[This.sllm_save_id]/;/req=\\[This.sllm_fed_read_req]/;/date=\\[GetDate]/;/n=\\[This.sllm_fed_n]"
+	}
+}

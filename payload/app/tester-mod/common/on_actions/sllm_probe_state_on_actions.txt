@@ -1,0 +1,13 @@
+# SLLM Probe - 출신·첩보 기록 (2026-10-16 초석). 모드 on_actions 는 게임 것과 합쳐진다. 숨은 이벤트만 부른다.
+on_rebels_take_planet = {
+	events = { sllm_state.1 }
+}
+on_country_released_in_war = {
+	events = { sllm_state.2 }
+}
+on_operation_finished = {
+	events = { sllm_state.10 }
+}
+on_operation_cancelled = {
+	events = { sllm_state.11 }
+}

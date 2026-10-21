@@ -1,0 +1,10 @@
+﻿l_english:
+ sllm_spy_output_1:0 "Espionage Scandal -9%"
+ sllm_spy_output_1_desc:0 "We failed to rebut one piece of espionage evidence before the Galactic Tribunal."
+ sllm_spy_output_2:0 "Espionage Scandal -18%"
+ sllm_spy_output_2_desc:0 "We failed to rebut two pieces of espionage evidence before the Galactic Tribunal."
+ sllm_spy_output_3:0 "Espionage Scandal -27%"
+ sllm_spy_output_3_desc:0 "We failed to rebut all espionage evidence before the Galactic Tribunal."
+ sllm_spy_opinion_1:0 "Caught Spying"
+ sllm_spy_opinion_2:0 "Repeatedly Caught Spying"
+ sllm_spy_opinion_3:0 "Unforgivable Espionage"

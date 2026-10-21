@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>함대 사령부</title>
+<style>
+ :root{--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--good:#7bd88f;--bad:#e88;
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);--glow:95,212,228}
+ *{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.6 "Malgun Gothic",sans-serif;overflow:hidden}
+ body{display:flex;flex-direction:column;border:1px solid var(--line)} button,textarea{font:inherit;color:inherit} [hidden]{display:none!important}
+ #head{-webkit-app-region:drag;display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+ #emb{width:30px;height:30px;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;margin:0 6px;border-radius:4px} #emb svg{width:18px;height:18px}
+ #head b{color:var(--hi);letter-spacing:.14em} #head .t{display:flex;flex-direction:column;line-height:1.25} #head small{color:var(--dim)} #head .sp{flex:1}
+ #x{-webkit-app-region:no-drag;background:none;border:1px solid transparent;color:var(--dim);width:26px;height:22px;cursor:pointer;padding:0} #x:hover{border-color:var(--line);color:var(--text)}
+ #main{flex:1;min-height:0;display:grid;grid-template-columns:clamp(240px,27vw,320px) minmax(0,1fr);gap:12px;padding:14px 16px}
+ #side{overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:0}
+ .sec{font-size:11px;color:var(--dim);letter-spacing:.14em;margin:4px 0 0}
+ .adm{text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:10px 12px;cursor:pointer;width:100%;display:block}
+ .adm:hover{border-color:var(--hi)} .adm.on{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+ .adm b{font-size:13.5px} .adm .st{float:right;font-size:10.5px;padding:0 7px;border-radius:9px;border:1px solid var(--line);color:var(--dim)}
+ .adm .st.acclaimed{color:var(--good);border-color:var(--good)} .adm .st.reprimanded{color:var(--bad);border-color:var(--bad)}
+ .pips{display:flex;gap:5px;margin-top:6px} .pips i{width:22px;height:8px;border-radius:2px;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 70%,transparent)}
+ .pips i.won{background:color-mix(in srgb,var(--good) 55%,transparent);border-color:var(--good)} .pips i.lost{background:color-mix(in srgb,var(--bad) 45%,transparent);border-color:var(--bad)}
+ .adm small{color:var(--dim);font-size:11px;display:block;margin-top:4px}
+ #rules{border:1px solid var(--line2);border-radius:6px;padding:10px 12px;font-size:11.5px;color:var(--dim);background:color-mix(in srgb,var(--bg) 70%,transparent)}
+ #pane{display:flex;flex-direction:column;min-height:0;border:1px solid var(--line2);border-radius:8px;background:color-mix(in srgb,var(--panel) 40%,transparent)}
+ #ph{padding:12px 16px;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:12px;flex-wrap:wrap} #ph b{font-size:15px;color:var(--gold)} #ph small{color:var(--dim)} #ph .sp{flex:1}
+ #body{flex:1;min-height:0;overflow-y:auto;padding:14px 16px}
+ .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+ .card{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:10px 12px;font-size:12px}
+ .card b{display:block;color:var(--gold);font-size:12px;letter-spacing:.06em} .card.active{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+ .card em{display:inline-block;margin-top:6px;font-style:normal;font-size:11px;padding:0 7px;border-radius:9px;border:1px solid var(--line);color:var(--dim)}
+ .card.good em{color:var(--good);border-color:var(--good)} .card.bad em{color:var(--bad);border-color:var(--bad)}
+ .rec{border-left:2px solid var(--line);padding:4px 0 4px 12px;margin:0 0 10px} .rec.won{border-color:var(--good)} .rec.lost{border-color:var(--bad)} .rec small{color:var(--dim)}
+ .ln{margin:0 0 10px;max-width:88%} .ln b{display:block;font-size:11px;letter-spacing:.05em} .ln div{white-space:pre-wrap}
+ .ln.reporter b{color:var(--hi)} .ln.admiral b{color:var(--gold)} .ln.player{margin-left:auto;text-align:right} .ln.player b{color:var(--text)}
+ .ln.player div{display:inline-block;text-align:left;background:color-mix(in srgb,var(--hi) 10%,transparent);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+ .ln.desk{max-width:100%;border-top:1px dashed var(--line);padding-top:6px;color:var(--dim);font-size:12px} .ln.desk.good{color:var(--good)} .ln.desk.bad{color:var(--bad)}
+ .th{font-size:11px;color:var(--gold);letter-spacing:.12em;margin:14px 0 8px;border-bottom:1px solid var(--line2);padding-bottom:3px}
+ .btn{padding:7px 16px;border:1px solid var(--hi);background:color-mix(in srgb,var(--hi) 16%,transparent);color:var(--hi);cursor:pointer;border-radius:3px}
+ .btn:hover:not(:disabled){background:color-mix(in srgb,var(--hi) 28%,transparent)} .btn:disabled{opacity:.45;cursor:default} .btn.sub{border-color:var(--line);color:var(--dim);background:none}
+ #in{border-top:1px solid var(--line2);padding:10px 14px;display:flex;gap:10px;align-items:flex-end}
+ #txt{flex:1;height:58px;resize:none;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:8px 10px;color:var(--text)}
+ #err{color:var(--bad);font-size:12px;padding:0 14px 8px;min-height:1em}
+ .result{border:1px solid var(--gold);border-radius:8px;padding:14px 16px;margin-top:8px;background:color-mix(in srgb,var(--gold) 6%,transparent)}
+ .result .big{font-size:22px;color:var(--gold);letter-spacing:.06em} .result.reprimanded{border-color:var(--bad)} .result.reprimanded .big{color:var(--bad)}
+ .empty{margin:60px auto;max-width:540px;text-align:center;color:var(--dim)} .empty h2{color:var(--gold);font-size:15px;font-weight:600}
+ .btn:focus-visible,.adm:focus-visible,#txt:focus-visible{outline:2px solid var(--hi)}
+</style><script src="theme.js"></script><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="fleet-scenes.css"><link rel="stylesheet" href="admiral-press-art.css"><link rel="stylesheet" href="admiral-inquiry-art.css"></head><body data-room="fleet">
+<div id="head"><div id="emb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5l9-10 9 10-9 5z"/><path d="M12 4.5v15M7.5 12h9"/></svg></div><div class="t"><b id="ttl" data-i18n-skip></b><small id="sub" data-i18n-skip></small></div><div class="sp"></div><button id="x" aria-label="닫기">✕</button></div>
+<div id="main" data-i18n-skip><div id="side"></div><div id="pane"></div></div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+ let S = null, sel = 0, busy = false, lastErr = '', draft = '';
+ const stLabel = (s) => s === 'acclaimed' ? L('추앙', 'Acclaimed') : s === 'reprimanded' ? L('질책', 'Reprimanded') : '';
+ const resLabel = (r) => r === 'won' ? L('승리', 'Victory') : L('패배', 'Defeat');
+ function drawSide() {
+  const side = $('side'); side.innerHTML = `<p class="sec">${L('지휘관 · 최근 전투(우주전·지상전)', 'COMMANDERS · RECENT BATTLES (SPACE · GROUND)')}</p>`;
+  if (!S.admirals.length) { const p = document.createElement('small'); p.style.color = 'var(--dim)'; p.textContent = L('아직 기록된 지휘관 전투가 없습니다.', 'No commander battles recorded yet.'); side.appendChild(p); }
+  for (const a of S.admirals) {
+   const b = document.createElement('button'); b.className = 'adm' + (a.lid === sel ? ' on' : '');
+   const pips = Array.from({ length: S.keep }, (_, i) => { const x = a.battles[i]; return `<i class="${x ? x.res : ''}"${x && x.type === 'ground' ? ' style="border-radius:8px"' : ''} title="${x ? (x.type === 'ground' ? L('지상전', 'Ground') : L('우주전', 'Space')) : ''}"></i>`; }).join('');
+   b.innerHTML = `${a.status !== 'none' ? `<span class="st ${a.status}">${stLabel(a.status)}</span>` : ''}<b>${esc(a.name)}</b><div class="pips">${pips}</div><small>${a.canHear ? L('청문회를 열 수 있습니다', 'Hearing available') : L(`전투 기록 ${a.battles.length}/${S.keep}`, `Battles ${a.battles.length}/${S.keep}`)}</small>`;
+   b.onclick = () => { sel = a.lid; lastErr = ''; draw(); };
+   side.appendChild(b);
+  }
+  const r = document.createElement('div'); r.id = 'rules';
+  r.innerHTML = L(`지휘관마다 최근 전투 ${S.keep}건만 기억합니다(우주전·지상전, 괴물·해적전 제외).<br>기자회견: 전투마다 기자와 제독이 두 번씩 주고받고 끝. 직접 대면: 전투마다 지도자가 ${S.faceTurns}번 심문.<br>좋음 3건 = 추앙(함대 무기 피해·지상군 피해 +5%, 경험치 +${S.xp}) · 2건 = 무난 · 1건 이하 = 질책(함대·지상군 −5%, 감봉 유지비 −25%). 효과 1년.`, `Each commander remembers only the last ${S.keep} battles (space and ground; monsters and pirates excluded).<br>Press: reporter and admiral exchange twice per battle. Face-to-face: you question ${S.faceTurns} times per battle.<br>3 good = acclaimed (fleet weapon damage and army damage +5%, XP +${S.xp}) · 2 = neutral · 1 or less = reprimanded (fleet and armies −5%, pay cut upkeep −25%). Lasts 1 year.`);
+  side.appendChild(r);
+ }
+ const whoOf = (l, name) => l.who === 'reporter' ? L('기자', 'Reporter') : l.who === 'admiral' ? L(`지휘관 ${name}`, `Commander ${name}`) : l.who === 'player' ? L('지도자', 'Leader') : L('군사 감찰관', 'Military inspector');
+ function lineEl(l, name, cls) {
+  const d = document.createElement('div'); d.className = 'ln ' + l.who + (cls || '');
+  const w = document.createElement('b'); w.textContent = whoOf(l, name);
+  const t = document.createElement('div'); t.textContent = l.text; d.append(w, t); return d;
+ }
+ // ── 청문회 장면(2026-10-18): 기자회견 = 브리핑실, 직접 대면 = 심문실. 그림은 종족 계열 초상화(사용자 그림·변형 포함).
+ let IMG = { images: {}, defaults: {} }, folded = false;
+ try { folded = localStorage.getItem('sllm.fleet.fold') === '1'; } catch (e) { /* 저장소 없음 */ }
+ const EMB = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5l9-10 9 10-9 5z"/><path d="M12 4.5v15M7.5 12h9"/></svg>';
+ const portraitOf = (name) => { const c = (S && S.cls) || 'human'; return (window.SLLMVariant ? window.SLLMVariant.pick(IMG.images, ['class:' + c], name, IMG.defaults[c]) : IMG.defaults[c]) || IMG.defaults.human || ''; };
+ function lastLine(h) { for (let i = Math.min(h.current, h.cases.length - 1); i >= 0; i--) { const l = h.cases[i].lines[h.cases[i].lines.length - 1]; if (l) return l; } return null; }
+ function stage(h) {
+  const el = document.createElement('div'); el.className = 'stage ' + h.mode + (folded ? ' folded' : '');
+  const c = h.cases[Math.min(h.current, h.cases.length - 1)], l = lastLine(h), date = c ? c.battle.date : '';
+  const oc = h.done ? (h.outcome || 'neutral') : '', stampTxt = oc === 'acclaimed' ? L('추앙', 'ACCLAIMED') : oc === 'reprimanded' ? L('질책', 'REPRIMANDED') : L('무난', 'NEUTRAL');
+  const quote = l ? `<div class="quote ${l.who}"><b>${esc(whoOf(l, h.name))}</b>${esc(l.text)}</div>` : '';
+  if (h.mode === 'press') {
+   const mics = [-24, -8, 8, 24].map((x, i) => `<div class="mic" style="left:calc(50% + ${x}px);--a:${[-16, -5, 6, 17][i]}deg"></div>`).join('');
+   const flashes = [[12, 14, 0], [31, 8, 2.3], [63, 12, 4.1], [86, 9, 5.6], [47, 6, 3.2]].map(([x, y, d]) => `<i class="flash" style="left:${x}%;bottom:${y}%;animation-delay:${d}s"></i>`).join('');
+   el.innerHTML = `<div class="wall"></div><div class="flag l"></div><div class="flag r"></div><div class="seal">${EMB}</div>
+    <span class="tag">${L('함대 사령부 · 기자회견', 'FLEET COMMAND · PRESS BRIEFING')}</span><span class="date">${esc(date)}</span>
+    <img class="pt" alt="">${mics}<div class="podium"><b></b><small>${L('지휘관', 'COMMANDER')}</small></div>
+    ${c && !h.done ? `<div class="board"><small>${L(`안건 ${h.current + 1} / ${h.cases.length}`, `AGENDA ${h.current + 1} / ${h.cases.length}`)}</small><b>${L(`전투 ${h.current + 1}`, `Battle ${h.current + 1}`)}<i class="${c.battle.res}">${resLabel(c.battle.res)}</i></b><p>${esc(c.text)}</p></div>` : ''}
+    ${h.done ? '' : quote}<span class="onair">${L('생중계', 'LIVE')}</span><div class="crowd"></div>${flashes}
+    ${h.done ? `<div class="ticker${oc === 'reprimanded' ? ' bad' : ''}"><b>${L('속보', 'BREAKING')}</b><span></span></div>` : ''}`;
+   el.querySelector('.podium b').textContent = h.name;
+   if (h.done) el.querySelector('.ticker span').textContent = L(`지휘관 ${h.name} 청문회 결과: ${stampTxt} — 기자단 평가 좋음 ${h.good}/${h.cases.length}`, `Commander ${h.name} hearing result: ${stampTxt} — press rated ${h.good}/${h.cases.length} good`);
+  } else {
+   el.innerHTML = `<div class="wall"></div><div class="mirror"></div><div class="beam"></div><div class="lamp"></div>
+    <span class="tag">${L('군 감찰 · 직접 대면', 'MILITARY INQUIRY · FACE TO FACE')}</span><span class="date">${esc(date)}</span>
+    <div class="insp"></div><span class="who">${L('군사 감찰관', 'Inspector')}</span>
+    <img class="pt" alt=""><div class="table"></div><span class="plate adm"></span>
+    <div class="folders">${h.cases.map((x, i) => `<div class="fd${i === h.current && !h.done ? ' on' : ''}${x.closed ? (x.good ? ' good' : ' bad') : ''}">${i + 1}</div>`).join('')}</div>
+    <span class="plate me">${L('지도자', 'LEADER')}</span>
+    ${c && !h.done ? `<div class="turns">${L('심문', 'QUESTIONS')}<b>${c.turns} / ${S.faceTurns}</b></div>` : ''}
+    ${quote}${h.done ? `<div class="stamp ${oc}">${stampTxt}</div>` : ''}`;
+   el.querySelector('.plate.adm').textContent = h.name;
+  }
+  const img = el.querySelector('img.pt'), url = portraitOf(h.name); if (url) img.src = url; img.alt = h.name;
+  return el;
+ }
+ function drawHearing(h) {
+  const pane = $('pane'); pane.className = 'mode-' + h.mode;
+  pane.innerHTML = `<div id="ph"><div><b>${esc(h.name)}</b><br><small>${h.mode === 'press' ? L('기자회견 청문회', 'Press hearing') : L('지도자 직접 대면', 'Face-to-face hearing')} · ${L(`좋음 ${h.good}/${h.cases.length}`, `Good ${h.good}/${h.cases.length}`)}</small></div><div class="sp"></div><button class="fold" id="fold">${folded ? L('장면 펼치기', 'Show scene') : L('장면 접기', 'Hide scene')}</button></div><div id="body"></div>${h.done ? '' : h.mode === 'face' ? `<div id="in"><textarea id="txt" maxlength="${S.textMax}"></textarea><button class="btn" id="say"></button></div>` : `<div id="in"><div style="flex:1;color:var(--dim);font-size:12px">${L('기자회견은 기자와 지휘관이 직접 주고받습니다. 지켜보세요.', 'Reporters and the commander talk among themselves. Just watch.')}</div><button class="btn" id="next"></button></div>`}<div id="err"></div>`;
+  pane.insertBefore(stage(h), $('body'));
+  $('fold').onclick = () => { folded = !folded; try { localStorage.setItem('sllm.fleet.fold', folded ? '1' : '0'); } catch (e) { /* 저장소 없음 */ } draw(); };
+  const body = $('body'), cards = document.createElement('div'); cards.className = 'cards';
+  h.cases.forEach((c, i) => { const d = document.createElement('div'); d.className = 'card' + (i === h.current && !h.done ? ' active' : '') + (c.closed ? (c.good ? ' good' : ' bad') : ''); d.innerHTML = `<b>${L(`전투 ${i + 1}`, `Battle ${i + 1}`)} · ${resLabel(c.battle.res)}</b>${esc(c.text)}<br><em>${c.closed ? (c.good ? L('좋음', 'Good') : L('나쁨', 'Poor')) : i === h.current ? (h.mode === 'face' ? L(`심문 ${c.turns}/${S.faceTurns}`, `Questions ${c.turns}/${S.faceTurns}`) : L('진행 대기', 'Waiting')) : L('대기', 'Queued')}</em>`; cards.appendChild(d); });
+  body.appendChild(cards);
+  h.cases.forEach((c, i) => {
+   if (!c.lines.length) return;
+   const t = document.createElement('div'); t.className = 'th'; t.textContent = L(`전투 ${i + 1}`, `Battle ${i + 1}`) + ' · ' + c.text; body.appendChild(t);
+   for (const l of c.lines) body.appendChild(lineEl(l, h.name, l.who === 'desk' ? (c.good ? ' good' : ' bad') : ''));
+  });
+  if (h.done) {
+   const r = document.createElement('div'), oc = h.outcome; r.className = 'result ' + (oc || '');
+   r.innerHTML = `<div class="big">${oc === 'acclaimed' ? L('추앙', 'ACCLAIMED') : oc === 'reprimanded' ? L('질책', 'REPRIMANDED') : L('무난', 'NEUTRAL')}</div><p>${esc(h.applied || L('결과를 정리하는 중…', 'Finishing…'))}</p><button class="btn" id="done">${L('청문회 마치기', 'Close hearing')}</button>`;
+   body.appendChild(r); $('done').onclick = () => window.sllm.fleetHearingClose();
+  }
+  body.scrollTop = body.scrollHeight;
+  if ($('txt')) { const t = $('txt'); t.value = draft; t.disabled = busy; t.placeholder = L(`지휘관에게 물을 내용 (Ctrl+Enter)`, `Question for the commander (Ctrl+Enter)`); t.oninput = () => { draft = t.value; }; t.onkeydown = (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); say(); } }; $('say').textContent = busy ? L('답 기다리는 중…', 'Waiting…') : (h.cases[h.current] && h.cases[h.current].turns + 1 >= S.faceTurns ? L('마지막 심문(평가)', 'Final question (rate)') : L('심문하기', 'Question')); $('say').disabled = busy; $('say').onclick = say; }
+  if ($('next')) { $('next').textContent = busy ? L('진행 중…', 'Working…') : h.ready ? L('평가 다시', 'Rate again') : L(`전투 ${h.current + 1} 진행`, `Run battle ${h.current + 1}`); $('next').disabled = busy; $('next').onclick = () => run(() => h.ready ? window.sllm.fleetJudge() : window.sllm.fleetPressNext()); }
+  if (h.mode === 'face' && h.ready && !h.done && $('in')) { const b = document.createElement('button'); b.className = 'btn sub'; b.textContent = L('평가 다시', 'Rate again'); b.onclick = () => run(() => window.sllm.fleetJudge()); $('in').appendChild(b); }
+  $('err').textContent = lastErr;
+ }
+ function drawAdmiral() {
+  const pane = $('pane'), a = S.admirals.find((x) => x.lid === sel); pane.className = '';
+  if (!a) { pane.innerHTML = `<div class="empty"><h2>${S.admirals.length ? L('지휘관을 고르세요', 'Pick a commander') : L('기록이 없습니다', 'No records')}</h2><p>${L('지휘관이 이끄는 우리 함대·지상군이 일반 제국·몰락 제국과 싸우면 전투가 기록됩니다(지상전은 점령 승리·부대 괴멸).', 'Battles are recorded when our fleets or armies led by a commander fight regular or fallen empires (ground: planet taken or army destroyed).')}</p></div>`; return; }
+  pane.innerHTML = `<div id="ph"><div><b>${esc(a.name)}</b><br><small>${L('전투 기록', 'Battle record')} · ${a.battles.length}/${S.keep}${a.status !== 'none' ? ' · ' + stLabel(a.status) + (a.statusDate ? ` (${esc(a.statusDate)})` : '') : ''}</small></div><div class="sp"></div><button class="btn" id="hp">${L('기자회견에 세우기', 'Hold press hearing')}</button><button class="btn" id="hf">${L('직접 대면하기', 'Face to face')}</button></div><div id="body"></div><div id="err"></div>`;
+  const body = $('body');
+  if (!a.battles.length) body.innerHTML = `<p style="color:var(--dim)">${L('지난 청문회 뒤 새 전투가 없습니다.', 'No new battles since the last hearing.')}</p>`;
+  for (const b of [...a.battles].reverse()) { const d = document.createElement('div'); d.className = 'rec ' + b.res; d.innerHTML = `<small>${esc(b.date)}</small><div><b>${resLabel(b.res)}</b> · ${esc(b.text)}</div>`; body.appendChild(d); }
+  const can = a.canHear && !busy;
+  $('hp').disabled = !can; $('hf').disabled = !can;
+  if (!a.canHear) { $('hp').title = $('hf').title = L(`전투 ${S.keep}건이 쌓이면 열 수 있습니다.`, `Available after ${S.keep} battles.`); }
+  $('hp').onclick = () => run(() => window.sllm.fleetHearing(a.lid, 'press')); $('hf').onclick = () => run(() => window.sllm.fleetHearing(a.lid, 'face'));
+  $('err').textContent = lastErr;
+ }
+ async function run(fn) { if (busy) return; lastErr = ''; busy = true; draw(); try { const r = await fn(); if (r && !r.ok) lastErr = r.error; return r; } catch (e) { lastErr = String(e); } finally { busy = false; draw(); } }
+ async function say() { const v = ($('txt') && $('txt').value || '').trim(); if (!v) return; const r = await run(() => window.sllm.fleetFaceSay(v)); if (r && r.ok) { draft = ''; draw(); } }
+ function draw() {
+  if (!S) return;
+  $('ttl').textContent = L('함대 사령부', 'FLEET COMMAND'); $('sub').textContent = S.empire || L('플레이어 제국', 'Player empire');
+  if (S.hearing) sel = S.hearing.lid; else if (!S.admirals.some((a) => a.lid === sel)) sel = S.admirals[0] ? S.admirals[0].lid : 0;
+  document.body.classList.toggle('hearing', !!S.hearing);
+  drawSide(); if (S.hearing) drawHearing(S.hearing); else drawAdmiral();
+ }
+ $('x').onclick = () => { if (S && S.hearing && !S.hearing.done && !confirm(L('청문회 도중에 나가면 남은 전투는 나쁨으로 처리됩니다(질책될 수 있음). 나갈까요?', 'Leaving mid-hearing rates the remaining battles as poor (may lead to a reprimand). Leave?'))) return; window.sllm.fleetClose(); };
+ const loadImages = () => window.sllm.getImageState().then((v) => { if (v) { IMG = v; if (S && !busy) draw(); } }).catch(() => {});
+ window.sllm.onFleetState((s) => { const started = s && s.hearing && !(S && S.hearing); S = s; if (started) loadImages(); if (!busy) draw(); });
+ loadImages();
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.onLanguageChanged(() => draw());
+ document.addEventListener('sllm-language', () => draw());
+ window.sllm.getSettings().then((st) => { if (st && st.theme) applyTheme(st.theme, st.custom); }).catch(() => {});
+ window.sllm.fleetState().then((s) => { S = s; draw(); });
+</script></body></html>

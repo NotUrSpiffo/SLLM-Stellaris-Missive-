@@ -1,0 +1,113 @@
+# SLLM Probe - diplomatic actions by conversation (EXPERIMENT ONLY, untested syntax).
+# Kept in its own file so a syntax error here cannot break the other effects.
+#
+# KIND 1: the AI empire TID stops closing its borders to the player (set_closed_borders status = no).
+#         Logs the closed-border state after the change so we learn what the game thinks.
+# KIND 3/4/5: the AI empire TID declares war on the player with the mod's casus belli (3 humiliation, 4 tribute, 5 revenge);
+#             falls back to wg_subjugation, then no war goal. Logs war=1 if it worked.
+# KIND 2: end a war between the AI empire TID and the player, only when exactly two countries take part.
+#
+# Console/app: effect every_playable_country = { limit = { is_ai = no } sllm_probe_diplo = { REQ = 9 TID = 2 KIND = 1 } }
+sllm_probe_diplo = {
+	every_playable_country = {
+		limit = { is_ai = no }
+		save_event_target_as = sllm_player
+		sllm_probe_init_vars = yes
+		set_variable = { which = sllm_in_req value = $REQ$ }
+		set_variable = { which = sllm_in_kind value = $KIND$ }
+		if = {
+			limit = { check_variable = { which = sllm_last_req value < $REQ$ } }
+			set_variable = { which = sllm_last_req value = $REQ$ }
+			change_variable = { which = sllm_exec_seq value = 1 }
+			set_variable = { which = sllm_last_result value = 2 }
+			if = {
+				limit = {
+					any_country = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+				}
+				random_country = {
+					limit = {
+						is_variable_set = sllm_idx
+						check_variable = { which = sllm_idx value = $TID$ }
+					}
+					if = {
+						limit = { event_target:sllm_player = { check_variable = { which = sllm_in_kind value = 1 } } }
+						set_closed_borders = { who = event_target:sllm_player status = no }
+						set_variable = { which = sllm_dp_closed value = 0 }
+						if = {
+							limit = { has_closed_borders = event_target:sllm_player }
+							set_variable = { which = sllm_dp_closed value = 1 }
+						}
+						event_target:sllm_player = { set_variable = { which = sllm_last_result value = 1 } }
+						log = "SLLM:DIPLO/;/kind=1/;/idx=\\[This.sllm_idx]/;/closed=\\[This.sllm_dp_closed]"
+					}
+					else_if = {
+						limit = {
+							event_target:sllm_player = { check_variable = { which = sllm_in_kind value = 2 } }
+							is_at_war_with = event_target:sllm_player
+						}
+						random_war = {
+							limit = {
+								is_war_participant = { who = event_target:sllm_player }
+								count_war_participant = { count = 2 }
+							}
+							remove_war_participant = event_target:sllm_player
+							event_target:sllm_player = { set_variable = { which = sllm_last_result value = 1 } }
+						}
+						log = "SLLM:DIPLO/;/kind=2/;/idx=\\[This.sllm_idx]"
+					}
+					else_if = {
+						limit = {
+							event_target:sllm_player = {
+								check_variable = { which = sllm_in_kind value > 2 }
+								check_variable = { which = sllm_in_kind value < 6 }
+							}
+							NOT = { is_at_war_with = event_target:sllm_player }
+						}
+						# KIND 3 humiliation, 4 tribute, 5 revenge: grant the matching casus belli, then declare with its war goal.
+						if = {
+							limit = { event_target:sllm_player = { check_variable = { which = sllm_in_kind value = 3 } } }
+							add_casus_belli = { type = cb_sllm_humiliation who = event_target:sllm_player days = 5 }
+							declare_war = { target = event_target:sllm_player attacker_war_goal = wg_sllm_humiliation }
+						}
+						else_if = {
+							limit = { event_target:sllm_player = { check_variable = { which = sllm_in_kind value = 4 } } }
+							add_casus_belli = { type = cb_sllm_tribute who = event_target:sllm_player days = 5 }
+							declare_war = { target = event_target:sllm_player attacker_war_goal = wg_sllm_tribute }
+						}
+						else = {
+							add_casus_belli = { type = cb_sllm_revenge who = event_target:sllm_player days = 5 }
+							declare_war = { target = event_target:sllm_player attacker_war_goal = wg_sllm_revenge }
+						}
+						# Fallbacks if the game refused the custom war goal.
+						if = {
+							limit = { NOT = { is_at_war_with = event_target:sllm_player } }
+							declare_war = { target = event_target:sllm_player attacker_war_goal = wg_subjugation }
+						}
+						if = {
+							limit = { NOT = { is_at_war_with = event_target:sllm_player } }
+							declare_war = { target = event_target:sllm_player }
+						}
+						set_variable = { which = sllm_dp_war value = 0 }
+						if = {
+							limit = { is_at_war_with = event_target:sllm_player }
+							set_variable = { which = sllm_dp_war value = 1 }
+							event_target:sllm_player = { set_variable = { which = sllm_last_result value = 1 } }
+						}
+						log = "SLLM:DIPLO/;/kind=war/;/idx=\\[This.sllm_idx]/;/war=\\[This.sllm_dp_war]"
+					}
+				}
+			}
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/diplo/;/kind=\\[This.sllm_in_kind]/;/result=\\[This.sllm_last_result]"
+		}
+		else_if = {
+			limit = { check_variable = { which = sllm_last_req value = $REQ$ } }
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/diplo/;/dup/;/result=\\[This.sllm_last_result]"
+		}
+		else = {
+			log = "SLLM:ACK/;/seq=\\[This.sllm_exec_seq]/;/req=\\[This.sllm_in_req]/;/diplo/;/stale/;/last=\\[This.sllm_last_req]"
+		}
+	}
+}

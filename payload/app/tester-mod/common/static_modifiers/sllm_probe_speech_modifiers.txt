@@ -1,0 +1,81 @@
+# SLLM Probe - 연설 버프. 이름: sllm_speech_{종류}_{등급}. 지속시간은 앱이 효과를 부를 때 days 로 정한다(무난 1년, 좋음 2년, 훌륭함 3년).
+# 민간격려 생산 산출량은 4.5.1 수정자 목록 기준 자원별 country_*_produces_mult(에너지·광물·식량·합금·소비재)로 건다(F-38, all_resource_output_mult 는 존재하지 않음).
+# 수치 이름은 게임 버전에 따라 다를 수 있다. 게임을 켠 뒤 error.log 에서 sllm_speech 가 들어간 오류를 확인한다.
+
+sllm_speech_war_1 = {
+	ship_weapon_damage = 0.05
+	ship_speed_mult = 0.05
+}
+
+sllm_speech_war_2 = {
+	ship_weapon_damage = 0.1
+	ship_speed_mult = 0.1
+}
+
+sllm_speech_war_3 = {
+	ship_weapon_damage = 0.15
+	ship_speed_mult = 0.15
+}
+
+sllm_speech_laststand_1 = {
+	ship_hull_mult = 0.05
+	starbase_shipyard_build_speed_mult = 0.05
+	starbase_upgrade_speed_mult = 0.05
+}
+
+sllm_speech_laststand_2 = {
+	ship_hull_mult = 0.1
+	starbase_shipyard_build_speed_mult = 0.1
+	starbase_upgrade_speed_mult = 0.1
+}
+
+sllm_speech_laststand_3 = {
+	ship_hull_mult = 0.15
+	starbase_shipyard_build_speed_mult = 0.15
+	starbase_upgrade_speed_mult = 0.15
+}
+
+sllm_speech_discovery_1 = {
+	all_technology_research_speed = 0.05
+	ship_speed_mult = 0.05
+}
+
+sllm_speech_discovery_2 = {
+	all_technology_research_speed = 0.1
+	ship_speed_mult = 0.1
+}
+
+sllm_speech_discovery_3 = {
+	all_technology_research_speed = 0.15
+	ship_speed_mult = 0.15
+}
+
+sllm_speech_civil_1 = {
+	planet_building_build_speed_mult = 0.05
+	ship_speed_mult = 0.05
+	country_energy_produces_mult = 0.05
+	country_minerals_produces_mult = 0.05
+	country_food_produces_mult = 0.05
+	country_alloys_produces_mult = 0.05
+	country_consumer_goods_produces_mult = 0.05
+}
+
+sllm_speech_civil_2 = {
+	planet_building_build_speed_mult = 0.1
+	ship_speed_mult = 0.1
+	country_energy_produces_mult = 0.1
+	country_minerals_produces_mult = 0.1
+	country_food_produces_mult = 0.1
+	country_alloys_produces_mult = 0.1
+	country_consumer_goods_produces_mult = 0.1
+}
+
+sllm_speech_civil_3 = {
+	planet_building_build_speed_mult = 0.15
+	ship_speed_mult = 0.15
+	country_energy_produces_mult = 0.15
+	country_minerals_produces_mult = 0.15
+	country_food_produces_mult = 0.15
+	country_alloys_produces_mult = 0.15
+	country_consumer_goods_produces_mult = 0.15
+}

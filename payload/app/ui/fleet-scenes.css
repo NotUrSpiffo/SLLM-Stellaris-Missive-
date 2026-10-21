@@ -1,0 +1,87 @@
+/* 함대 사령부 청문회 장면(2026-10-18). 기자회견 = 브리핑실, 직접 대면 = 심문실. 그림 없이 CSS 로만 그리고, 인물은 종족 계열 초상화. */
+body.hearing #main{grid-template-columns:minmax(0,1fr)} body.hearing #side{display:none}
+.stage{position:relative;height:clamp(190px,34vh,300px);flex:none;overflow:hidden;isolation:isolate;border-bottom:1px solid var(--line2);container-type:inline-size;border-radius:8px 8px 0 0}
+.stage.folded{height:0;border-bottom:0}
+.stage .tag{position:absolute;top:12px;left:16px;z-index:6;font:600 9.5px "Segoe UI",sans-serif;letter-spacing:.24em;color:var(--gold);opacity:.85}
+.stage .date{position:absolute;top:12px;right:16px;z-index:6;font-size:10px;color:#9fb5bd;letter-spacing:.08em}
+.stage .who{position:absolute;z-index:6;font-size:11px;letter-spacing:.06em;color:#e6dcc4;background:#05090ccc;border:1px solid #ffffff22;padding:1px 8px;border-radius:2px;white-space:nowrap}
+.stage .quote{position:absolute;z-index:7;max-width:min(44%,330px);font-size:12.5px;line-height:1.5;padding:9px 12px;background:#060c11e6;border:1px solid var(--line);border-radius:6px;box-shadow:0 6px 20px #000a;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.stage .quote b{display:block;font-size:10px;letter-spacing:.12em;margin-bottom:2px}
+.stage .quote.reporter b{color:var(--hi)} .stage .quote.admiral b{color:var(--gold)} .stage .quote.player b{color:#f2efe6} .stage .quote.desk b{color:#c9b98f}
+.stage img.pt{position:absolute;z-index:3;object-fit:contain;object-position:bottom;filter:drop-shadow(0 8px 16px #000c)}
+.stage img.pt:not([src]){visibility:hidden}
+@container (max-width:600px){.stage .quote{display:none}}
+
+/* ── 기자회견: 브리핑실 ── */
+.stage.press{background:radial-gradient(ellipse at 50% -10%,#24475a 0,#10222f 48%,#060d14 100%)}
+.stage.press .wall{position:absolute;inset:0 0 30% 0;background:repeating-linear-gradient(90deg,transparent 0 58px,#8fb3c214 58px 60px),linear-gradient(#0000,#0b1821 95%)}
+.stage.press .seal{position:absolute;left:50%;top:7%;width:132px;height:132px;margin-left:-66px;border-radius:50%;border:2px solid color-mix(in srgb,var(--gold) 70%,transparent);display:grid;place-items:center;color:var(--gold);background:radial-gradient(circle,#1d3644,#0d1b24);box-shadow:0 0 40px color-mix(in srgb,var(--gold) 18%,transparent),inset 0 0 18px #000a;z-index:1}
+.stage.press .seal svg{width:60px;height:60px;opacity:.5;margin-top:-40px}
+.stage.press .flag{position:absolute;top:0;width:44px;height:58%;z-index:1;background:linear-gradient(90deg,#1b3442,#2b4e5e 50%,#1b3442);clip-path:polygon(0 0,100% 0,100% 88%,50% 100%,0 88%);border-top:3px solid var(--gold);opacity:.9}
+.stage.press .flag.l{left:calc(50% - 150px)} .stage.press .flag.r{left:calc(50% + 106px)}
+.stage.press img.pt{left:50%;transform:translateX(-50%);bottom:calc(20% + 44px);height:66%;max-width:42%}
+.stage.press .podium{position:absolute;left:50%;bottom:20%;width:200px;margin-left:-100px;height:56px;z-index:4;background:linear-gradient(180deg,#2a4757,#13242f);clip-path:polygon(6% 0,94% 0,100% 100%,0 100%);border-top:3px solid var(--gold);text-align:center;padding-top:9px}
+.stage.press .podium b{display:block;color:#efe3c2;font-size:12.5px;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 18px}
+.stage.press .podium small{color:#9fbac4;font-size:9.5px;letter-spacing:.2em}
+.stage.press .mic{position:absolute;bottom:calc(20% + 54px);z-index:5;width:2px;height:22px;background:#9aaeb5;transform-origin:bottom;transform:rotate(var(--a))}
+.stage.press .mic:after{content:'';position:absolute;top:-7px;left:-4px;width:10px;height:12px;border-radius:5px;background:#30434c;border:1px solid #8fa6ae}
+.stage.press .crowd{position:absolute;left:-2%;right:-2%;bottom:0;height:20%;z-index:5;
+ background:radial-gradient(ellipse 15px 17px at 50% 34%,#08131b 96%,#0000) 0 2px/46px 100% repeat-x,radial-gradient(ellipse 15px 17px at 50% 34%,#0b1922 96%,#0000) 23px -8px/46px 100% repeat-x,linear-gradient(#0000 46%,#060d13 47%)}
+.stage.press .crowd:before{content:'';position:absolute;inset:-8px 0 auto;height:1px;background:linear-gradient(90deg,#0000,color-mix(in srgb,var(--hi) 40%,transparent),#0000)}
+.stage.press .flash{position:absolute;z-index:6;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;background:radial-gradient(circle,#fff 0,#e8f6ffaa 14%,#0000 60%);opacity:0;animation:flt 7s infinite;pointer-events:none}
+@keyframes flt{0%,93%,100%{opacity:0;transform:scale(.6)}94%{opacity:1;transform:scale(1)}96%{opacity:.25}}
+.stage.press .board{position:absolute;left:16px;top:38px;z-index:6;width:min(28%,220px);padding:8px 10px;border:1px solid var(--line);background:#071119d9;border-radius:4px}
+.stage.press .board small{display:block;font-size:9.5px;letter-spacing:.18em;color:var(--hi)} .stage.press .board b{display:block;font-size:12.5px;color:#f0e6cc;margin:2px 0} .stage.press .board p{margin:0;font-size:11px;color:#a9bec6;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.stage.press .board i{font-style:normal;font-size:10px;padding:0 6px;border:1px solid currentColor;border-radius:8px;margin-left:4px} .stage.press .board i.won{color:var(--good)} .stage.press .board i.lost{color:var(--bad)}
+.stage.press .quote{right:16px;top:38px}
+.stage.press .onair{position:absolute;right:16px;bottom:calc(20% + 10px);z-index:6;font:700 9.5px "Segoe UI",sans-serif;letter-spacing:.2em;color:#ff8f8f;border:1px solid #ff8f8f88;padding:1px 7px;border-radius:2px}
+.stage.press .onair:before{content:'●';margin-right:5px;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.2}}
+.stage.press .ticker{position:absolute;left:0;right:0;bottom:0;z-index:8;height:28px;display:flex;align-items:center;background:color-mix(in srgb,var(--gold) 88%,#000);color:#121212;font-weight:700;font-size:13px;letter-spacing:.04em;overflow:hidden;white-space:nowrap}
+.stage.press .ticker span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;padding-right:12px;animation:tickin .6s ease-out both} .stage.press .ticker.bad{background:#b44c4c;color:#fff}
+.stage.press .ticker b{background:#121212;color:var(--gold);padding:4px 10px;margin-right:12px;position:relative;z-index:2;flex:none} .stage.press .ticker.bad b{color:#ffb3b3}
+@keyframes tickin{from{transform:translateX(40%);opacity:0}}
+
+/* ── 직접 대면: 심문실 ── */
+.stage.face{background:linear-gradient(180deg,#14181c 0,#0d1013 62%,#07080a 100%)}
+.stage.face .wall{position:absolute;inset:0 0 30% 0;background:repeating-linear-gradient(0deg,#0000 0 46px,#ffffff08 46px 47px),repeating-linear-gradient(90deg,#0000 0 92px,#ffffff06 92px 93px)}
+.stage.face .mirror{position:absolute;right:5%;top:16%;width:22%;height:40%;z-index:1;background:linear-gradient(135deg,#1c2a30,#0b1216 60%,#16232a);border:3px solid #2a3135;box-shadow:inset 0 0 25px #000}
+.stage.face .mirror:after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,#0000 30%,#ffffff10 42%,#0000 50%)}
+.stage.face .lamp{position:absolute;left:50%;top:-2px;width:64px;height:20px;margin-left:-32px;z-index:5;background:linear-gradient(#2c3236,#14181b);clip-path:polygon(22% 0,78% 0,100% 100%,0 100%)}
+.stage.face .beam{position:absolute;left:50%;top:18px;width:62%;margin-left:-31%;bottom:8%;z-index:4;background:linear-gradient(180deg,#ffe9b833,#ffe9b812 55%,#0000);clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);pointer-events:none;animation:hum 6s ease-in-out infinite}
+@keyframes hum{50%{opacity:.82}}
+.stage.face img.pt{left:50%;transform:translateX(-50%);bottom:29%;height:58%;max-width:40%;filter:drop-shadow(0 10px 18px #000) saturate(.75) contrast(1.05)}
+.stage.face .table{position:absolute;left:8%;right:8%;bottom:0;height:33%;z-index:5;background:linear-gradient(180deg,#37302a,#1d1915 40%,#100e0c);clip-path:polygon(12% 0,88% 0,100% 100%,0 100%);border-top:2px solid #6b5a45}
+.stage.face .plate{position:absolute;z-index:6;font-size:10.5px;letter-spacing:.08em;padding:1px 9px;border-radius:2px;white-space:nowrap}
+.stage.face .plate.adm{left:50%;bottom:calc(33% - 9px);transform:translateX(-50%);width:max-content;background:#c9b27c;color:#1a160f;font-weight:700;max-width:46%;overflow:hidden;text-overflow:ellipsis}
+.stage.face .plate.me{left:16px;bottom:10px;background:#0c0f12;color:#e2d7bb;border:1px solid #b79e6a77}
+.stage.face .folders{position:absolute;left:50%;bottom:calc(5% + 4px);z-index:6;display:flex;gap:10px;transform:translateX(-50%)}
+.stage.face .fd{position:relative;width:54px;height:34px;background:linear-gradient(#a98d55,#8a7142);border-radius:1px 4px 2px 2px;transform:skewX(-8deg);box-shadow:0 3px 8px #0009;font-size:9.5px;color:#2a2010;font-weight:700;text-align:center;line-height:34px}
+.stage.face .fd:before{content:'';position:absolute;top:-5px;left:3px;width:20px;height:6px;background:#a98d55;border-radius:2px 2px 0 0}
+.stage.face .fd.on{width:76px;background:linear-gradient(#e6dcc4,#cfc2a3);box-shadow:0 0 14px #ffe9b866,0 3px 8px #0009}
+.stage.face .fd.on:after{content:'';position:absolute;left:8px;right:8px;top:9px;height:14px;background:repeating-linear-gradient(#0000 0 3px,#6e6450 3px 4px);opacity:.6}
+.stage.face .fd.good:after,.stage.face .fd.bad:after{content:'✓';position:absolute;right:-5px;top:-7px;width:16px;height:16px;line-height:16px;border-radius:50%;background:var(--good);color:#0b1a10;font-size:10px}
+.stage.face .fd.bad:after{content:'✕';background:var(--bad);color:#2a0b0b}
+.stage.face .insp{position:absolute;right:13%;bottom:30%;z-index:3;width:60px;height:86px;opacity:.95}
+.stage.face .insp:before{content:'';position:absolute;left:50%;top:6px;width:30px;height:34px;margin-left:-15px;border-radius:50% 50% 45% 45%;background:#232a2f}
+.stage.face .insp:after{content:'';position:absolute;left:0;right:0;bottom:0;height:46px;border-radius:26px 26px 0 0;background:linear-gradient(#232a2f,#14181b)}
+.stage.face .insp+.who{right:calc(13% - 20px);bottom:calc(30% - 18px)}
+.stage.face .quote{left:16px;top:38px}
+.stage.face .turns{position:absolute;right:16px;bottom:10px;z-index:6;text-align:right;font-size:10px;letter-spacing:.14em;color:#c9b98f} .stage.face .turns b{display:block;font-size:18px;color:#f1e6cb;letter-spacing:.04em}
+.stage .stamp{position:absolute;left:50%;top:44%;z-index:9;transform:translate(-50%,-50%) rotate(-12deg);font:900 clamp(26px,7cqw,46px)/1 "Malgun Gothic",sans-serif;letter-spacing:.12em;padding:6px 22px;border:4px solid currentColor;border-radius:6px;color:var(--gold);background:#0008;text-shadow:0 0 10px #000;animation:stamp .5s cubic-bezier(.2,1.6,.4,1) both}
+.stage .stamp.acclaimed{color:var(--good)} .stage .stamp.reprimanded{color:var(--bad)}
+@keyframes stamp{from{transform:translate(-50%,-50%) rotate(-12deg) scale(2.2);opacity:0}}
+
+/* 기록(대본) 모양: 모드마다 다르게 */
+#pane.mode-press .ln.reporter b:before{content:'🎙 ';font-size:10px}
+#pane.mode-press .ln.admiral{margin-left:6%;border-left:2px solid var(--gold);padding-left:10px}
+#pane.mode-face{background:color-mix(in srgb,#0d1013 70%,var(--panel))}
+#pane.mode-face .ln.admiral div{background:#ffffff07;border:1px solid #ffffff12;border-radius:4px;padding:6px 10px}
+#pane.mode-face .ln.player b{color:#e2d7bb} #pane.mode-face .ln.player div{background:color-mix(in srgb,#c9b27c 13%,transparent);border-color:#b79e6a66}
+#pane.mode-face .ln.desk{font-family:Consolas,"Malgun Gothic",monospace;font-size:11.5px;background:#e6dcc40d;border:1px dashed #b79e6a55;border-top-style:dashed;padding:6px 10px}
+#pane.mode-face .cards .card{background:linear-gradient(#2a241c,#1a1612);border-color:#6b5a4566;border-radius:2px 8px 2px 2px} #pane.mode-face .cards .card b{color:#d9c79c}
+#pane.mode-face .cards .card.active{border-color:#e6dcc4;box-shadow:0 0 0 1px #e6dcc455,0 0 16px #ffe9b822}
+#pane.mode-face #txt{background:#0b0d0f;border-color:#6b5a4588} #pane.mode-face .btn{border-color:#c9b27c;color:#e6d6a8;background:color-mix(in srgb,#c9b27c 14%,transparent)}
+#pane.mode-press .cards .card{border-top:3px solid var(--line)} #pane.mode-press .cards .card.active{border-top-color:var(--gold)}
+.fold{-webkit-app-region:no-drag;background:none;border:1px solid var(--line2);color:var(--dim);font:inherit;font-size:11px;padding:1px 9px;cursor:pointer;border-radius:3px} .fold:hover{color:var(--text);border-color:var(--hi)}
+@media (prefers-reduced-motion:reduce){.stage *{animation:none!important}}

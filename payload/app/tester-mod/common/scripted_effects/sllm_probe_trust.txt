@@ -1,0 +1,20 @@
+# SLLM Probe - conversation also moves the AI's trust in the player (EXPERIMENT ONLY, untested syntax).
+# Kept in its own file so a mistake here cannot break the opinion effect. Scope: the AI empire; prev = the player (holds sllm_in_step).
+# Idea taken from how the game's own insult action lowers trust (add_trust).
+sllm_probe_trust_by_step = {
+	if = {
+		limit = { prev = { check_variable = { which = sllm_in_step value = 1 } } }
+		add_trust = { amount = 2 who = prev }
+	}
+	else_if = {
+		limit = { prev = { check_variable = { which = sllm_in_step value = 2 } } }
+		add_trust = { amount = 5 who = prev }
+	}
+	else_if = {
+		limit = { prev = { check_variable = { which = sllm_in_step value = 3 } } }
+		add_trust = { amount = -2 who = prev }
+	}
+	else = {
+		add_trust = { amount = -5 who = prev }
+	}
+}

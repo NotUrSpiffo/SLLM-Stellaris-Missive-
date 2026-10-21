@@ -1,0 +1,5 @@
+# SLLM Probe - 은하 위기 특집 방송(2026-10-17). 모드의 on_actions 는 게임 것과 합쳐진다. 숨은 이벤트만 부른다(on_actions 에 effect 블록 불가).
+# 매달 플레이어 국가 범위에서 종말 위기 세력이 은하에 있는지 살펴 SLLM:CRISIS 줄을 남긴다. 게임 규칙은 바꾸지 않는다.
+on_monthly_pulse_country = {
+	events = { sllm_crisis.1 }
+}

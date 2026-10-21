@@ -1,0 +1,22 @@
+[
+  {
+    "key": "background",
+    "prompt": "Remove ONLY the foreground blonde secretary completely; reconstruct the memorial pavement, crowd and columns behind her. Preserve exact full canvas 1672x941 camera, framing, lighting and every other scene element. Empty background plate, no new foreground person.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-bceb86db-eb19-4644-8533-b92e9f56bec2.png"
+  },
+  {
+    "key": "neutral",
+    "prompt": "Extract ONLY the foreground blonde secretary onto genuine transparent alpha. Preserve the exact 1672x941 full scene canvas, her exact position size pixels facial expression, body hands hair and lighting. Do not crop, recenter or resize. Everything except her transparent; no background/shadows/other people.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-c01a8e42-b084-44b5-9a2c-e4cb3d3ac375.png"
+  },
+  {
+    "key": "sad",
+    "prompt": "Extract ONLY the foreground blonde secretary onto genuine transparent alpha on exact 1672x941 full scene canvas at exact same coordinates. Change ONLY facial expression to restrained sorrow: slightly knitted inner brows, soft lowered eyes, lips gently pressed, no tears running, no theatrical crying. Exact same head orientation, silhouette, hairstyle, body, clasped hands and clothing and illumination. Do not crop recenter resize. Everything except secretary transparent.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-dc430bb2-0e3c-4337-a043-4b5dff0f1d94.png"
+  },
+  {
+    "key": "soft",
+    "prompt": "Extract ONLY the foreground blonde secretary onto genuine transparent alpha on exact 1672x941 full scene canvas at exact same coordinates. Change ONLY facial expression to quiet reassuring tenderness appropriate for a funeral: relaxed concerned eyes and very faint closed-lip reassuring smile, no teeth or laughter. Exact same head orientation silhouette hairstyle body clasped hands clothing illumination. Do not crop recenter resize. Everything except secretary transparent.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-c07e8dbe-86b0-45e3-a8ba-eb500a7c36b1.png"
+  }
+]

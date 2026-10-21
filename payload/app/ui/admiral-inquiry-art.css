@@ -1,0 +1,9 @@
+.stage.face{background:url('assets/rooms/admiral-inquiry-v1.png') center 55%/cover no-repeat}
+.stage.face .wall,.stage.face .mirror,.stage.face .lamp,.stage.face .beam{display:none}
+.stage.face .table{inset:0;height:100%;background:url('assets/rooms/admiral-inquiry-v1.png') center 55%/cover no-repeat;border:0;clip-path:inset(78% 0 0)}
+.stage.face img.pt{bottom:15%;height:66%}
+.stage.face .plate.adm{bottom:16%}
+.stage.face .insp{bottom:20%}
+.stage.face .insp+.who{bottom:calc(20% - 18px)}
+.stage.face .quote{background:#060c11ed}
+.stage.face .tag,.stage.face .date{text-shadow:0 2px 6px #000}

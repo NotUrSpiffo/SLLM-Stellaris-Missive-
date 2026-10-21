@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>(실험) SLLM · SteLLaris Missive</title>
+<style>
+ /* 기본 테마(스텔라리스)의 값. 다른 테마와 사용자 색은 아래 스크립트가 같은 변수를 덮어쓴다. */
+ :root{--mono:"D2Coding","Cascadia Mono",Consolas,"Malgun Gothic",monospace;--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--ai:#7fe3f0;--gold:#e8c872;--bad:#e0705f;--good:#6fd6a8;--linec:#5fd4e4;--shade:#06141b;
+  --bgfx:radial-gradient(120% 60% at 50% -10%,#0f3040 0%,#06141b 60%);--cardbg:linear-gradient(160deg,#0f2f40,#0a1f2b);--btnbg:linear-gradient(#10394a,#0b2a38);--prim:linear-gradient(#7fe3f0,#4cc2d3);--titlefx:linear-gradient(#17415200,#17415266);--inputbg:#08202c;--glow:rgba(40,140,160,.12);
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);--warn:var(--gold)}
+ *{box-sizing:border-box}
+ html,body{height:100%}
+ body{position:relative}
+ body::before{content:"";position:fixed;inset:0;z-index:0;background:var(--bgimg,none) center/cover no-repeat;opacity:var(--bgop,0);pointer-events:none}
+ #titlebar,main{position:relative;z-index:1}
+ body{font:13px/1.55 "Malgun Gothic","Segoe UI",system-ui,sans-serif;background:var(--bgfx);color:var(--text);margin:0;display:flex;flex-direction:column;border:1px solid var(--line);box-shadow:inset 0 0 40px var(--glow)}
+ .cap{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+ #titlebar{-webkit-app-region:drag;display:flex;align-items:center;gap:10px;padding:7px 8px 7px 12px;border-bottom:1px solid var(--line);background:var(--titlefx)}
+ #titlebar b{font-weight:600;letter-spacing:.06em;color:var(--hi)}
+ #titlebar .exp{font-size:10.5px;color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 50%,transparent);padding:0 5px;letter-spacing:.08em}
+ #titlebar .sp{flex:1 1 0;min-width:0} #titlebar>*{flex:none;white-space:nowrap} #titlebar>#status{flex:0 1 auto;min-width:0}
+ #titlebar button{-webkit-app-region:no-drag;margin:0;background:none;border:1px solid transparent;color:var(--dim);width:26px;height:22px;padding:0;cursor:pointer}
+ #titlebar button:hover{border-color:var(--line);color:var(--text);background:none}
+ #link .dot{color:var(--good)} #link.off .dot{color:var(--dim)} body.fx #link:not(.off) .dot{animation:blink 1.6s steps(2) infinite}
+ #status{color:var(--dim);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+ main{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px 10px;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+
+ #card{display:flex;gap:11px;padding:9px;background:var(--cardbg);border:1px solid var(--line2);position:relative;flex:none;font-family:var(--mono)}
+ .brk::before,.brk::after{content:"";position:absolute;width:9px;height:9px;border:1px solid var(--hi);pointer-events:none}
+ .brk::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
+ .brk::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+ #portrait{width:84px;height:104px;flex:none;position:relative;background:var(--shade);box-shadow:0 0 12px var(--glow);border:1px solid var(--line);overflow:hidden}
+ #portrait img,#portrait svg{width:100%;height:100%;display:block;object-fit:cover}
+ body.fx #portrait::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.22) 3px)}
+ #portrait #flag{position:absolute;left:5px;top:5px;width:26px;height:31px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));z-index:1}
+ #info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+ #loreRow{margin:2px 0 4px} .lore-btn{font-size:11px;padding:1px 8px;background:none;border:1px solid var(--line);color:var(--gold);cursor:pointer} .lore-btn:hover{background:var(--shade)}
+ #nm{color:var(--gold);font-size:17px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #sub{color:var(--dim);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #meter{margin-top:auto}
+ #meter .top{display:flex;justify-content:space-between;align-items:baseline}
+ #stance{font-size:12.5px}
+ .seg{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:5px;height:8px}
+ .seg i{background:var(--line2)} .seg i.p{background:var(--good)} .seg i.n{background:var(--bad)} .seg i:nth-child(10){margin-right:2px}
+ #tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;min-height:19px}
+ .tag{font-size:10.5px;padding:0 6px;border:1px solid var(--line);color:var(--dim);letter-spacing:.04em}
+ .tag.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 55%,transparent)} .tag.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 55%,transparent)}
+
+ #mailbar{display:none;justify-content:space-between;align-items:center;color:var(--gold);font-size:12px;border-left:2px solid var(--gold);padding:1px 8px;cursor:pointer;flex:none}
+ #inbox{display:none} #inbox.open{display:block}
+ #inbox div{padding:4px 10px;margin:2px 0;cursor:pointer;border:1px solid var(--line2)}
+ #inbox div:hover{background:var(--hi);color:var(--hi-text)}
+ #inbox div.read{opacity:.5}
+
+ #log{flex:1;min-height:150px;overflow:auto;border:1px solid var(--line2);background:color-mix(in srgb,var(--shade) 70%,transparent);padding:8px 10px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;font-family:var(--mono);font-size:12.5px}
+ .ln{margin:0 0 9px;white-space:pre-wrap;word-break:break-word}
+ .ln .hd{font-size:10.5px;letter-spacing:.06em;color:var(--dim);border-bottom:1px dashed var(--line2);padding-bottom:1px;margin-bottom:3px}
+ .ln .t{padding-left:9px;border-left:2px solid var(--line);line-height:1.6}
+ .ln.ai .hd{color:var(--ai)} .ln.ai .t{color:var(--text);border-left-color:var(--ai)}
+ .ln.me .hd{color:var(--text)} .ln.me .t{color:var(--dim);border-left:2px dotted var(--line)}
+ .ln.mail .hd{color:var(--gold)} .ln.mail .t{border-left-color:var(--gold)}
+ .ln.sys,.ln.dbg,.ln.warn{color:var(--dim);font-size:11.5px;margin-bottom:5px}
+ #verBanner{margin:0 0 6px;padding:7px 10px;border:1px solid var(--gold);background:color-mix(in srgb,var(--gold) 14%,transparent);color:var(--gold);font-size:12.5px;line-height:1.5;border-radius:3px} #verBanner.old{border-color:var(--dim);color:var(--dim)}
+ .ln.dbg{opacity:.5;font-size:10.5px} .ln.warn{color:var(--bad)}
+ .ln.comm{color:var(--ai);opacity:.72;font-family:var(--mono);font-size:11px;margin-bottom:4px;letter-spacing:.02em}
+ .typing::after{content:"█";margin-left:2px;animation:blink .8s steps(2) infinite;color:var(--ai)}
+ @keyframes blink{50%{opacity:0}}
+ body.fx::after{content:"";position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.13) 3px);mix-blend-mode:multiply;opacity:.5}
+ .prompt{flex:1;display:flex;align-items:center;border:1px solid var(--line);background:var(--inputbg);padding-left:8px;font-family:var(--mono)}
+ .prompt:focus-within{border-color:var(--hi)} .prompt .pr{color:var(--ai);margin-right:6px}
+ .prompt input{flex:1;border:0;background:transparent;padding:5px 6px 5px 0;font-family:var(--mono);caret-color:var(--hi)}
+
+ #proposal:not(:empty){border:1px solid var(--gold);padding:7px 9px;color:var(--gold);background:color-mix(in srgb,var(--gold) 7%,transparent);flex:none}
+ #proposal button{margin-top:6px}
+
+ .row{display:flex;gap:6px;flex:none}
+ input,select,button{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);padding:5px 9px;outline:none;border-radius:0}
+ input:focus,select:focus{border-color:var(--hi)}
+ input[type=checkbox]{padding:0;accent-color:var(--hi);vertical-align:-2px}
+ input[type=range]{accent-color:var(--hi);padding:0;border:0}
+ input[type=color]{padding:0;width:28px;height:22px;vertical-align:middle;cursor:pointer;background:none}
+ button{cursor:pointer;letter-spacing:.04em;background:var(--btnbg)} button:hover{background:var(--hi);color:var(--hi-text);border-color:var(--hi)}
+ button.primary{background:var(--prim);color:var(--hi-text);border-color:var(--hi);font-weight:600} button.primary:hover{filter:brightness(1.12)}
+ select option{background:var(--panel);color:var(--text)}
+ details{border:1px solid var(--line2);padding:2px 9px;background:color-mix(in srgb,var(--panel) 55%,transparent);flex:none}
+ details summary{cursor:pointer;color:var(--dim);font-size:11.5px;letter-spacing:.1em;padding:3px 0}
+ details[open] summary{border-bottom:1px solid var(--line2);margin-bottom:5px}
+ details label{display:inline-block;margin:3px 12px 3px 0;font-size:12px}
+ #custom{margin:2px 0 4px} #custom[hidden]{display:none}
+ #titlebar button.ico{display:flex;align-items:center;justify-content:center} #titlebar button.ico.on{color:var(--hi);border-color:var(--line)}
+ #drawer{position:absolute;left:0;right:0;top:37px;bottom:0;z-index:3;background:var(--bg);display:flex;flex-direction:column;border-top:1px solid var(--line)} #drawer[hidden]{display:none}
+ /* 설정 전용 창: 대화 화면과 분리된 별도 창. 제목줄은 '설정'과 닫기만 둔다 */
+ html.setwin main,html.setwin #gateBar,html.setwin #drawer .dhead,html.setwin #titlebar>:not(b):not(.sp):not(#wset):not(#settitle):not(#status){display:none!important}
+ html.setwin #titlebar>#status{flex:0 1 auto;min-width:0;max-width:55%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} /* 설정 창에서도 상태 문구(저장 실패 등)를 보인다(2026-10-18) */
+ #wset,#settitle{display:none} html.setwin #wset{display:inline-block} html.setwin #settitle{display:inline;color:var(--gold);font-weight:600;letter-spacing:.08em}
+ #drawer .dhead{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line2)}
+ #drawer .dhead b{font-weight:600;letter-spacing:.08em;color:var(--gold)}
+ #drawer .dhead button{width:26px;height:22px;padding:0;border-color:transparent;background:none;color:var(--dim)}
+ #gvList .it{display:flex;align-items:center;gap:8px;margin:4px 0;padding:6px 8px;border:1px solid var(--line2);cursor:pointer;background:var(--shade)} #gvList .it:hover{border-color:var(--hi)} #gvList .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} #gvList .gv{color:var(--dim);font-size:11px} #gvList .cp{color:var(--gold);font-size:11px}
+ #gvHead{display:flex;gap:10px;align-items:flex-start;margin:6px 0} #gvPic{width:64px;height:80px;flex:none;border:1px solid var(--line);background:var(--shade);overflow:hidden} #gvPic img,#gvPic svg{width:100%;height:100%;object-fit:cover;display:block}
+ #gvScene{position:relative;margin:6px 0 0;border:1px solid var(--line);border-bottom:0;overflow:hidden;background:#0a1018;aspect-ratio:400/152} #gvBg{position:absolute;inset:0;width:100%;height:100%;display:block} #gvScene #gvHead{position:absolute;left:10px;right:10px;bottom:8px;margin:0;text-shadow:0 1px 3px #000,0 0 8px #000} #gvScene #gvPlanet,#gvScene #gvFacts{color:#e2edf3} #gvScene #gvPic{box-shadow:0 2px 10px #000a}
+ #gvLog{height:210px;overflow-y:auto;border:1px solid var(--line2);background:var(--shade);padding:6px 8px;margin:0 0 6px;border-top:0;font-family:var(--mono);font-size:12.5px} #gvLog .ln{margin:0 0 6px} #gvLog .who{font-size:10.5px;color:var(--dim)} #gvLog .me .who{color:var(--hi)} #gvLog .sys{color:var(--dim);font-size:11.5px}
+ #gvSug{margin:0 0 6px;padding:6px 8px;border:1px solid var(--gold);background:var(--shade);font-size:12px} #gvSug button{margin:0 0 0 6px;padding:2px 8px;font-size:11px} #gvMemBar{margin:0 0 6px} #gvMemBar button{margin:0 6px 0 0;padding:2px 8px;font-size:11px} #gvMemList{margin:0 0 6px;border:1px solid var(--line2);background:var(--shade);padding:4px 8px;font-size:12px} #gvMemList .m{display:flex;gap:6px;align-items:flex-start;margin:3px 0} #gvMemList .m span{flex:1} #gvMemList .m button{padding:0 6px;font-size:11px;margin:0}
+ #gvRow{display:flex;gap:6px;align-items:center} #gvRow input{flex:1}
+ .pane{display:none;overflow-y:auto;padding:8px 12px 14px;scrollbar-width:thin;scrollbar-color:var(--line) transparent} .pane.show{display:block}
+ .pane .sec{margin:14px 0 4px;padding-bottom:3px;border-bottom:1px solid var(--line2)} .pane .sec:first-child{margin-top:2px}
+ .pane label{display:block;margin:6px 0} #custom label{display:inline-block;margin:3px 10px 3px 0}
+ .pane button{margin:2px 4px 2px 0}
+ .hint{color:var(--dim);font-size:11px;margin:2px 0 4px}
+ #cur{display:flex;gap:10px;align-items:flex-start;margin:6px 0;padding:8px;border:1px solid var(--line2);background:var(--shade)} #cur .th{width:62px;height:78px;flex:none;border:1px solid var(--line);overflow:hidden;background:var(--bg)} #cur .th img,#cur .th svg{width:100%;height:100%;object-fit:cover;display:block} #cur .bd{flex:1;min-width:0} #cur .who{color:var(--gold);font-weight:600;margin-bottom:2px} #cur .drop{outline:2px dashed var(--hi);outline-offset:2px} #pstat{display:block;color:var(--dim);font-size:11px;margin-bottom:4px}
+ #addonList .ad{border:1px solid var(--line2);border-left:3px solid var(--hi);padding:8px 10px;margin:6px 0;display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:start;background:var(--shade)}
+ #addonList .ad.off{opacity:.55;border-left-color:var(--line2)} #addonList .ad.bad{border-left-color:var(--bad)}
+ #addonList .rk{font:600 12px var(--mono);color:var(--dim);padding-top:2px} #addonList .nm b{font-size:14px} #addonList .nm small{color:var(--dim);margin-left:6px}
+ #addonList .ds{grid-column:2;color:var(--dim);font-size:12px} #addonList .ch{grid-column:2;display:flex;flex-wrap:wrap;gap:4px} #addonList .ch span{font-size:11px;padding:0 6px;border:1px solid var(--line2);color:var(--dim)}
+ #addonList .wn{grid-column:2;color:var(--bad);font-size:11.5px;white-space:pre-wrap} #addonList .ctl{grid-row:1/span 4;grid-column:3;display:flex;flex-direction:column;gap:4px;align-items:stretch}
+ #addonList .ctl button{padding:2px 8px;font-size:12px} #addonList .sw{display:flex;gap:4px;align-items:center;font-size:12px}
+ #addonList .sample{display:inline-flex;gap:2px;vertical-align:middle;margin-left:6px} #addonList .sample i{width:12px;height:12px;border:1px solid var(--line2)}
+ .pc .vars{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px} .pc .vt{position:relative;width:26px;height:32px;border:1px solid var(--line2);cursor:pointer;overflow:hidden;background:var(--bg)} .pc .vt img{width:100%;height:100%;object-fit:cover}
+ .pc .vt b{position:absolute;top:0;right:0;font-size:9px;line-height:11px;width:11px;background:#000a;color:var(--bad)} .pc .vadd{font-size:10.5px;padding:1px 5px}
+ #libBar{display:flex;flex-direction:column;gap:5px;margin:6px 0 8px;padding:7px 8px;border:1px solid var(--line2);background:var(--shade)}
+ #libBar .row{display:flex;flex-wrap:wrap;gap:4px;align-items:center} #libBar .lbl{font-size:10.5px;color:var(--dim);letter-spacing:.1em;min-width:56px} #libBar .lbl2{min-width:0;margin-left:10px}
+ #libBar .chips{display:flex;flex-wrap:wrap;gap:4px} #libBar .chip{font-size:11.5px;padding:2px 8px;margin:0;border:1px solid var(--line2);background:var(--bg);color:var(--dim);cursor:pointer;line-height:1.5}
+ #libBar .chip:hover{border-color:var(--line);color:var(--text)} #libBar .chip.on{border-color:var(--hi);color:var(--text);background:color-mix(in srgb,var(--hi) 16%,transparent)} #libBar .chip small{opacity:.65;margin-left:4px}
+ #libQ{margin-left:auto;width:130px;font-size:11.5px;padding:2px 6px} #libCount{font-size:11px;color:var(--dim);min-width:48px;text-align:right}
+ #libgrid{max-height:460px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+ #libgrid .grp{display:flex;justify-content:space-between;margin:10px 0 5px;padding-bottom:2px;border-bottom:1px solid var(--line2);font-size:11.5px;color:var(--gold);letter-spacing:.06em} #libgrid .grp:first-child{margin-top:2px} #libgrid .grp small{color:var(--dim)}
+ #libgrid .gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+ #libgrid .lc{position:relative;border:1px solid var(--line2);background:var(--shade);cursor:pointer;padding:3px;text-align:center} #libgrid .lc:hover{border-color:var(--hi)}
+ #libgrid .lc img{width:100%;aspect-ratio:8/9;object-fit:contain;display:block;background:var(--bg)} #libgrid .lc .n{font-size:10.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+ #libgrid .lc .g{position:absolute;top:4px;right:4px;font-size:10px;line-height:14px;padding:0 3px;background:#000b;color:var(--text)} #libgrid .lc .r{position:absolute;top:4px;left:4px;font-size:9.5px;line-height:14px;padding:0 3px;background:#000b;color:var(--dim)}
+ #libgrid .lc.ok{border-color:var(--good);box-shadow:0 0 0 1px var(--good) inset} #libgrid .empty{color:var(--dim);font-size:12px;padding:14px 4px}
+ #pgrid,#dgrid,#lgrid,#rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin:6px 0} .pc{border:1px solid var(--line2);padding:5px;background:var(--shade);text-align:center;font-size:11px} .pc .th{height:84px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:4px;border:1px solid transparent} .pc .th.drop{border-color:var(--hi)} .pc img{max-width:100%;max-height:100%;object-fit:contain} .pc .none{color:var(--dim)} .pc button{margin:2px 1px 0;padding:2px 6px;font-size:11px} .pc .mine{color:var(--gold)} #mylist .it{display:flex;align-items:center;gap:8px;margin:4px 0;padding:3px;border:1px solid var(--line2)} #mylist img{width:34px;height:42px;object-fit:cover;flex:none} #mylist .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} #mylist button{margin:0;padding:2px 8px;font-size:11px} #pstat{margin-left:4px}
+
+#gateBar{color:var(--dim);padding:4px 10px;font-size:12px}#gateBar[hidden]{display:none}#gateBar button{margin:0 4px}
+ /* 설정: 역할별 카테고리. 좁은 오버레이에서도 메뉴가 줄바꿈된다. */
+ #dset{padding-top:0;min-height:0}
+ .settings-nav{position:sticky;top:0;z-index:2;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:10px 0;background:var(--bg);border-bottom:1px solid var(--line)}
+ #dset .settings-nav button{margin:0;padding:7px 4px;letter-spacing:0;font-size:12px;line-height:1.4;white-space:normal}
+ #dset .settings-nav button[aria-selected="true"]{background:var(--prim);color:var(--hi-text);border-color:var(--hi);font-weight:600}
+ #dset button:focus-visible,#dset section:focus-visible{outline:2px solid var(--hi);outline-offset:2px}
+ .settings-panel[hidden]{display:none}
+ .settings-panel{padding:12px 0 6px;min-width:0;overflow-wrap:anywhere}
+ .settings-panel h2{margin:0 0 3px;color:var(--gold);font-size:16px;font-weight:600}
+ .settings-intro{margin:0 0 16px;color:var(--dim);font-size:12px}
+ #dset .settings-panel .sec{font-size:12px;letter-spacing:.03em;margin-top:18px}
+ #dset input:not([type=checkbox]):not([type=range]):not([type=color]),#dset select{max-width:100%}
+ @media(max-width:380px){.settings-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+ #mediaFamily{width:100%}
+ #mediaPersona{box-sizing:border-box;width:100%;resize:vertical;min-height:150px;background:var(--inputbg);color:var(--text);border:1px solid var(--line);padding:10px;font:inherit;line-height:1.7}
+ #mediaPersona:focus-visible{outline:2px solid var(--hi)}
+ .media-brand-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line2)}
+ .media-brand-row img{flex:none;object-fit:contain;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+ .media-brand-row>div{min-width:0} #mediaStatus{color:var(--gold);font-size:12px;min-height:20px}
+.contact-card{border:1px solid var(--line);padding:10px;margin:8px 0;background:var(--shade)} .contact-card b{display:block;color:var(--gold)} #contactSearch{min-width:0;flex:1} #contactStatus{margin-top:8px}
+</style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;900&display=swap"><style id="usercss"></style><link rel="stylesheet" href="terminal-ui.css"><script src="theme.js"></script><style>#mailbar{display:none!important}</style><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><script src="backstory-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="terminal-layout.css"><script src="rotation-settings-ui.js"></script><link rel="stylesheet" href="rotation-settings-ui.css"></head><body class="fx">
+<div id="titlebar"><b>SLLM</b><span id="settitle">설정</span><span class="cap">SteLLaris Missive</span><span class="exp">실험</span><span class="sp"></span><span id="link" class="cap"><span class="dot">●</span> 대기</span><span id="status"></span><button id="btnInbox" class="ico tm-ico" title="외교 서신 수신함" aria-label="외교 서신 수신함"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 6 8-6"/></svg><span class="tm-badge" id="mailBadge" hidden>0</span></button><button id="btnContacts" class="ico tm-ico" title="외교 단말기 연락처" aria-label="외교 단말기 연락처"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1.6"/><path d="M8.2 8.2a5.4 5.4 0 000 7.6M15.8 8.2a5.4 5.4 0 010 7.6M5.4 5.4a9.4 9.4 0 000 13.2M18.6 5.4a9.4 9.4 0 010 13.2"/></svg></button><button id="btnSummit" class="ico" title="연방 정상회담" aria-label="연방 정상회담">🤝</button><button id="btnFaction" class="ico" title="내각 회의" aria-label="내각 회의">🏛</button><button id="btnChron" class="ico" title="제국별 연대기"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3z"/><path d="M9 9h6M9 13h6"/></svg></button><button id="wmin" title="최소화">─</button><button id="wclose" title="아이콘으로 접기">✕</button><button id="wset" title="설정 닫기 (Esc)">✕</button></div>
+<div id="gateBar" hidden>정지한 상태로 진행하기를 권장합니다.</div>
+<main>
+ <div id="card" class="brk">
+  <div id="portrait"></div>
+  <div id="info">
+   <div class="cap">수신처 // 채널 <span id="chn">--</span></div>
+   <div id="nm">(상대 없음)</div>
+   <div id="sub">연락처에서 통신할 제국을 선택하세요</div>
+   <div id="loreRow"><button id="loreBtn" class="lore-btn" title="이 제국의 배경 이야기를 직접 적습니다. AI가 대화할 때 참고합니다." hidden>📜 제국 전기</button></div>
+   <div id="meter">
+    <div class="top"><span class="cap">관계</span><span id="stance">—</span></div>
+    <div class="seg" id="seg"></div>
+   </div>
+   <div id="tags"></div>
+  </div>
+ </div>
+ <div id="mailbar" title="누르면 편지 목록을 펼칩니다"><span id="mailcount"></span><span class="cap">목록 ▾</span></div>
+ <div id="inbox"></div>
+ <div id="verBanner" hidden></div>
+ <div id="log"></div>
+ <div id="proposal"></div>
+ <div class="row"><div class="prompt"><span class="pr">›</span><input id="q" placeholder="회신 입력…" autocomplete="off"></div><button id="send" class="primary">송신</button><button id="finish">통신 종료</button></div>
+  </main>
+<div id="drawer" hidden>
+ <div class="dhead"><b id="dtitle"></b></div>
+ <div id="dmail" class="pane"><div class="tm-frame"><div class="tm-head"><b>외교 서신</b><small>DIPLOMATIC MAIL</small><span class="sp"></span><span class="tm-led" id="mailLed"><i></i><span id="mailLedT"></span></span></div><div class="tm-note">현재 세이브와 시간선의 편지입니다. 읽기는 게임 없이 가능하며, 답장할 때 게임에서 최신 통신 상태를 확인합니다.</div><button id="inviteLeader">지도자 초대하기</button><button id="mailReadAll" title="편지를 열지 않고 모두 읽음으로 표시합니다">모두 읽음 표시</button><div id="mailList"></div><div id="mailDetail"></div></div></div>
+ <div id="dcontacts" class="pane"><div id="terminalSetupNotice" class="hint" hidden><span>연결 설정이 아직 완료되지 않았습니다. 게임 없이 단말기 화면을 살펴볼 수 있습니다.</span> <button id="terminalSetupSettings">연결 설정 열기</button></div><div class="tm-frame">
+  <div class="tm-head"><b>연락처</b><small>CONTACT CHANNELS</small><span class="sp"></span><span class="tm-led" id="tmLed"><i></i><span id="tmLedT">대기</span></span><span class="tm-bars" id="tmBars" aria-hidden="true"><s></s><s></s><s></s><s></s></span></div>
+  <div class="tm-bar"><input id="contactSearch" placeholder="호출 부호 · 제국 이름 검색…" aria-label="제국 이름 검색"><button id="contactReload">▶ 채널 스캔</button></div>
+  <div class="tm-note">통신 가능한 제국 채널이 표시됩니다. 매달 자동으로 수신합니다. 목록을 갱신하기 전 게임을 일시정지해 주세요.</div>
+  <div id="contactList"></div>
+  <div class="tm-foot"><span id="contactStatus" role="status" aria-live="polite"></span></div>
+ </div></div>
+ <div id="dchron" class="pane"><div class="hint">제국마다 있었던 일을 날짜순으로 보여 줍니다. 되감기 전 다른 시간선의 일은 빠집니다.</div><button id="chronReload">새로 고침</button> <button id="chronBook" title="연대기와 은하 뉴스를 해별 장으로 엮어 PDF 또는 HTML 로 저장합니다">📖 책으로 내보내기</button><span id="chronBookMsg" class="hint"></span><div class="sec cap">엿들은 소문 (게임 사실이 아님)</div><div id="gossipBox"></div><div id="chronBox"></div></div>
+ <div id="dset" class="pane">
+<div class="settings-nav" role="tablist" aria-label="설정 카테고리">
+<button type="button" role="tab" id="settings-tab-ai" aria-controls="settings-panel-ai" aria-selected="true" tabindex="0" data-settings-category="ai">AI 연결</button>
+<button type="button" role="tab" id="settings-tab-window" aria-controls="settings-panel-window" aria-selected="false" tabindex="-1" data-settings-category="window">창과 알림</button>
+<button type="button" role="tab" id="settings-tab-theme" aria-controls="settings-panel-theme" aria-selected="false" tabindex="-1" data-settings-category="theme">인터페이스</button>
+<button type="button" role="tab" id="settings-tab-portraits" aria-controls="settings-panel-portraits" aria-selected="false" tabindex="-1" data-settings-category="portraits">초상화</button>
+<button type="button" role="tab" id="settings-tab-stories" aria-controls="settings-panel-stories" aria-selected="false" tabindex="-1" data-settings-category="stories">대화와 소식</button>
+<button type="button" role="tab" id="settings-tab-media" aria-controls="settings-panel-media" aria-selected="false" tabindex="-1" data-settings-category="media">언론사와 브랜드</button>
+<button type="button" role="tab" id="settings-tab-addons" aria-controls="settings-panel-addons" aria-selected="false" tabindex="-1" data-settings-category="addons">애드온 (실험)</button>
+<button type="button" role="tab" id="settings-tab-council" aria-controls="settings-panel-council" aria-selected="false" tabindex="-1" data-settings-category="council">은하 의회</button>
+<button type="button" role="tab" id="settings-tab-game" aria-controls="settings-panel-game" aria-selected="false" tabindex="-1" data-settings-category="game">게임 연동</button>
+<button type="button" role="tab" id="settings-tab-support" aria-controls="settings-panel-support" aria-selected="false" tabindex="-1" data-settings-category="support">버그 신고·로그</button>
+<button type="button" role="tab" id="settings-tab-dev" aria-controls="settings-panel-dev" aria-selected="false" tabindex="-1" data-settings-category="dev">개발자 도구</button>
+</div>
+<section class="settings-panel" id="settings-panel-ai" role="tabpanel" aria-labelledby="settings-tab-ai" tabindex="0"><h2>AI 연결</h2><p class="settings-intro">Player2 또는 개인 API를 연결하고 사용할 모델을 선택합니다.</p>
+  <div class="sec cap">AI 연결</div>
+  <label>연결 방식 <select id="aiMode"><option value="player2">Player2 (데스크톱 앱)</option><option value="custom">개인 API</option></select> <span id="aiState" class="hint"></span></label>
+  <div id="aiP2"><div class="hint">Player2 앱이 켜져 있어야 합니다. 응답이 없으면 AI 대사가 오류로 표시됩니다(다른 연결로 자동 전환되지 않습니다).</div><button id="aiP2Btn">Player2 다시 연결</button> <span id="aiP2Msg" class="hint"></span></div>
+  <div id="aiCustom" style="display:none">
+   <label>저장된 연결 <select id="aiSel"></select> <button id="aiNew">+ 새 연결</button> <button id="aiDel">삭제</button></label>
+   <label>연결 이름 <input id="aiName" style="width:200px" maxlength="40"></label>
+   <label>제공자 <select id="aiProv"></select></label>
+   <label>API 주소 <input id="aiBase" style="width:300px" placeholder="제공자를 고르면 자동 입력"></label>
+   <label>API 키 <input id="aiKey" type="password" style="width:240px" autocomplete="off" placeholder="저장된 키가 있으면 비워 두세요"> <button id="aiKeyShow">보기</button></label>
+   <div id="aiKeyHint" class="hint" style="display:none">Agent Platform: Express mode API 키를 넣거나, 서비스 계정 JSON 파일의 내용 전체를 이 칸에 붙여 넣으세요. 서비스 계정에는 「Vertex AI 사용자」 역할이 필요합니다. 위치를 바꾸려면 API 주소를 https://us-central1-aiplatform.googleapis.com/v1/publishers/google 처럼 고치세요.</div>
+   <label>모델 <input id="aiModel" list="aiModels" style="width:240px" placeholder="목록에서 고르거나 직접 입력"><datalist id="aiModels"></datalist> <button id="aiList">모델 목록 불러오기</button></label>
+   <label><input type="checkbox" id="aiSave"> 이 컴퓨터에 API 키 저장 (OS 암호화. 끄면 앱을 닫을 때까지만 기억)</label>
+   <div><button id="aiTest">응답 시험</button> <button id="aiUseBtn">저장하고 사용</button> <span id="aiMsg" class="hint"></span></div>
+   <div class="hint">키는 설정 파일·로그에 기록되지 않습니다. 응답 시험은 게임 명령을 실행하지 않는 작은 요청으로, JSON 형식으로 답하는지까지 확인합니다. 연결을 바꾸면 진행 중인 대화·회의가 끝난 뒤에 적용됩니다.</div>
+  </div>
+
+</section>
+<section class="settings-panel" id="settings-panel-window" role="tabpanel" aria-labelledby="settings-tab-window" tabindex="0" hidden><h2>창과 알림</h2><p class="settings-intro">창 위치와 크기, 단축키, 알림 표시를 조절합니다.</p>
+  <div class="sec cap">창</div>
+  <label><input type="checkbox" id="topOn" checked> 항상 게임 위에</label>
+  <label><input type="checkbox" id="hideOn" checked> 게임에서 나가면 숨기기</label>
+  <label>게임 창에 붙는 위치 <select id="dock"><option value="right">오른쪽</option><option value="left">왼쪽</option><option value="off">붙이지 않음</option></select></label>
+  <label><input type="checkbox" id="dockLock" checked> 창 위치 고정 (게임 화면 옆에 붙여 둠. 끄면 자유롭게 옮길 수 있고 옮긴 자리에 머뭅니다)</label>
+  <label>창 크기 <input type="range" id="uiScale" min="70" max="160" value="100" style="width:150px;vertical-align:middle"> <span id="uiScaleV">100%</span></label>
+  <label><input type="checkbox" id="autoScale" checked> 게임 화면 크기에 맞춰 자동 조절 (1080p 기준)</label>
+  <label><input type="checkbox" id="notifyOn" checked> 알림 카드 표시 (편지, 은하 공동체 안건)</label>
+  <label><input type="checkbox" id="autoTalk" checked> 통신이 연결되면 단말기 자동으로 열기</label>
+  <label>열기/닫기 단축키 <select id="hotkey"><option value="">사용 안 함</option><option>Alt+F8</option><option>F8</option><option>F9</option><option>F10</option><option>Ctrl+Alt+T</option><option>Ctrl+Shift+Space</option></select> <span id="hotkeyMsg" style="opacity:.8"></span></label>
+  <label><input type="checkbox" id="fadeOn" checked> 마우스가 창 밖에 있으면 흐리게</label>
+  <label>흐릴 때 밝기 <input type="range" id="fadeOp" min="30" max="100" value="60" style="width:150px;vertical-align:middle"> <span id="fadeOpV">60%</span></label>
+  <label>구석 아이콘 위치 <select id="corner"><option value="tr">오른쪽 위</option><option value="tl">왼쪽 위</option><option value="br">오른쪽 아래</option><option value="bl">왼쪽 아래</option></select></label>
+  <button id="resetPos">위치 초기화</button><button id="quitApp">앱 완전히 끝내기</button>
+
+</section>
+<section class="settings-panel" id="settings-panel-theme" role="tabpanel" aria-labelledby="settings-tab-theme" tabindex="0" hidden><h2>인터페이스</h2><p class="settings-intro">언어와 색상, 화면 효과, 배경 그림을 설정합니다.</p>
+<div class="sec cap">언어</div>
+<label>인터페이스 언어 <select id="language"><option value="auto">자동 (게임 언어)</option><option value="ko">한국어</option><option value="en">English</option></select></label><p class="hint">버튼·설정·안내 화면의 언어입니다.</p>
+<label>AI 응답 언어 <select id="responseLanguageMode"><option value="interface">인터페이스와 동일</option><option value="custom">직접 지정</option></select></label>
+<input id="responseLanguageName" hidden maxlength="80" list="responseLanguageSuggestions" placeholder="English, 日本語, Español…" aria-label="AI 응답 언어" style="width:240px;max-width:100%">
+<datalist id="responseLanguageSuggestions"><option value="English"><option value="한국어"><option value="日本語"><option value="简体中文"><option value="繁體中文"><option value="Español"><option value="Français"><option value="Deutsch"><option value="Português (Brasil)"><option value="Русский"><option value="العربية"></datalist>
+<button id="responseLanguageSave">응답 언어 저장</button><span id="responseLanguageStatus" class="hint" role="status" aria-live="polite"></span>
+<p class="hint">대화·편지·신문·라디오·의회·총독·연설에 공통 적용됩니다. 기존 기록과 직접 입력한 이름·페르소나는 보존합니다.</p>
+
+  <div class="sec cap">색과 모양</div>
+  <label>색 테마 <select id="theme"><option value="stellaris">기본형</option><option value="terminal">어두운 단말기</option><option value="starfield">밝은 단말기 (스타필드풍)</option><optgroup label="가치관 테마"><option value="egalitarian">평등풍 · 푸른 미래 민주정</option><option value="authoritarian">권위풍 · 붉은 고전 권위정</option><option value="militarist">군국풍 · 작전 지휘소</option><option value="pacifist">평화풍 · 녹색 회의장</option><option value="materialist">물질풍 · 연구소</option><option value="spiritualist">정신풍 · 성전</option><option value="xenophile">외계친화풍 · 교류 광장</option><option value="xenophobe">외계혐오풍 · 성벽과 검문소</option><option value="machine">기계 지성 · 연산 코어</option><option value="hive">군체 의식 · 공명</option></optgroup><optgroup label="그 밖의 테마"><option value="holo">바닐라 홀로그램풍</option></optgroup><option value="custom">내가 고른 색</option></select></label>
+  <div id="custom" hidden>
+   <label>배경 <input type="color" id="c_bg"></label><label>칸 <input type="color" id="c_panel"></label><label>글자 <input type="color" id="c_text"></label><label>강조 <input type="color" id="c_hi"></label><label>제목 <input type="color" id="c_gold"></label>
+  </div>
+  <label><input type="checkbox" id="fxOn" checked> 화면 효과 (주사선·타자 효과)</label>
+  <div class="hint">더 세밀하게 바꾸려면 내 CSS 파일을 쓰세요. 글꼴·크기·배치까지 바꿀 수 있습니다.</div>
+  <button id="openCss">내 CSS 파일 열기</button><button id="reloadCss">CSS 다시 불러오기</button>
+
+  <div class="sec cap">그림</div>
+  <div class="hint">배경과 초상화를 내 그림으로 바꿀 수 있습니다(png, jpg, webp, gif, 8MB까지). 초상화는 초상화 카테고리에서 올리세요.</div>
+  <button id="bgPick">배경 그림 고르기</button><button id="bgClear">배경 없애기</button>
+  <label>배경 진하기 <input type="range" id="bgOp" min="0" max="100" value="30" style="width:140px;vertical-align:middle"></label>
+  <button id="imgFolder">그림 폴더 열기</button>
+</section>
+<section class="settings-panel" id="settings-panel-portraits" role="tabpanel" aria-labelledby="settings-tab-portraits" tabindex="0" hidden><h2>초상화</h2><p class="settings-intro">대화 상대와 종족, 의회 의원의 초상화를 관리합니다.</p>
+  <div class="sec cap">지금 대화 상대의 초상화</div>
+  <div id="cur"><div class="th" id="curTh" title="그림 파일을 끌어놓아도 됩니다"></div><div class="bd"><div class="who" id="curWho">(대화 상대 없음)</div><span id="pstat" class="cap"></span><button id="pUp" class="primary" title="이 세이브의 이 제국만을 위한 초상화로 올립니다. 그림 파일을 왼쪽 칸에 끌어놓아도 됩니다">이 제국 초상화 올리기</button><button id="pReset" title="이 제국에 올린 그림을 지우고 기본 그림으로">기본으로</button><button id="pSp" title="이 세이브에서 같은 종족을 쓰는 모든 제국에 이 그림을 씁니다">종족 전체에도</button></div></div>
+  <div class="sec cap">내가 올린 제국·종족 초상화</div>
+  <div class="hint">제국마다, 세이브마다 따로 나만의 초상화를 올릴 수 있습니다. 위의 "지금 대화 상대의 초상화"에서 올리세요. 제국은 이름이 아니라 게임 안의 제국 번호로 구분하므로 이름이 바뀌어도 유지됩니다.</div>
+  <div id="mylist"></div>
+  <div class="sec cap">포트레이트 라이브러리</div>
+  <div class="hint">게임 파일에서 미리 그려 둔 초상화입니다. 계열과 옷을 고른 뒤 그림을 누르면, 고른 대상에 적용됩니다. 직접 올린 그림이 없으면 대화 상대는 통치자의 성별·옷에 맞는 그림이, 은하 의회 의원은 성별이 섞인 여러 얼굴이 자동으로 쓰입니다(외계인 혐오 제국은 통치자 종족 모델만).</div>
+  <div id="libBar">
+   <div class="row"><span class="lbl">적용 대상</span><span id="libTarget" class="chips"></span></div>
+   <div class="row"><span class="lbl">계열</span><span id="libCls" class="chips"></span></div>
+   <div class="row"><span class="lbl">옷</span><span id="libRole" class="chips"></span><span class="lbl lbl2">성별</span><span id="libSex" class="chips"></span><input id="libQ" type="search" placeholder="이름 검색" autocomplete="off"><span id="libCount"></span></div>
+  </div>
+  <div id="libEmpty" class="hint" hidden>라이브러리 그림이 없습니다. 앱 폴더의 portrait-library.pak 파일이 있는지 확인해 주세요.</div>
+  <div id="libgrid"></div>
+  <div class="sec cap">종족 계열 기본 초상화</div>
+  <div class="hint">"+ 변형"으로 같은 계열의 다른 얼굴을 최대 8장까지 넣을 수 있습니다. 대화 상대·의원·파벌 대표·총독처럼 인물마다 그중 한 장이 정해져 늘 같은 얼굴로 나옵니다(플레이어 통치자·연설 지도자 제외).</div>
+  <div class="hint">제국이나 종족에 따로 지정한 그림이 없을 때 쓰는 그림입니다. 칸을 눌러 올리거나, 그림 파일을 끌어놓으세요. 금색 이름은 내가 바꾼 것입니다.</div>
+  <div id="pgrid"></div>
+  <div class="sec cap">의회 의원 초상화</div>
+  <div class="hint">은하 의회의 의석에 앉는 의원들의 얼굴입니다. 한 제국의 의석에는 그 제국의 종족 비율대로 여러 계열의 의원이 섞여 앉아서, 통치자 얼굴이 도배되지 않습니다. 따로 올리지 않으면 위 "종족 계열 기본 초상화"의 그림을 씁니다. 금색 이름은 내가 올린 것입니다.</div>
+  <div id="dgrid"></div>
+  <div class="sec cap">플레이어 통치자 초상화</div>
+  <div class="hint">나만의 통치자 캐릭터입니다. 연설 무대, 내각 회의, 연방 정상회담, 평화 중재, 지도자 만찬, 첩보 청문회·기자회견처럼 플레이어 통치자가 나오는 모든 장면에 이 그림을 씁니다. 비워 두면 아래 "연설 지도자 초상화"(종족 계열별)를 씁니다.</div>
+  <div id="rgrid"></div>
+  <div class="sec cap">연설 지도자 초상화</div>
+  <div class="hint">연설 무대 가운데에 서는 지도자의 얼굴입니다. 플레이어 제국 지도자의 종족 계열에 따라 자동으로 정해지며, 따로 올리지 않으면 위 "종족 계열 기본 초상화"를 씁니다. 칸을 누르거나 그림 파일을 끌어놓으세요.</div>
+  <div id="lgrid"></div>
+
+</section>
+<section class="settings-panel" id="settings-panel-stories" role="tabpanel" aria-labelledby="settings-tab-stories" tabindex="0" hidden><h2>대화와 소식</h2><p class="settings-intro">AI의 편지와 소문, 신문 발행을 설정합니다.</p>
+  <div class="sec cap">실험 기능</div>
+  <label><input type="checkbox" id="mailOn"> (실험) AI가 먼저 보내는 편지 받기</label>
+  <div class="sec cap">엿들은 소문</div>
+  <label><input type="checkbox" id="gossipOn"> AI끼리 나눈 대화(엿들은 소문) 만들기 — 게임 사실이 아니며 연대기에 남기지 않습니다</label>
+  <div class="sec cap">신문사</div>
+  <div class="hint">새해마다 켜 둔 신문사 중 하나가 무작위로 호를 냅니다. 모두 끄면 신문을 내지 않습니다.</div>
+  <div id="paperBox"></div>
+  <div class="sec cap">호외</div>
+  <label><input type="checkbox" id="extraOn"> 큰 사건(멸망·전쟁·위기·조공국화·전쟁 종결)이 나면 그 달 말에 호외 내기 — 기사는 한 건뿐입니다</label>
+  <div>한 해에 낼 호외 수 상한: <input id="extraMax" type="number" min="1" max="12" style="width:60px"> 회 <span class="cap">(그해에 큰 사건이 없으면 내지 않습니다. 호외마다 AI 호출이 한 번 늘어납니다)</span></div>
+  <div>AI가 먼저 하는 일(서신·소문) 간격: <input id="aiEvery" type="number" min="1" max="30" style="width:60px"> 분 <span class="cap">(실제 시간. 앱이 열려 있는 동안은 쉽니다)</span></div>
+
+</section>
+<section class="settings-panel" id="settings-panel-media" role="tabpanel" aria-labelledby="settings-tab-media" tabindex="0" hidden>
+ <h2>언론사와 브랜드</h2><p class="settings-intro">신문사의 페르소나를 산하 방송사가 함께 사용합니다. 브랜드 그림은 각각 꾸밀 수 있습니다.</p>
+ <label for="mediaFamily">편집할 언론사 계열</label><select id="mediaFamily" aria-describedby="mediaParent"></select><p id="mediaParent" class="hint"></p>
+ <div class="sec cap">언론사 이름</div>
+ <label for="mediaPaperTitle">신문사 이름</label><input id="mediaPaperTitle" maxlength="40" style="width:100%" placeholder="신문사 이름">
+ <label for="mediaRadioTitle">방송사 이름</label><input id="mediaRadioTitle" maxlength="40" style="width:100%" placeholder="방송사 이름">
+ <div class="hint">각각 40자까지 입력할 수 있습니다. 저장하면 제호·방송사 목록·소속 표시에 반영됩니다.</div><button id="mediaResetNames">기본 이름 채우기</button>
+ <div class="sec cap">공유 페르소나</div>
+ <label for="mediaPersona">신문·방송의 성향과 말투</label>
+ <textarea id="mediaPersona" rows="8" maxlength="4000" placeholder="중요하게 여기는 가치, 사건을 바라보는 관점, 말투를 적어 주세요." aria-describedby="mediaCount"></textarea><div id="mediaCount" class="hint"></div>
+ <label><input id="mediaComments" type="checkbox"> 신문 논평과 방송 해설 허용</label>
+ <div class="sec cap">신문 서체</div>
+ <label>이 신문의 글꼴 <select id="mediaFont"><option value="auto">자동 (종이는 명조, 디스플레이는 고딕)</option><option value="myeongjo">명조 — 진지한 신문</option><option value="batang">바탕 — 고전적인 활자</option><option value="gothic">고딕 — 단정한</option><option value="pretendard">프리텐다드 — 모던</option></select></label><div class="hint">신문 지면의 글꼴만 바꿉니다. 기사 내용·말투(페르소나)·라디오는 바뀌지 않으며, 지난 호에도 바로 적용됩니다.</div>
+ <div class="hint">끄면 사실 위주로 전합니다. 페르소나를 바꿔도 기사·방송의 게임 사실과 출력 형식 규칙은 유지됩니다. 이미 작성된 기사·방송은 다시 쓰지 않습니다.</div>
+ <button id="mediaSave" class="primary">이름·페르소나 저장</button><button id="mediaResetPersona">기본 페르소나로</button>
+ <div class="sec cap">브랜드 그림</div><div class="hint">PNG · JPG · WEBP, 8MB 이하. 정사각형·투명 배경을 권장합니다. 그림은 앱에 복사되어 원본을 옮겨도 유지됩니다.</div>
+ <div class="media-brand-row"><img id="mediaPaperImage" width="64" height="64" alt="신문 브랜드"><div><b id="mediaPaperName"></b><div><button data-brand-pick="paper">신문 그림 변경</button><button data-brand-reset="paper">기본 그림</button></div></div></div>
+ <div class="media-brand-row"><img id="mediaRadioImage" width="64" height="64" alt="방송 브랜드"><div><b id="mediaRadioName"></b><div><button data-brand-pick="radio">방송 그림 변경</button><button data-brand-reset="radio">기본 그림</button></div></div></div>
+ <p id="mediaStatus" role="status" aria-live="polite"></p>
+</section>
+<section class="settings-panel" id="settings-panel-addons" role="tabpanel" aria-labelledby="settings-tab-addons" tabindex="0" hidden><h2>애드온 <span class="exp">실험 기능</span></h2><p class="settings-intro"><b>실험 기능입니다.</b> 특히 테마 애드온은 "테마 적용"을 눌러야 사용자 지정 색으로 들어가며, 화면 일부(장면 창의 고유 색, 사용자 CSS)는 덮어쓰지 못할 수 있습니다. 그림 우선순위나 해석이 기대와 다르면 애드온을 끄고 알려 주세요. 테마·초상화·장면 그림·모드 가치관과 사건 해석을 묶은 추가 콘텐츠입니다. 게임에서 켠 모드 안의 <code>sllm/addon/addon.json</code>을 자동으로 찾고, 앱 데이터의 애드온 폴더에 직접 넣은 것도 읽습니다. 그림·글 같은 자료만 읽으며 코드는 실행하지 않습니다.</p>
+  <div class="hint">목록 위쪽 애드온이 우선합니다. 같은 그림이나 가치관을 여러 애드온이 바꾸면 위에 있는 것이 이깁니다. 설정에서 직접 넣은 그림과 색은 언제나 애드온보다 앞섭니다.</div>
+  <div class="row" style="gap:6px;margin:8px 0"><button id="addonFolder">애드온 폴더 열기</button><button id="addonReload">다시 읽기</button><button id="addonLangTemplate" title="앱의 모든 화면 문구(한국어 원문 → 영어)를 담은 언어 팩 뼈대를 문서 폴더에 만듭니다.">언어 팩 뼈대 만들기</button><span class="hint" id="addonStatus"></span></div>
+  <div class="hint">언어 팩: addon.json 에 "language" 항목을 넣으면 인터페이스 언어 선택지에 그 언어가 추가됩니다. 번역이 빠진 문구는 영어로 보입니다.</div>
+  <div id="addonList"></div>
+</section>
+<section class="settings-panel" id="settings-panel-council" role="tabpanel" aria-labelledby="settings-tab-council" tabindex="0" hidden><h2>은하 의회</h2><p class="settings-intro">의원의 발언 방식과 회의 길이를 조절합니다.</p>
+  <div class="sec cap">은하 의회</div>
+  <label>발언권 방식 <select id="cmode"><option value="weighted">의석 비율 확률 (큰 제국이 더 자주)</option><option value="equal">공평하게 한 번씩 (제국마다 같은 기회)</option></select></label>
+  <label>발언권 횟수 <input type="number" id="slots" min="1" max="40" placeholder="자동" style="width:70px"> <button id="slotsAuto" title="참석한 제국 수만큼으로 되돌립니다">자동으로</button></label>
+  <div class="hint">내가 의회 전체에 한 번 발언할 때마다 이만큼의 발언권이 생깁니다. 비워 두면 자동으로, 의회에 참석한 제국 수만큼입니다. 방식이 '의석 비율 확률'이면 발언권마다 가중치 비율의 확률로 제국이 뽑히고(작은 제국은 말을 못 할 수 있음), '공평하게 한 번씩'이면 제국이 무작위 순서로 한 번씩만 말합니다(횟수가 제국 수보다 적으면 그중 일부만). 한 번에 답하는 제국은 최대 8개국이라, 발언권이 더 많은 나라에 돌아가도 답은 8개국까지만 옵니다. 횟수를 줄이면 응답이 빨라지고 LLM 호출이 줄어듭니다.</div>
+
+  <label>플레이어 발언 횟수 한도 <input type="number" id="turns" min="1" max="100" value="20" style="width:70px"></label>
+  <label>연설 발언 횟수 한도 <input type="number" id="speechTurns" min="3" max="40" value="20" style="width:70px"></label>
+  <div class="hint">연설에서 국민과 주고받을 수 있는 내 발언 횟수입니다(기본 20). 모두 쓰거나 "연설 마치기"를 누르면 그때의 국민 분위기로 결과가 정해집니다.</div>
+  <div class="hint">회의 한 번에서 내가 할 수 있는 발언 횟수입니다(기본 20). 찬성이나 반대가 80%를 넘으면 강제 통과·부결을 누를 수 있습니다. 한도를 다 쓴 시점에 어느 쪽도 80%에 닿지 못하면 합의 실패로 끝나고 게임에는 아무것도 보내지 않습니다(기존 게임 표결이 그대로 진행됩니다). 줄이면 회의가 짧아지고 LLM 호출도 줄어듭니다.</div>
+
+</section>
+<section class="settings-panel" id="settings-panel-game" role="tabpanel" aria-labelledby="settings-tab-game" tabindex="0" hidden><h2>게임 연동</h2><p class="settings-intro">게임·세이브 경로와 일시정지 안내를 설정합니다.</p>
+  <div id="setupIntro" class="hint">첫 실행 연결 점검: 자동으로 찾은 경로를 확인하세요. 찾지 못한 항목만 직접 지정하면 됩니다. 연결 확인 전 게임을 일시정지해 주세요.</div>
+  <div class="sec cap">환경 및 연결 점검</div><div id="environmentInfo" class="hint" style="overflow-wrap:anywhere">확인 중…</div>
+  <button id="pickUserDir">게임 사용자 폴더…</button> <button id="pickModDir">연결 모드 폴더…</button>
+  <button id="autoEnvironment">경로 자동 탐색</button> <button id="checkEnvironment">연결 확인</button> <button id="setupDone">확인 완료</button>
+  <div class="sec cap">경로 (깃발 읽기)</div>
+  <div class="hint">제국 깃발은 세이브 파일과 게임 폴더의 그림에서 읽습니다. 보통은 자동으로 찾습니다. 못 찾거나 다른 곳에 있으면 직접 골라 주세요. 읽기만 하고 아무것도 바꾸지 않습니다.</div>
+  <div>세이브 폴더 <button id="pickSave">찾아보기…</button> <button id="autoSave" title="직접 고른 폴더를 지우고 자동으로 찾습니다">자동</button></div>
+  <div class="hint" id="saveInfo">확인 중…</div>
+  <div>게임 폴더 <button id="pickGame">찾아보기…</button> <button id="autoGame" title="직접 고른 폴더를 지우고 자동으로 찾습니다">자동</button></div>
+  <div class="hint" id="gameInfo">확인 중…</div>
+
+  <div class="sec cap">일시정지 확인</div>
+  <label><input type="checkbox" id="pauseGate"> 게임이 진행 중이면 "정지한 상태로 진행하기를 권장합니다" 안내 표시</label>
+  <div class="hint">게임이 한 달을 넘기는 신호가 오면 진행 중으로 봅니다. 일시정지(Space)한 뒤 [정지했습니다]를 누르면 대화할 수 있고, 게임을 다시 돌려 달이 넘어가면 다시 막힙니다.</div>
+</section>
+<section class="settings-panel" id="settings-panel-support" role="tabpanel" aria-labelledby="settings-tab-support" tabindex="0" hidden><h2>버그 신고·로그</h2>
+  <p class="settings-intro">문제 설명과 진단 로그를 ZIP으로 저장해서 개발자에게 직접 전달합니다.</p>
+  <div class="sec cap">문제 설명</div>
+  <label>어떤 문제가 발생했나요? <textarea id="supportSummary" maxlength="2000" rows="3" style="width:100%;box-sizing:border-box" placeholder="예: 외교 단말기에서 호출했는데 응답이 오지 않습니다."></textarea></label>
+  <label>재현 순서·예상한 결과 <textarea id="supportSteps" maxlength="6000" rows="4" style="width:100%;box-sizing:border-box"></textarea></label>
+  <label>문제가 발생한 시각 <input id="supportOccurred" maxlength="200" placeholder="예: 오늘 오후 3시경, 게임 날짜 2300.01.01"></label>
+  <div class="sec cap">수집 범위</div>
+  <p class="hint">앱 진단 로그·요청 처리 시간·게임 응답·앱 버전·활성 모드 목록을 포함합니다. API 키·인증 정보·사용자 홈 경로는 마스킹합니다. 세이브 파일·키 저장소·대화 기록 DB·개인 그림은 포함하지 않습니다.</p>
+  <label><input type="checkbox" id="supportGame" checked> Stellaris 게임 로그 포함 (game.log·error.log·system.log·setup.log·exceptions.log)</label>
+  <label><input type="checkbox" id="supportRaw"> 기존 AI 응답 원문 진단 로그 포함 (선택)</label>
+  <p class="hint">진단·게임 로그에는 제국·모드 이름이, 선택한 원문 로그에는 질문·AI 대사가 포함될 수 있습니다. 아래에서 내용을 확인한 뒤 공유하세요. 큰 로그는 최근 부분만 포함하며, 누락·잘림은 목록에 표시합니다.</p>
+  <button id="supportPrepare">로그 보내기 · 묶음 만들기</button>
+  <div class="sec cap">전송 전 내용 확인</div>
+  <select id="supportFiles" style="width:100%" aria-label="수집한 로그 파일"></select>
+  <textarea id="supportPreview" readonly rows="12" style="width:100%;box-sizing:border-box;font:12px monospace" aria-label="로그 내용 미리보기"></textarea>
+  <p id="supportStatus" role="status" style="white-space:pre-wrap;overflow-wrap:anywhere"></p>
+  <button id="supportSave" class="primary" disabled>ZIP으로 저장</button> <button id="supportReveal" disabled>저장한 ZIP 위치 열기</button>
+</section>
+<section class="settings-panel" id="settings-panel-dev" role="tabpanel" aria-labelledby="settings-tab-dev" tabindex="0" hidden><h2>개발자 도구</h2><p class="settings-intro">시연과 강제 실행 도구를 관리합니다.</p>
+  <div class="sec cap">개발자 모드</div>
+  <label><input type="checkbox" id="devOn"> 개발자 모드 (아래에 강제 실행 도구가 나타납니다)</label>
+  <label><input type="checkbox" id="forceOverlay"> 게임을 켜지 않아도 오버레이 강제 표시 (개발자 모드에서만 작동)</label>
+  <div id="devTools" hidden><div class="sec cap">Player2 프로젝트 ID (개발자)</div><p class="hint">Player2 개발자 포털에서 이 프로젝트를 등록한 뒤 발급받는 공개 ID입니다. 사용자 API 키가 아닙니다. 정식 배포 시 release-config.json에 포함해야 합니다.</p><input id="p2ClientId" placeholder="Game Client ID" maxlength="128"><button id="p2ClientSave">프로젝트 ID 저장</button><p id="p2ClientStatus" role="status"></p>
+  <div class="hint">개발자 모드: 정상 플레이에서는 쓰지 않는 강제 실행 도구입니다. 게임 상태를 직접 바꾸는 것도 있으니 시험용 세이브에서 쓰세요.</div>
+  <div class="sec cap">모드 호환성</div>
+  <p class="hint">활성 모드의 깃발·가치관·설명 출처와 누락 이유를 확인합니다. 가치관은 실제 조회 또는 최근 세이브 기준입니다. 단계별 거대구조물 변화는 수집하지 않습니다.</p>
+  <button id="compatInfo">호환성 진단</button> <button id="compatReload">모드 자료 다시 읽기</button> <button id="compatOpen">호환 파일 폴더 열기</button>
+  <pre id="compatReport" data-i18n-skip style="white-space:pre-wrap;max-height:340px;overflow:auto;font-size:12px"></pre>
+  <div class="sec cap">의회·은하 공동체 결과 검수</div>
+  <label>찬반 집계 <select id="devCouncilVote"><option value="normal">정상 집계</option><option value="for">찬성 비율 고정</option><option value="against">반대 비율 고정</option></select></label>
+  <label>고정 비율 (%) <input id="devCouncilPercent" type="number" min="80" max="100" step="1" value="85" style="width:80px"></label>
+  <label><input id="devCouncilNoAi" type="checkbox"> AI 호출 없이 정해진 대사로 진행</label>
+  <p class="hint">개발자 모드에서만 적용됩니다. 나머지 표는 반대편에 배정하고 기권은 0%로 고정합니다. 개별 제국의 실제 가중치는 보존하며 집계·버튼 판정만 바꿉니다. AI 답변은 고정 비율을 바꾸지 않습니다.</p>
+  <p class="hint">설정만으로 게임을 변경하지 않습니다. 강제 통과·부결 버튼을 직접 눌러야 합니다. 실제 안건은 게임 정보 확인과 적용 응답을 계속 요구하고, 시연 안건은 앱 화면에서만 처리합니다.</p>
+  <button id="devVoteReset">검수 설정 초기화</button>
+  <div class="sec cap">은하 의회 (시연판)</div>
+  <div class="hint">앱에서 의회를 강제로 소집합니다. 게임의 실제 결의안이나 의원이 아니라 가짜 데이터입니다.</div>
+  <label>안건 <select id="agenda"><option value="">무작위</option><option value="res">결의안: 무역 정책 개정</option><option value="war">결의안: 침략 규탄</option><option value="sanc">결의안: 제재 부과</option></select></label>
+  <button id="devCouncil" class="primary">의회 강제 소집</button> <button id="devAlert" title="안건이 표결에 올랐을 때 뜨는 알림을 시험합니다. 알림의 '안건 회의 직접 참여하기'를 눌러야만 의회가 열립니다">안건 상정 알림 시연</button>
+  <div class="sec cap">외교 (게임 상태를 바꿈)</div>
+  대상 번호 <input id="tid" value="2" size="3" style="width:48px"> 금액 <input id="amt" value="10" size="4" style="width:60px"><br>
+  <button id="apply">에너지 가져오기</button> <button id="peace">평화 강제</button>
+  <div class="sec cap">평화 중재 · 첩보 대응 (실제 게임에 적용)</div>
+  <p class="hint">중재: 플레이어가 끼지 않은 AI 끼리의 전쟁을 고릅니다. 합의 후 '합의 게임 적용·기록'을 누르면 종전·휴전과 영유권 안 점령지 이전이 게임에 적용됩니다. 첩보: 위 '대상 번호' 제국을 상대로 청문회를 열고, 끝나면 생산 제재·관계 하락을 게임에 적용합니다. 시험 세이브에서 쓰세요.</p>
+  <button id="medWarsLoad">AI 끼리 전쟁 목록 읽기</button> <select id="medWarSel" data-i18n-skip><option value="">(목록 없음)</option></select> <button id="medGameOpen">선택 전쟁 중재 (AI 없이)</button> <button id="medGameOpenAi">선택 전쟁 중재 (실제 AI)</button><br>
+  <button id="spyGame">첩보 대응 — 대상 번호 제국 (AI 없이, 게임 적용)</button> <button id="spyGameAi">첩보 대응 — 대상 번호 제국 (실제 AI, 게임 적용)</button>
+  <div class="sec cap">알림</div>
+  <button id="testToast">알림 시험</button>
+  <div class="sec cap">새 기능 화면 시험 (게임 없이)</div>
+  <p class="hint">가짜 게임 신호를 넣어 화면만 확인합니다. 게임이 연결돼 있으면 작동하지 않습니다.</p>
+  <button id="devNewsTest">신문 시험 (F-01)</button> <button id="devSpeechTest">연설 시험 (F-02·F-26)</button> <button id="devSpeechCut">연설 잘린 응답 시험</button><br>
+  <button id="devRadioTest">라디오 시험 (F-03·A-15·F-25)</button> <button id="devRadioIdle">라디오 쉼 안내 시험</button><br>
+  <button id="devCouncilGuest">의회 시험 — 비회원 가상 의석 (F-15)</button> <button id="devCouncilCheck">집계 재확인 시험 (A-16)</button> <button id="devSummitTest">연방 정상회담 시험 (A-01 화면)</button> <button id="devSummitAi">연방 시험 — 실제 AI 대화 (API 사용)</button> <button id="devFaction">내각 회의 시험 (AI·게임 없음)</button> <button id="devFactionAi">내각 회의 시험 — 실제 AI 대화 (API 사용)</button> <button id="devEffects">검증효과 한 번에 보기</button> <button id="devEspionage">첩보 대응 시험 (AI 없이)</button> <button id="devEspionageAi">첩보 대응 시험 (실제 AI)</button> <button id="devBanquet">지도자 만찬장 시험</button> <button id="devMediation">평화 중재 시험 (AI 없이)</button> <button id="devMediationAi">평화 중재 시험 (실제 AI)</button> <button id="devSummitReal">실제 연방 읽기 (A-01 2단계)</button> <button id="devGovReport">총독 보고 시험 (A-26)</button><br>
+  <button id="devDeliveryText">전송 실패 메시지 시험 (F-12)</button> <button id="devBehaviorPreview">대화 속내 미리보기 (A-17)</button><br>
+  <button id="devClearTest">시험 데이터 지우기</button>
+  <p id="devFeatStatus" role="status" data-i18n-skip style="white-space:pre-wrap;overflow-wrap:anywhere"></p>
+  <textarea id="devFeatOut" readonly rows="10" hidden style="width:100%;box-sizing:border-box;font:12px monospace" aria-label="개발자 시험 결과"></textarea>
+  </div></section>
+
+ </div>
+</div>
+<script>
+ const $ = (id) => document.getElementById(id);
+
+ // 설정 하위 카테고리. 화면을 닫았다 열어도 현재 선택을 유지한다.
+ const settingsTabs = [...document.querySelectorAll('[data-settings-category]')];
+ function selectSettingsCategory(tab, focus = false) {
+   settingsTabs.forEach((item) => {
+     const selected = item === tab;
+     item.setAttribute('aria-selected', String(selected));
+     item.tabIndex = selected ? 0 : -1;
+     $(item.getAttribute('aria-controls')).hidden = !selected;
+   });
+   $('dset').scrollTop = 0;
+   if (focus) tab.focus();
+ }
+ settingsTabs.forEach((tab, index) => {
+   tab.addEventListener('click', () => selectSettingsCategory(tab));
+   tab.addEventListener('keydown', (event) => {
+     let next;
+     if (event.key === 'ArrowRight') next = (index + 1) % settingsTabs.length;
+     else if (event.key === 'ArrowLeft') next = (index - 1 + settingsTabs.length) % settingsTabs.length;
+     else if (event.key === 'Home') next = 0;
+     else if (event.key === 'End') next = settingsTabs.length - 1;
+     else return;
+     event.preventDefault(); selectSettingsCategory(settingsTabs[next], true);
+   });
+ });
+ // ---- 상단 아이콘: 설정, 시험 도구 ----
+ const panes = { mail: ['외교 단말기 · 수신함', 'dmail', 'btnInbox'], contacts: ['외교 단말기 · 연락처', 'dcontacts', 'btnContacts'], chron: ['제국별 연대기', 'dchron', 'btnChron'], set: ['설정', 'dset', null] };
+ let openPane = null;
+ function showPane(name) {
+  if (name === 'tools') name = 'set'; // 개발자 모드는 설정 안의 항목이다
+   openPane = name === openPane ? null : name;
+   $('drawer').hidden = !openPane;
+   for (const [k, [title, id, btn]] of Object.entries(panes)) { $(id).classList.toggle('show', k === openPane); if (btn) $(btn).classList.toggle('on', k === openPane); if (k === openPane) $('dtitle').textContent = title; }
+ }
+ // 설정 전용 창이면 설정만 보이고, 닫으면 창이 닫힌다(대화 화면과 별개)
+ const SETWIN = /[?&]mode=settings/.test(location.search);
+ if (SETWIN) { document.documentElement.classList.add('setwin'); $('wset').onclick = () => window.sllm.winCtl('setclose'); showPane('set'); }
+ $('btnChron').onclick = () => { showPane('chron'); if (openPane === 'chron') chronLoad(); }; 
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (SETWIN) window.sllm.winCtl('setclose'); else if (openPane) showPane(openPane); } });
+ // ---- 대화 기록: [머리말] 로 시작하는 줄을 종류별로 꾸며 보인다 ----
+ const TX = (t) => (window.SLLMI18n ? window.SLLMI18n.t(t) : t); // 아래 I18N 보다 먼저 쓰이는 곳용(2026-10-18)
+ const KINDS = [
+  [/^\[나/, 'me', '나'], [/^\[AI\]/, 'ai', 'AI'], [/^\[편지/, 'mail', '편지'], [/^\[오류\]/, 'warn', '오류'],
+  [/^\[게임\]/, 'dbg', '게임'], [/^\[통신\]/, 'comm', '통신'], [/^\[(안내|설정|사건|관계|결과|대화|전송|평화 시험|게임 안 창|게임 안 입력창|개발자)\]/, 'sys', '알림'],
+ ];
+ // 상대마다 통신 기록을 따로 둔다(2026-10-17): 다른 제국으로 옮겨 가면 그 제국과 나눈 기록만 보이고, 돌아오면 이어서 보인다.
+ const feeds = new Map(), seqs = new Map(); let feedKey = 0, feedSid = '';
+ const feedOf = (k) => { let f = feeds.get(k); if (!f) { f = document.createElement('div'); feeds.set(k, f); } return f; };
+ let fxOn = true, devOn = false; // devOn: 개발자 모드일 때만 게임 원본 줄(회색 로그)을 보인다
+ const typers = new Set();
+ const clock = () => new Date().toTimeString().slice(0, 5);
+ function typeText(el, text) {
+   const box = $('log'); let i = 0; const step = Math.max(1, Math.ceil(text.length / 90));
+   el.classList.add('typing');
+   const done = () => { clearInterval(tm); el.textContent = text; el.classList.remove('typing'); typers.delete(done); box.scrollTop = box.scrollHeight; };
+   const tm = setInterval(() => { i += step; if (i >= text.length) return done(); el.textContent = text.slice(0, i); box.scrollTop = box.scrollHeight; }, 22);
+   typers.add(done);
+ }
+ $('log').addEventListener('click', () => [...typers].forEach((f) => f()));
+ const LOG_MAX = 400;
+ let ME = ''; // 플레이어 통치자 이름(2026-10-18: 「나」 대신). 모르면 「나」
+ const refreshMe = () => { if (window.sllm.playerRuler) window.sllm.playerRuler().then((n) => { ME = n || ''; }, () => {}); };
+ refreshMe();
+ const log = (t) => {
+   const l = $('log'), fb = feedOf(feedKey); if (!fb.parentNode) l.replaceChildren(fb); let cls = 'sys', who = '알림', body = t;
+   for (const [re, c, w] of KINDS) { if (re.test(t)) { cls = c; who = w; body = t.replace(/^\[[^\]]*\]\s*/, ''); break; } }
+   if (cls === 'dbg' && !devOn) return; // 원본 게임 줄은 개발자 모드에서만
+   if (cls === 'sys' || cls === 'warn') body = TX(body); // #log 는 대사 보호로 자동 번역 제외 → 알림·오류 문구만 번역(카탈로그에 없는 글은 그대로)
+   const d = document.createElement('div'); d.className = 'ln ' + cls;
+   if (cls === 'comm') { d.textContent = '◈ ' + clock() + '  ' + body; fb.appendChild(d); while (fb.childElementCount > LOG_MAX) fb.firstElementChild.remove(); l.scrollTop = l.scrollHeight; return; }
+   if (cls === 'ai' || cls === 'me' || cls === 'mail') {
+     const seq = (seqs.get(feedKey) || 0) + 1; seqs.set(feedKey, seq);
+     const h = document.createElement('div'); h.className = 'hd';
+     const from = cls === 'me' ? (ME || TX('나')) : (curTalk && curTalk.name) || 'AI';
+     h.textContent = TX(cls === 'me' ? '송신' : '수신') + ' #' + String(seq).padStart(3, '0') + ' ' + clock() + ' ─ ' + (cls === 'mail' ? TX('편지') + ' · ' : '') + from;
+     const b = document.createElement('div'); b.className = 't';
+     d.append(h, b); fb.appendChild(d);
+     if (cls !== 'me' && fxOn) typeText(b, body); else b.textContent = body;
+   } else { d.textContent = '// ' + TX(who) + ': ' + body; fb.appendChild(d); }
+   while (fb.childElementCount > LOG_MAX) fb.firstElementChild.remove(); // 로그 줄이 끝없이 쌓여 창이 느려지지 않게 최근 것만 남긴다
+   l.scrollTop = l.scrollHeight;
+ };
+ // ---- 깃발·초상화 자리(지금은 임시 그림. 나중에 실제 깃발과 사용자가 고른 그림이 이 자리에 들어간다) ----
+ const hue = (s) => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
+ function flagSvg(name, url) {
+   if (url) return '<img id="flag" src="' + url + '">';
+   const h = hue(name || '?'), c1 = 'hsl(' + h + ' 55% 52%)', c2 = 'hsl(' + ((h + 150) % 360) + ' 45% 30%)';
+   return '<svg id="flag" viewBox="0 0 30 36"><path d="M2 2h26v20c0 7-8 11-13 13C10 33 2 29 2 22z" fill="' + c2 + '" style="stroke:var(--text)" stroke-opacity=".8"/><circle cx="15" cy="15" r="7" fill="' + c1 + '"/></svg>';
+ }
+ function portraitSvg(name, url) {
+   if (url) return '<img src="' + url + '">';
+   const h = hue(name || '?');
+   return '<svg viewBox="0 0 92 116"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="hsl(' + h + ' 30% 22%)"/><stop offset="1" style="stop-color:var(--shade)"/></linearGradient></defs>' +
+     '<rect width="92" height="116" fill="url(#pg)"/><circle cx="46" cy="46" r="19" fill="hsl(' + h + ' 18% 62%)" opacity=".85"/><path d="M8 116c2-26 16-38 38-38s36 12 38 38z" fill="hsl(' + h + ' 18% 50%)" opacity=".85"/></svg>';
+ }
+ const CLASS_KEYS = ['', 'human', 'mammalian', 'reptilian', 'avian', 'arthropoid', 'molluscoid', 'fungoid', 'plantoid', 'infernal', 'lithoid', 'necroid', 'aquatic', 'toxoid', 'robot', 'machine', 'cybernetic'];
+ let imgState = { bg: null, bgOpacity: 0.3, images: {}, scope: 'country' }, curTalk = null;
+ function stanceOf(s) { return s >= 120 ? '매우 우호적' : s >= 40 ? '우호적' : s > -40 ? '중립' : s > -120 ? '비우호적' : '적대적'; }
+ function drawCountry(t) {
+   curTalk = t; refreshMe();
+   { const lb = document.getElementById('loreBtn'); if (lb) lb.hidden = !(t && t.name); }
+   const nm = t && t.name ? t.name : '';
+   $('nm').textContent = nm || TX('(상대 없음)'); // #nm·#sub·#curWho 는 제국 이름 칸이라 자동 번역 제외 → 빈 자리 안내만 직접 번역(2026-10-18)
+   const p = (t && t.profile) || {};
+   $('sub').textContent = nm ? [p.gov, p.species, p.personality].filter(Boolean).join(' · ') || TX('정보 없음') : TX('연락처에서 통신할 제국을 선택하세요');
+   { const lore = t && t.lore ? TX('제국 설명') + ': ' + t.lore : ''; $('nm').title = lore; $('sub').title = lore; }
+   $('portrait').innerHTML = portraitSvg(nm, (t && t.portraitUrl) || (nm ? (imgState.images[ckey(t)] || imgState.images[skey(t)] || (t && t.autoPortrait) || (CLASS_KEYS[p.cls || 0] && SLLMVariant.pick(imgState.images, ['class:' + CLASS_KEYS[p.cls || 0]], nm, imgState.defaults && imgState.defaults[CLASS_KEYS[p.cls || 0]]))) : null)) + (nm ? flagSvg(nm, t && t.flagUrl) : '');
+   { const mine = nm && imgState.images[ckey(t)], sp = nm && imgState.images[skey(t)]; $('pstat').textContent = !nm ? '' : mine ? '내 초상화' : sp ? '종족 공용 그림' : (t && t.autoPortrait) ? '라이브러리 자동 선택' : '기본 그림'; $('curWho').textContent = nm || TX('(대화 상대 없음)'); $('curTh').innerHTML = $('portrait').innerHTML; }
+   const s = t && Number.isFinite(t.score) ? t.score : 0;
+   const seg = $('seg'); if (!seg.children.length) for (let i = 0; i < 20; i++) seg.appendChild(document.createElement('i'));
+   const n = Math.max(-10, Math.min(10, Math.round(s / 20)));
+   [...seg.children].forEach((e, i) => { e.className = n > 0 && i >= 10 && i < 10 + n ? 'p' : n < 0 && i < 10 && i >= 10 + n ? 'n' : ''; });
+   $('chn').textContent = t && t.idx ? String(t.idx).padStart(2, '0') : '--';
+   $('link').className = 'cap' + (nm ? '' : ' off'); $('link').lastChild.textContent = nm ? ' 연결됨' : ' 대기';
+   $('stance').textContent = nm ? stanceOf(s) + ' (' + Math.round(s) + ')' : '—';
+   const fl = (p.flags || {}), tags = [['war', '전쟁 중', 'bad'], ['rival', '라이벌', 'bad'], ['hostile', '적대', 'bad'], ['truce', '휴전', ''], ['friendly', '우호', 'good'], ['fed', '연방', 'good'], ['nap', '불가침', 'good'], ['def', '방위 협정', 'good']];
+   $('tags').innerHTML = ''; for (const [k, label, c] of tags) if (fl[k]) { const e = document.createElement('span'); e.className = 'tag ' + c; e.textContent = label; $('tags').appendChild(e); }
+ }
+ drawCountry(null);
+ // 평소에는 원본 게임 줄 대신 '통신 로그'만 보인다(개발자 모드를 켜면 원본 줄도 보인다)
+ const COMM_KINDS = { PROFILE: '상대 제국 정보 수신 완료', DIAL_END: '회선 연결 확인', OPSHIFT: '관계 수치 동기화', END: '상대 측 통신 종료 신호 수신' };
+ let lastComm = '', lastCommAt = 0;
+ const comm = (t) => { const now = Date.now(); if (t === lastComm && now - lastCommAt < 4000) return; lastComm = t; lastCommAt = now; log('[통신] ' + t); };
+ // 2026-10-17 QA: 개발자 모드에서 매달 수백 줄씩 오는 대량 신호(연락처·제국 번호·첩보망·월간 상황)까지 대화 로그에 쌓여 창이 검게 멈추던 문제 → 대량 신호는 로그에 넣지 않는다
+ const BULK_KINDS = new Set(['CONTACT', 'CONTACT_BEGIN', 'CONTACT_END', 'IDX', 'SPYNET', 'STATE_BEGIN', 'STATE_END', 'STATE', 'PLANET', 'GCMEMBER', 'GCPOS', 'ARCHIVE', 'ARCHIVE_EXH', 'FEDMEMBER', 'LEADER', 'LTRAIT', 'LEADERAT', 'LEADER_END']); // LEADER*: 매달 지도자 명단(집무실 연락처)
+ window.sllm.onMessage((m) => { if (devOn) { if (!BULK_KINDS.has(m.kind)) log('[게임] ' + m.kind + ' ' + JSON.stringify(m.kv)); } else if (COMM_KINDS[m.kind]) comm(COMM_KINDS[m.kind]); });
+ let talkIdx = 0, talkName = '';
+ const chLabel = (i) => 'CH ' + String(i).padStart(2, '0');
+ function commTalk(t) { // 상대가 바뀔 때만: 이전 회선을 닫고, 그 상대의 기록 칸으로 바꾼다(다른 상대의 기록은 섞이지 않는다)
+   const idx = t && t.idx ? t.idx : 0, sid = t && t.sid ? String(t.sid) : feedSid;
+   if (sid !== feedSid) { feeds.clear(); seqs.clear(); feedSid = sid; feedKey = 0; talkIdx = 0; $('log').replaceChildren(feedOf(0)); } // 세이브가 바뀌면 기록을 모두 비운다
+   if (idx === talkIdx) return;
+   if (talkIdx) comm('■ ' + chLabel(talkIdx) + ' ' + talkName + ' 회선 닫힘');
+   talkIdx = idx; talkName = t && t.name ? t.name : '';
+   if (!idx) return;
+   const had = feeds.has(idx);
+   feedKey = idx; $('log').replaceChildren(feedOf(idx));
+   if (had) comm('▶ ' + chLabel(idx) + ' 호출 · ' + talkName + ' · 회선 재연결 (이전 통신 기록 복원)');
+   else { comm('▶ ' + chLabel(idx) + ' 호출 · ' + talkName); comm('암호 채널 동기화 완료 · 신호 안정'); }
+   $('log').scrollTop = $('log').scrollHeight;
+ }
+ let dialogEnded = false; // 2026-10-17 테스터 제보: 선언이 없어 첫 송신 뒤 finally 에서 ReferenceError → 입력칸이 잠긴 채 남았다
+ window.sllm.onTalk((t) => { drawCountry(t); commTalk(t); if (t) $('tid').value = t.idx; if(t){dialogEnded=typeof t.ended==='boolean'?t.ended:false;$('send').disabled=dialogEnded;$('q').disabled=dialogEnded;$('q').placeholder=I18N(dialogEnded?'대화 종료 · 새 통신을 연결하세요':'회신 입력…');} }); // 새 통신마다 잠금을 푼다
+ $('loreBtn').onclick = () => { // 제국 전기(2026-10-18): 모드 특수 제국 등 게임 전기가 없거나 부족할 때 직접 적는다
+  const t = curTalk; if (!t || !t.name || !window.SLLMBackstory) return;
+  window.SLLMBackstory.open({ title: '제국 전기', name: t.name, intro: '이 제국의 역사·설정을 적으면 AI가 이 제국을 연기할 때 사실로 참고합니다. 같은 이름의 제국이면 다른 세이브에서도 씁니다. 비워 두면 게임·모드 전기를 씁니다.', placeholder: '이 제국의 기원, 역사, 가치관, 다른 제국과의 관계 등을 자유롭게 적어 주세요.', load: () => window.sllm.backstoryEmpire(t.name, t.idx), save: (text) => window.sllm.backstoryEmpireSet(t.name, text), onSaved: () => log('제국 전기를 저장했습니다. 다음 발언부터 반영됩니다.') });
+ };
+ document.addEventListener('sllm-language', () => { try { drawCountry(curTalk); } catch (e) { /* 아직 그릴 준비 전 */ } }); // 언어를 바꾸면 빈 대화 상대 안내도 다시 번역(2026-10-18)
+ window.sllm.onImages((st) => setImg(st));
+ window.sllm.onEvent((s) => log('[사건] ' + s));
+ // (실험) 편지: 켜기/끄기, 받은편지함
+
+ // ---- 색 테마. 값은 CSS 변수로 들어가고, 그 위에 사용자 CSS 파일이 덮어쓴다. ----
+ // ---- 사용자 그림: 배경, 초상화 ----
+ const applyImages = () => {
+   const r = document.documentElement.style;
+   if (imgState.bg) { r.setProperty('--bgimg', 'url("' + imgState.bg + '")'); r.setProperty('--bgop', String(imgState.bgOpacity)); } else { r.removeProperty('--bgimg'); r.setProperty('--bgop', '0'); }
+   $('bgOp').value = Math.round(imgState.bgOpacity * 100); 
+   drawCountry(curTalk); drawPGrid(); drawMyList();
+ };
+ const setImg = (st) => { if (st && st.note) log('[안내] ' + (window.SLLMI18n ? window.SLLMI18n.t(st.note) : st.note)); imgState = st; applyImages(); };
+ const CLASS_KO = { human: '인간형(인간)', mammalian: '포유류', reptilian: '파충류', avian: '조류', arthropoid: '절지류', molluscoid: '연체류', fungoid: '균류', plantoid: '식물류', infernal: '지옥형', lithoid: '암석형', necroid: '사령형', aquatic: '수생', toxoid: '독성형', robot: '로봇', machine: '기계', cybernetic: '사이버네틱' };
+ // 그림 키: 세이브 번호가 있으면 그 세이브 전용(제국은 제국 번호로 구분. 이름은 게임 중 자주 바뀌므로), 없으면 예전 이름 방식
+ const sidOf = () => (curTalk && curTalk.sid) || imgState.save || '';
+ const ckey = (t) => { const sid = (t && t.sid) || imgState.save || ''; return !t || !t.name ? null : sid ? 'save:' + sid + ':country:' + t.idx : 'country:' + t.name; };
+ const skey = (t) => { const sp = t && t.profile && t.profile.species; const sid = (t && t.sid) || imgState.save || ''; return !t || !t.name || !sp ? null : sid ? 'save:' + sid + ':species:' + sp : 'species:' + sp; };
+ const countryTarget = () => { const k = ckey(curTalk); return k ? { kind: 'portrait', key: k, label: curTalk.name } : null; };
+ const speciesTarget = () => { const k = skey(curTalk); return k ? { kind: 'portrait', key: k, label: curTalk.profile.species } : null; };
+ const needTarget = () => { const t = countryTarget(); if (!t) log('[안내] 대화 상대를 먼저 고르세요. (상단 연락처에서 통신 연결)'); return t; };
+ const imgFile = (dt) => { const f = dt && dt.files && dt.files[0]; return f && /\.(png|jpe?g|webp|gif)$/i.test(f.name) ? f : null; };
+ $('pUp').onclick = async () => { const t = needTarget(); if (t) setImg(await window.sllm.pickImage(t)); };
+ $('pReset').onclick = async () => { const t = needTarget(); if (t) setImg(await window.sllm.clearImage(t)); };
+ $('pSp').onclick = async () => { const t = speciesTarget(); if (!t) { log('[안내] 종족 정보가 있는 상대를 먼저 고르세요.'); return; } setImg(await window.sllm.pickImage(t)); };
+ const dropOn = (el, getTarget) => {
+   el.addEventListener('dragover', (e) => { e.preventDefault(); el.classList.add('drop'); });
+   el.addEventListener('dragleave', () => el.classList.remove('drop'));
+   el.addEventListener('drop', async (e) => { e.preventDefault(); el.classList.remove('drop'); const f = imgFile(e.dataTransfer); if (!f) { log('[안내] png, jpg, webp, gif 그림 파일을 끌어놓으세요.'); return; } const t = getTarget(); if (t) setImg(await window.sllm.dropImage(t, f)); });
+ };
+ dropOn($('curTh'), needTarget);
+ function drawMyList() {
+   const g = $('mylist'); if (!g) return; g.innerHTML = '';
+   const cur = imgState.save || '', labels = imgState.labels || {};
+   const parse = (k) => { const m = /^save:(\d+):(country|species):(.*)$/.exec(k); return m ? { sid: m[1], kind: m[2], rest: m[3] } : { sid: '', kind: k.slice(0, k.indexOf(':')), rest: k.slice(k.indexOf(':') + 1) }; };
+   const ents = Object.entries(imgState.images).filter(([k]) => !k.startsWith('class:') && !k.startsWith('delegate:')).map(([k, url]) => ({ k, url, ...parse(k) }));
+   const mk = (e) => {
+     const d = document.createElement('div'); d.className = 'it';
+     const im = document.createElement('img'); im.src = e.url;
+     const nm = document.createElement('span'); nm.className = 'nm';
+     const who = labels[e.k] || (e.kind === 'country' && e.sid ? '제국 #' + e.rest : e.rest);
+     nm.textContent = (e.kind === 'country' ? '제국 · ' : '종족 · ') + who + (e.sid ? '' : ' (예전 방식)');
+     const b = document.createElement('button'); b.textContent = '지우기'; b.onclick = async () => setImg(await window.sllm.clearImage({ kind: 'portrait', key: e.k }));
+     d.appendChild(im); d.appendChild(nm); d.appendChild(b); return d;
+   };
+   const mine = ents.filter((e) => e.sid === cur), others = ents.filter((e) => e.sid !== cur);
+   if (!cur) { const h = document.createElement('div'); h.className = 'hint'; h.textContent = '게임에서 세이브를 불러오거나 대화를 시작하면 이 세이브의 목록이 나옵니다.'; g.appendChild(h); }
+   else if (!mine.length) { const h = document.createElement('div'); h.className = 'hint'; h.textContent = '이 세이브에는 아직 없습니다. (세이브 #' + cur + ')'; g.appendChild(h); }
+   else { const h = document.createElement('div'); h.className = 'hint'; h.textContent = '지금 세이브 #' + cur; g.appendChild(h); }
+   mine.forEach((e) => g.appendChild(mk(e)));
+   if (others.length) { const dt = document.createElement('details'); const sm = document.createElement('summary'); sm.textContent = '다른 세이브·예전 방식 (' + others.length + '개)'; dt.appendChild(sm); others.forEach((e) => dt.appendChild(mk(e))); g.appendChild(dt); }
+ }
+ function drawClassGrid(id, prefix, fallbackPrefix, variants = false) {
+   const g = $(id); if (!g) return; g.innerHTML = '';
+   for (const k of CLASS_KEYS.slice(1)) {
+     const isOwn = (key) => !imgState.own || imgState.own.includes(key); // 애드온 그림은 '내가 바꾼 것'이 아니다
+     const mine = isOwn(prefix + k) ? imgState.images[prefix + k] : null, url = imgState.images[prefix + k] || (fallbackPrefix && imgState.images[fallbackPrefix + k]) || (imgState.defaults && imgState.defaults[k]);
+     const c = document.createElement('div'); c.className = 'pc';
+     const th = document.createElement('div'); th.className = 'th'; th.title = '누르면 그림을 올립니다. 그림 파일을 끌어놓아도 됩니다';
+     if (url) { const im = document.createElement('img'); im.src = url; th.appendChild(im); } else { th.innerHTML = '<span class="none">그림 없음</span>'; }
+     th.style.cursor = 'pointer'; th.onclick = async () => setImg(await window.sllm.pickImage({ kind: 'portrait', key: prefix + k }));
+     dropOn(th, () => ({ kind: 'portrait', key: prefix + k }));
+     const nm = document.createElement('div'); nm.textContent = CLASS_KO[k] || k; if (mine) nm.className = 'mine';
+     c.appendChild(th); c.appendChild(nm);
+     if (mine) { const b = document.createElement('button'); b.textContent = '기본으로'; b.onclick = async () => setImg(await window.sllm.clearImage({ kind: 'portrait', key: prefix + k })); c.appendChild(b); }
+     if (variants) { // 같은 계열의 다른 얼굴(#2..#8). 인물마다 한 장이 정해져 쓰인다
+       const vr = document.createElement('div'); vr.className = 'vars';
+       let next = 0;
+       for (let n = 2; n <= SLLMVariant.MAX; n++) {
+         const vk = prefix + k + '#' + n, vu = imgState.images[vk];
+         if (!vu) { if (!next) next = n; continue; }
+         const v = document.createElement('span'); v.className = 'vt'; v.title = `변형 ${n} — 누르면 바꿉니다`;
+         const im = document.createElement('img'); im.src = vu; v.appendChild(im); v.onclick = async () => setImg(await window.sllm.pickImage({ kind: 'portrait', key: vk }));
+         if (isOwn(vk)) { const x = document.createElement('b'); x.textContent = '✕'; x.title = '이 변형 지우기'; x.onclick = async (e) => { e.stopPropagation(); setImg(await window.sllm.clearImage({ kind: 'portrait', key: vk })); }; v.appendChild(x); }
+         vr.appendChild(v);
+       }
+       if (next) { const add = document.createElement('button'); add.className = 'vadd'; add.textContent = '+ 변형'; add.title = '같은 계열의 다른 얼굴을 추가합니다(최대 ' + SLLMVariant.MAX + '장)'; add.onclick = async () => setImg(await window.sllm.pickImage({ kind: 'portrait', key: prefix + k + '#' + next })); dropOn(add, () => ({ kind: 'portrait', key: prefix + k + '#' + next })); vr.appendChild(add); }
+       c.appendChild(vr);
+     }
+     g.appendChild(c);
+   }
+ }
+ function drawRuler() {
+   const g = $('rgrid'); if (!g) return; g.innerHTML = '';
+   const key = 'ruler:player', mine = (!imgState.own || imgState.own.includes(key)) ? imgState.images[key] : null, shown = imgState.images[key];
+   const c = document.createElement('div'); c.className = 'pc';
+   const th = document.createElement('div'); th.className = 'th'; th.title = '누르면 그림을 올립니다. 그림 파일을 끌어놓아도 됩니다';
+   if (shown) { const im = document.createElement('img'); im.src = shown; th.appendChild(im); } else { th.innerHTML = '<span class="none">기본(종족 계열)</span>'; }
+   th.style.cursor = 'pointer'; th.onclick = async () => setImg(await window.sllm.pickImage({ kind: 'portrait', key }));
+   dropOn(th, () => ({ kind: 'portrait', key }));
+   const nm = document.createElement('div'); nm.textContent = '플레이어 통치자'; if (mine) nm.className = 'mine';
+   c.appendChild(th); c.appendChild(nm);
+   if (mine) { const b = document.createElement('button'); b.textContent = '기본으로'; b.onclick = async () => setImg(await window.sllm.clearImage({ kind: 'portrait', key })); c.appendChild(b); }
+   g.appendChild(c);
+ }
+ // ---- 포트레이트 라이브러리: 미리 그려 둔 초상화를 계열별로 골라 제국·종족·계열·의원·통치자에 적용 ----
+ const I18N = (t) => (window.SLLMI18n ? window.SLLMI18n.t(t) : t);
+ const CLASS_KO2 = { biogenesis: '바이오제네시스', psionics: '사이오닉' };
+ const ROLE_KO = { default: '기본 옷', ruler: '통치자', governor: '총독', admiral: '제독', general: '장군', scientist: '과학자' };
+ const LIB_TARGETS = [['country', '대화 상대 제국'], ['species', '대화 상대 종족'], ['class', '계열 기본'], ['delegate', '의회 의원'], ['ruler', '플레이어 통치자']];
+ const LIB_SEX = [['', '모든 성별'], ['f', '♀ 여성'], ['m', '♂ 남성']];
+ let lib = { available: false, items: [] };
+ const libSt = (() => { let v = {}; try { v = JSON.parse(localStorage.getItem('sllm.libPick') || '{}') || {}; } catch { v = {}; } return Object.assign({ cls: '', role: 'default', sex: '', target: 'country', q: '' }, v); })();
+ const libSave = () => { try { localStorage.setItem('sllm.libPick', JSON.stringify({ cls: libSt.cls, role: libSt.role, sex: libSt.sex, target: libSt.target })); } catch { /* 저장 안 돼도 됨 */ } };
+ const libSexOf = (id) => /(^|_)female(_|$)|_f(_|$)/.test(id) ? 'f' : /(^|_)male(_|$)|_m(_|$)/.test(id) ? 'm' : '';
+ const libClsName = (k) => I18N(CLASS_KO[k] || CLASS_KO2[k] || k);
+ /** 항목 이름을 짧게: 계열 접두어·portrait·성별 단어를 떼고 번호 위주로(예: human_female_03_portrait → 03, humanoid_hp_06 → hp 06) */
+ const libShort = (id) => id.replace(/_portrait/g, '').replace(/^(humanoid|human|mammalian_ar|mammalian|reptilian|avian|arthropoid|molluscoid|fungoid|plantoid|infernal|lithoid|necroid|aquatic|toxoid|synthetics|cybernetics|psionic|bio)_?/, '').replace(/(^|_)(female|male)(?=_|$)/g, '$1').replace(/_[fm](?=_|$)/g, '').replace(/_+/g, ' ').trim() || id;
+ function libChips(el, opts, cur, on) {
+   el.innerHTML = '';
+   for (const [v, t, n] of opts) { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (v === cur ? ' on' : ''); b.textContent = t; if (n !== undefined) { const sm = document.createElement('small'); sm.textContent = n; b.appendChild(sm); } b.onclick = () => on(v); el.appendChild(b); }
+ }
+ function drawLib() {
+   const g = $('libgrid'); if (!g) return; g.innerHTML = '';
+   $('libEmpty').hidden = lib.available; $('libBar').hidden = !lib.available;
+   if (!lib.available) return;
+   const all = lib.items;
+   const classes = [...CLASS_KEYS.slice(1), 'biogenesis', 'psionics'].filter((k) => all.some((it) => it.cls === k));
+   if (libSt.cls && !classes.includes(libSt.cls)) libSt.cls = '';
+   libChips($('libTarget'), LIB_TARGETS.map(([v, t]) => [v, I18N(t)]), libSt.target, (v) => { libSt.target = v; libSave(); drawLib(); });
+   libChips($('libCls'), [['', I18N('모든 계열'), all.length], ...classes.map((k) => [k, libClsName(k), all.filter((it) => it.cls === k).length])], libSt.cls, (v) => { libSt.cls = v; libSave(); drawLib(); });
+   const inCls = all.filter((it) => !libSt.cls || it.cls === libSt.cls);
+   const roles = ['default', 'ruler', 'governor', 'admiral', 'general', 'scientist'].filter((r) => r === 'default' || inCls.some((it) => it.roles[r]));
+   if (!roles.includes(libSt.role)) libSt.role = 'default';
+   libChips($('libRole'), roles.map((r) => [r, I18N(ROLE_KO[r] || r), r === 'default' ? inCls.length : inCls.filter((it) => it.roles[r]).length]), libSt.role, (v) => { libSt.role = v; libSave(); drawLib(); });
+   libChips($('libSex'), LIB_SEX.map(([v, t]) => [v, I18N(t)]), libSt.sex, (v) => { libSt.sex = v; libSave(); drawLib(); });
+   const q = (libSt.q || '').trim().toLowerCase(), role = libSt.role;
+   const shown = inCls.filter((it) => (role === 'default' || it.roles[role]) && (!libSt.sex || libSexOf(it.id) === libSt.sex) && (!q || it.id.toLowerCase().includes(q)));
+   $('libCount').textContent = shown.length + ' / ' + all.length;
+   if (!shown.length) { const e = document.createElement('div'); e.className = 'empty'; e.textContent = I18N('조건에 맞는 초상화가 없습니다.'); g.appendChild(e); return; }
+   const groups = libSt.cls ? [[libSt.cls, shown]] : classes.map((k) => [k, shown.filter((it) => it.cls === k)]).filter(([, a]) => a.length);
+   for (const [k, items] of groups) {
+     if (!libSt.cls) { const h = document.createElement('div'); h.className = 'grp'; const b = document.createElement('b'); b.textContent = libClsName(k); const sm = document.createElement('small'); sm.textContent = items.length; h.appendChild(b); h.appendChild(sm); h.style.cursor = 'pointer'; h.title = I18N('이 계열만 보기'); h.onclick = () => { libSt.cls = k; libSave(); drawLib(); }; g.appendChild(h); }
+     const gr = document.createElement('div'); gr.className = 'gr';
+     for (const it of items) {
+       const url = it.roles[role === 'default' ? it.defaultRole : role]; if (!url) continue;
+       const c = document.createElement('div'); c.className = 'lc'; c.title = it.id + ' — ' + I18N('누르면 고른 대상에 적용합니다');
+       const im = document.createElement('img'); im.src = url; im.loading = 'lazy'; im.alt = ''; c.appendChild(im);
+       const sx = libSexOf(it.id); if (sx) { const s2 = document.createElement('span'); s2.className = 'g'; s2.textContent = sx === 'f' ? '♀' : '♂'; c.appendChild(s2); }
+       const nr = Object.keys(it.roles).length; if (nr > 1) { const r2 = document.createElement('span'); r2.className = 'r'; r2.textContent = '👔' + nr; r2.title = I18N('옷 종류') + ' ' + nr; c.appendChild(r2); }
+       const nm = document.createElement('div'); nm.className = 'n'; nm.dir = 'ltr'; nm.setAttribute('data-i18n-skip', ''); nm.textContent = libShort(it.id); c.appendChild(nm);
+       c.onclick = async () => { if (await applyLib(it, role)) { g.querySelectorAll('.lc.ok').forEach((x) => x.classList.remove('ok')); c.classList.add('ok'); } };
+       gr.appendChild(c);
+     }
+     g.appendChild(gr);
+   }
+ }
+ async function applyLib(it, role) {
+   const mode = libSt.target;
+   if ((mode === 'class' || mode === 'delegate') && !CLASS_KEYS.includes(it.cls)) { log('[안내] ' + I18N('이 계열은 종족 계열 기본 초상화로 쓸 수 없습니다. 제국이나 종족에 적용하세요.')); return false; }
+   const t = mode === 'country' ? countryTarget() : mode === 'species' ? speciesTarget() : mode === 'ruler' ? { kind: 'portrait', key: 'ruler:player' } : { kind: 'portrait', key: mode + ':' + it.cls };
+   if (!t) { log('[안내] ' + I18N(mode === 'country' ? '대화 상대를 먼저 고르세요. (상단 연락처에서 통신 연결)' : '종족 정보가 있는 상대를 먼저 고르세요.')); return false; }
+   const st = await window.sllm.applyLibraryPortrait(t, it.id, role === 'default' ? it.defaultRole : role);
+   setImg(st); return !(st && st.note);
+ }
+ { let tq = 0; $('libQ').oninput = () => { clearTimeout(tq); tq = setTimeout(() => { libSt.q = $('libQ').value; drawLib(); }, 150); }; }
+ window.sllm.getPortraitLibrary().then((l) => { lib = l; drawLib(); }, () => {});
+ function drawPGrid() { drawClassGrid('pgrid', 'class:', '', true); drawClassGrid('dgrid', 'delegate:', 'class:', true); drawClassGrid('lgrid', 'leader:', 'class:'); drawRuler(); }
+ $('bgPick').onclick = async () => setImg(await window.sllm.pickImage({ kind: 'bg' }));
+ $('bgClear').onclick = async () => setImg(await window.sllm.clearImage({ kind: 'bg' }));
+ $('bgOp').oninput = async () => { imgState.bgOpacity = $('bgOp').value / 100; applyImages(); };
+ $('bgOp').onchange = async () => setImg(await window.sllm.setImageOpts({ bgOpacity: $('bgOp').value / 100 }));
+ $('imgFolder').onclick = async () => log('[설정] ' + await window.sllm.openImagesFolder());
+ window.sllm.getImageState().then(setImg);
+ const themeSel = $('theme');
+ const customIds = { bg: 'c_bg', panel: 'c_panel', text: 'c_text', hi: 'c_hi', gold: 'c_gold' };
+ const customDefaults = { bg: '#0b0e12', panel: '#10151b', text: '#e7ebef', hi: '#dde4ea', gold: '#e2a95a' };
+ function showCustom() { $('custom').hidden = themeSel.value !== 'custom'; }
+ function readCustom() { const o = {}; for (const [k, id] of Object.entries(customIds)) o[k] = $(id).value; return o; }
+ themeSel.onchange = async () => { showCustom(); const c = readCustom(); applyTheme(themeSel.value, c); await window.sllm.setTheme({ theme: themeSel.value, custom: c }); };
+ for (const id of Object.values(customIds)) $(id).oninput = async () => { const c = readCustom(); applyTheme('custom', c); await window.sllm.setTheme({ theme: 'custom', custom: c }); };
+
+ // ---- 애드온 (2026-10-16)
+ let addonView = null;
+ function drawAddons(v) {
+   addonView = v; const box = $('addonList'); if (!box || !v) return; box.innerHTML = '';
+   if (!v.items.length) { box.innerHTML = `<div class="hint">설치된 애드온이 없습니다. 창작마당 모드라면 모드 폴더에 <code>${v.modPath}</code>를 넣고 게임에서 그 모드를 켜세요. 직접 넣을 때는 애드온 폴더에 폴더째 복사하세요.</div>`; return; }
+   v.items.forEach((a, i) => {
+     const d = document.createElement('div'); d.className = 'ad' + (a.enabled ? '' : ' off') + (a.invalid ? ' bad' : '');
+     const chips = [a.theme ? '테마' : '', a.images ? `그림 ${a.images}` : '', a.ethics ? `가치관 ${a.ethics}` : '', a.events ? `사건 ${a.events}` : '', a.empires ? `제국 ${a.empires}` : '', a.countryTypes ? `국가 종류 ${a.countryTypes}` : '', a.language ? `언어 ${a.language.name} (${a.language.code}) · 문구 ${a.language.strings}` : ''].filter(Boolean);
+     d.innerHTML = `<div class="rk">${a.rank}</div><div class="nm"><b></b><small></small></div>
+       <div class="ctl"><label class="sw"><input type="checkbox" ${a.enabled ? 'checked' : ''} ${a.invalid ? 'disabled' : ''}> 사용</label><button data-m="up" ${i === 0 ? 'disabled' : ''}>▲ 위로</button><button data-m="down" ${i === v.items.length - 1 ? 'disabled' : ''}>▼ 아래로</button>${a.theme ? '<button data-m="theme">테마 적용</button>' : ''}</div>
+       <div class="ds"></div><div class="ch">${chips.map((c) => `<span>${c}</span>`).join('')}</div>${a.warnings.length ? '<div class="wn"></div>' : ''}`;
+     d.querySelector('.nm b').textContent = a.name;
+     d.querySelector('.nm small').textContent = [a.version && 'v' + a.version, a.author, a.source === 'mod' ? '모드: ' + a.origin : '직접 설치: ' + a.origin].filter(Boolean).join(' · ');
+     d.querySelector('.ds').textContent = a.description || '';
+     if (a.theme) { const sm = document.createElement('span'); sm.className = 'sample'; for (const c of Object.values(a.theme.custom)) { const i2 = document.createElement('i'); i2.style.background = c; sm.appendChild(i2); } d.querySelector('.nm').appendChild(sm); }
+     if (a.warnings.length) d.querySelector('.wn').textContent = a.warnings.join('\n');
+     d.querySelector('input').onchange = (e) => saveAddons(v.items.map((x) => x.id), e.target.checked ? addonDisabled(v).filter((x) => x !== a.id) : [...addonDisabled(v), a.id]);
+     for (const b of d.querySelectorAll('button[data-m]')) b.onclick = async () => {
+       const ids = v.items.map((x) => x.id);
+       if (b.dataset.m === 'theme') { await window.sllm.setTheme({ theme: 'custom', custom: a.theme.custom }); applyTheme('custom', a.theme.custom); themeSel.value = 'custom'; for (const [k, id] of Object.entries(customIds)) if (a.theme.custom[k]) $(id).value = a.theme.custom[k]; showCustom(); $('addonStatus').textContent = `"${a.theme.name}" 테마를 적용했습니다. 인터페이스 탭의 사용자 지정 색으로 바뀌었습니다.`; return; }
+       const j = b.dataset.m === 'up' ? i - 1 : i + 1; [ids[i], ids[j]] = [ids[j], ids[i]]; saveAddons(ids, addonDisabled(v));
+     };
+     box.appendChild(d);
+   });
+ }
+ const addonDisabled = (v) => v.items.filter((x) => !x.enabled && !x.invalid).map((x) => x.id);
+ async function saveAddons(order, disabled) { drawAddons(await window.sllm.addonsSet({ order, disabled })); setImg(await window.sllm.getImageState()); $('addonStatus').textContent = '저장했습니다. 열려 있는 장면 창은 다시 열면 새 그림이 반영됩니다.'; }
+ $('addonFolder').onclick = async () => { $('addonStatus').textContent = await window.sllm.addonsOpenFolder(); };
+ $('addonLangTemplate').onclick = async () => { const r = await window.sllm.addonsLanguageTemplate(); const PK = (k, e) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(k, e) : k); $('addonStatus').textContent = r.ok ? PK(`언어 팩 뼈대를 만들었습니다: ${r.folder} (문구 ${r.strings}개, 패턴 ${r.patterns}개)`, `Created a language pack skeleton: ${r.folder} (${r.strings} strings, ${r.patterns} patterns)`) : PK('만들지 못했습니다: ', 'Could not create it: ') + r.error; };
+ $('addonReload').onclick = async () => { drawAddons(await window.sllm.addonsReload()); setImg(await window.sllm.getImageState()); $('addonStatus').textContent = '다시 읽었습니다.'; };
+ window.sllm.addonsList().then(drawAddons).catch(() => {});
+ const loadCss = async () => { $('usercss').textContent = await window.sllm.getCustomCss(); };
+ $('openCss').onclick = async () => log('[설정] ' + await window.sllm.openCustomCss());
+ $('reloadCss').onclick = async () => { await loadCss(); log('[설정] 내 CSS를 다시 불러왔습니다.'); };
+ loadCss();
+ const mailOn = $('mailOn'), topOn = $('topOn'), hideOn = $('hideOn'), dockSel = $('dock');
+ window.sllm.getSettings().then((st) => { themeSel.value = st.theme || 'stellaris'; for (const [k, id] of Object.entries(customIds)) $(id).value = (st.custom && st.custom[k]) || customDefaults[k]; showCustom(); applyTheme(themeSel.value, st.custom || {}); mailOn.checked = !!st.mailEnabled; topOn.checked = st.keepOnTop !== false; hideOn.checked = st.autoHide !== false; fxOn = st.fx !== false; $('fxOn').checked = fxOn; document.body.classList.toggle('fx', fxOn); dockSel.value = st.dock || 'right'; $('dockLock').checked = st.dockLock !== false; $('forceOverlay').checked = st.forceOverlay === true; $('corner').value = st.launcherCorner || 'br'; $('uiScale').value = Math.round((st.uiScale || 1) * 100); $('uiScaleV').textContent = $('uiScale').value + '%'; $('autoScale').checked = st.autoScale !== false; $('notifyOn').checked = st.notify !== false; $('autoTalk').checked = st.autoOpenOnTalk !== false; $('hotkey').value = st.hotkey === undefined ? 'Alt+F8' : st.hotkey; $('fadeOn').checked = st.fadeEnabled !== false; $('fadeOp').value = Math.round((st.fadeOpacity || 0.6) * 100); $('fadeOpV').textContent = $('fadeOp').value + '%'; });
+ $('fxOn').onchange = () => { fxOn = $('fxOn').checked; document.body.classList.toggle('fx', fxOn); window.sllm.setWindowPrefs({ fx: fxOn }); };
+ $('uiScale').oninput = () => { $('uiScaleV').textContent = $('uiScale').value + '%'; };
+ $('uiScale').onchange = () => window.sllm.setWindowPrefs({ uiScale: $('uiScale').value / 100 });
+ $('autoScale').onchange = () => window.sllm.setWindowPrefs({ autoScale: $('autoScale').checked });
+ $('notifyOn').onchange = () => window.sllm.setWindowPrefs({ notify: $('notifyOn').checked });
+ $('hotkey').onchange = async () => { const r = await window.sllm.setWindowPrefs({ hotkey: $('hotkey').value }); $('hotkeyMsg').textContent = r && r.hotkeyError ? r.hotkeyError : ''; };
+ $('fadeOn').onchange = () => window.sllm.setWindowPrefs({ fadeEnabled: $('fadeOn').checked });
+ $('fadeOp').oninput = () => { $('fadeOpV').textContent = $('fadeOp').value + '%'; };
+ $('fadeOp').onchange = () => window.sllm.setWindowPrefs({ fadeOpacity: Number($('fadeOp').value) / 100 });
+ $('autoTalk').onchange = () => window.sllm.setWindowPrefs({ autoOpenOnTalk: $('autoTalk').checked });
+ $('testToast').onclick = () => window.sllm.testToast();
+ // Mailbox navigation is handled by mailbox-ui.js.
+ $('corner').onchange = () => window.sllm.setWindowPrefs({ launcherCorner: $('corner').value });
+ // ---- 경로(세이브/게임 폴더) ----
+ function pathsDraw(r) {
+  const base = (p) => (p || '').split(/[\\/]/).slice(-3).join('\\');
+  $('saveInfo').textContent = (r.saveDir ? TX('직접 고름') + ': ' + r.saveDir : TX('자동 찾기')) + ' · ' + (r.latestSave ? TX('가장 최근 세이브') + ': ' + base(r.latestSave) : TX('세이브를 찾지 못했습니다'));
+  $('gameInfo').textContent = (r.gameDir ? TX('직접 고름') + ': ' + r.gameDir : TX('자동 찾기')) + ' · ' + (r.gameFound ? TX('찾음') + ': ' + r.gameFound : TX('게임 폴더를 찾지 못했습니다 (깃발 그림을 못 그립니다)'));
+  if (r.note) log('[설정] ' + r.note);
+ }
+ window.sllm.pathsInfo().then(pathsDraw);
+ $('pickSave').onclick = async () => pathsDraw(await window.sllm.pickSaveDir());
+ $('pickGame').onclick = async () => pathsDraw(await window.sllm.pickGameDir());
+ $('autoSave').onclick = async () => pathsDraw(await window.sllm.clearPaths('save'));
+ $('autoGame').onclick = async () => pathsDraw(await window.sllm.clearPaths('game'));
+ // ---- 은하 뉴스 ----
+ const mkEl = (tag, css, text) => { const e = document.createElement(tag); if (css) e.style.cssText = css; if (text !== undefined) e.textContent = text; return e; };
+ function paperOpen() { window.sllm.openPaper(); }
+ // ---- 제국별 연대기 ----
+ function gossipDraw(list) {
+  const box = $('gossipBox'); box.textContent = '';
+  if (!list.length) { box.textContent = TX('아직 엿들은 대화가 없습니다.'); return; }
+  for (const g of list.slice().reverse()) {
+   const h = document.createElement('div'); h.className = 'cap'; h.textContent = (g.date ? g.date + ' ' : '') + g.a + ' ↔ ' + g.b; box.appendChild(h);
+   for (const l of g.lines) { const d = document.createElement('div'); d.textContent = l.who + ': ' + l.say; box.appendChild(d); }
+  }
+ }
+ let gossipAll = [];
+ window.sllm.gossipList().then((l) => { gossipAll = l; gossipDraw(gossipAll); });
+ window.sllm.onGossip((g) => { gossipAll.push(g); gossipDraw(gossipAll); });
+ async function chronLoad() {
+  const box = $('chronBox');
+  let r; try { r = await window.sllm.chronList(); } catch (e) { box.textContent = '읽지 못했습니다: ' + e.message; return; }
+  const pane = $('dchron'), top = pane.scrollTop; // 갱신해도 읽던 자리를 유지한다
+  box.textContent = '';
+  if (!r.groups.length) { box.textContent = '아직 기록이 없습니다.'; return; }
+  for (const g of r.groups) {
+   const h = document.createElement('div'); h.className = 'sec cap'; h.textContent = '[' + g.name + ']'; box.appendChild(h);
+   for (const it of g.items) { const d = document.createElement('div'); d.textContent = (it.ruler ? it.ruler + ' - ' : '') + (it.date ? it.date + ' ' : '') + it.text; box.appendChild(d); }
+  }
+  pane.scrollTop = top;
+ }
+ const chronOpen = () => openPane === 'chron' && !$('drawer').hidden;
+ let chronBusy = false;
+ const chronRefresh = async () => { if (!chronOpen() || chronBusy) return; chronBusy = true; try { await chronLoad(); } finally { chronBusy = false; } };
+ window.sllm.onChronChanged(chronRefresh); // 기록이 새로 들어올 때
+ setInterval(chronRefresh, 30000); // 알림을 놓쳤을 때를 대비한 안전 갱신(창이 열려 있을 때만)
+ $('chronReload').onclick = chronLoad;
+ $('chronBook').onclick = async () => { // 은하 연대기 책 내보내기(2026-10-17)
+  const en = window.SLLMI18n && window.SLLMI18n.language() === 'en' /* i18n-data: 책은 한/영 중 하나로 엮음 */, L = (k, e) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(k, e) : k), b = $('chronBook'), m = $('chronBookMsg');
+  b.disabled = true; m.textContent = L(' 책을 엮는 중…', ' Binding the book…');
+  try { const r = await window.sllm.chronBookExport(en ? 'en' : 'ko'); m.textContent = r.ok ? L(' 저장했습니다: ', ' Saved: ') + r.path : r.canceled ? '' : ' ' + (r.error || L('실패했습니다', 'Failed')); }
+  catch (e) { m.textContent = ' ' + e.message; } finally { b.disabled = false; }
+ };
+ // ---- 일시정지 확인 ----
+ function paperDraw(g) {
+  const box = $('paperBox'); if (!g.paperNames) return; box.textContent = '';
+  const desc = ['보수 · 정통 일간지(평화·외계 우호에 비관, 군사 행동에 찬성)', '진보 · 속보 문체(평화·외계 우호를 환영, 전쟁·배타에 비판)', '중립 · 냉소적 시사 주간지(논평 없음, 사실에 가장 충실)'];
+  g.paperNames.forEach((n, i) => { const l = document.createElement('label'); const c = document.createElement('input'); c.type = 'checkbox'; c.checked = g.papers[i] !== false; c.onchange = () => { const arr = g.paperNames.map((_, j) => { const el = box.querySelectorAll('input')[j]; return el ? el.checked : true; }); window.sllm.gateSet({ papers: arr }); }; l.append(c, ' ' + n + ' — ' + (desc[i] || '')); box.appendChild(l); });
+ }
+ function gateDraw(g) {
+    $('gateBar').hidden = !g.blocked;
+ }
+ window.sllm.gateInfo().then((g) => { gateDraw(g); $('pauseGate').checked = !!g.enabled; $('aiEvery').value = g.aiEveryMin; $('gossipOn').checked = !!g.gossipOn; $('extraOn').checked = g.extraOn !== false; $('extraMax').value = g.extraMax || 1; paperDraw(g); });
+ window.sllm.onGate(gateDraw);
+ window.sllm.onMediaChanged(() => window.sllm.gateInfo().then(paperDraw).catch(() => {}));
+ $('gossipOn').onchange = () => window.sllm.gateSet({ gossipOn: $('gossipOn').checked });
+ $('extraOn').onchange = () => window.sllm.gateSet({ extraOn: $('extraOn').checked });
+ $('extraMax').onchange = () => window.sllm.gateSet({ extraMax: Number($('extraMax').value) }).then((g) => { $('extraMax').value = g.extraMax; });
+ $('pauseGate').onchange = async () => gateDraw(await window.sllm.gateSet({ enabled: $('pauseGate').checked }));
+ $('aiEvery').onchange = () => window.sllm.gateSet({ aiEveryMin: Number($('aiEvery').value) });
+ $('quitApp').onclick = () => window.sllm.quitApp();
+ window.sllm.onPane((n) => { if (n === 'chat') { if (openPane) showPane(openPane); } else if (n !== openPane) showPane(n); });
+ hideOn.onchange = () => window.sllm.setWindowPrefs({ autoHide: hideOn.checked });
+ const DEV_FEATURE_IDS = ['devEffects', 'devNewsTest', 'devSpeechTest', 'devSpeechCut', 'devRadioTest', 'devRadioIdle', 'devCouncilGuest', 'devCouncilCheck', 'devSummitTest', 'devSummitAi', 'devFaction', 'devFactionAi', 'devBanquet', 'devEspionage', 'devEspionageAi', 'devMediation', 'devMediationAi', 'devSummitReal', 'devGovReport', 'devDeliveryText', 'devBehaviorPreview', 'devClearTest'];
+ const setDevUi = (v) => { for (const id of ['devCouncilVote', 'devCouncilPercent', 'devCouncilNoAi', 'devVoteReset', ...DEV_FEATURE_IDS]) $(id).disabled = !v; $('devOn').checked = !!v; devOn = !!v; $('forceOverlay').disabled = !v; $('devTools').hidden = !v; };
+ const setSlots = (st) => { $('turns').value = st.councilTurns > 0 ? st.councilTurns : 20; $('speechTurns').value = st.speechTurns > 0 ? st.speechTurns : 20; $('slots').value = st.councilSlots > 0 ? st.councilSlots : ''; $('cmode').value = st.councilMode === 'equal' ? 'equal' : 'weighted'; };
+ $('cmode').onchange = () => window.sllm.setWindowPrefs({ councilMode: $('cmode').value }).then(setSlots);
+ $('slots').onchange = () => window.sllm.setWindowPrefs({ councilSlots: $('slots').value }).then(setSlots);
+ // ---- AI 연결
+ let AI = null, aiCur = null;
+ let rotationDispose = null, rotationGeneration = 0;
+ const rotationRoot = document.createElement('div'); $('aiCustom').append(rotationRoot);
+ async function renderRotation(c) {
+   const generation = ++rotationGeneration;
+   if(rotationDispose) rotationDispose(); rotationDispose=null; rotationRoot.replaceChildren();
+   if(!c || c.provider !== 'gemini' || c.baseUrl.replace(/\/+$/, '') !== 'https://generativelanguage.googleapis.com/v1beta/openai') return;
+   const L=(k,e)=>window.SLLMI18n?.pick(k,e) || k;
+   try {
+     let state=await window.sllm.aiRotationGet(c.id);
+     if(generation !== rotationGeneration) return;
+     rotationDispose=window.SLLMRotationSettings.mount(rotationRoot,{value:state.config,primaryModel:c.model,pick:L,
+       save:async config=>{ state=await window.sllm.aiRotationSave(c.id,state.revision,config); }});
+     const notice=document.createElement('p'),usage=document.createElement('div');usage.className='sllm-rotation-usage';usage.setAttribute('aria-live','polite');
+     const showUsage=st=>{
+       const times=(st.status?.entries || []).map(x=>x.until).filter(x=>x>Date.now());
+       notice.textContent=times.length?L('예상 재시도 시각: ', 'Estimated retry time: ')+new Date(Math.min(...times)).toLocaleString():'';
+       const u=st.usage||{},last=u.last,line=document.createElement('p');usage.replaceChildren(line);
+       if(!last)line.textContent=st.config?.enabled?L('현재 사용 모델: 아직 이번 실행에서 답한 요청이 없습니다.','Model in use: no request has been answered in this session yet.'):L('현재 사용 모델: 자동 전환이 꺼져 있어 선택한 모델만 사용합니다.','Model in use: fallback is off, so only the selected model is used.');
+       else{const model=last.model,primary=last.primary,time=new Date(last.at).toLocaleTimeString();line.textContent=last.switched?L(`현재 사용 모델: ${model} (주 모델 ${primary}에서 전환) · ${time}`,`Model in use: ${model} (switched from primary ${primary}) · ${time}`):L(`현재 사용 모델: ${model} (주 모델) · ${time}`,`Model in use: ${model} (primary) · ${time}`);}
+       if(u.conversations?.length){const p=document.createElement('p');p.textContent=L('진행 중인 대화가 유지하는 모델: ','Models kept by ongoing conversations: ')+u.conversations.map(x=>x.model+' × '+x.count).join(', ');usage.append(p);}
+     };
+     const refreshUsage=document.createElement('button');refreshUsage.type='button';refreshUsage.textContent=L('사용 상태 새로 고침','Refresh usage');
+     refreshUsage.onclick=async()=>{refreshUsage.disabled=true;try{const st=await window.sllm.aiRotationGet(c.id);if(generation===rotationGeneration)showUsage(st);}catch(_){}finally{refreshUsage.disabled=false;}};
+     showUsage(state);
+     rotationRoot.append(usage,refreshUsage,notice);
+   } catch(e) { if(generation===rotationGeneration) rotationRoot.textContent=L('모델 전환 설정을 읽지 못했습니다.', 'Could not read fallback settings.'); }
+ }
+
+ const aiMsg = (t, bad) => { $('aiMsg').textContent = t || ''; $('aiMsg').style.color = bad ? '#e88' : ''; };
+ const aiConn = () => ({ id: aiCur || '', name: $('aiName').value, provider: $('aiProv').value, baseUrl: $('aiBase').value, model: $('aiModel').value, saveKey: $('aiSave').checked });
+ const aiKeyHint = () => { $('aiKeyHint').style.display = $('aiProv').value === 'vertex' ? '' : 'none'; };
+ function aiFill(c) {
+  aiCur = c ? c.id : null; $('aiName').value = c ? c.name : ''; $('aiProv').value = c ? c.provider : 'openai'; $('aiBase').value = c ? c.baseUrl : AI.presets.openai.baseUrl;
+  $('aiModel').value = c ? c.model : ''; $('aiKey').value = ''; $('aiKey').placeholder = c && c.hasKey ? '저장된 키 사용 중 (바꾸려면 새 키 입력)' : 'API 키'; $('aiSave').checked = c ? c.saveKey : false; $('aiModels').innerHTML = ''; aiMsg(''); aiKeyHint(); renderRotation(c);
+ }
+ function aiRender(st) {
+  AI = st; $('aiMode').value = st.mode; $('aiP2').style.display = st.mode === 'player2' ? '' : 'none'; $('aiCustom').style.display = st.mode === 'custom' ? '' : 'none';
+  if (!$('aiProv').options.length) $('aiProv').innerHTML = Object.entries(st.presets).map(([k, v]) => `<option value="${k}">${v.label}</option>`).join('');
+  $('aiSel').innerHTML = st.conns.map((c) => `<option value="${c.id}">${(c.id === st.active && st.mode === 'custom' ? '● ' : '') + (c.name || c.provider)}</option>`).join('');
+  const c = st.conns.find((x) => x.id === (aiCur || st.active)) || st.conns[0]; if (c) $('aiSel').value = c.id; aiFill(c || null);
+  $('aiState').textContent = st.mode === 'custom' ? '현재: 개인 API 사용 중' : '현재: Player2 사용 중';
+  $('aiSave').disabled = !st.encrypt; if (!st.encrypt) $('aiSave').title = '이 컴퓨터는 암호화 저장을 지원하지 않습니다';
+ }
+ const aiBusy = (on) => ['aiTest', 'aiUseBtn', 'aiList', 'aiNew', 'aiDel'].forEach((i) => { $(i).disabled = on; });
+ $('aiCustom').style.display = 'none';
+ window.sllm.aiGet().then(aiRender).catch(() => {});
+ $('aiMode').onchange = async () => {
+  if ($('aiMode').value === 'player2') { const r = await window.sllm.aiUse('player2', ''); aiRender(r.state); aiMsg(r.applied ? '' : '진행 중인 작업이 끝나면 Player2로 바뀝니다.'); }
+  else { $('aiP2').style.display = 'none'; $('aiCustom').style.display = ''; if (!AI.conns.length) aiFill(null); }
+ };
+ $('aiP2Btn').onclick = async () => { $('aiP2Msg').textContent = '확인 중…'; const r = await window.sllm.aiP2Check(); $('aiP2Msg').textContent = r.message; $('aiP2Msg').style.color = r.ok ? '' : '#e88'; };
+ $('aiSel').onchange = () => { aiCur = $('aiSel').value; aiFill(AI.conns.find((x) => x.id === aiCur)); };
+ $('aiNew').onclick = () => { aiCur = null; aiFill(null); };
+ $('aiProv').onchange = () => { const p = AI.presets[$('aiProv').value]; $('aiBase').value = p.baseUrl; if (!$('aiName').value) $('aiName').value = p.label; aiKeyHint(); };
+ $('aiKeyShow').onclick = () => { const k = $('aiKey'); k.type = k.type === 'password' ? 'text' : 'password'; $('aiKeyShow').textContent = k.type === 'password' ? '보기' : '숨기기'; };
+ $('aiList').onclick = async () => { aiBusy(true); aiMsg('모델 목록을 가져오는 중…'); const r = await window.sllm.aiModels(aiConn(), $('aiKey').value).catch((e) => ({ ok: false, error: String(e) })); aiBusy(false);
+  if (r.ok) { $('aiModels').innerHTML = r.models.map((m) => `<option value="${m.replace(/"/g, '')}">`).join(''); aiMsg(`모델 ${r.models.length}개를 불러왔습니다. 칸을 눌러 고르세요.`); } else aiMsg(r.error, true); };
+ $('aiTest').onclick = async () => { aiBusy(true); aiMsg('시험 중…'); const r = await window.sllm.aiTest(aiConn(), $('aiKey').value).catch((e) => ({ ok: false, message: String(e) })); aiBusy(false); aiMsg(r.message, !r.ok); };
+ $('aiUseBtn').onclick = async () => {
+  aiBusy(true); const sv = await window.sllm.aiSave(aiConn(), $('aiKey').value).catch((e) => ({ ok: false, error: String(e) }));
+  if (!sv.ok) { aiBusy(false); aiMsg(sv.error, true); return; }
+  const u = await window.sllm.aiUse('custom', sv.id); aiBusy(false); aiCur = sv.id; aiRender(u.state);
+  aiMsg(u.ok ? (u.applied ? '저장했고 지금부터 이 연결을 씁니다.' : '저장했습니다. 진행 중인 작업이 끝나면 적용됩니다.') : u.error, !u.ok);
+ };
+ $('aiDel').onclick = async () => { if (!aiCur || !confirm('이 연결을 삭제할까요? 저장된 키도 지워집니다.')) return; const r = await window.sllm.aiDelete(aiCur); aiCur = null; aiRender(r.state); };
+ $('speechTurns').onchange = () => window.sllm.setWindowPrefs({ speechTurns: $('speechTurns').value }).then(setSlots);
+ $('turns').onchange = () => window.sllm.setWindowPrefs({ councilTurns: $('turns').value }).then(setSlots);
+ $('slotsAuto').onclick = () => window.sllm.setWindowPrefs({ councilSlots: 0 }).then(setSlots);
+ window.sllm.getSettings().then(setSlots);
+ $('devOn').onchange = () => window.sllm.setWindowPrefs({ devMode: $('devOn').checked }).then((st) => syncDevVotes(st));
+ window.sllm.onDev(setDevUi);
+ const syncDevVotes = (st) => { $('devCouncilVote').value = st.devCouncilVote || 'normal'; $('devCouncilPercent').value = st.devCouncilPercent || 85; $('devCouncilNoAi').checked = st.devCouncilNoAi === true; setDevUi(st.devMode); };
+ window.sllm.getSettings().then(syncDevVotes);
+ $('devCouncilVote').onchange = () => window.sllm.setWindowPrefs({ devCouncilVote: $('devCouncilVote').value }).then(syncDevVotes);
+ $('devCouncilPercent').onchange = () => window.sllm.setWindowPrefs({ devCouncilPercent: Number($('devCouncilPercent').value) }).then(syncDevVotes);
+ $('devCouncilNoAi').onchange = () => window.sllm.setWindowPrefs({ devCouncilNoAi: $('devCouncilNoAi').checked }).then(syncDevVotes);
+ const showCompat = async () => { const data=await window.sllm.compatibilityInfo(); $('compatReport').textContent=JSON.stringify(data,null,2); };
+ $('compatInfo').onclick=showCompat;
+ $('compatReload').onclick=async()=>{await window.sllm.compatibilityReload();await showCompat();};
+ $('compatOpen').onclick=async()=>{const r=await window.sllm.compatibilityOpen();if(!r.ok)$('compatReport').textContent=r.error||'폴더를 열지 못했습니다.';};
+ $('devVoteReset').onclick = () => window.sllm.setWindowPrefs({ devCouncilVote: 'normal', devCouncilPercent: 85, devCouncilNoAi: false }).then(syncDevVotes);
+ $('devAlert').onclick = async () => log(I18N((await window.sllm.devAgendaAlert()) ? '[개발자] 안건 상정 알림을 띄웠습니다. 알림의 버튼을 눌러야 의회가 열립니다.' : '[개발자] 개발자 모드가 꺼져 있습니다.'));
+ $('devCouncil').onclick = async () => log(I18N((await window.sllm.devCouncil($('agenda').value)) ? '[개발자] 의회 소집 창을 열었습니다.' : '[개발자] 개발자 모드가 꺼져 있습니다.'));
+ // 새 기능 화면 시험(게임 없이): 본체가 개발자 모드·게임 연결을 다시 확인하고, 결과 문장을 돌려준다(src/features/dev-tools.ts)
+ const devFeature = async (id, label, call, after) => {
+   const b = $(id); b.disabled = true; label = I18N(label); $('devFeatStatus').textContent = label + ': ' + I18N('진행 중…');
+   try {
+     const r = await call(), msg = I18N(r && r.ok ? (r.message || '완료') : ((r && r.error) || '실패'));
+     log('[개발자] ' + label + ': ' + msg); $('devFeatStatus').textContent = label + ': ' + msg;
+     if (r && Array.isArray(r.lines) && r.lines.length) { $('devFeatOut').value = r.lines.join('\n'); $('devFeatOut').hidden = false; }
+     if (r && r.ok && after) after(r);
+   } catch (e) { const msg = I18N('실패') + ': ' + (e && e.message || e); log('[개발자] ' + label + ': ' + msg); $('devFeatStatus').textContent = label + ': ' + msg; }
+   finally { b.disabled = !$('devOn').checked; }
+ };
+ $('devNewsTest').onclick = () => devFeature('devNewsTest', '신문 시험', () => window.sllm.devNewsTest());
+ $('devSpeechTest').onclick = () => devFeature('devSpeechTest', '연설 시험', () => window.sllm.devSpeechTest());
+ $('devSpeechCut').onclick = () => devFeature('devSpeechCut', '연설 잘린 응답 시험', () => window.sllm.devSpeechCut());
+ $('devRadioTest').onclick = () => devFeature('devRadioTest', '라디오 시험', () => window.sllm.devRadioTest());
+ $('devRadioIdle').onclick = () => devFeature('devRadioIdle', '라디오 쉼 안내 시험', () => window.sllm.devRadioIdle());
+ $('devCouncilGuest').onclick = () => devFeature('devCouncilGuest', '의회 시험(비회원 가상 의석)', () => window.sllm.devCouncilGuest(), () => setTimeout(() => window.sllm.toastAction(), 1800)); // 안건 알림이 뜨는 1.5초 뒤 '안건 회의 직접 참여하기'를 대신 누른다
+ $('devCouncilCheck').onclick = () => devFeature('devCouncilCheck', '집계 재확인 시험', () => window.sllm.devCouncilCheck());
+ $('inviteLeader').onclick = () => window.sllm.dinnerOpen();
+ $('btnSummit').onclick = async () => { const b = $('btnSummit'); b.disabled = true; try { const r = await window.sllm.summitOpen(); if (!r.ok) alert(r.error || '회담을 열지 못했습니다.'); } catch (e) { alert(e.message); } finally { b.disabled = false; } };
+ $('devEffects').onclick = () => devFeature('devEffects', '게임 효과 검증', () => window.sllm.devEffects());
+ $('devEspionage').onclick = () => devFeature('devEspionage', '첩보 대응 시험', () => window.sllm.devEspionage('scripted'));
+ $('devEspionageAi').onclick = () => devFeature('devEspionageAi', '첩보 대응 시험 (실제 AI)', () => window.sllm.devEspionage('ai'));
+ $('devBanquet').onclick = () => devFeature('devBanquet', '지도자 만찬장 시험', () => window.sllm.devBanquet());
+ $('devMediation').onclick = () => devFeature('devMediation', '평화 중재 시험', () => window.sllm.devMediation('scripted'));
+ $('devMediationAi').onclick = () => devFeature('devMediationAi', '평화 중재 AI 시험', () => window.sllm.devMediation('ai'));
+ $('medWarsLoad').onclick = () => devFeature('medWarsLoad', 'AI 끼리 전쟁 목록', async () => { const r = await window.sllm.mediationGameWars(); const sel = $('medWarSel'); sel.replaceChildren(); for (const w of r.wars || []) { const o = document.createElement('option'); o.value = w.a + ':' + w.d; o.textContent = `${w.name || '전쟁'} — ${w.aName} ↔ ${w.dName}`; sel.append(o); } if (!sel.options.length) { const o = document.createElement('option'); o.value = ''; o.textContent = '(중재할 전쟁 없음)'; sel.append(o); } return r.ok ? { ok: true, message: `${(r.wars || []).length}개 전쟁` } : r; });
+ const medOpen = (id, mode) => devFeature(id, '실제 전쟁 중재', () => { const [a, d] = ($('medWarSel').value || '').split(':').map(Number); return a && d ? window.sllm.mediationGameOpen(a, d, mode) : Promise.resolve({ ok: false, error: '먼저 전쟁 목록을 읽고 고르세요.' }); });
+ $('medGameOpen').onclick = () => medOpen('medGameOpen', 'scripted');
+ $('medGameOpenAi').onclick = () => medOpen('medGameOpenAi', 'ai');
+ $('spyGame').onclick = () => devFeature('spyGame', '첩보 대응 (게임 적용)', () => window.sllm.devEspionage('scripted', Number($('tid').value)));
+ $('spyGameAi').onclick = () => devFeature('spyGameAi', '첩보 대응 (실제 AI, 게임 적용)', () => window.sllm.devEspionage('ai', Number($('tid').value)));
+ $('devSummitAi').onclick = () => devFeature('devSummitAi', '연방 AI 시험', () => window.sllm.devSummitAi());
+ $('devFaction').onclick = () => devFeature('devFaction', '내각 회의 시험', () => window.sllm.devFacDemo(false));
+ $('devFactionAi').onclick = () => devFeature('devFactionAi', '내각 회의 AI 시험', () => window.sllm.devFacDemo(true));
+ $('btnFaction').onclick = async () => { const b = $('btnFaction'); b.disabled = true; try { const r = await window.sllm.facOpen(); if (!r.ok) alert(window.SLLMI18n ? window.SLLMI18n.t(r.error || '회의를 열지 못했습니다.') : (r.error || '회의를 열지 못했습니다.')); } catch (e) { alert(e.message); } finally { b.disabled = false; } };
+ $('devSummitTest').onclick = () => devFeature('devSummitTest', '연방 정상회담 시험', () => window.sllm.devSummitTest());
+ $('devSummitReal').onclick = () => devFeature('devSummitReal', '실제 연방 읽기', () => window.sllm.devSummitReal());
+ $('devGovReport').onclick = () => devFeature('devGovReport', '총독 보고 시험', () => window.sllm.devGovReport());
+ $('devDeliveryText').onclick = () => devFeature('devDeliveryText', '전송 실패 메시지 시험', () => window.sllm.devDeliveryText());
+ $('devBehaviorPreview').onclick = () => devFeature('devBehaviorPreview', '대화 속내 미리보기', () => window.sllm.devBehaviorPreview());
+ $('devClearTest').onclick = () => devFeature('devClearTest', '시험 데이터 지우기', () => window.sllm.devClearTest());
+ $('forceOverlay').onchange = () => window.sllm.setWindowPrefs({ forceOverlay: $('forceOverlay').checked });
+ $('dockLock').onchange = () => window.sllm.setWindowPrefs({ dockLock: $('dockLock').checked });
+ dockSel.onchange = () => window.sllm.setWindowPrefs({ dock: dockSel.value });
+ $('resetPos').onclick = () => window.sllm.setWindowPrefs({ resetPos: true });
+ $('wmin').onclick = () => window.sllm.winCtl('min');
+ $('wclose').onclick = () => window.sllm.winCtl('close');
+ $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) $('send').click(); });
+ topOn.onchange = async () => { const st = await window.sllm.setKeepOnTop(topOn.checked); log('[설정] 항상 게임 위에 ' + (st.keepOnTop ? '켜짐' : '꺼짐')); };
+ mailOn.onchange = async () => { const st = await window.sllm.setMailEnabled(mailOn.checked); log('[설정] AI 편지 ' + (st.mailEnabled ? '켜짐 (실험 기능)' : '꺼짐')); };
+ window.sllm.onMail((l) => log('[편지 도착] ' + l.name + '에게서 편지가 왔습니다.'));
+ window.sllm.onMailStatus((s) => log('[편지] ' + s));
+ window.sllm.onKbChat((m) => { if (m.me) log('[나·게임 안] ' + m.me); if (m.ai) log('[AI] ' + m.ai); if (m.note) log('[안내] ' + m.note); if (m.proposal) showProposal(m.proposal); });
+ window.sllm.onMood((s) => log('[관계] ' + s));
+ window.sllm.onStatus((s) => { $('status').textContent = s; $('status').title = s; });
+ $('send').onclick = async () => {
+   const q = $('q'); const text = q.value; if (!text.trim()) return; q.value = '';
+   log('[나] ' + text);
+   $('send').disabled=true;$('q').disabled=true;
+   try {
+     const r = await window.sllm.chat(text);
+     log('[AI] ' + r.say);
+     if (r.note) log('[안내] ' + r.note);
+     if (r.proposal) showProposal(r.proposal);
+     if(r.ended)dialogEnded=true;
+   } catch (e) { log('[오류] ' + e.message); }
+   finally{$('send').disabled=dialogEnded;$('q').disabled=dialogEnded;}
+ };
+ function showProposal(p) {
+   const box = $('proposal');
+   box.innerHTML = '';
+   const t = document.createElement('div'); t.textContent = '제안: ' + p.text; box.appendChild(t);
+   const ok = document.createElement('button'); ok.textContent = '수락'; ok.className = 'primary';
+   const no = document.createElement('button'); no.textContent = '거절'; no.style.marginLeft = '6px';
+   ok.onclick = async () => { if (p.confirm && !window.confirm('정말로 전쟁을 시작합니까? 되돌릴 수 없습니다.')) return; box.innerHTML = ''; try { const r = await window.sllm.accept(p.id); log('[결과] ' + r.text); } catch (e) { log('[오류] ' + e.message); } };
+   no.onclick = async () => { box.innerHTML = ''; await window.sllm.reject(p.id); log('[결과] 제안을 거절했습니다.'); };
+   box.appendChild(ok); box.appendChild(no);
+ };
+ $('finish').onclick = async () => log('[대화] ' + await window.sllm.finish());
+ $('peace').onclick = async () => log('[평화 시험] ' + await window.sllm.forcePeace(Number($('tid').value)));
+ $('apply').onclick = async () => log('[전송] 요청 ' + await window.sllm.apply(Number($('tid').value), Number($('amt').value)));
+</script><script src="media-settings.js"></script><script src="terminal-ui.js"></script><script src="mailbox-ui.js"></script><script src="environment-ui.js"></script><script src="release-ui.js"></script><script src="response-language-ui.js"></script><script src="support-ui.js"></script></body></html>
+
+
+

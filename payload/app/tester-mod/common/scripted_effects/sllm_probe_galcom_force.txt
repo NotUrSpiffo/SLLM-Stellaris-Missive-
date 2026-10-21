@@ -1,0 +1,53 @@
+# SLLM Probe - forced Galactic Community decision with a verified result (EXPERIMENT ONLY).
+# Scope: the player's country. Parameters: REQ = request number (keeps every log line unique), KEY = resolution key.
+# Result line: SLLM:GCFORCE req / mode / key / state
+#   state=stale       the Community is NOT voting on KEY any more (ended or replaced): nothing was done
+#   state=done        the command ran and the Community no longer votes on KEY
+#   state=unconfirmed the command ran but the Community still seems to vote on KEY (the app must re-check before doing anything)
+sllm_probe_gc_force_pass = {
+	set_variable = { which = sllm_out_req value = $REQ$ }
+	if = {
+		limit = { is_voting_on_resolution = $KEY$ }
+		pass_resolution = $KEY$
+		if = {
+			limit = { is_voting_on_resolution = $KEY$ }
+			log = "SLLM:GCFORCE/;/req=\\[This.sllm_out_req]/;/mode=pass/;/sid=\\[This.sllm_save_id]/;/state=unconfirmed"
+		}
+		else = {
+			log = "SLLM:GCFORCE/;/req=\\[This.sllm_out_req]/;/mode=pass/;/sid=\\[This.sllm_save_id]/;/state=done"
+		}
+	}
+	else = {
+		log = "SLLM:GCFORCE/;/req=\\[This.sllm_out_req]/;/mode=pass/;/sid=\\[This.sllm_save_id]/;/state=stale"
+	}
+}
+
+sllm_probe_gc_force_cancel = {
+	set_variable = { which = sllm_out_req value = $REQ$ }
+	if = {
+		limit = { is_voting_on_resolution = $KEY$ }
+		cancel_resolution = $KEY$
+		if = {
+			limit = { is_voting_on_resolution = $KEY$ }
+			log = "SLLM:GCFORCE/;/req=\\[This.sllm_out_req]/;/mode=cancel/;/sid=\\[This.sllm_save_id]/;/state=unconfirmed"
+		}
+		else = {
+			log = "SLLM:GCFORCE/;/req=\\[This.sllm_out_req]/;/mode=cancel/;/sid=\\[This.sllm_save_id]/;/state=done"
+		}
+	}
+	else = {
+		log = "SLLM:GCFORCE/;/req=\\[This.sllm_out_req]/;/mode=cancel/;/sid=\\[This.sllm_save_id]/;/state=stale"
+	}
+}
+
+# Read-only status: is the Community still voting on KEY? (used when no result line came back)
+sllm_probe_gc_status = {
+	set_variable = { which = sllm_out_req value = $REQ$ }
+	if = {
+		limit = { is_voting_on_resolution = $KEY$ }
+		log = "SLLM:GCSTATE/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]/;/voting=1"
+	}
+	else = {
+		log = "SLLM:GCSTATE/;/req=\\[This.sllm_out_req]/;/sid=\\[This.sllm_save_id]/;/voting=0"
+	}
+}

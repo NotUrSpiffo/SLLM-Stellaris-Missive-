@@ -1,0 +1,30 @@
+# SLLM Probe - planet decision that opens the governor chat in the companion app (EXPERIMENT ONLY).
+# Appears in the planet screen's decision tab. Free and instant; it only writes one line to game.log.
+decision_sllm_talk_governor = {
+	owned_planets_only = yes
+	sound = event_administrative_work
+	icon = decision_deal
+
+	resources = {
+		category = decisions
+	}
+
+	potential = {
+		exists = owner
+		owner = { is_ai = no }
+	}
+
+	allow = {
+		exists = leader
+	}
+
+	effect = {
+		if = { limit = { NOT = { is_variable_set = sllm_gov_btn_seen } } set_variable = { which = sllm_gov_btn_seen value = 0 } }
+		change_variable = { which = sllm_gov_btn_seen value = 1 }
+		log = "SLLM:GOVTALK/;/seen=\\[This.sllm_gov_btn_seen]/;/name=\\[This.GetName]"
+	}
+
+	ai_weight = {
+		weight = 0
+	}
+}

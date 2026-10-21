@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "id": "gigastructures",
+  "name": "Gigastructures event bridge",
+  "matchModIds": [
+    "1121692237"
+  ],
+  "countryTypes": {},
+  "events": {
+    "major_event": {
+      "title": "기가스트럭처 주요 사건",
+      "description": "연동 패치가 실제 발생을 확인해 전달한 사건입니다."
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "id": "my_mod",
+  "name": "My mod compatibility",
+  "matchModIds": [],
+  "ethics": {
+    "ethic_example": {
+      "name": "예시 가치관",
+      "description": "이곳에 가치관의 의미를 적습니다.",
+      "behavior": "대화에서 중시하는 가치와 태도를 적습니다."
+    }
+  },
+  "countryTypes": {
+    "example_country": {
+      "contact": true,
+      "actions": false,
+      "description": "연락은 허용하되 게임 내 조약·호감 변경은 비활성화"
+    }
+  },
+  "empires": {
+    "제국 이름": {
+      "lore": "제국의 배경 설명을 직접 지정합니다.",
+      "flag": "my-flag.png"
+    }
+  },
+  "events": {
+    "major_event": {
+      "title": "모드 고유 사건",
+      "description": "실제로 발생한 사건만 전달합니다."
+    }
+  }
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "key": "standard",
+    "file": "office-ai-v1.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-bf104a25-d58a-4766-aefb-7efa1dc4cf77.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "authoritarian",
+    "file": "office-authoritarian.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-7150ca8a-60ee-4557-9275-5a9546638ab7.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "egalitarian",
+    "file": "office-egalitarian.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-4a9093e1-e8e9-40d2-9a43-c0884bb60106.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "xenophile",
+    "file": "office-xenophile.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-2b35307d-5e12-4495-a4ff-e2e23b56d5ee.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "xenophobe",
+    "file": "office-xenophobe.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-d6cc7d10-4722-490a-803f-ac99a7ab6f1b.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.  Remove symbols from the extra center banners too, keep these blank. No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "militarist",
+    "file": "office-militarist.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-8784159f-d58f-4ab8-b1f6-60b36e639151.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "pacifist",
+    "file": "office-pacifist.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-c8fb05c9-67ca-4afb-854c-206b1b32b662.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "spiritualist",
+    "file": "office-spiritualist.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-d3001be6-d262-40c1-9132-35e7324813ce.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors.   No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  },
+  {
+    "key": "gestalt",
+    "file": "office-gestalt.png",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-61a6824f-a732-40f9-b52a-4114e60b2c36.png",
+    "prompt": "Precise edit of this game office background. Preserve EXACT original dimensions 1448x1086, camera, desk, projector position, furniture, light and architecture. Remove ALL decorative emblems/symbols from the hanging banners and wall standards, leaving plain fabric with its existing folds and lighting. There must be two main plain vertical fabric banners for later dynamic emblems, one at x=19%, one at x=81%, from y=5% to y=38%, width about 5%. Keep their original theme colors. Create these two simple dark violet organic silk standards in front of the side columns, no logos.  No text, no new logo or crest anywhere. All other pixels and composition as unchanged as possible."
+  }
+]

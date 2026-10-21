@@ -1,0 +1,11 @@
+namespace = sllm_dinner
+country_event = {
+ id = sllm_dinner.1
+ title = SLLM_DINNER_TITLE
+ desc = SLLM_DINNER_DESC
+ is_triggered_only = yes
+ trigger = { is_ai = no has_country_flag = sllm_dinner_open }
+ option = { name = SLLM_DINNER_GRAND allow = { has_resource = { type = energy amount >= 1000 } } sllm_probe_dinner_grand = yes }
+ option = { name = SLLM_DINNER_NORMAL allow = { has_resource = { type = energy amount >= 100 } } sllm_probe_dinner_normal = yes }
+ option = { name = SLLM_DINNER_HUMILIATING sllm_probe_dinner_humiliating = yes }
+}

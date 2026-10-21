@@ -1,0 +1,12 @@
+# SLLM Probe - tells the companion app when the Galactic Community acts on a resolution (EXPERIMENT ONLY).
+# On-actions from mods are merged with the game's own lists.
+# this/root = proposer, from = target if the resolution has one.
+on_resolution_put_to_vote = {
+	events = { sllm_galcom.1 sllm_galcom.10 sllm_galcom.12 }
+}
+on_resolution_passed = {
+	events = { sllm_galcom.2 }
+}
+on_resolution_failed = {
+	events = { sllm_galcom.3 }
+}

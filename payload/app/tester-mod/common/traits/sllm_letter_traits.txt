@@ -1,0 +1,20 @@
+# SLLM - 개인 서신 부탁을 들어준 지도자의 특성(2026-10-18). 앱이 부탁 결과로 붙인다(무작위·레벨업으로는 얻지 않음, 영구).
+# 키·형식은 바닐라 00_generic_leader_traits.txt(leader_trait_adaptable: self_modifier species_leader_exp_gain) 와 같다.
+sllm_trait_letter_trusted = {
+	leader_trait_type = veteran
+	randomized = no
+	notify_on_gained = no
+	inline_script = {
+		script = trait/icon
+		CLASS = leader
+		ICON = "GFX_leader_trait_adaptable"
+		RARITY = veteran
+		COUNCIL = no
+		TIER = 1
+	}
+	self_modifier = {
+		species_leader_exp_gain = 0.1
+	}
+	leader_class = { commander scientist official }
+	selectable_weight = 0
+}

@@ -1,0 +1,20 @@
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=podium]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-podium-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=plaza]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-plaza-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=parade]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-parade-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=garden]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-garden-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=temple]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-temple-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=academy]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-academy-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=forum]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-forum-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=bastion]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-bastion-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=core]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-core-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage[data-stage=nexus]{background:linear-gradient(#0002,#0005),url('assets/rooms/speech-nexus-v2.png') center/cover no-repeat}
+html:not([data-scene]) body[data-room=speech] #stage::before,html:not([data-scene]) body[data-room=speech] #stage::after,html:not([data-scene]) body[data-room=speech] #planet{display:none}
+body[data-room=speech] #subtitle{background:#06121bd9;border:1px solid #8fa9ae44;font-size:clamp(16px,1.4vw,23px);max-height:28%;overflow-y:auto;backdrop-filter:blur(3px)}
+html:not([data-scene]) body[data-room=speech] #stage #podium{bottom:30%}
+
+/* One transparent lectern asset shared across all speech venues. */
+body[data-room=speech] #podium{width:170px;margin-left:-85px}
+body[data-room=speech] #podium .speech-lectern{display:block;width:100%;height:auto;position:relative;z-index:2;pointer-events:none}
+body[data-room=speech] #podium #lead{margin-bottom:-40px;border:0;border-radius:0;background:transparent;box-shadow:none}
+body[data-room=speech] #podium .speaker-placeholder{margin-bottom:-40px}
+body[data-room=speech] #mics{display:none}

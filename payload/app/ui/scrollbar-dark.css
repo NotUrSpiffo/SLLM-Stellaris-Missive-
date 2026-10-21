@@ -1,0 +1,12 @@
+/* 공용 어두운 스크롤바(2026-10-17): window-chrome.css 를 쓰지 않는 창(첩보·중재·만찬 초대 등)의 흰 기본 스크롤바와 선택 목록 스크롤바를 막는다.
+   페이지 전체 스크롤은 그대로 두고 색만 바꾼다(window-chrome.css 처럼 html/body 를 막지 않는다). */
+:root { color-scheme: dark; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, #587389) var(--scrollbar-track, var(--bg, #0c1622));
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: var(--scrollbar-track, var(--bg, #0c1622)); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb, #587389); border: 2px solid var(--scrollbar-track, var(--bg, #0c1622)); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dim, #7fa3ad); }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }

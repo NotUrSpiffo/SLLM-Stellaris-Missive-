@@ -1,0 +1,4 @@
+# SLLM 정책 퀘스트(2026-10-18): 내부 정책 목표를 지키지 못하면 1년 동안 붙는 불이익. 버프는 기존 sllm_buff_* 를 쓴다.
+sllm_policy_broken_in = {
+	planet_stability_add = -5
+}

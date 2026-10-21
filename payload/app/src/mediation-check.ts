@@ -1,0 +1,52 @@
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
+import { newMediation, mediationFixture, parseMediationReplies, advanceMediation, scriptedMediationReplies, mediationMessages, MediationRecords, reviseMediationOffer, offerSummary, validateMediationOffer } from './mediation';
+export function runMediationChecks(){
+ const check=(ok:boolean,name:string)=>{console.log((ok?'PASS ':'FAIL ')+'mediation: '+name);if(!ok)process.exitCode=1;};
+ const throws=(f:()=>unknown)=>{try{f();return false;}catch{return true;}};
+ const start=newMediation(mediationFixture(),'scripted');
+ check(start.phase==='invitation'&&start.gameApplied===false,'start is invitation, no game effect');
+ const invite=advanceMediation(start,0,'invite',scriptedMediationReplies(start));
+ check(invite.phase==='negotiating'&&invite.round===0,'attending is not peace agreement');
+ check(start.phase==='invitation'&&start.log.length===0,'transition does not mutate original');
+ const counter=advanceMediation(invite,1,'proposal',scriptedMediationReplies(invite));
+ check(counter.phase==='negotiating'&&counter.replies[1].decision==='counter','counteroffer blocks agreement');
+ const agreed=advanceMediation(counter,2,'same unconditional proposal',scriptedMediationReplies(counter));
+ check(agreed.phase==='agreed'&&agreed.round===2&&!agreed.gameApplied,'both agree to same proposal without game application');
+ const compromise=reviseMediationOffer(agreed,{basis:'negotiated',claims:['altair','vega'],goalFor:null});
+ check(compromise.phase==='negotiating'&&compromise.replies.length===0&&compromise.revision===agreed.revision+1,'new terms reset both consents and reopen unsaved agreement');
+ check(offerSummary(compromise).length===2&&offerSummary(compromise)[0].includes('알타이르'),'reciprocal claims have explicit destinations');
+ check(throws(()=>validateMediationOffer(start.war,{basis:'white_peace',claims:['altair'],goalFor:null})),'white peace cannot smuggle transfers');
+ check(throws(()=>validateMediationOffer(start.war,{basis:'negotiated',claims:['unknown'],goalFor:null})),'unknown claim rejected');
+ check(throws(()=>validateMediationOffer(start.war,{basis:'negotiated',claims:['altair','altair'],goalFor:null})),'duplicate claim rejected');
+ check(throws(()=>validateMediationOffer(start.war,{basis:'negotiated',claims:[],goalFor:99})),'foreign war goal rejected');
+ check(throws(()=>reviseMediationOffer({...agreed,recorded:true},{basis:'white_peace',claims:[],goalFor:null})),'saved agreement immutable');
+ const statusQuo=reviseMediationOffer(invite,{basis:'status_quo',claims:[],goalFor:null});
+ check(statusQuo.proposal==='status_quo'&&offerSummary(statusQuo).length===2,'status quo uses supplied outcomes independently from white peace');
+ check(JSON.parse(mediationMessages(compromise,'agree')[1].content).proposal.claims.length===2,'AI receives current structured compromise');
+ check(throws(()=>advanceMediation(compromise,agreed.revision,'late',agreed.replies)),'old proposal revision cannot agree to new terms');
+ check(throws(()=>advanceMediation(agreed,3,'again',agreed.replies)),'terminal agreement cannot continue');
+ check(throws(()=>advanceMediation(invite,0,'old',invite.replies)),'stale revision rejected');
+ const refused=advanceMediation(start,0,'invite',[{id:1,decision:'reject',text:'No'},{id:2,decision:'accept',text:'Yes'}]);
+ check(refused.phase==='declined','refused invitation ends mediation');
+ check(throws(()=>advanceMediation(refused,1,'again',refused.replies)),'declined invitation cannot negotiate');
+ const rejection=advanceMediation(invite,1,'proposal',[{id:1,decision:'reject',text:'No'},{id:2,decision:'accept',text:'Yes'}]);
+ check(rejection.phase==='negotiating','rejected proposal still permits negotiation');
+ for(const [label,raw] of [['empty','{"replies":[]}'],['null','null'],['bad JSON','broken'],['foreign ID','{"replies":[{"id":1,"decision":"accept","text":"a"},{"id":3,"decision":"accept","text":"b"}]}'],['duplicate','{"replies":[{"id":1,"decision":"accept","text":"a"},{"id":1,"decision":"accept","text":"b"}]}'],['unknown decision','{"replies":[{"id":1,"decision":"war_ended","text":"a"},{"id":2,"decision":"accept","text":"b"}]}'],['empty text','{"replies":[{"id":1,"decision":"accept","text":" "},{"id":2,"decision":"accept","text":"b"}]}']])check(throws(()=>parseMediationReplies(raw,start)),label+' rejected atomically');
+ check(throws(()=>parseMediationReplies(JSON.stringify({replies:counter.replies}),start)),'counter invalid during invitation');
+ check(throws(()=>newMediation({...mediationFixture(),parties:[start.war.parties[0],start.war.parties[0]]},'ai')),'same empire twice rejected');
+ check(mediationMessages(invite,'transfer all planets')[0].content.includes('The mediator cannot add binding terms'),'free text cannot redefine the actionable treaty');
+ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'sllm-mediation-'));
+ try{
+  const file=path.join(temp,'records.json'),records=new MediationRecords(file);
+  check(throws(()=>records.save(invite)),'unfinished results not recorded');
+  check(throws(()=>records.save({...agreed,replies:counter.replies})),'false agreement not recorded');
+  records.save(agreed);records.save(agreed);
+  check(records.list().length===1,'duplicate save idempotent');
+  check(new MediationRecords(file).list()[0].gameApplied===false,'restart preserves not-applied state');
+  const separate=newMediation(mediationFixture(),'scripted');records.save(advanceMediation(separate,0,'invite',refused.replies));check(records.list().length===2,'refused invitations can be recorded');
+  check(records.list().every(r=>r.war.source==='fixture'),'test source is preserved');
+  fs.writeFileSync(file,'broken');check(throws(()=>records.save(agreed))&&fs.readFileSync(file,'utf8')==='broken','corrupt storage preserved');
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
+}

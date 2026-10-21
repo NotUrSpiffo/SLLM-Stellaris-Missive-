@@ -1,0 +1,210 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>Ceremony</title>
+<!-- 출정 의식(2026-10-20 알파 10): 게임 화면을 덮는 전체화면 창. 복무신조가 아래에서 위로 올라가고 낭독 음성이 흐른다.
+     앱: src/features/ceremony-app.ts(창·자료), 설정: 집무실 「국가·군가·복무신조」. 그림은 앱 데이터 ceremony/ 폴더(march·speech·fleet, 4K 까지).
+     언어 팩 규칙: 문구는 L('한국어', 'English') 로만. -->
+<style>
+ :root{--ink:#e9eef3;--dim:#9fb2c2;--glow:#ffd98a}
+ html,body{margin:0;height:100%;background:#000;color:var(--ink);font:16px/1.5 "Noto Sans KR","Malgun Gothic","Segoe UI",sans-serif;overflow:hidden;cursor:none;user-select:none}
+ #bg{position:fixed;inset:0;background:#02060a}
+ .scene{position:absolute;inset:-6%;background:center/cover no-repeat;opacity:0;transition:opacity 3.2s ease;will-change:transform,opacity;filter:saturate(.85) brightness(.9)}
+ .scene.on{opacity:1}
+ .scene.kb1{animation:kb1 70s linear forwards}.scene.kb2{animation:kb2 70s linear forwards}
+ @keyframes kb1{from{transform:scale(1) translate(0,0)}to{transform:scale(1.1) translate(-1.5%,-1%)}}
+ @keyframes kb2{from{transform:scale(1.08) translate(1%,1%)}to{transform:scale(1) translate(0,0)}}
+ #fallback{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 70%,#1a2a3a 0%,#0a141c 45%,#02060a 100%)}
+ #fallback .ray{position:absolute;left:50%;bottom:-10%;width:2px;height:120%;background:linear-gradient(to top,rgba(255,217,138,.16),transparent 70%);transform-origin:bottom center;opacity:.5}
+ #flag{position:absolute;left:50%;top:50%;width:min(28vw,28vh);aspect-ratio:1;transform:translate(-50%,-50%) scale(.92);opacity:0;transition:opacity 2.5s ease,transform 4s ease;background:center/contain no-repeat;filter:drop-shadow(0 0 40px rgba(255,217,138,.25))}
+ #flag.on{opacity:.95;transform:translate(-50%,-50%) scale(1)}
+ #dark{position:fixed;inset:0;background:#000;opacity:0;transition:opacity 1.6s ease;pointer-events:none}
+ #out{position:fixed;inset:0;background:#000;opacity:1;transition:opacity 2.6s ease;pointer-events:none} /* 들어올 때·나갈 때 전체 암전(글자 포함) */
+ #vig{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.55) 75%,rgba(0,0,0,.92) 100%);opacity:0;transition:opacity 2s}
+ #ember{position:fixed;inset:0;pointer-events:none}
+ #crawl{position:fixed;left:50%;top:0;height:100%;width:min(62vw,1100px);transform:translateX(-50%);pointer-events:none}
+ #crawl.persp{perspective:420px;perspective-origin:50% 25%}
+ #lines{position:absolute;left:0;right:0;top:100%;text-align:center;will-change:transform}
+ #crawl.persp #lines{transform-origin:50% 100%;transform:rotateX(22deg)}
+ .ln{font-size:clamp(22px,2.6vw,46px);line-height:1.9;letter-spacing:.04em;color:var(--dim);opacity:.42;transition:color 1.2s,opacity 1.2s,text-shadow 1.2s,letter-spacing 2.4s;text-shadow:0 0 0 transparent;font-weight:500}
+ .ln.now{color:#fff;opacity:1;text-shadow:0 0 22px rgba(255,217,138,.45),0 0 2px rgba(255,255,255,.6)}
+ .ln.past{opacity:.28}
+ .ln.final{letter-spacing:.22em;color:var(--glow);text-shadow:0 0 34px rgba(255,217,138,.7)}
+ .ln.gone{opacity:.06;transition:opacity 3s}
+ #title{position:fixed;left:50%;top:9%;transform:translateX(-50%);font-size:clamp(14px,1.1vw,20px);letter-spacing:.42em;color:var(--dim);opacity:0;transition:opacity 2s;text-transform:uppercase}
+ #title.on{opacity:.85}
+ #hint{position:fixed;right:28px;bottom:22px;font-size:12px;color:var(--dim);opacity:0;transition:opacity 1s;letter-spacing:.1em}
+ #hint.on{opacity:.55}
+ #breath{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(255,217,138,.08),transparent 60%);opacity:0;transition:opacity 2.6s ease}
+ #breath.on{opacity:1}
+
+ #roster{position:fixed;inset:19% 4% 10%;display:flex;justify-content:space-between;pointer-events:none;opacity:0;transition:opacity 1.5s}
+ #roster.on{opacity:1}.fleet-side{width:24%;display:flex;flex-direction:column;gap:20px}
+ .fleet-heading{color:#e8d6a5;font-size:clamp(15px,1.2vw,24px);letter-spacing:.18em;border-bottom:1px solid #a7b4b966;padding-bottom:14px}
+ .fleet-name{font-size:clamp(16px,1.35vw,28px);color:#e9eef3;overflow-wrap:anywhere;text-shadow:0 2px 8px #000;background:#02080b9e;padding:12px 16px;border-left:2px solid #b5c7cf66}
+ .fleet-name small{display:block;color:#a5bac5;font-size:.72em;margin-top:6px}
+ body.departure #flag{top:70%;width:min(15vw,18vh)}
+
+#exit{position:fixed;right:24px;top:20px;z-index:20;background:#071820cc;color:#cfe5ed;border:1px solid #637b86;padding:9px 18px;cursor:pointer}#result{position:fixed;bottom:22px;left:28px;right:190px;color:#9fb5bf;font-size:12px;z-index:10}
+body.salute #flag{opacity:.8;top:42%;width:min(24vw,30vh)}body.salute .ln{font-size:clamp(18px,1.8vw,30px)}
+</style>
+<script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script></head>
+<body>
+<div id="bg"><div id="fallback"></div><div class="scene" id="s1"></div><div class="scene" id="s2"></div><div class="scene" id="s3"></div><div id="flag"></div></div>
+<div id="dark"></div><div id="vig"></div><div id="breath"></div><canvas id="ember"></canvas>
+<div id="title"></div>
+<div id="crawl"><div id="lines"></div></div>
+<div id="out"></div>
+<div id="hint"></div><div id="roster"></div><button id="exit" type="button"></button><div id="result"></div>
+<script>
+(() => {
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const $ = (id) => document.getElementById(id);
+ let D = null, audio = null, ac = null, drone = null, done = false, raf = 0, t0 = 0, cues = [], total = 0, lineEls = [];
+ const PAD_IN = 3.2, PAD_OUT = 6.5; // 암전·제목 뒤 글이 시작하기까지, 마지막 줄 뒤 깃발·여운
+
+ // ── 저음 화음(북 대신): 낮은 음 여러 개를 아주 살짝 어긋나게 겹쳐 천천히 부풀렸다 가라앉힌다. 줄이 바뀔 때마다 한 번 더 숨을 들이쉰다.
+ function startDrone(volume) {
+   try {
+     ac = new (window.AudioContext || window.webkitAudioContext)();
+     const master = ac.createGain(); master.gain.value = 0; master.connect(ac.destination);
+     const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520; lp.Q.value = .6; lp.connect(master);
+     const cv = ac.createConvolver(); const len = ac.sampleRate * 3.2, ir = ac.createBuffer(2, len, ac.sampleRate);
+     for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2); }
+     cv.buffer = ir; const wet = ac.createGain(); wet.gain.value = .55; cv.connect(wet); wet.connect(master);
+     const voices = [[55, 0], [82.41, 2], [110, -3], [164.81, 1], [220, -2], [329.63, 1.5]]; // A1·E2·A2·E3·A3·E4 — 비어 있고 장엄한 5도 화음
+     const gains = [];
+     for (const [f, det] of voices) {
+       for (let k = 0; k < 2; k++) {
+         const o = ac.createOscillator(); o.type = k ? 'triangle' : 'sine'; o.frequency.value = f; o.detune.value = det + (k ? 4 : -4);
+         const g = ac.createGain(); g.gain.value = (k ? .06 : .12) / Math.sqrt(voices.length); o.connect(g); g.connect(lp); g.connect(cv); o.start(); gains.push(g);
+       }
+     }
+     const base = Math.max(0, Math.min(1, volume)) * .55;
+     master.gain.setTargetAtTime(base, ac.currentTime, 2.4);
+     drone = { master, base, swell() { const t = ac.currentTime; master.gain.cancelScheduledValues(t); master.gain.setTargetAtTime(base * 1.9, t, .9); master.gain.setTargetAtTime(base, t + 2.2, 1.6); },
+       end() { const t = ac.currentTime; master.gain.cancelScheduledValues(t); master.gain.setTargetAtTime(0, t, 2.2); setTimeout(() => { try { ac.close(); } catch (e) { /* 이미 */ } }, 7000); } };
+   } catch (e) { drone = null; }
+ }
+ // ── 불씨: 천천히 떠오르는 점들
+ function embers(on) {
+   const cv = $('ember'); if (!on) { cv.style.display = 'none'; return; }
+   const g = cv.getContext('2d'); let W, H, P = [];
+   const size = () => { W = cv.width = innerWidth; H = cv.height = innerHeight; };
+   size(); addEventListener('resize', size);
+   const n = Math.round(Math.min(160, W * H / 14000));
+   for (let i = 0; i < n; i++) P.push({ x: Math.random() * W, y: Math.random() * H, r: .6 + Math.random() * 1.8, v: .12 + Math.random() * .35, a: Math.random() * Math.PI * 2, o: .2 + Math.random() * .5 });
+   (function tick() { if (done) return; g.clearRect(0, 0, W, H); for (const p of P) { p.y -= p.v; p.a += .01; p.x += Math.sin(p.a) * .18; if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; } const tw = .7 + .3 * Math.sin(p.a * 3); g.globalAlpha = p.o * tw; g.fillStyle = '#ffd98a'; g.beginPath(); g.arc(p.x, p.y, p.r, 0, 7); g.fill(); } requestAnimationFrame(tick); })();
+ }
+ function setScene(i) { for (let k = 1; k <= 3; k++) $('s' + k).classList.toggle('on', k === i); }
+ function finish(early) {
+   if (done) return; done = true; cancelAnimationFrame(raf);
+   if (audio) { try { audio.pause(); } catch (e) { /* 없음 */ } }
+   if (ac) { try { ac.close(); } catch (_) {} }
+   $('out').style.transition = 'opacity 1.8s ease'; $('out').style.opacity = '1';
+   setTimeout(() => { try { window.sllm.ceremonyDone(!!early); } catch (e) { /* 없음 */ } }, early ? 900 : 2200);
+ }
+ function layout() {
+   const box = $('lines'); box.textContent = ''; lineEls = [];
+   for (const t of D.lines) { const d = document.createElement('div'); d.className = 'ln'; d.textContent = t; box.append(d); lineEls.push(d); }
+ }
+ // 줄별 시작 시각(초): 음성에 줄 시각이 있으면 그것, 없으면 글자 수 비율로.
+ function makeCues(dur) {
+   const n = D.lines.length; if (!n) return [];
+   if (Array.isArray(D.cues) && D.cues.length === n && D.cues.every((x) => typeof x === 'number')) return D.cues.slice();
+   const w = D.lines.map((l) => Math.max(4, l.length + 6)), sum = w.reduce((a, b) => a + b, 0); let acc = 0;
+   return w.map((x) => { const s = acc / sum * dur; acc += x; return s; });
+ }
+
+ let departureAt = -1, fleetPage = -1;
+ function showFleetPage(page) {
+   const rows = Array.isArray(D.fleets) ? D.fleets : [];
+   const host = $('roster'); host.textContent = '';
+   if (!rows.length) return;
+   const slice = rows.slice(page * 6, page * 6 + 6);
+   for (let side = 0; side < 2; side++) {
+     const col = document.createElement('div'); col.className = 'fleet-side';
+     const title = document.createElement('div'); title.className = 'fleet-heading'; title.textContent = L('출항 함대', 'Departing fleets'); col.append(title);
+     slice.slice(side * 3, side * 3 + 3).forEach(f => {
+       const el = document.createElement('div'); el.className = 'fleet-name'; el.textContent = f.name;
+       if (f.admiral) { const sub = document.createElement('small'); sub.textContent = f.admiral; el.append(sub); }
+       col.append(el);
+     }); host.append(col);
+   }
+   host.classList.add('on');
+ }
+
+ function run() {
+   const dur = total; // 글이 흐르는 시간
+   const box = $('lines'), crawl = $('crawl'), H = crawl.clientHeight, boxH = box.scrollHeight;
+   const travel = H * .62 + boxH; // 화면 아래에서 중앙 조금 위까지
+   let cur = -1;
+   const step = () => {
+     if (done) return;
+     const t = (performance.now() - t0) / 1000;
+     const p = Math.min(1, Math.max(0, (t - PAD_IN) / dur));
+     // 글은 등속으로 올라가되, 지금 읽는 줄이 화면 가운데 근처에 오도록 큐에 맞춰 보정한다.
+     let y = -travel * p;
+     const i = cues.findIndex((c, k) => t - PAD_IN >= c && (k === cues.length - 1 || t - PAD_IN < cues[k + 1]));
+     if (i >= 0 && lineEls[i]) {
+       const want = -H * .54 - (lineEls[i].offsetTop + lineEls[i].offsetHeight / 2); // #lines 는 화면 아래(top:100%)에서 시작 → 이 줄이 화면 46% 높이에 오는 y
+       const nextC = i + 1 < cues.length ? cues[i + 1] : dur, span = Math.max(.6, nextC - cues[i]), q = Math.min(1, (t - PAD_IN - cues[i]) / span);
+       const prevWant = i > 0 ? -H * .54 - (lineEls[i - 1].offsetTop + lineEls[i - 1].offsetHeight / 2) : 0;
+       y = i === lineEls.length - 1 ? prevWant + (want - prevWant) * Math.min(1, q * span / .8) : prevWant + (want - prevWant) * (1 - Math.pow(1 - q, 2.2)); // 줄이 바뀔 때 부드럽게 당겨 올림
+     }
+     box.style.transform = 'translateY(' + y + 'px)';
+     if (i !== cur) { cur = i; lineEls.forEach((el, k) => { el.classList.toggle('now', k === i); el.classList.toggle('past', k < i); }); if (i >= 0) { if (drone) drone.swell(); $('breath').classList.add('on'); setTimeout(() => $('breath').classList.remove('on'), 2600); if (i === Math.floor(D.lines.length / 2) && D.images && D.images.speech) setScene(2); } }
+     const last = lineEls.length - 1;
+     if (i === last && last >= 0) {
+       // Hold the final oath centrally while it is read; preserve original audio timing.
+       lineEls[last].classList.add('final');
+       lineEls.forEach((el, k) => { if (k < last) el.classList.add('gone'); });
+     }
+     if (p >= 1 && departureAt < 0) {
+       departureAt = t + 1.4; $('title').classList.remove('on');
+       const pages = Math.max(1, Math.ceil((D.fleets || []).length / 6));
+       setTimeout(() => finish(false), (1.4 + Math.max(PAD_OUT, pages * 6)) * 1000);
+     }
+     if (departureAt >= 0 && t >= departureAt) {
+       if (D.images && D.images.fleet) setScene(3);
+       document.body.classList.add('departure'); $('flag').classList.add('on');
+       const page = Math.min(Math.max(0, Math.ceil((D.fleets || []).length / 6) - 1), Math.floor((t - departureAt) / 6));
+       if (page !== fleetPage) { fleetPage = page; showFleetPage(page); }
+     }
+     raf = requestAnimationFrame(step);
+   };
+   t0 = performance.now(); raf = requestAnimationFrame(step);
+ }
+ async function start(data) {
+   if (done) return; D = data; layout();
+   if (D.salute) { $('flag').classList.add('on'); document.body.classList.add('salute'); }
+   $('exit').textContent = L('닫기', 'Close'); $('result').textContent = D.notice || '';
+   $('title').textContent = D.title || L('선언문 발표', 'Declaration address'); $('hint').textContent = L('ESC — 건너뛰기', 'ESC — skip');
+   // 그림(있는 것만), 없으면 빛줄기 배경
+   let scenes = 0; [['march', 's1', 'kb1'], ['speech', 's2', 'kb2'], ['fleet', 's3', 'kb1']].forEach(([k, id, kb]) => { if (D.images && D.images[k]) { $(id).style.backgroundImage = 'url("' + D.images[k] + '")'; $(id).classList.add(kb); scenes++; } });
+   D.scenes = scenes; $('fallback').style.display = scenes ? 'none' : '';
+   if (!scenes) for (let i = 0; i < 9; i++) { const r = document.createElement('div'); r.className = 'ray'; r.style.transform = 'rotate(' + (-40 + i * 10) + 'deg)'; r.style.opacity = String(.25 + Math.random() * .4); $('fallback').append(r); }
+   if (D.flag) $('flag').style.backgroundImage = 'url("' + D.flag + '")';
+   // 음성 길이 → 전체 흐름 시간
+   let dur = 0;
+   if (D.audio) { audio = new Audio(D.audio); audio.volume = Math.max(0, Math.min(1, D.volume)); await new Promise((res) => { audio.onloadedmetadata = () => res(); audio.onerror = () => { audio = null; res(); }; setTimeout(res, 4000); });  }
+   if (!dur) dur = Math.max(14, D.lines.reduce((a, l) => a + 1.6 + l.length * (/[가-힣]/.test(l) ? .19 : .07), 0));
+   if (done) return; total = dur; cues = makeCues(dur);
+   // 암전 → 비네트 → 제목 → 장면 → 글 시작(PAD_IN 초 뒤) + 음성
+   $('dark').style.opacity = String(D.darkness);
+   setTimeout(() => { $('out').style.opacity = '0'; $('vig').style.opacity = '1'; if (scenes) setScene(D.images.march ? 1 : D.images.speech ? 2 : 3); $('title').classList.add('on'); $('hint').classList.add('on'); }, 300);
+   // The configured march is the only sound; no track means silence.
+   embers(!!D.embers);
+   if (D.persp) $('crawl').classList.add('persp');
+   setTimeout(() => { if (!done && audio) audio.play().catch(() => {}); }, PAD_IN * 1000);
+   run();
+ }
+ $('exit').textContent = L('닫기', 'Close');
+ $('exit').onclick = () => finish(true);
+ addEventListener('pagehide', () => { done = true; if (audio) audio.pause(); if (ac) ac.close().catch(() => {}); cancelAnimationFrame(raf); });
+ addEventListener('keydown', (e) => { if (e.key === 'Escape') finish(true); });
+ addEventListener('dblclick', () => finish(true));
+ document.addEventListener('DOMContentLoaded', async () => {
+   $('exit').textContent = L('닫기', 'Close'); $('exit').style.zIndex = '20';
+   $('result').textContent = L('선언문 발표를 준비하고 있습니다…', 'Preparing the declaration presentation…');
+   try { const d = await window.sllm.ceremonyData(); if (d && d.lines && d.lines.length) start(d); else finish(true); } catch (e) { finish(true); }
+ });
+})();
+</script></body></html>

@@ -1,0 +1,5 @@
+﻿l_english:
+ edict_sllm_speech:0 "Deliver a Speech"
+ edict_sllm_speech_desc:0 "Enable this edict to start preparing a speech. Preparation takes 3 months and the speech is delivered in the companion app. Activation and upkeep are free. Another preparation is available after 6 months; disable and enable this edict to start again."
+ sllm_speech_edict_start_tt:0 "Start preparing a speech. The companion app will notify you in 3 months. Another preparation is available in 6 months."
+ sllm_speech_edict_off_tt:0 "Disable this edict. Preparation already started and existing speech effects are not cancelled."

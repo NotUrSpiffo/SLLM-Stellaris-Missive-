@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>총독</title>
+<style>
+ /* 기본 테마(스텔라리스)의 값. 다른 테마와 사용자 색은 아래 스크립트가 같은 변수를 덮어쓴다. */
+ :root{--mono:"D2Coding","Cascadia Mono",Consolas,"Malgun Gothic",monospace;--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--ai:#7fe3f0;--gold:#e8c872;--bad:#e0705f;--good:#6fd6a8;--linec:#5fd4e4;--shade:#06141b;
+  --bgfx:radial-gradient(120% 60% at 50% -10%,#0f3040 0%,#06141b 60%);--cardbg:linear-gradient(160deg,#0f2f40,#0a1f2b);--btnbg:linear-gradient(#10394a,#0b2a38);--prim:linear-gradient(#7fe3f0,#4cc2d3);--titlefx:linear-gradient(#17415200,#17415266);--inputbg:#08202c;--glow:rgba(40,140,160,.12);
+  --line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);--warn:var(--gold)}
+ *{box-sizing:border-box}
+ html,body{height:100%}
+ body{position:relative}
+ body::before{content:"";position:fixed;inset:0;z-index:0;background:var(--bgimg,none) center/cover no-repeat;opacity:var(--bgop,0);pointer-events:none}
+ #titlebar,main{position:relative;z-index:1}
+ body{font:13px/1.55 "Malgun Gothic","Segoe UI",system-ui,sans-serif;background:var(--bgfx);color:var(--text);margin:0;display:flex;flex-direction:column;border:1px solid var(--line);box-shadow:inset 0 0 40px var(--glow)}
+ .cap{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+ #titlebar{-webkit-app-region:drag;display:flex;align-items:center;gap:10px;padding:7px 8px 7px 12px;border-bottom:1px solid var(--line);background:var(--titlefx)}
+ #titlebar b{font-weight:600;letter-spacing:.06em;color:var(--hi)}
+ #titlebar .exp{font-size:10.5px;color:var(--gold);border:1px solid color-mix(in srgb,var(--gold) 50%,transparent);padding:0 5px;letter-spacing:.08em}
+ #titlebar .sp{flex:1}
+ #titlebar button{-webkit-app-region:no-drag;margin:0;background:none;border:1px solid transparent;color:var(--dim);width:26px;height:22px;padding:0;cursor:pointer}
+ #titlebar button:hover{border-color:var(--line);color:var(--text);background:none}
+ #link .dot{color:var(--good)} #link.off .dot{color:var(--dim)} body.fx #link:not(.off) .dot{animation:blink 1.6s steps(2) infinite}
+ #status{color:var(--dim);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
+ main{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px 10px;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+
+ #card{display:flex;gap:11px;padding:9px;background:var(--cardbg);border:1px solid var(--line2);position:relative;flex:none;font-family:var(--mono)}
+ .brk::before,.brk::after{content:"";position:absolute;width:9px;height:9px;border:1px solid var(--hi);pointer-events:none}
+ .brk::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
+ .brk::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+ #portrait{width:84px;height:104px;flex:none;position:relative;background:var(--shade);box-shadow:0 0 12px var(--glow);border:1px solid var(--line);overflow:hidden}
+ #portrait img,#portrait svg{width:100%;height:100%;display:block;object-fit:cover}
+ body.fx #portrait::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.22) 3px)}
+ #portrait #flag{position:absolute;left:5px;top:5px;width:26px;height:31px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));z-index:1}
+ #info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+ #nm{color:var(--gold);font-size:17px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #sub{color:var(--dim);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ #meter{margin-top:auto}
+ #meter .top{display:flex;justify-content:space-between;align-items:baseline}
+ #stance{font-size:12.5px}
+ .seg{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:5px;height:8px}
+ .seg i{background:var(--line2)} .seg i.p{background:var(--good)} .seg i.n{background:var(--bad)} .seg i:nth-child(10){margin-right:2px}
+ #tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;min-height:19px}
+ .tag{font-size:10.5px;padding:0 6px;border:1px solid var(--line);color:var(--dim);letter-spacing:.04em}
+ .tag.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 55%,transparent)} .tag.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 55%,transparent)}
+
+ #mailbar{display:none;justify-content:space-between;align-items:center;color:var(--gold);font-size:12px;border-left:2px solid var(--gold);padding:1px 8px;cursor:pointer;flex:none}
+ #inbox{display:none} #inbox.open{display:block}
+ #inbox div{padding:4px 10px;margin:2px 0;cursor:pointer;border:1px solid var(--line2)}
+ #inbox div:hover{background:var(--hi);color:var(--hi-text)}
+ #inbox div.read{opacity:.5}
+
+ #log{flex:1;min-height:150px;overflow:auto;border:1px solid var(--line2);background:color-mix(in srgb,var(--shade) 70%,transparent);padding:8px 10px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;font-family:var(--mono);font-size:12.5px}
+ .ln{margin:0 0 9px;white-space:pre-wrap;word-break:break-word}
+ .ln .hd{font-size:10.5px;letter-spacing:.06em;color:var(--dim);border-bottom:1px dashed var(--line2);padding-bottom:1px;margin-bottom:3px}
+ .ln .t{padding-left:9px;border-left:2px solid var(--line);line-height:1.6}
+ .ln.ai .hd{color:var(--ai)} .ln.ai .t{color:var(--text);border-left-color:var(--ai)}
+ .ln.me .hd{color:var(--text)} .ln.me .t{color:var(--dim);border-left:2px dotted var(--line)}
+ .ln.mail .hd{color:var(--gold)} .ln.mail .t{border-left-color:var(--gold)}
+ .ln.sys,.ln.dbg,.ln.warn{color:var(--dim);font-size:11.5px;margin-bottom:5px}
+ .ln.dbg{opacity:.5;font-size:10.5px} .ln.warn{color:var(--bad)}
+ .typing::after{content:"█";margin-left:2px;animation:blink .8s steps(2) infinite;color:var(--ai)}
+ @keyframes blink{50%{opacity:0}}
+ body.fx::after{content:"";position:fixed;inset:0;z-index:5;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.13) 3px);mix-blend-mode:multiply;opacity:.5}
+ .prompt{flex:1;display:flex;align-items:center;border:1px solid var(--line);background:var(--inputbg);padding-left:8px;font-family:var(--mono)}
+ .prompt:focus-within{border-color:var(--hi)} .prompt .pr{color:var(--ai);margin-right:6px}
+ .prompt input{flex:1;border:0;background:transparent;padding:5px 6px 5px 0;font-family:var(--mono);caret-color:var(--hi)}
+
+ #proposal:not(:empty){border:1px solid var(--gold);padding:7px 9px;color:var(--gold);background:color-mix(in srgb,var(--gold) 7%,transparent);flex:none}
+ #proposal button{margin-top:6px}
+
+ .row{display:flex;gap:6px;flex:none}
+ input,select,button{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);padding:5px 9px;outline:none;border-radius:0}
+ input:focus,select:focus{border-color:var(--hi)}
+ input[type=checkbox]{padding:0;accent-color:var(--hi);vertical-align:-2px}
+ input[type=range]{accent-color:var(--hi);padding:0;border:0}
+ input[type=color]{padding:0;width:28px;height:22px;vertical-align:middle;cursor:pointer;background:none}
+ button{cursor:pointer;letter-spacing:.04em;background:var(--btnbg)} button:hover{background:var(--hi);color:var(--hi-text);border-color:var(--hi)}
+ button.primary{background:var(--prim);color:var(--hi-text);border-color:var(--hi);font-weight:600} button.primary:hover{filter:brightness(1.12)}
+ select option{background:var(--panel);color:var(--text)}
+ details{border:1px solid var(--line2);padding:2px 9px;background:color-mix(in srgb,var(--panel) 55%,transparent);flex:none}
+ details summary{cursor:pointer;color:var(--dim);font-size:11.5px;letter-spacing:.1em;padding:3px 0}
+ details[open] summary{border-bottom:1px solid var(--line2);margin-bottom:5px}
+ details label{display:inline-block;margin:3px 12px 3px 0;font-size:12px}
+ #custom{margin:2px 0 4px} #custom[hidden]{display:none}
+ #titlebar button.ico{display:flex;align-items:center;justify-content:center} #titlebar button.ico.on{color:var(--hi);border-color:var(--line)}
+ #drawer{position:absolute;left:0;right:0;top:37px;bottom:0;z-index:3;background:var(--bg);display:flex;flex-direction:column;border-top:1px solid var(--line)} #drawer[hidden]{display:none}
+ #drawer .dhead{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line2)}
+ #drawer .dhead b{font-weight:600;letter-spacing:.08em;color:var(--gold)}
+ #drawer .dhead button{width:26px;height:22px;padding:0;border-color:transparent;background:none;color:var(--dim)}
+ #gvList .it{display:flex;align-items:center;gap:8px;margin:4px 0;padding:6px 8px;border:1px solid var(--line2);cursor:pointer;background:var(--shade)} #gvList .it:hover{border-color:var(--hi)} #gvList .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} #gvList .gv{color:var(--dim);font-size:11px} #gvList .cp{color:var(--gold);font-size:11px}
+ #gvHead{display:flex;gap:10px;align-items:flex-start;margin:6px 0} #gvPic{width:64px;height:80px;flex:none;border:1px solid var(--line);background:var(--shade);overflow:hidden} #gvPic img,#gvPic svg{width:100%;height:100%;object-fit:cover;display:block}
+ #gvScene{position:relative;margin:6px 0 0;border:1px solid var(--line);border-bottom:0;overflow:hidden;background:#0a1018;aspect-ratio:400/152} #gvBg{position:absolute;inset:0;width:100%;height:100%;display:block} #gvScene #gvHead{position:absolute;left:10px;right:10px;bottom:8px;margin:0;text-shadow:0 1px 3px #000,0 0 8px #000} #gvScene #gvPlanet,#gvScene #gvFacts{color:#e2edf3} #gvScene #gvPic{box-shadow:0 2px 10px #000a}
+ #gvLog{height:210px;overflow-y:auto;border:1px solid var(--line2);background:var(--shade);padding:6px 8px;margin:0 0 6px;border-top:0;font-family:var(--mono);font-size:12.5px} #gvLog .ln{margin:0 0 6px} #gvLog .who{font-size:10.5px;color:var(--dim)} #gvLog .me .who{color:var(--hi)} #gvLog .sys{color:var(--dim);font-size:11.5px}
+ #gvSug{margin:0 0 6px;padding:6px 8px;border:1px solid var(--gold);background:var(--shade);font-size:12px} #gvSug button{margin:0 0 0 6px;padding:2px 8px;font-size:11px} #gvMemBar{margin:0 0 6px} #gvMemBar button{margin:0 6px 0 0;padding:2px 8px;font-size:11px} #gvMemList{margin:0 0 6px;border:1px solid var(--line2);background:var(--shade);padding:4px 8px;font-size:12px} #gvMemList .m{display:flex;gap:6px;align-items:flex-start;margin:3px 0} #gvMemList .m span{flex:1} #gvMemList .m button{padding:0 6px;font-size:11px;margin:0}
+ #gvRow{display:flex;gap:6px;align-items:center} #gvRow input{flex:1}
+ .pane{display:none;overflow-y:auto;padding:8px 12px 14px;scrollbar-width:thin;scrollbar-color:var(--line) transparent} .pane.show{display:block}
+ .pane .sec{margin:14px 0 4px;padding-bottom:3px;border-bottom:1px solid var(--line2)} .pane .sec:first-child{margin-top:2px}
+ .pane label{display:block;margin:6px 0} #custom label{display:inline-block;margin:3px 10px 3px 0}
+ .pane button{margin:2px 4px 2px 0}
+ .hint{color:var(--dim);font-size:11px;margin:2px 0 4px}
+ #cur{display:flex;gap:10px;align-items:flex-start;margin:6px 0;padding:8px;border:1px solid var(--line2);background:var(--shade)} #cur .th{width:62px;height:78px;flex:none;border:1px solid var(--line);overflow:hidden;background:var(--bg)} #cur .th img,#cur .th svg{width:100%;height:100%;object-fit:cover;display:block} #cur .bd{flex:1;min-width:0} #cur .who{color:var(--gold);font-weight:600;margin-bottom:2px} #cur .drop{outline:2px dashed var(--hi);outline-offset:2px} #pstat{display:block;color:var(--dim);font-size:11px;margin-bottom:4px}
+ #pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin:6px 0} .pc{border:1px solid var(--line2);padding:5px;background:var(--shade);text-align:center;font-size:11px} .pc .th{height:84px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:4px;border:1px solid transparent} .pc .th.drop{border-color:var(--hi)} .pc img{max-width:100%;max-height:100%;object-fit:contain} .pc .none{color:var(--dim)} .pc button{margin:2px 1px 0;padding:2px 6px;font-size:11px} .pc .mine{color:var(--gold)} #mylist .it{display:flex;align-items:center;gap:8px;margin:4px 0;padding:3px;border:1px solid var(--line2)} #mylist img{width:34px;height:42px;object-fit:cover;flex:none} #mylist .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} #mylist button{margin:0;padding:2px 8px;font-size:11px} #pstat{margin-left:4px}
+
+#gateBar{color:var(--dim);padding:4px 10px;font-size:12px}#gateBar[hidden]{display:none}#gateBar button{margin:0 4px}
+</style><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;900&display=swap"><style id="usercss"></style><script src="theme.js"></script><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="terminal-layout.css"><link rel="stylesheet" href="special-rooms.css"></head><body data-room="gov" class="fx">
+<style>
+ body{display:flex;flex-direction:column;overflow:hidden} #gwrap{flex:1;overflow-y:auto;padding:10px 16px 16px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+ #dgov{display:block;max-width:900px;margin:0 auto;padding:0} #gvLog{height:34vh;min-height:180px}
+ #titlebar button.close{width:26px}
+</style>
+<div id="titlebar"><b>행성 총독</b><span class="exp">실험</span><span class="sp"></span><button class="close" id="gx" title="닫기 (Esc)">✕</button></div>
+<div id="gwrap">
+ <div id="dgov" class="pane">
+  <div class="hint">내 행성의 총독에게 행성의 현재 상태를 보고 받고 조언을 구합니다(실험). 대화 내용은 저장되지 않습니다. 총독이 없는 행성은 '일반 총독관'이 맡고, 초상화는 내 제국의 기본 종족 초상화를 씁니다. 행성 목록을 읽는 데 몇 초 걸립니다.</div>
+  <button id="gvRefresh" class="primary">내 행성 목록 읽기</button><span id="gvStat" class="cap"></span>
+  <div id="gvList"></div>
+  <div id="gvChat" hidden>
+   <div id="gvScene"><svg id="gvBg" preserveAspectRatio="xMidYMid slice" viewBox="0 90 400 152"></svg>
+   <div class="governor-desk room-art" aria-hidden="true"></div><div id="gvHead"><div id="gvPic"></div><div><div id="gvName" style="color:var(--gold);font-weight:600"></div><div id="gvPlanet" class="cap"></div><div id="gvLv" class="cap" style="color:var(--gold)"></div><div id="gvFacts" class="hint"></div></div></div>
+   </div>
+   <div id="gvLog"></div>
+   <div id="gvSug" hidden><span id="gvSugT"></span> <button id="gvSugY">기억하기</button><button id="gvSugN">넘기기</button></div>
+   <div id="gvMemBar" hidden><button id="gvKeep" title="총독의 마지막 대사를 특별한 기억으로 남깁니다">방금 대사 기억하기</button><button id="gvMemBtn">기억 (0)</button></div>
+   <div id="gvMemList" hidden></div>
+   <div id="gvRow"><input id="gvQ" placeholder="총독에게 묻기… (예: 이 행성 상황이 어때?)" autocomplete="off"><button id="gvSend" class="primary">보내기</button></div>
+   <div style="margin-top:6px"><button id="gvAgain" title="행성 상태를 게임에서 다시 읽어 옵니다">상태 다시 읽기</button><button id="gvBack">목록으로</button></div>
+  </div>
+ </div>
+</div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const hue = (s) => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
+ function portraitSvg(name, url) {
+   if (url) return '<img src="' + url + '">';
+   const h = hue(name || '?');
+   return '<svg viewBox="0 0 92 116"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="hsl(' + h + ' 30% 22%)"/><stop offset="1" style="stop-color:var(--shade)"/></linearGradient></defs>' +
+     '<rect width="92" height="116" fill="url(#pg)"/><circle cx="46" cy="46" r="19" fill="hsl(' + h + ' 18% 62%)" opacity=".85"/><path d="M8 116c2-26 16-38 38-38s36 12 38 38z" fill="hsl(' + h + ' 18% 50%)" opacity=".85"/></svg>';
+ }
+ const CLASS_KEYS = ['', 'human', 'mammalian', 'reptilian', 'avian', 'arthropoid', 'molluscoid', 'fungoid', 'plantoid', 'infernal', 'lithoid', 'necroid', 'aquatic', 'toxoid', 'robot', 'machine', 'cybernetic'];
+ let imgState = { bg: null, bgOpacity: 0.3, images: {}, scope: 'country' };
+ const setImg = (st) => { imgState = st || imgState; if (gv.sel >= 0) gvShow(); };
+ // ---- 총독과 대화(실험) ----
+ // 행성 종류별 배경: 하늘 색 두 개, 지면 색, 장식(별·태양·산·물결 등)을 그림으로 만든다. 이름으로 씨앗을 정해 같은 행성은 늘 같은 모양.
+ const PC_KO = ['', '사막 행성', '초원 행성', '대륙 행성', '열대 행성', '해양 행성', '북극·빙설 행성', '고산 행성', '불모의 행성', '핵폐허 행성', '용암 행성', '독성 행성', '가스 거인', '소행성', '기계·도시 행성', '고리 세계', '서식지', '장막에 싸인 행성', '군집 행성', '건조 행성', '가이아 행성', '툰드라 행성'];
+ const gameBgs = {};
+ function gvScene(name, pc) {
+   const bgUrl = (imgState.planetBgs && imgState.planetBgs[pc]) || gameBgs[pc];
+   if (bgUrl) return `<image href="${bgUrl}" x="0" y="90" width="400" height="152" preserveAspectRatio="xMidYMid slice"/><defs><linearGradient id="gvShade" x1="0" y1="0" x2="0" y2="1"><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".78"/></linearGradient></defs><rect y="90" width="400" height="152" fill="url(#gvShade)"/>`;
+   let h = 7; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+   const rnd = () => { h = (h * 1664525 + 1013904223) >>> 0; return h / 4294967296; };
+   if (pc === 19) pc = 1; else if (pc === 20) pc = 3; else if (pc === 21) pc = 6; // 사진이 없을 때 그림으로 대신하는 가까운 종류
+   const W = 400, H = 320, hz = 200; let defs = '', back = '', front = '';
+   const stars = (n, a) => { let o = ''; for (let i = 0; i < n; i++) o += `<circle cx="${(rnd() * W).toFixed(0)}" cy="${(rnd() * (hz - 20)).toFixed(0)}" r="${(rnd() * 1.2 + .3).toFixed(1)}" fill="#fff" opacity="${(rnd() * a + .2).toFixed(2)}"/>`; return o; };
+   const ridge = (base, amp, col, n, op) => { let d = `M0 ${H} L0 ${base}`; for (let i = 1; i <= n; i++) d += ` L${(W / n * i).toFixed(0)} ${(base - rnd() * amp).toFixed(0)}`; return `<path d="${d} L${W} ${H} Z" fill="${col}" opacity="${op || 1}"/>`; };
+   const sun = (x, y, r, c, glow) => `<circle cx="${x}" cy="${y}" r="${r * 2.6}" fill="${glow || c}" opacity=".18"/><circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`;
+   const cl = (n, c, op) => { let o = ''; for (let i = 0; i < n; i++) { const x = rnd() * W, y = 30 + rnd() * 110, w = 40 + rnd() * 70; o += `<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${w.toFixed(0)}" ry="${(w / 6).toFixed(0)}" fill="${c}" opacity="${op}"/>`; } return o; };
+   let sky = ['#10243a', '#35577a'], ground = '#1c2a22';
+   switch (pc) {
+     case 1: sky = ['#3a2a52', '#e8a35a']; ground = '#8a5a30'; back = sun(290, 130, 26, '#ffd9a0', '#ffb060') + ridge(hz, 18, '#a8693a', 9, .85); front = ridge(hz + 30, 12, '#7c4a26', 7) + ridge(hz + 70, 8, '#5e3a1e', 5); break;
+     case 2: sky = ['#2a5a8a', '#f0c070']; ground = '#8a7a30'; back = sun(100, 120, 22, '#fff0b0', '#ffd070') + cl(3, '#fff', .35) + ridge(hz - 4, 10, '#6b6a30', 8, .8); front = ridge(hz + 28, 10, '#7a6a26', 8) + `<path d="M310 ${hz + 70} v-50 M310 ${hz + 30} h-26 M310 ${hz + 30} h26" stroke="#2a2410" stroke-width="3" fill="none"/><ellipse cx="310" cy="${hz + 24}" rx="38" ry="10" fill="#3a4a1a"/>`; break;
+     case 3: sky = ['#2f6fb0', '#a8d4f0']; ground = '#2f6a34'; back = sun(310, 80, 20, '#fffbe0') + cl(5, '#fff', .55) + ridge(hz - 6, 36, '#4a7a8a', 6, .75); front = ridge(hz + 8, 14, '#2e6a38', 10) + ridge(hz + 44, 10, '#245a2c', 7); break;
+     case 4: sky = ['#1c6a5a', '#9ad6a0']; ground = '#15472a'; back = sun(240, 90, 24, '#fff6c0', '#d8ffb0') + cl(4, '#e0fff0', .4) + ridge(hz - 6, 30, '#2a7a56', 7, .8); front = ridge(hz + 12, 18, '#0f4a2a', 9) + `<path d="M60 ${H} q0-90 20-120 M80 ${H} q10-70 -4-100 M340 ${H} q0-100 -16-130" stroke="#0a2e1a" stroke-width="7" fill="none"/>`; break;
+     case 5: sky = ['#14325a', '#5aa0d0']; ground = '#124a7a'; back = sun(120, 110, 20, '#ffeec0', '#fff') + cl(3, '#fff', .4); front = `<rect y="${hz}" width="${W}" height="${H - hz}" fill="#145a8c"/>` + [0, 1, 2, 3, 4, 5].map((i) => `<path d="M0 ${hz + 14 + i * 18} q25-8 50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0 t50 0" stroke="#bfe6ff" stroke-width="1.5" fill="none" opacity="${(.5 - i * .06).toFixed(2)}"/>`).join(''); break;
+     case 6: sky = ['#16243e', '#8ab4d8']; ground = '#d8e8f2'; back = stars(30, .7) + `<path d="M0 90 q100 30 200 0 t200 10 v30 q-100 24-200 0 t-200 6Z" fill="#7affd0" opacity=".16"/>` + ridge(hz - 8, 30, '#a8c4dc', 6, .9); front = ridge(hz + 10, 10, '#e4f0f8', 8) + ridge(hz + 56, 8, '#c8dcea', 6); break;
+     case 7: sky = ['#1a3a6a', '#bcd8ee']; ground = '#4a5a52'; back = sun(80, 90, 18, '#fffbe6') + cl(3, '#fff', .5) + `<path d="M0 ${hz} L70 80 L110 ${hz - 40} L170 50 L240 ${hz} L300 100 L360 60 L${W} ${hz} Z" fill="#6c7e8c"/><path d="M170 50 l-24 30 l14-6 l10 12 l8-10 l14 8 Z M70 80 l-16 24 l12-6 l8 8 l6-8 Z M360 60 l-18 26 l12-4 l10 8 Z" fill="#fff" opacity=".9"/>`; front = ridge(hz + 14, 16, '#3a4a40', 8) + ridge(hz + 56, 10, '#2a382e', 6); break;
+     case 8: sky = ['#0a0c12', '#2a2c38']; ground = '#4a4640'; back = stars(60, .8) + `<circle cx="300" cy="90" r="40" fill="#d8d4cc"/><circle cx="288" cy="82" r="8" fill="#b8b4aa"/><circle cx="312" cy="104" r="12" fill="#c0bcb2"/>`; front = ridge(hz, 12, '#58544c', 8) + ridge(hz + 40, 8, '#3c3834', 6); break;
+     case 9: sky = ['#1e1a10', '#8a7a3a']; ground = '#3a3626'; back = cl(5, '#4a4020', .6) + sun(300, 130, 26, '#d8c070', '#c8b040') + ridge(hz - 2, 22, '#2c281a', 9); front = ridge(hz + 24, 20, '#2a2616', 8) + `<path d="M50 ${hz + 30} v-34 h8 v-16 h10 v30 h12 v20 Z M260 ${hz + 34} v-44 h12 v-12 h10 v46 Z" fill="#14120a"/>`; break;
+     case 10: sky = ['#2a0a06', '#e0501a']; ground = '#1a0c08'; back = stars(10, .4) + sun(200, 150, 50, '#ffb040', '#ff6a10') + ridge(hz - 4, 30, '#2a0e08', 8); front = `<rect y="${hz + 28}" width="${W}" height="${H}" fill="#1a0a06"/><path d="M0 ${hz + 60} q60-20 120 0 t120 0 t120 0 t80 0" stroke="#ff7a20" stroke-width="3" fill="none"/><path d="M0 ${hz + 96} q50 14 100 0 t100 0 t100 0 t100 0" stroke="#ffb040" stroke-width="2" fill="none" opacity=".8"/>`; break;
+     case 11: sky = ['#1a2a10', '#9ab030']; ground = '#2a3a14'; back = cl(6, '#cfe05a', .28) + sun(300, 120, 22, '#e8f08a', '#c8e030') + ridge(hz - 2, 24, '#3c4a1a', 8, .9); front = ridge(hz + 22, 14, '#26340e', 8) + [0, 1, 2, 3, 4].map((i) => `<circle cx="${60 + i * 80 + rnd() * 20}" cy="${hz + 50 + rnd() * 50}" r="${3 + rnd() * 5}" fill="none" stroke="#d8f060" opacity=".5"/>`).join(''); break;
+     case 12: sky = ['#2a1a3a', '#d89a60']; ground = '#6a4a3a'; back = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => `<rect y="${i * 40}" width="${W}" height="22" fill="${['#e8b078', '#c27a4a', '#f0d098', '#9a5a3a'][i % 4]}" opacity=".55"/>`).join(''); front = `<ellipse cx="100" cy="240" rx="60" ry="20" fill="#e0f0ff" opacity=".18"/><path d="M0 ${hz + 60} q100-24 200 0 t200 0 V${H} H0Z" fill="#1a1020" opacity=".7"/>`; break;
+     case 13: sky = ['#04060c', '#141a28']; ground = '#2a2a30'; back = stars(70, .9) + sun(330, 60, 10, '#ffe8b0') + [0, 1, 2, 3, 4, 5, 6].map(() => { const x = rnd() * W, y = 20 + rnd() * 160, r = 6 + rnd() * 16; return `<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="${r.toFixed(0)}" ry="${(r * .7).toFixed(0)}" fill="#5a5660" opacity=".7" transform="rotate(${(rnd() * 60).toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})"/>`; }).join(''); front = ridge(hz + 20, 24, '#34343c', 6) + ridge(hz + 58, 10, '#24242a', 5); break;
+     case 14: sky = ['#06101e', '#1a4a7a']; ground = '#0c1420'; back = stars(25, .5); { let b = ''; for (let x = 0; x < W; x += 20) { const bh = 30 + rnd() * 130; b += `<rect x="${x}" y="${hz + 20 - bh}" width="${14 + rnd() * 8}" height="${bh}" fill="#0e1c2e"/>`; for (let k = 0; k < 6; k++) b += `<rect x="${x + 3 + (k % 2) * 6}" y="${hz + 20 - bh + 8 + k * 14}" width="3" height="4" fill="#ffd870" opacity="${(rnd() * .7 + .2).toFixed(2)}"/>`; } back += b; } front = `<rect y="${hz + 20}" width="${W}" height="${H}" fill="#0a121c"/><path d="M0 ${hz + 40} H${W}" stroke="#3ac8ff" stroke-width="1.5" opacity=".6"/>`; break;
+     case 15: sky = ['#050814', '#1a2a5a']; ground = '#1c2a3a'; back = stars(50, .8) + `<path d="M-20 70 Q200 -10 420 70" stroke="#8ab4e8" stroke-width="18" fill="none" opacity=".5"/><path d="M-20 70 Q200 -10 420 70" stroke="#d8ecff" stroke-width="2" fill="none" opacity=".8"/>`; front = ridge(hz + 10, 14, '#2a4a3a', 8) + ridge(hz + 50, 10, '#1e3a2c', 6); break;
+     case 16: sky = ['#02040a', '#0a1a30']; ground = '#1a2230'; back = stars(80, .9) + `<circle cx="300" cy="70" r="34" fill="#2a6ab0"/><circle cx="292" cy="62" r="34" fill="#02040a" opacity=".35"/>`; front = `<path d="M-10 ${H} V${hz + 10} Q200 ${hz - 40} 410 ${hz + 10} V${H}Z" fill="#162030"/><path d="M-10 ${hz + 10} Q200 ${hz - 40} 410 ${hz + 10}" stroke="#6ac8ff" stroke-width="2" fill="none" opacity=".7"/>` + [0, 1, 2, 3, 4].map((i) => `<rect x="${40 + i * 70}" y="${hz - 6 - (i % 2) * 8}" width="30" height="8" rx="2" fill="#3a5a7a" opacity=".8"/>`).join(''); break;
+     case 17: sky = ['#2a1a30', '#7a5a70']; ground = '#3a2a3a'; back = cl(9, '#d8b8d0', .3) + cl(6, '#8a6a88', .35); front = ridge(hz + 24, 12, '#2a1c2c', 8) + cl(3, '#cfaecb', .25); break;
+     case 18: sky = ['#1a0a18', '#6a2a50']; ground = '#2a1020'; back = cl(4, '#c05a90', .22) + ridge(hz - 4, 26, '#3a1428', 8); front = `<path d="M0 ${hz + 30} q50 -26 100 0 q50 -30 100 0 q50 -26 100 0 q50 -26 100 0 V${H} H0Z" fill="#2a0e1c"/>` + [0, 1, 2, 3, 4, 5].map((i) => `<ellipse cx="${30 + i * 64 + rnd() * 20}" cy="${hz + 56 + rnd() * 40}" rx="${6 + rnd() * 6}" ry="${3 + rnd() * 4}" fill="#e870b0" opacity=".45"/>`).join(''); break;
+     default: sky = ['#0a1220', '#1a3a56']; back = '<path d="M0 120H400 M0 160H400 M0 200H400 M80 90V242 M160 90V242 M240 90V242 M320 90V242" stroke="#76b9c4" opacity=".12" fill="none"/>'; front = ''; // Unknown mod class: neutral communication backdrop.
+   }
+   defs = `<linearGradient id="gvSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient><linearGradient id="gvShade" x1="0" y1="0" x2="0" y2="1"><stop offset=".5" stop-color="#000" stop-opacity="0"/><stop offset=".76" stop-color="#000" stop-opacity=".78"/></linearGradient>`;
+   return `<defs>${defs}</defs><rect width="${W}" height="${H}" fill="url(#gvSky)"/>${back}${front}<rect width="${W}" height="${H}" fill="url(#gvShade)"/>`;
+ }
+ let gv = { list: null, sel: -1, busy: false };
+ const gvLine = (cls, who, text) => { const d = document.createElement('div'); d.className = 'ln ' + cls; d.innerHTML = (who ? '<div class="who"></div>' : '') + '<span class="t"></span>'; if (who) d.querySelector('.who').textContent = who; d.querySelector('.t').textContent = text; $('gvLog').appendChild(d); $('gvLog').scrollTop = 1e9; };
+ const gvGovName = (p) => (p.governor && p.governor.trim()) || '일반 총독관';
+ const gvFacts = (p) => { const T = (x) => (window.SLLMI18n ? window.SLLMI18n.t(x) : x), f = []; if (p.capital) f.push(T('수도')); if (p.pops !== null) f.push(T('주민') + ' ' + p.pops + (p.popsApprox ? (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(' 이상', '+') : ' 이상') : '')); if (p.stability !== null) f.push(T('안정도') + ' ' + p.stability); if (p.amenities !== null) f.push(T('여가') + ' ' + (p.amenities >= 0 ? '+' : '') + p.amenities); if (p.housing !== null) f.push(T('주거') + ' ' + (p.housing >= 0 ? '+' : '') + p.housing); return f.length ? f.join(' · ') : T('(수치를 읽지 못했습니다)'); };
+ function gvPortrait(name) { // 총독 얼굴은 늘 내 제국의 기본 종족 초상화(비율이 가장 높은 종족을 읽을 수 있게 되기 전에는 창설 종족 계열)
+   const k = gv.list ? CLASS_KEYS[gv.list.cls || 0] : '';
+   const url = k ? SLLMVariant.pick(imgState.images, ['class:' + k], name, imgState.defaults && imgState.defaults[k]) : null; // 총독마다 변형 한 장
+   $('gvPic').innerHTML = portraitSvg(name, url);
+ }
+ function gvDrawList() {
+   const g = $('gvList'); g.innerHTML = '';
+   if (!gv.list) return;
+   if (!gv.list.planets.length) { g.innerHTML = '<div class="hint">읽어 온 행성이 없습니다.</div>'; return; }
+   gv.list.planets.forEach((p, i) => {
+     const d = document.createElement('div'); d.className = 'it';
+     d.innerHTML = '<span class="nm"></span><span class="gv"></span>' + (p.capital ? '<span class="cp">수도</span>' : '');
+     d.querySelector('.nm').textContent = p.name; d.querySelector('.gv').textContent = gvGovName(p);
+     d.onclick = () => gvOpen(i);
+     g.appendChild(d);
+   });
+ }
+ async function gvLoad() {
+   $('gvStat').textContent = ' 게임에서 읽는 중…'; $('gvRefresh').disabled = true;
+   const r = await window.sllm.govRefresh().catch((e) => ({ error: String(e.message || e) }));
+   $('gvRefresh').disabled = false;
+   if (r.error) { $('gvStat').textContent = ' ' + r.error; return null; }
+   gv.list = r.list; $('gvStat').textContent = ' ' + r.list.planets.length + '개 행성'; gvDrawList(); return r.list;
+ }
+ async function gvOpen(i, fresh) {
+   const name = gv.list.planets[i].name; gv.sel = i;
+   $('gvList').hidden = true; $('gvRefresh').hidden = true; $('gvChat').hidden = false; $('gvLog').innerHTML = '';
+   await window.sllm.govReset();
+   gvShow(); gvLine('sys', '', '상태를 새로 읽는 중…');
+   const l = fresh ? gv.list : await gvLoad(); // 열 때마다 최신 상태를 읽는다(방금 읽었으면 다시 읽지 않는다)
+   if (l) { const j = l.planets.findIndex((p) => p.name === name); gv.sel = j; }
+   $('gvLog').innerHTML = '';
+   if (gv.sel < 0) { gvLine('sys', '', '이 행성을 다시 찾지 못했습니다. 목록으로 돌아가세요.'); return; }
+   gvShow(); gvLine('sys', '', gvGovName(gv.list.planets[gv.sel]) + '이(가) 보고를 기다리고 있습니다.');
+ }
+ // 게임 폴더의 행성 그림(내가 올린 그림이 없을 때만 쓴다). 못 읽으면 그림(SVG)으로 대신한다.
+ async function gvGameBg(p) {
+   const pc = p.pc || 0;
+   if (!pc || (imgState.planetBgs && imgState.planetBgs[pc]) || pc in gameBgs) return;
+   gameBgs[pc] = await window.sllm.planetArt(pc).catch(() => null);
+   const cur = gv.list && gv.list.planets[gv.sel];
+   if (gameBgs[pc] && cur && (cur.pc || 0) === pc) $('gvBg').innerHTML = gvScene(cur.name, pc);
+ }
+ function gvShow() {
+   const p = gv.list && gv.list.planets[gv.sel]; if (!p) return;
+   const type = p.className || PC_KO[p.pc] || '';
+   $('gvName').textContent = gvGovName(p); $('gvPlanet').textContent = p.name + ' 총독' + (type ? ' · ' + type : ''); $('gvBg').innerHTML = gvScene(p.name, p.pc || 0); gvGameBg(p); $('gvFacts').textContent = gvFacts(p); gvPortrait(gvGovName(p)); gvMemLoad();
+ }
+
+ // 총독 기억(이름 있는 총독만)
+ let gvMem = { enabled: false, level: 0, label: '', items: [] }, gvLast = '';
+ function gvMemDraw() {
+   $('gvLv').textContent = gvMem.enabled ? gvMem.label : ''; $('gvMemBar').hidden = !gvMem.enabled; $('gvMemBtn').textContent = '기억 (' + gvMem.items.length + ')';
+   const L = $('gvMemList'); L.innerHTML = '';
+   if (!gvMem.enabled) { L.hidden = true; return; }
+   if (!gvMem.items.length) L.innerHTML = '<div class="hint">아직 특별한 기억이 없습니다.</div>';
+   gvMem.items.forEach((m) => { const d = document.createElement('div'); d.className = 'm'; d.innerHTML = '<span></span><button title="이 기억 지우기">×</button>'; d.querySelector('span').textContent = (m.other ? '(되감기 전의 다른 시간선) ' : '') + (m.date ? '[' + m.date + '] ' : '') + m.text; if (m.other) d.style.opacity = '.6'; d.querySelector('button').onclick = async () => { gvMem = await window.sllm.govMemDel({ index: gv.sel, id: m.id }); gvMemDraw(); L.hidden = false; }; L.appendChild(d); });
+ }
+ async function gvMemLoad() { gvLast = ''; $('gvSug').hidden = true; $('gvMemList').hidden = true; try { gvMem = await window.sllm.govMemList({ index: gv.sel }); } catch { gvMem = { enabled: false, level: 0, label: '', items: [] }; } gvMemDraw(); }
+ async function gvMemSave(text) { try { gvMem = await window.sllm.govMemAdd({ index: gv.sel, text }); gvMemDraw(); } catch (e) { gvLine('sys', '', String(e.message || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, '')); } }
+ $('gvMemBtn').onclick = () => { $('gvMemList').hidden = !$('gvMemList').hidden; };
+ $('gvKeep').onclick = () => { if (!gvLast) { gvLine('sys', '', '아직 총독의 대사가 없습니다.'); return; } gvMemSave(gvLast.slice(0, 100)); gvLine('sys', '', '이 순간을 기억으로 남겼습니다.'); };
+ let gvSugText = '';
+ $('gvSugY').onclick = () => { gvMemSave(gvSugText); $('gvSug').hidden = true; gvLine('sys', '', '이 순간을 기억으로 남겼습니다.'); };
+ $('gvSugN').onclick = () => { $('gvSug').hidden = true; };
+ let ME = ''; // 플레이어 통치자 이름(2026-10-18: 「나」 대신)
+ const refreshMe = () => { if (window.sllm.playerRuler) window.sllm.playerRuler().then((n) => { ME = n || ''; }, () => {}); };
+ refreshMe();
+ async function gvSend() {
+   refreshMe();
+   const t = $('gvQ').value.trim(); if (!t || gv.busy || gv.sel < 0) return; $('gvQ').value = ''; gv.busy = true; $('gvSend').disabled = true;
+   gvLine('me', ME || '나', t);
+   try { const r = await window.sllm.govChat({ index: gv.sel, text: t }); gvLine('ai', gvGovName(gv.list.planets[gv.sel]), r.say); gvLast = r.say; if (r.memo && gvMem.enabled) { gvSugText = r.memo; $('gvSugT').textContent = '\u{1F4AD} ' + (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick('이 순간을 기억할까요? "', 'Remember this moment? "') : '이 순간을 기억할까요? "') + r.memo + '"'; $('gvSug').hidden = false; } }
+   catch (e) { gvLine('sys', '', '응답을 받지 못했습니다: ' + String(e.message || e).replace(/^Error invoking remote method '[^']+': (Error: )?/, '')); }
+   gv.busy = false; $('gvSend').disabled = false; $('gvQ').focus();
+ }
+ $('gvRefresh').onclick = gvLoad;
+ // 게임의 행성 화면 버튼으로 열렸을 때: 목록을 읽고 그 행성의 총독 대화로 바로 들어간다
+ window.sllm.onGovFocus(async (name) => { if (!$('gvChat').hidden) { $('gvChat').hidden = true; $('gvList').hidden = false; $('gvRefresh').hidden = false; } const l = await gvLoad(); if (!l) return; const i = l.planets.findIndex((p) => p.name === name); if (i < 0) { $('gvStat').textContent = (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(` '${name}' 행성을 목록에서 찾지 못했습니다.`, ` Could not find planet '${name}' in the list.`) : ` '${name}' 행성을 목록에서 찾지 못했습니다.`); return; } gvOpen(i, true); });
+ $('gvSend').onclick = gvSend; $('gvQ').onkeydown = (e) => { if (e.key === 'Enter' && !e.isComposing) gvSend(); };
+ $('gvBack').onclick = () => { $('gvChat').hidden = true; $('gvList').hidden = false; $('gvRefresh').hidden = false; gv.sel = -1; };
+ $('gvAgain').onclick = async () => { const name = gv.list.planets[gv.sel].name; const l = await gvLoad(); if (l) { gv.sel = l.planets.findIndex((p) => p.name === name); if (gv.sel < 0) { gvLine('sys', '', '이 행성을 다시 찾지 못했습니다.'); return; } gvShow(); gvLine('sys', '', '상태를 다시 읽었습니다.'); } };
+ window.sllm.onPlanets((l) => { if (!l) { gv.list = null; gv.sel = -1; $('gvList').innerHTML = ''; $('gvChat').hidden = true; $('gvList').hidden = false; $('gvRefresh').hidden = false; $('gvStat').textContent = ''; } });
+ window.sllm.onImages((st) => setImg(st));
+ window.sllm.getImageState().then(setImg);
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.getSettings().then((st) => applyTheme(st.theme || 'stellaris', st.custom || {}));
+ $('gx').onclick = () => window.sllm.govClose();
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.sllm.govClose(); });
+ window.sllm.onGovInit(() => gvLoad());
+</script></body></html>
+

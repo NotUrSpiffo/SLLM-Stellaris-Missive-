@@ -1,0 +1,15 @@
+# SLLM Probe - 언론사 인터뷰 버프(2026-10-17). 주제마다 긍정 평가 1개 = 행복도 +3%. 1년(360일).
+# pop_happiness 는 비율 값이다(0.03 = +3%). 정수로 쓰면 +300% 가 된다.
+# 인터뷰 주제는 3개라 최대 3단계(+9%). 새 인터뷰 결과는 이전 것을 대신한다(쌓이지 않음).
+
+sllm_press_happy_1 = {
+	pop_happiness = 0.03
+}
+
+sllm_press_happy_2 = {
+	pop_happiness = 0.06
+}
+
+sllm_press_happy_3 = {
+	pop_happiness = 0.09
+}

@@ -1,0 +1,19 @@
+# SLLM Probe - 은하 위기 감시(2026-10-17). 앱은 이 줄로 신문·라디오를 "위기 특별판/긴급 특별 방송"으로 바꾼다.
+# 로그: 지금 은하에 있는 위기마다 SLLM:CRISIS(kind) → 마지막에 SLLM:CRISIS_END(묶음 끝, 매달 한 번). 위기가 없으면 CRISIS_END 만 남는다.
+# 위기 세력 = 바닐라 common/country_types 의 종말 위기 국가 종류(swarm·extradimensional*·ai_empire·synth_queen*)와 대칸(awakened_marauders).
+namespace = sllm_crisis
+
+country_event = {
+	id = sllm_crisis.1
+	hide_window = yes
+	is_triggered_only = yes
+	trigger = { is_ai = no }
+	immediate = {
+		if = { limit = { any_country = { is_country_type = swarm } } log = "SLLM:CRISIS/;/kind=prethoryn" }
+		if = { limit = { any_country = { OR = { is_country_type = extradimensional is_country_type = extradimensional_2 is_country_type = extradimensional_3 } } } log = "SLLM:CRISIS/;/kind=unbidden" }
+		if = { limit = { any_country = { is_country_type = ai_empire } } log = "SLLM:CRISIS/;/kind=contingency" }
+		if = { limit = { any_country = { OR = { is_country_type = synth_queen is_country_type = awakened_synth_queen } } } log = "SLLM:CRISIS/;/kind=cetana" }
+		if = { limit = { any_country = { is_country_type = awakened_marauders } } log = "SLLM:CRISIS/;/kind=khan" }
+		log = "SLLM:CRISIS_END/;/date=\\[GetDate]"
+	}
+}

@@ -1,0 +1,11 @@
+# SLLM Probe - 집무실 연락처: 내 지도자 명단(2026-10-18). 모드의 on_actions 는 게임 것과 합쳐진다. 숨은 이벤트만 부른다(on_actions 에 effect 블록 불가).
+on_monthly_pulse_country = {
+	events = { sllm_people.1 }
+}
+# 작별·추모(2026-10-18): 지도자 사망·해임(This = 국가, From = 지도자, 바닐라 00_on_actions.txt 설명과 같음)
+on_leader_death = {
+	events = { sllm_people.2 }
+}
+on_leader_fired = {
+	events = { sllm_people.3 }
+}

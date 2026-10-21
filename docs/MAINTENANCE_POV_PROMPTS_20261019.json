@@ -1,0 +1,22 @@
+[
+  {
+    "key": "background",
+    "prompt": "Remove only the secretary, reconstruct empty padded pod cushions behind her. Preserve exact scene camera, full1672x941, lighting rails open canopy. No person.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-f6e50dfd-f3e6-4397-af3b-c51269293316.png"
+  },
+  {
+    "key": "neutral",
+    "prompt": "Extract ONLY visible secretary onto genuine transparent alpha, exact full1672x941 canvas and pixel coordinates. Keep identity expression hair hands posture lighting unchanged. No pod/pillow/rails/background. Do not crop resize recenter.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-e07d267c-a0b3-46d6-bcdf-9e19fbe89f1a.png"
+  },
+  {
+    "key": "drowsy",
+    "prompt": "Extract ONLY secretary onto genuine transparent alpha full1672x941 exact original coordinates. Edit ONLY facial expression: eyelids almost closed sleepy, relaxed brows and mouth as she whispers before powering down. Cyan temple ring faint dim gray blue. Exact same face identity head orientation hair body hands lighting. No pod/background, no crop/recenter.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-46da8d18-0a6d-4c03-9d69-7e0c03029aa0.png"
+  },
+  {
+    "key": "awake",
+    "prompt": "Extract ONLY secretary onto genuine transparent alpha full1672x941 exact original coordinates. Edit ONLY face: clearly open eyes meeting viewer, gentle happy relieved smile with slightly visible teeth, brows relaxed after waking. Exact same face identity head orientation hair body hands lighting. Cyan temple ring normal. No pod/background no crop/recenter.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-aa59289f-ba08-40ad-8254-9dccdb54808d.png"
+  }
+]

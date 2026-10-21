@@ -1,0 +1,48 @@
+/* Executive office artwork. Keep the desktop and embedded app surface interactive. */
+#room{background:#101319 var(--office-bg,url('assets/rooms/office-ai-v1.png')) center bottom/cover no-repeat} /* 집무실 종류(2026-10-19): office-style.js 가 그림이 있을 때만 --office-bg 를 바꾼다 */
+#sky,#desk{display:none}
+:root{--emitter-bottom:max(25.8vh,19.35vw)}
+#proj{bottom:calc(var(--emitter-bottom) - 10px);width:190px;margin-left:-95px;height:20px;border:1px solid var(--hi);background:radial-gradient(ellipse,#d8ffffb0,var(--glow) 40%,transparent 72%);box-shadow:0 0 18px var(--hi),0 0 55px var(--glow)}
+#beam{bottom:var(--emitter-bottom);height:calc(93vh - var(--emitter-bottom));width:min(1040px,80vw);opacity:.65;background:linear-gradient(to top,color-mix(in srgb,var(--hi) 55%,transparent),color-mix(in srgb,var(--hi) 12%,transparent) 35%,transparent);clip-path:polygon(43% 100%,57% 100%,100% 0,0 0)}
+#holo{top:7%;bottom:calc(var(--emitter-bottom) + 70px);height:auto;background:linear-gradient(180deg,#061824b8,#06252e8a 75%,#13546650);backdrop-filter:blur(1px);-webkit-mask-image:linear-gradient(#000 88%,#000b);mask-image:linear-gradient(#000 88%,#000b);border-color:var(--hi);border-radius:2px;box-shadow:0 0 6px var(--hi),0 0 30px var(--glow),inset 0 0 40px color-mix(in srgb,var(--hi) 14%,transparent);text-shadow:0 1px 4px #000,0 0 8px var(--glow)}
+#holo::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:4;background:linear-gradient(transparent 48%,color-mix(in srgb,var(--hi) 12%,transparent) 50%,transparent 52%);background-size:100% 200%;animation:office-scan 9s linear infinite}
+@keyframes office-scan{from{background-position:0 100%}to{background-position:0 -100%}}
+@media(prefers-reduced-motion:reduce){#holo::after{animation:none}}
+body.docked #holo{background:color-mix(in srgb,var(--panel) 94%,transparent);-webkit-mask-image:none;mask-image:none}
+#bar{background:linear-gradient(#000c,#0004)}
+#hh{background:#0003}
+.ic{background:color-mix(in srgb,var(--hi) 3%,transparent)}
+@media(max-width:760px){#holo{width:92vw;top:6%}#beam{width:92vw}#icons{padding:12px}#hh{padding:10px;gap:8px}#state{font-size:11px}#emp{font-size:14px}.ic{width:92px}#detail{width:42%;padding:12px}}
+@media(max-height:650px){#holo{top:40px;bottom:calc(var(--emitter-bottom) + 24px)}}
+
+/* Physical newspaper prop; interaction and translated labels remain in office.html. */
+#deskPaper{width:calc(.17 * max(100vw,133.3vh));aspect-ratio:2.6;bottom:max(17vh,12.75vw)}
+#deskPaper .np{inset:0;background:url('assets/rooms/office-newspaper-v1.png') center/contain no-repeat;border-radius:0;transform:none;box-shadow:none;filter:drop-shadow(0 4px 3px #0008);transition:filter .2s,transform .2s}
+#deskPaper .np::after,#deskPaper .mh,#deskPaper .cols{display:none}
+#deskPaper:hover .np,#deskPaper:focus-visible .np{transform:translateY(-3px);box-shadow:none;filter:brightness(1.12) drop-shadow(0 5px 4px #0009)}
+#deskPaper:focus-visible{outline:1px solid var(--hi);outline-offset:4px}
+#deskPaper .new{top:6%;right:7%}
+@media(prefers-reduced-motion:reduce){#deskPaper .np{transition:none}}
+
+/* Desk foreground: same cover transform as #room, clipped at the rear desk edge. */
+#secScene::after{content:'';position:fixed;inset:0;z-index:2;pointer-events:none;background:var(--office-bg,url('assets/rooms/office-ai-v1.png')) center bottom/cover no-repeat;clip-path:inset(calc(100vh - max(32vh,24vw)) 0 0 0)}
+#secScene .dim{z-index:0}
+#secScene .sec-fig{z-index:1;bottom:18vh}
+#secScene .sec-box{z-index:3;top:50%;bottom:auto;max-height:46%}
+#secScene .sec-log{z-index:4;bottom:calc(50% + 24px)}
+
+
+/* Office variants 20261019: align foreground and projector with artwork. */
+body[data-office="egalitarian"]{--emitter-bottom:max(26.6vh,19.95vw)}
+body[data-office="egalitarian"] #secScene::after{clip-path:inset(calc(100vh - max(33vh,24.75vw)) 0 0 0)}
+body[data-office="spiritualist"]{--emitter-bottom:max(24.2vh,18.15vw)}
+body[data-office="spiritualist"] #secScene::after{clip-path:inset(calc(100vh - max(30.4vh,22.8vw)) 0 0 0)}
+
+/* Live player emblem: shares the room's 4:3 cover coordinates. */
+#officeEmblems{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100vw,133.333333vh);height:max(100vh,75vw);pointer-events:none;z-index:1}
+#officeEmblems[hidden]{display:none}
+.office-emblem{position:absolute;top:17%;width:4.2%;height:12%;opacity:.8;background:linear-gradient(90deg,#745435 0%,#ddbf83 22%,#a17e4c 40%,#f0d69c 58%,#b7935c 76%,#705035 100%);mask:var(--office-emblem) center/contain no-repeat;-webkit-mask:var(--office-emblem) center/contain no-repeat;mix-blend-mode:screen;transform-origin:center}
+.office-emblem.left{left:16.8%;transform:perspective(300px) rotateY(12deg) skewY(2deg)}
+.office-emblem.right{left:78.8%;transform:perspective(300px) rotateY(-12deg) skewY(-2deg)}
+body[data-office="gestalt"] .office-emblem{opacity:.65}
+body[data-office="materialist"] .office-emblem{background:linear-gradient(90deg,#777e86,#e0e5eb 28%,#929da7 48%,#e8edf0 68%,#727d87)}

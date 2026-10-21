@@ -1,0 +1,15 @@
+namespace = sllm_council_agenda
+
+country_event = {
+    id = sllm_council_agenda.1
+    hide_window = yes
+    is_triggered_only = yes
+    trigger = { is_ai = no }
+    immediate = {
+        sllm_probe_init_vars = yes
+        sllm_probe_hello = { REQ = 0 }
+        # Collect current factions immediately; the app does not wait for the next monthly pulse.
+        log = "SLLM:AGENDA_FINISHED/;/sid=\\[This.sllm_save_id]/;/date=\\[GetDate]"
+        sllm_probe_state_scan = yes
+    }
+}

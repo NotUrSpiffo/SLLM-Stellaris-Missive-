@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>연방 정상회담</title>
+<style>
+ :root{--bg:#06141b;--panel:#0b2230;--text:#dcecf0;--dim:#7fa3ad;--hi:#5fd4e4;--hi-text:#04161d;--gold:#e8c872;--linec:#5fd4e4;--shade:#06141b;--ai:#8ee4f0;--bad:#e0705f;--good:#6fd7a8;
+  --btnbg:linear-gradient(#10394a,#0b2a38);--cardbg:linear-gradient(160deg,#0d2a38,#081a24);--inputbg:#04121a;
+  --mono:"D2Coding","Cascadia Mono",Consolas,"Malgun Gothic",monospace;--line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 15%,transparent);
+  --yes:#52b4e6;--no:#ee6a58;--abs:#8aa0a8;--tone:#c9a24a}
+ body[data-tone=trade]{--tone:#d8b45a} body[data-tone=military]{--tone:#d0604e} body[data-tone=research]{--tone:#5fb8e4} body[data-tone=hegemony]{--tone:#a77be0} body[data-tone=holy]{--tone:#e8dc9a} body[data-tone=union]{--tone:#6fd7a8}
+ *{box-sizing:border-box}
+ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.45 "Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+ body{display:flex;flex-direction:column;border:1px solid var(--line)}
+ #titlebar{-webkit-app-region:drag;display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--line2);flex:none}
+ #titlebar b{color:var(--hi);letter-spacing:.1em} .cap{font:10.5px var(--mono);letter-spacing:.12em;color:var(--dim)} .sp{flex:1}
+ .tag{border:1px solid var(--gold);color:var(--gold);padding:0 6px;font:10.5px var(--mono)} .tag.dev{border-style:dashed}
+ #titlebar button{-webkit-app-region:no-drag;width:26px;height:22px;padding:0;border-color:transparent;background:none;color:var(--dim)}
+ input,select,button{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);padding:5px 9px;outline:none;border-radius:0}
+ select{background:var(--btnbg)} select option{background:#0b2230}
+ button{white-space:nowrap;cursor:pointer;letter-spacing:.04em;background:var(--btnbg)} button:hover:not(:disabled){background:var(--hi);color:var(--hi-text);border-color:var(--hi)} button:disabled{opacity:.4;cursor:not-allowed}
+ button.primary{border-color:var(--hi);color:var(--hi)}
+ /* 머리줄: 연방 이름·종류·단계·응집력 */
+ #head{display:flex;gap:18px;align-items:center;margin:10px 12px 0;padding:8px 14px;background:var(--cardbg);border:1px solid var(--line2);border-left:4px solid var(--tone);flex:none}
+ #fname{font-size:17px;font-weight:700;letter-spacing:.03em} #fsub{color:var(--dim);font-size:12px}
+ #coh{display:flex;align-items:center;gap:8px;font:12px var(--mono);color:var(--dim)} #cohBar{width:140px;height:8px;border:1px solid var(--line);background:var(--shade);position:relative} #cohBar i{position:absolute;left:0;top:0;bottom:0;background:var(--tone)}
+ /* 안건 카드 */
+ #agenda{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:center;margin:8px 12px 0;padding:8px 14px;border:1px solid var(--line2);background:color-mix(in srgb,var(--panel) 70%,transparent);flex:none}
+ #agenda .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+ #aEffect{color:var(--dim);font-size:12px} #aProblem{color:var(--bad);font-size:12px}
+ #rule{text-align:right;font-size:12px;color:var(--dim)} #rule b{color:var(--gold);font-weight:600} #ruleSrc{font:10.5px var(--mono);opacity:.8}
+ #nums{display:flex;gap:6px;justify-content:flex-end;font:600 13px var(--mono)} #nums span{padding:0 7px;border:1px solid}
+ #nY{color:color-mix(in srgb,var(--yes) 75%,var(--text));background:color-mix(in srgb,var(--yes) 14%,transparent)} #nN{color:var(--bad);background:color-mix(in srgb,var(--no) 14%,transparent)} #nA{color:var(--dim);border-color:var(--line2)}
+ #verdict{grid-column:1/-1;font-size:12.5px;color:var(--dim)} #verdict.ok{color:var(--gold)}
+ /* 회담장: 양 끝이 둥근 긴 회의 테이블(위에서 비스듬히 본 모습). 위치는 federation.ts TABLE 과 같다 */
+ #hall{flex:1;min-height:0;position:relative;margin:8px 12px 0;overflow:hidden;border:1px solid var(--line2);
+  background:radial-gradient(ellipse 60% 50% at 50% 52%,color-mix(in srgb,var(--tone) 12%,transparent),transparent 72%),linear-gradient(color-mix(in srgb,var(--shade) 70%,#000),var(--shade) 60%,color-mix(in srgb,var(--shade) 85%,#000))}
+ /* A-22 연출 슬롯: 사용자가 고른 배경 그림(없으면 기본 그림). 의석·탁자는 그 위에 */
+ .scenebg{position:absolute;inset:0;pointer-events:none;background:var(--scene,none) center/cover no-repeat}
+ .scenebg::after{content:"";position:absolute;inset:0;background:linear-gradient(#0007,#0002 45%,#0008)}
+ html:not([data-scene]) .scenebg{display:none}
+ #floor{position:absolute;left:8%;right:8%;top:30%;bottom:6%;border-radius:50%;background:radial-gradient(ellipse at 50% 50%,color-mix(in srgb,var(--tone) 9%,transparent),transparent 70%);pointer-events:none}
+ #table{position:absolute;left:20%;right:20%;top:41%;bottom:29%;border-radius:999px;z-index:2;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tone) 30%,var(--panel)) 0%,color-mix(in srgb,var(--tone) 16%,var(--panel)) 45%,color-mix(in srgb,var(--panel) 85%,#000) 100%);
+  border:1px solid color-mix(in srgb,var(--tone) 60%,transparent);
+  box-shadow:inset 0 2px 0 color-mix(in srgb,#fff 18%,transparent),inset 0 -6px 14px rgba(0,0,0,.35),
+   0 12px 0 0 color-mix(in srgb,var(--tone) 22%,#0a0d10),0 13px 0 1px color-mix(in srgb,var(--tone) 40%,transparent),0 30px 34px rgba(0,0,0,.55)}
+ #table::after{content:"";position:absolute;inset:18% 7%;border-radius:999px;border:1px solid color-mix(in srgb,var(--tone) 30%,transparent);background:color-mix(in srgb,var(--tone) 6%,transparent)}
+ #emblem{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;opacity:.55;color:color-mix(in srgb,var(--tone) 80%,var(--text));pointer-events:none;z-index:1;white-space:nowrap}
+ #emblem .t{font-size:clamp(12px,1.3vw,17px);font-weight:700;letter-spacing:.08em} #emblem .s{font:10.5px var(--mono);color:var(--dim);letter-spacing:.14em}
+ /* 자리: 의자 등받이 + 지도자 초상화(종족 계열). 건너편은 테이블 뒤에 앉아 아랫부분이 테이블에 가린다 */
+ #seats{position:absolute;inset:0}
+ .seat{position:absolute;cursor:pointer;--c:var(--abs);--pw:clamp(62px,min(7vw,17vh),112px);--ph:calc(var(--pw) * 1.12);display:flex;flex-direction:column;align-items:center}
+ body.many .seat{--pw:clamp(52px,min(5.4vw,13vh),84px)}
+ .seat.yes{--c:var(--yes)} .seat.no{--c:var(--no)} .seat.abstain{--c:var(--abs)} .seat.out{opacity:.45}
+ .seat.far{z-index:1;transform:translate(-50%,calc(-100% + 16px))}
+ .seat.near{z-index:4;transform:translate(-50%,-14px)}
+ .seat.head{z-index:1;transform:translate(calc(-100% + 18px),-58%)}
+ .seat.foot{z-index:1;transform:translate(-18px,-58%)}
+ .chair{position:relative;width:calc(var(--pw) + 14px);height:calc(var(--ph) + 8px);padding:7px 7px 0;border-radius:14px 14px 6px 6px;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 70%,#000),color-mix(in srgb,var(--panel) 40%,#000));border:1px solid color-mix(in srgb,var(--c) 40%,var(--line2));box-shadow:0 8px 16px rgba(0,0,0,.45)}
+ .face{position:relative;width:var(--pw);height:var(--ph);border-radius:10px 10px 3px 3px;overflow:hidden;background:var(--shade);border:2px solid var(--c);box-shadow:0 0 14px color-mix(in srgb,var(--c) 40%,transparent);transition:box-shadow .3s,border-color .3s}
+ .face img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+ .face .gl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 28px var(--mono);color:var(--c);opacity:.7}
+ .crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%);color:var(--gold);font-size:18px;text-shadow:0 0 8px var(--gold);z-index:3}
+ .plate{min-width:118px;max-width:170px;margin-top:4px;padding:3px 8px;text-align:center;background:color-mix(in srgb,var(--bg) 90%,transparent);border:1px solid var(--line2);border-top:3px solid var(--c)}
+ .plate .nm{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .plate .rl{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .plate .wt{font:10.5px var(--mono);color:var(--gold)}
+ .plate .vt{display:inline-block;margin-left:6px;padding:0 5px;font:600 10.5px var(--mono);border:1px solid var(--c);color:color-mix(in srgb,var(--c) 75%,var(--text));background:color-mix(in srgb,var(--c) 14%,transparent)}
+ /* 건너편 자리의 이름판은 테이블 위에 세워 둔 명패 */
+ .card.near{transform:translate(-50%,-100%);border-bottom-width:1px;border-top:3px solid var(--c)}
+ .card{position:absolute;z-index:3;transform:translate(-50%,0);min-width:112px;max-width:160px;padding:2px 7px;text-align:center;cursor:pointer;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);border:1px solid var(--line2);border-bottom:3px solid var(--c);--c:var(--abs);box-shadow:0 3px 6px rgba(0,0,0,.4)}
+ .card.yes{--c:var(--yes)} .card.no{--c:var(--no)} .card.out{opacity:.45}
+ .card .nm{font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .card .rl{font-size:10.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .card .wt{font:10px var(--mono);color:var(--gold)} .card .vt{display:inline-block;margin-left:5px;padding:0 4px;font:600 10px var(--mono);border:1px solid var(--c);color:color-mix(in srgb,var(--c) 75%,var(--text))}
+ body.many .plate .wt,body.many .card .wt{display:none}
+ .flag{width:18px;height:12px;object-fit:cover;vertical-align:-1px;margin-right:4px;border:1px solid var(--line2)}
+ .em{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:4px}
+ .seat:hover .face{box-shadow:0 0 0 2px var(--hi),0 0 18px var(--hi)}
+ .seat.target .face{box-shadow:0 0 0 3px var(--hi),0 0 22px var(--hi);border-color:var(--hi)}
+ .seat.talk .face{box-shadow:0 0 0 3px var(--gold),0 0 24px var(--gold);border-color:var(--gold)}
+ .seat.talk .chair{animation:tk .9s ease-in-out infinite alternate} @keyframes tk{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+ .seat.me .plate{border-color:var(--hi)}
+ .bubble{position:absolute;left:50%;top:10px;transform:translateX(-50%);max-width:min(620px,60%);padding:6px 11px;font-size:12.5px;line-height:1.4;background:color-mix(in srgb,var(--bg) 95%,transparent);border:1px solid var(--gold);border-left-width:4px;z-index:6;pointer-events:none}
+ .bubble b{color:var(--gold);margin-right:6px}
+ #legend{font-size:11px;color:var(--dim);white-space:nowrap;margin-right:14px} #legend i{display:inline-block;width:9px;height:9px;margin:0 4px 0 10px;vertical-align:-1px} #legend span{margin-left:12px}
+ @media (max-height:760px){#chat{height:112px} #head{padding:4px 12px;margin-top:6px} #fname{font-size:15px} #agenda{padding:5px 12px;margin-top:6px} #foot{padding:6px 12px}}
+ /* 아래: 회의 기록과 발언 */
+ #chat{display:flex;gap:10px;margin:8px 12px 0;height:150px;flex:none}
+ #log{flex:1;min-width:0;overflow-y:auto;border:1px solid var(--line2);background:var(--shade);padding:7px 10px;font-family:var(--mono);font-size:12.5px}
+ .ln{margin:0 0 5px} .ln .who{font-size:10.5px;letter-spacing:.06em;color:var(--dim);display:block} .ln.me .who{color:var(--hi)} .ln.sys{color:var(--dim);font-size:11.5px}
+ #ctl{width:min(520px,40%);flex:none;display:flex;flex-direction:column;gap:7px;justify-content:flex-end}
+ .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+ .seg{display:flex} .seg button{padding:3px 10px;font-size:12px} .seg button.on{background:var(--hi);color:var(--hi-text);border-color:var(--hi)}
+ #toWho{color:var(--hi);font-weight:600} #toAll{padding:2px 8px;font-size:11.5px}
+ .prompt{flex:1;display:flex;align-items:center;border:1px solid var(--line);background:var(--inputbg);padding-left:8px;font-family:var(--mono)} .prompt:focus-within{border-color:var(--hi)} .prompt .pr{color:var(--ai);margin-right:6px}
+ .prompt input{flex:1;border:0;background:transparent;padding:5px 6px 5px 0;font-family:var(--mono)}
+ #foot{display:flex;gap:6px;align-items:center;padding:8px 12px;margin-top:6px;border-top:1px solid var(--line2);flex:none} #foot .hint{color:var(--dim);font-size:11px;margin-right:auto;flex:1;min-width:0}
+ #apply.ready{border-color:var(--gold);color:var(--gold)}
+</style><script src="theme.js"></script><script src="scene-slots.js"></script><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script><link rel="stylesheet" href="window-chrome.css"><link rel="stylesheet" href="special-rooms.css"><link rel="stylesheet" href="summit-art.css"></head><body data-room="summit" data-tone="union">
+<div id="titlebar"><b>연방 정상회담</b><span class="cap">// 회담 중</span><span class="tag">실험</span><span class="tag dev" id="tagDemo" hidden>시연판 · 가짜 데이터</span><span class="sp"></span><span id="sceneBtn"></span><button id="x" title="닫기 (Esc)">✕</button></div>
+<div id="head"><div><div id="fname" data-i18n-skip>—</div><div id="fsub"></div></div><span class="sp"></span><div id="coh">응집력 <span id="cohBar"><i></i></span> <b id="cohV">—</b></div></div>
+<div id="agenda">
+ <span class="cap">안건</span>
+ <div><div class="row"><select id="aKind" aria-label="안건 종류"></select><select id="aTarget" aria-label="전쟁 대상 국가" hidden></select></div>
+  <div id="aEffect"></div><div id="aProblem"></div></div>
+ <div><div id="rule"></div><div id="nums"><span id="nY">찬 <b id="vY">0</b></span><span id="nN">반 <b id="vN">0</b></span><span id="nA">유보 <b id="vA">0</b></span></div></div>
+ <div id="verdict"></div>
+</div>
+<div id="hall"><div class="scenebg"></div><div id="floor"></div><div id="table"><div id="emblem"><div class="t" id="emT" data-i18n-skip></div><div class="s" id="emS"></div></div></div>
+ <div id="seats"></div>
+</div>
+<div id="chat"><div id="log"></div>
+ <div id="ctl">
+  <div class="row"><span class="cap">내 표</span><div class="seg" id="myVote"><button data-v="yes">찬성</button><button data-v="no">반대</button><button data-v="abstain">유보</button></div>
+   <span class="sp"></span><span class="cap">발언 대상</span> <span id="toWho">전체</span> <button id="toAll" hidden>전체에게</button></div>
+  <div class="row" style="flex-wrap:nowrap"><div class="prompt"><span class="pr">›</span><input id="q" placeholder="정상들에게 발언…" autocomplete="off"></div><button id="send" class="primary">발언</button></div>
+ </div></div>
+<div id="foot"><span id="legend">입장<i style="background:var(--yes)"></i>찬성<i style="background:var(--no)"></i>반대<i style="background:var(--abs)"></i>유보<span>★ 회장 · 자리를 누르면 그 지도자에게만 말합니다</span></span><span class="hint" id="hint">회장은 테이블 상석(왼쪽 끝), 플레이어는 맞은편 끝에 앉습니다. 결정 방식은 그 연방의 실제 법을 따릅니다(못 읽으면 만장일치).</span>
+ <span id="workStatus" role="status"></span><button id="end">회담 종료</button><button id="apply" disabled>결정 적용</button></div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const GL_KO = { mammalian: '포', human: '인', reptilian: '파', arthropoid: '절', avian: '조', fungoid: '균', aquatic: '수', lithoid: '암', plantoid: '식', necroid: '언', infernal: '염', molluscoid: '연', robot: '로', machine: '기', cybernetic: '사', toxoid: '독' }; const GL_EN = { mammalian: 'M', human: 'H', reptilian: 'R', arthropoid: 'A', avian: 'Av', fungoid: 'F', aquatic: 'Aq', lithoid: 'Li', plantoid: 'P', necroid: 'N', infernal: 'In', molluscoid: 'Mo', robot: 'Ro', machine: 'Ma', cybernetic: 'Cy', toxoid: 'T' }; const GL = new Proxy(GL_KO, { get: (o, k) => (window.SLLMI18n && window.SLLMI18n.language() === 'en' ? GL_EN[k] : o[k]) }); // i18n-data: 그림이 없을 때 의석 글자(영어 모드는 영문 약자)
+ const AG = { cohesion: '결속 다지기', war: '전쟁 선포 찬반' };
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const VN = { get yes() { return L('찬성', 'For'); }, get no() { return L('반대', 'Against'); }, get abstain() { return L('유보', 'Abstain'); } };
+ let IMG = { images: {}, defaults: {} }, S = null, to = null, busy = false, talk = null, talkT = 0;
+ const pic = (k, seed = '') => SLLMVariant.pick(IMG.images, ['class:' + k], seed, IMG.defaults[k]) || null;
+ const hue = (s) => { let h = 0; for (const c of String(s)) h = (h * 31 + c.codePointAt(0)) >>> 0; return h % 360; };
+ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+ for (const [k, v] of Object.entries(AG)) $('aKind').add(new Option(v, k));
+ function render(st) {
+  S = st; if (!st) return;
+  const f = st.info;
+  document.body.dataset.tone = f.tone || 'union';
+  $('tagDemo').hidden = !f.demo;
+  $('fname').textContent = f.name; $('fsub').textContent = L(`${f.typeName} · ${f.level}단계 · 회원 ${st.members.length}개국`, `${f.typeName} · Level ${f.level} · ${st.members.length} members`);
+  $('cohV').textContent = f.cohesion; $('cohBar').firstElementChild.style.width = Math.max(0, Math.min(100, f.cohesion)) + '%';
+  $('emT').textContent = f.name.replace(/^\[시험\]\s*/, ''); $('emS').textContent = f.typeName.toUpperCase();
+  // 안건 칸
+  const a = st.agenda; $('aKind').value = a.kind;
+  const tg = $('aTarget');
+  tg.hidden = a.kind !== 'war';
+  if (!tg.hidden) { tg.innerHTML = ''; tg.add(new Option('— 전쟁 대상 —', '')); for (const t of f.warTargets || []) tg.add(new Option(t.name, String(t.idx))); tg.value = a.target != null ? String(a.target) : ''; }
+  $('aEffect').textContent = a.effect; $('aProblem').textContent = a.problem || '';
+  const r = st.rule;
+  $('rule').innerHTML = `${L('결정 방식', 'Decision method')} <b>${esc(r.passName)}</b> · ${L('표 무게', 'Vote weight')} <b>${esc(r.weightName)}</b><div id="ruleSrc">${esc(r.known ? L('연방 법: ', 'Federation law: ') : '')}${esc(r.source)}</div>`;
+  const t = st.tally; $('vY').textContent = t.yes; $('vN').textContent = t.no; $('vA').textContent = t.abstain;
+  const ok = t.passed && !a.problem;
+  $('verdict').className = ok ? 'ok' : ''; $('verdict').textContent = a.problem ? '안건을 먼저 정하세요: ' + a.problem : (ok ? '결정 기준을 넘었습니다 — ' : '아직 결정할 수 없습니다 — ') + t.reason;
+  $('apply').disabled = !ok || f.demo || st.busy || st.applied || st.uncertain || !st.experimental;
+  for (const id of ['aKind','aTarget','send']) $(id).disabled = !!(st.busy || st.applied || st.uncertain);
+  for (const b of $('myVote').children) b.disabled = !!(st.busy || st.applied || st.uncertain);
+  $('workStatus').textContent = st.busy ? '처리 중…' : st.applied ? '게임 적용 확인됨' : st.uncertain ? '적용 여부 확인 필요 · 재전송 중지' : '';
+  $('apply').textContent = '게임 적용 시험'; $('apply').classList.toggle('ready', ok);
+  $('hint').textContent = f.demo ? (st.aiDemo ? '시험 연방 · 실제 AI 사용 · 게임 적용 없음' : '시연판 · 정해진 대사 · 게임 적용 없음') : '앱 회담의 합의입니다. 게임 적용(응집력 올리기·선전포고)은 개발자 검수용이며 검증 전입니다.';
+  for (const b of $('myVote').children) b.classList.toggle('on', b.dataset.v === st.playerVote);
+  drawSeats(); drawLog();
+ }
+ function drawSeats() {
+  const box = $('seats'); box.innerHTML = '';
+  document.body.classList.toggle('many', S.members.length > 8);
+  for (const m of S.members) {
+   const s = m.seat || { x: 50, y: 50, side: 'near' }, st = m.excluded ? 'out' : m.vote;
+   const p = (m.player && IMG.images['ruler:player']) || pic(m.cls, m.name), fl = S.flags && S.flags[m.idx];
+   const nm = `<div class="nm" data-i18n-skip>${fl ? `<img class="flag" src="${esc(fl)}" alt="">` : `<span class="em" style="background:hsl(${hue(m.name)} 55% 45%)"></span>`}${esc(m.name)}</div>`;
+   const rl = `<div class="rl" data-i18n-skip>${esc(m.title ? m.title + ' ' : '')}${esc(m.ruler)}${m.player ? L(' · 나', ' · me') : ''}</div>`;
+   const wt = `<div class="wt">${S.rule.weight === 'diplo' ? L('외교 가중치 ', 'Diplomatic weight ') + esc(m.weight) : ''}<span class="vt">${m.excluded ? L('대상', 'Target') : VN[m.vote]}</span></div>`;
+   const el = document.createElement('div');
+   el.className = `seat ${s.side} ${st}${m.player ? ' me' : ''}${to === m.idx ? ' target' : ''}${talk === m.idx ? ' talk' : ''}`;
+   el.style.left = s.x + '%'; el.style.top = s.y + '%';
+   el.innerHTML = `${m.leader ? `<span class="crown" title="${L('연방 회장', 'Federation chair')}">★</span>` : ''}<div class="chair"><div class="face">${p ? `<img src="${esc(p)}" alt="">` : `<span class="gl">${esc(GL[m.cls] || m.name.slice(0, 1))}</span>`}</div></div>`
+    + (s.side === 'far' || s.side === 'near' ? '' : `<div class="plate">${nm}${rl}${wt}</div>`);
+   const tip = `${m.name}${m.leader ? L(' (연방 회장)', ' (Federation chair)') : ''}${m.excluded ? L(' · 이 안건의 대상이라 투표하지 않음', ' · not voting: this motion targets them') : ''}\n${m.player ? L('나', 'Me') : L('눌러서 이 지도자에게만 말하기', 'Click to speak to this leader only')}`;
+   el.title = tip;
+   const pick = () => { if (m.player) return; to = to === m.idx ? null : m.idx; updTo(); drawSeats(); };
+   el.onclick = pick; box.appendChild(el);
+   if (s.side === 'far' || s.side === 'near') { // 긴 변의 자리는 테이블 위에 세운 명패(건너편은 위쪽, 이쪽은 아래쪽)
+    const c = document.createElement('div'); c.className = 'card ' + st + ' ' + s.side; c.style.left = s.x + '%'; c.style.top = s.side === 'far' ? `calc(${s.y}% + 10px)` : `calc(${s.y}% - 12px)`;
+    c.innerHTML = nm + rl + wt; c.title = tip; c.onclick = pick; box.appendChild(c);
+   }
+  }
+  const last = talk !== null && S.log.slice().reverse().find((l) => l.kind === 'ai' && l.idx === talk);
+  const m = talk !== null && S.members.find((x) => x.idx === talk);
+  if (last && m && Date.now() - talkT < 9000) { // 말풍선은 테이블 위, 말하는 사람 쪽에
+   const b = document.createElement('div'); b.className = 'bubble';
+   b.innerHTML = `<b>${esc(m.name)}</b>${esc(last.text)}`; box.appendChild(b);
+  }
+ }
+ function drawLog() {
+  const lg = $('log'), atEnd = lg.scrollTop + lg.clientHeight >= lg.scrollHeight - 8;
+  lg.innerHTML = S.log.map((l) => `<div class="ln ${l.kind}">${l.who ? `<span class="who">${esc(l.who)}</span>` : ''}${esc(l.text)}</div>`).join('');
+  if (atEnd) lg.scrollTop = lg.scrollHeight;
+ }
+ function updTo() { const m = to !== null && S.members.find((x) => x.idx === to); $('toWho').textContent = m ? L(`${m.name}에게만`, `Only ${m.name}`) : L('전체', 'Everyone'); $('toAll').hidden = !m; }
+ $('toAll').onclick = () => { to = null; updTo(); drawSeats(); };
+ const agenda = () => { const k = $('aKind').value, o = { kind: k }; if (k === 'war' && $('aTarget').value) o.target = Number($('aTarget').value); return o; };
+ $('aKind').onchange = () => window.sllm.summitAgenda({ kind: $('aKind').value });
+ $('aTarget').onchange = () => window.sllm.summitAgenda(agenda());
+ for (const b of $('myVote').children) b.onclick = () => window.sllm.summitVote(b.dataset.v);
+ async function send() {
+  const text = $('q').value.trim(); if (!text || busy) return;
+  busy = true; $('send').disabled = true;
+  try {
+   const r = await window.sllm.summitSay({ text, to });
+   if (!r || !r.ok) { $('workStatus').textContent = r?.error || '발언을 처리하지 못했습니다.'; }
+   if (r && r.ok) { $('q').value = ''; const rs = r.replies || []; for (let i = 0; i < rs.length; i++) { await new Promise((res) => setTimeout(res, i ? 900 : 0)); talk = rs[i].idx; talkT = Date.now(); if (S) drawSeats(); } const mine = talkT; setTimeout(() => { if (talkT === mine) { talk = null; if (S) drawSeats(); } }, 6000); }
+  } catch (e) { $('workStatus').textContent = e.message; } finally { busy = false; $('send').disabled = !!(S?.busy || S?.applied || S?.uncertain); $('q').focus(); }
+ }
+ $('send').onclick = send; $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) send(); });
+ $('apply').onclick = async () => { if (!confirm('개발자 검수용입니다. 게임의 법 해금·변경 대기시간을 우회할 수 있습니다. 별도 시험 세이브에서 이 결정을 실제 적용할까요?')) return; $('apply').disabled = true; try { const r = await window.sllm.summitApply(true); if (!r.ok) $('workStatus').textContent = r.error || '적용을 확인하지 못했습니다.'; } catch(e) { $('workStatus').textContent = e.message; } };
+ $('end').onclick = $('x').onclick = () => window.sllm.summitClose();
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.sllm.summitClose(); });
+ window.sllm.onSummitState((st) => { if (st) render(st); });
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.launcherState().then((s) => applyTheme(s.theme, s.custom));
+ window.sllm.getImageState().then((st) => { IMG = st || IMG; return window.sllm.summitState(); }, () => window.sllm.summitState()).then((st) => { if (st) render(st); });
+ // A-22 연출 슬롯: 이 창의 배경 그림을 직접 고른다(scene-slots.js)
+ SceneSlots.mount({ button: $('sceneBtn'), title: '정상회담장 배경', slots: [{ key: 'scene:summit', label: '정상회담장', hint: '원탁 뒤 배경', spec: '2400×850 · 약 2.8:1', drop: $('hall'), apply: (u) => { document.documentElement.style.setProperty('--scene', u ? `url("${u}")` : 'none'); if (u) document.documentElement.dataset.scene = '1'; else delete document.documentElement.dataset.scene; } }] });
+</script>
+</body></html>

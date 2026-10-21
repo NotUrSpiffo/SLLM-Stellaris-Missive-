@@ -1,0 +1,105 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>War declaration</title>
+
+<style>
+ :root{--bg:#06141b;--panel:#0a1c26;--line:#1f3a4a;--text:#d8e6ee;--dim:#88a3b3;--hi:#4cc9f0;--warn:#e8b44a;--btnbg:#0e2230}
+ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.6 "Noto Sans KR","Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+ #ed{position:absolute;inset:0;display:flex;flex-direction:column;padding:18px 22px;box-sizing:border-box;-webkit-app-region:drag}
+ #ed *{-webkit-app-region:no-drag}
+ .hd{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+ .hd b{font-size:20px;letter-spacing:.06em}.hd span{color:var(--dim);font-size:12px}
+ .meta{font-size:12px;color:var(--dim);margin-bottom:10px}
+ input,textarea{width:100%;box-sizing:border-box;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:8px 10px;font:inherit}
+ textarea{flex:1;resize:none;line-height:1.8;font-size:15px}
+ .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+ .btn{padding:7px 14px;border:1px solid var(--line);border-radius:6px;background:var(--btnbg);color:var(--text);cursor:pointer;font:inherit;font-size:13px}
+ .btn:hover{border-color:var(--hi)}.btn.hi{border-color:var(--hi);color:var(--hi)}.btn:disabled{opacity:.5;cursor:default}
+ .note{font-size:12px;color:var(--dim)}.err{color:#f08a7a;font-size:12px}
+ #ask{position:absolute;inset:0;background:rgba(3,10,14,.86);display:none;align-items:center;justify-content:center;z-index:5}
+ #ask .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px 26px;max-width:520px;text-align:center}
+ #ask .box b{display:block;font-size:17px;margin-bottom:8px}#ask .box p{color:var(--dim);font-size:13px;margin:0 0 14px}
+ #ask .box .row{justify-content:center}
+ /* ── 방송 모드 */
+ #bc{position:absolute;inset:0;background:#000;display:none;cursor:none;user-select:none}
+ #bc.on{display:block}
+ #bc .flag{position:absolute;left:50%;top:50%;width:min(34vw,34vh);aspect-ratio:1;transform:translate(-50%,-50%);background:center/contain no-repeat;opacity:.08;filter:grayscale(1)}
+ #bc .scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);pointer-events:none;mix-blend-mode:screen}
+ #bc .vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.7) 100%)}
+ #bc .tag{position:absolute;left:5vw;top:6vh;font-size:clamp(12px,1vw,16px);letter-spacing:.3em;color:#9fb8c6;text-transform:uppercase}
+ #bc .tag i{display:inline-block;width:.7em;height:.7em;border-radius:50%;background:#e85c4a;margin-right:.6em;animation:blink 1.4s infinite}
+ @keyframes blink{50%{opacity:.15}}
+ #bc .who{position:absolute;right:5vw;top:6vh;text-align:right;font-size:clamp(12px,1vw,16px);letter-spacing:.2em;color:#9fb8c6}
+ #bc .who b{display:block;font-size:clamp(16px,1.5vw,26px);letter-spacing:.12em;color:#e6eef4}
+ #bc .ttl{position:absolute;left:5vw;right:5vw;top:16vh;text-align:center;font-size:clamp(16px,1.6vw,28px);letter-spacing:.35em;color:#e8b44a;opacity:0;transition:opacity 2s}
+ #bc .ttl.on{opacity:1}
+ #bc .txt{position:absolute;left:12vw;right:12vw;top:26vh;bottom:12vh;overflow:hidden;font-size:clamp(20px,2.1vw,38px);line-height:2;text-align:center;color:#cfdce6;mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 85%,transparent)}
+ #bc .txt .l{opacity:0;transition:opacity .9s,color .9s;white-space:pre-wrap}
+ #bc .txt .l.on{opacity:1}#bc .txt .l.now{color:#fff;text-shadow:0 0 18px rgba(232,180,74,.45)}#bc .txt .l.done{opacity:.45}
+ #bc .end{position:absolute;left:0;right:0;bottom:7vh;text-align:center;font-size:clamp(12px,1vw,16px);letter-spacing:.4em;color:#9fb8c6;opacity:0;transition:opacity 1.6s}
+ #bc .end.on{opacity:.9}
+ #bc .hint{position:absolute;right:26px;bottom:20px;font-size:12px;color:#6d8797;letter-spacing:.1em}
+ #bcdark{position:absolute;inset:0;background:#000;opacity:1;transition:opacity 2s;pointer-events:none}
+</style>
+<script src="theme.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script></head>
+<body>
+<div id="ed">
+ <div class="hd"><b id="hTitle"></b><span id="hWar"></span><span style="flex:1"></span><button class="btn" id="close" type="button">✕</button></div>
+ <div class="meta" id="meta"></div>
+ <input id="title" type="text" maxlength="80">
+ <textarea id="text" spellcheck="false"></textarea>
+ <div class="row"><button class="btn" id="draft" type="button"></button><span class="note" id="draftNote"></span><span style="flex:1"></span><span class="note" id="cnt"></span><button class="btn hi" id="save" type="button"></button></div>
+ <div class="row"><span class="note" id="recent"></span></div>
+ <div class="row"><label class="note" style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="applyOp"><span id="applyOpL"></span></label><span class="note" id="verdicts"></span></div>
+ <div class="row"><span class="err" id="err"></span></div>
+</div>
+<div id="ask"><div class="box"><b id="askT"></b><p id="askP"></p><div class="row"><button class="btn hi" id="askY" type="button"></button><button class="btn" id="askN" type="button"></button></div></div></div>
+<div id="bc"><div class="flag" id="bcFlag"></div><div class="vig"></div><div class="scan"></div><div class="tag" id="bcTag"><i></i><span></span></div><div class="who" id="bcWho"></div><div class="ttl" id="bcTtl"></div><div class="txt" id="bcTxt"></div><div class="end" id="bcEnd"></div><div class="hint" id="bcHint"></div><div id="bcdark"></div></div>
+<script>
+(() => {
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const $ = (id) => document.getElementById(id);
+ let S = null, busy = false, issued = false, closed = false, march = null;
+ function stopMarch() { if (march) { march.pause(); march.currentTime = 0; march = null; } }
+ function close() { closed = true; stopMarch(); window.sllm.declareClose(); }
+ window.addEventListener('beforeunload', () => { closed = true; stopMarch(); });
+ window.addEventListener('pagehide', stopMarch);
+ const lines = (t) => String(t || '').split('\n').map((x) => x.trim()).filter(Boolean);
+ function fill() {
+   $('hTitle').textContent = S.title; $('hWar').textContent = S.war ? S.war + (S.enemy ? ' · ' + L('상대: ', 'vs ') + S.enemy : '') : '';
+   $('meta').textContent = (S.empire ? S.empire + ' · ' : '') + (S.date || '') + (S.info ? ' · ' + S.info : '') + ' · ' + (S.side === 'def' ? L('우리는 공격받았습니다. 국민과 군에게 항전의 뜻을 밝히세요.', 'We were attacked. Tell the nation and the forces that we will resist.') : S.side === 'att' ? L('우리가 전쟁을 열었습니다. 명분과 결의를 국민과 군에게 밝히세요.', 'We opened this war. State the cause and the resolve to the nation and the forces.') : L('국민과 군에게 읽을 선언문을 쓰세요.', 'Write the address to be read to the nation and the forces.'));
+   $('title').placeholder = L('제목(비우면 자동)', 'Title (optional)'); $('text').placeholder = L('한 줄에 한 문장씩, 24줄 이내로 작성해 주세요.', 'One sentence per line, up to 24 lines.');
+   $('draft').textContent = L('AI 초안 받기', 'AI draft'); $('save').textContent = L('선언문 발표', 'Issue the declaration'); $('close').title = L('닫기', 'Close');
+   $('draftNote').textContent = L('초안은 고쳐 쓰셔도 됩니다. 발표한 선언문은 기록에 남아 신문·라디오·상대 제국이 나중에 재료로 씁니다.', 'You can edit the draft. Issued declarations are kept on record for the newspaper, radio and rival empires to use later.');
+   if (S.draft) { $('title').value = S.draft.title || ''; $('text').value = S.draft.text || ''; }
+   if (S.recent && S.recent.length) $('recent').textContent = L('지난 선언문: ', 'Past declarations: ') + S.recent.map((r) => r.date + ' ' + r.title).join(' · ');
+   count();
+ }
+ function count() { const n = lines($('text').value).length; $('cnt').textContent = n + ' ' + L('줄', 'lines') + (n > 24 ? ' ' + L('(24줄까지 저장됩니다)', '(only the first 24 are kept)') : ''); }
+ $('text').addEventListener('input', count);
+ $('close').onclick = close;
+ $('draft').onclick = async () => { if (busy || issued) return; busy = true; $('draft').disabled = true; $('draft').textContent = L('AI 가 쓰는 중…', 'The AI is writing…'); $('err').textContent = '';
+   try { const r = await window.sllm.declareDraft(); if (r && r.ok) { if (r.title && !$('title').value) $('title').value = r.title; $('text').value = r.text; count(); } else $('err').textContent = (r && r.error) || L('초안 실패', 'Draft failed'); }
+   catch (e) { $('err').textContent = String((e && e.message) || e); }
+   busy = false; $('draft').disabled = false; $('draft').textContent = L('AI 초안 받기', 'AI draft'); };
+ $('save').onclick = async () => {
+   if (busy || issued) return; const text = $('text').value; if (!lines(text).length) { $('err').textContent = L('선언문이 비어 있습니다.', 'The declaration is empty.'); return; }
+   busy = true; $('err').textContent = '';
+   const r = await window.sllm.declareSave($('title').value, text).catch((e) => ({ ok: false, error: String((e && e.message) || e) }));
+   if (!r || !r.ok) { $('err').textContent = (r && r.error) || L('저장 실패', 'Save failed'); busy = false; return; }
+   issued = true;
+   for (const id of ['save', 'draft', 'title', 'text']) $(id).disabled = true;
+   $('err').textContent = r.notice || L('선언문을 발표했습니다.', 'Declaration issued.');
+   if (!closed) {
+     const presentation = await window.sllm.declareCeremony().catch(e => ({ ok: false, error: String(e.message || e) }));
+     if (presentation && presentation.ok) close();
+     else { $('err').textContent += ' ' + ((presentation && presentation.error) || L('발표 화면을 열지 못했습니다.', 'Could not open the presentation.')); }
+   }
+ };
+ document.addEventListener('DOMContentLoaded', async () => {
+   try { S = await window.sllm.declareState(); } catch (e) { S = { title: L('전쟁 선언문', 'War declaration'), war: '', enemy: '', side: '', date: '', empire: '' }; }
+   fill();
+   try { const c = await window.sllm.condemnState(); $('applyOp').checked = !!c.applyOpinion; $('applyOpL').textContent = L('규탄·지지 성명을 게임 호감도에 작게 반영', 'Apply condemnation and support statements to in-game opinion (small)'); $('applyOp').onchange = () => window.sllm.condemnApplyOpinion($('applyOp').checked);
+     if (c.recent && c.recent.length) { const v = c.recent[c.recent.length - 1]; const K = { condemn: L('규탄', 'Condemn'), concern: L('우려', 'Concern'), silent: L('침묵', 'Silent'), support: L('지지', 'Support') }; $('verdicts').textContent = L('지난 전쟁의 반응: ', 'Last war\'s reactions: ') + v.war + ' — ' + ['condemn', 'concern', 'support'].filter((k) => v.counts[k]).map((k) => K[k] + ' ' + v.counts[k]).join(' · '); } } catch (e) { $('applyOpL').textContent = ''; }
+   if (window.sllm.onDeclareInfo) window.sllm.onDeclareInfo((t) => { S.info = t; fill(); });
+ });
+})();
+</script></body></html>

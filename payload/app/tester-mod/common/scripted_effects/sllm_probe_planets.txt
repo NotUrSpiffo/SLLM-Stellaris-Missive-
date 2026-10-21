@@ -1,0 +1,119 @@
+# SLLM Probe - list the player's planets for the governor chat (EXPERIMENT ONLY, untested syntax).
+# The app runs "sllm_probe_log_planets = yes" in the player's scope through the console.
+# Every log line carries a counter, because the game drops identical repeated log lines.
+
+# Species class of the founder species (1..16, 0 = unknown), same numbering as sllm_pf_cls in the talk profile.
+sllm_probe_set_cls = {
+	set_variable = { which = sllm_pf_cls value = 0 }
+	if = { limit = { is_species_class = HUM } set_variable = { which = sllm_pf_cls value = 1 } }
+	else_if = { limit = { is_species_class = MAM } set_variable = { which = sllm_pf_cls value = 2 } }
+	else_if = { limit = { is_species_class = REP } set_variable = { which = sllm_pf_cls value = 3 } }
+	else_if = { limit = { is_species_class = AVI } set_variable = { which = sllm_pf_cls value = 4 } }
+	else_if = { limit = { is_species_class = ART } set_variable = { which = sllm_pf_cls value = 5 } }
+	else_if = { limit = { is_species_class = MOL } set_variable = { which = sllm_pf_cls value = 6 } }
+	else_if = { limit = { is_species_class = FUN } set_variable = { which = sllm_pf_cls value = 7 } }
+	else_if = { limit = { is_species_class = PLANT } set_variable = { which = sllm_pf_cls value = 8 } }
+	else_if = { limit = { is_species_class = INF } set_variable = { which = sllm_pf_cls value = 9 } }
+	else_if = { limit = { is_species_class = LITHOID } set_variable = { which = sllm_pf_cls value = 10 } }
+	else_if = { limit = { is_species_class = NECROID } set_variable = { which = sllm_pf_cls value = 11 } }
+	else_if = { limit = { is_species_class = AQUATIC } set_variable = { which = sllm_pf_cls value = 12 } }
+	else_if = { limit = { is_species_class = TOX } set_variable = { which = sllm_pf_cls value = 13 } }
+	else_if = { limit = { is_species_class = ROBOT } set_variable = { which = sllm_pf_cls value = 14 } }
+	else_if = { limit = { is_species_class = MACHINE } set_variable = { which = sllm_pf_cls value = 15 } }
+	else_if = { limit = { is_species_class = CYBERNETIC } set_variable = { which = sllm_pf_cls value = 16 } }
+}
+
+# Planet class group for the governor chat background (0 = unknown). Planet scope.
+sllm_probe_set_pc = {
+	set_variable = { which = sllm_pl_pc value = 0 }
+	if = { limit = { is_planet_class = pc_desert } set_variable = { which = sllm_pl_pc value = 1 } }
+	else_if = { limit = { is_planet_class = pc_arid } set_variable = { which = sllm_pl_pc value = 19 } }
+	else_if = { limit = { is_planet_class = pc_savannah } set_variable = { which = sllm_pl_pc value = 2 } }
+	else_if = { limit = { is_planet_class = pc_continental } set_variable = { which = sllm_pl_pc value = 3 } }
+	else_if = { limit = { is_planet_class = pc_gaia } set_variable = { which = sllm_pl_pc value = 20 } }
+	else_if = { limit = { is_planet_class = pc_tropical } set_variable = { which = sllm_pl_pc value = 4 } }
+	else_if = { limit = { is_planet_class = pc_ocean } set_variable = { which = sllm_pl_pc value = 5 } }
+	else_if = { limit = { OR = { is_planet_class = pc_arctic is_planet_class = pc_frozen } } set_variable = { which = sllm_pl_pc value = 6 } }
+	else_if = { limit = { is_planet_class = pc_tundra } set_variable = { which = sllm_pl_pc value = 21 } }
+	else_if = { limit = { is_planet_class = pc_alpine } set_variable = { which = sllm_pl_pc value = 7 } }
+	else_if = { limit = { OR = { is_planet_class = pc_barren is_planet_class = pc_barren_cold } } set_variable = { which = sllm_pl_pc value = 8 } }
+	else_if = { limit = { is_planet_class = pc_nuked } set_variable = { which = sllm_pl_pc value = 9 } }
+	else_if = { limit = { is_planet_class = pc_molten } set_variable = { which = sllm_pl_pc value = 10 } }
+	else_if = { limit = { is_planet_class = pc_toxic } set_variable = { which = sllm_pl_pc value = 11 } }
+	else_if = { limit = { is_planet_class = pc_gas_giant } set_variable = { which = sllm_pl_pc value = 12 } }
+	else_if = { limit = { is_planet_class = pc_asteroid } set_variable = { which = sllm_pl_pc value = 13 } }
+	else_if = { limit = { OR = { is_planet_class = pc_machine is_planet_class = pc_city is_planet_class = pc_cybrex } } set_variable = { which = sllm_pl_pc value = 14 } }
+	else_if = { limit = { is_planet_class = pc_ringworld_habitable } set_variable = { which = sllm_pl_pc value = 15 } }
+	else_if = { limit = { is_planet_class = pc_habitat } set_variable = { which = sllm_pl_pc value = 16 } }
+	else_if = { limit = { is_planet_class = pc_shrouded } set_variable = { which = sllm_pl_pc value = 17 } }
+	else_if = { limit = { is_planet_class = pc_hive } set_variable = { which = sllm_pl_pc value = 18 } }
+}
+
+# Planet scope. Planet variables cannot be read in log text ([This.var] is unknown there), so the numbers are copied to the player country (root) first.
+sllm_probe_log_one_planet = {
+	if = { limit = { NOT = { is_variable_set = sllm_pl_seen } } set_variable = { which = sllm_pl_seen value = 0 } }
+	change_variable = { which = sllm_pl_seen value = 1 }
+	set_variable = { which = sllm_pl_pops value = 0 }
+	set_variable = { which = sllm_pl_pn value = -1 }
+	set_variable = { which = sllm_pl_stab value = -999 }
+	set_variable = { which = sllm_pl_amen value = -999 }
+	set_variable = { which = sllm_pl_hous value = -999 }
+	set_variable = { which = sllm_pl_cap value = 0 }
+	# pop count: largest step reached (approximate, "N or more")
+	if = { limit = { count_owned_pop_amount = { count >= 1 } } set_variable = { which = sllm_pl_pops value = 1 } }
+	if = { limit = { count_owned_pop_amount = { count >= 5 } } set_variable = { which = sllm_pl_pops value = 5 } }
+	if = { limit = { count_owned_pop_amount = { count >= 10 } } set_variable = { which = sllm_pl_pops value = 10 } }
+	if = { limit = { count_owned_pop_amount = { count >= 15 } } set_variable = { which = sllm_pl_pops value = 15 } }
+	if = { limit = { count_owned_pop_amount = { count >= 20 } } set_variable = { which = sllm_pl_pops value = 20 } }
+	if = { limit = { count_owned_pop_amount = { count >= 30 } } set_variable = { which = sllm_pl_pops value = 30 } }
+	if = { limit = { count_owned_pop_amount = { count >= 40 } } set_variable = { which = sllm_pl_pops value = 40 } }
+	if = { limit = { count_owned_pop_amount = { count >= 60 } } set_variable = { which = sllm_pl_pops value = 60 } }
+	if = { limit = { count_owned_pop_amount = { count >= 80 } } set_variable = { which = sllm_pl_pops value = 80 } }
+	if = { limit = { count_owned_pop_amount = { count >= 100 } } set_variable = { which = sllm_pl_pops value = 100 } }
+	if = { limit = { count_owned_pop_amount = { count >= 150 } } set_variable = { which = sllm_pl_pops value = 150 } }
+	if = { limit = { count_owned_pop_amount = { count >= 200 } } set_variable = { which = sllm_pl_pops value = 200 } }
+	if = { limit = { count_owned_pop_amount = { count >= 300 } } set_variable = { which = sllm_pl_pops value = 300 } }
+	if = { limit = { count_owned_pop_amount = { count >= 400 } } set_variable = { which = sllm_pl_pops value = 400 } }
+	if = { limit = { count_owned_pop_amount = { count >= 500 } } set_variable = { which = sllm_pl_pops value = 500 } }
+	if = { limit = { count_owned_pop_amount = { count >= 750 } } set_variable = { which = sllm_pl_pops value = 750 } }
+	if = { limit = { count_owned_pop_amount = { count >= 1000 } } set_variable = { which = sllm_pl_pops value = 1000 } }
+	# exact pop count (the steps above stop at "or more"; the capital showed 300 no matter how big it was). -1 stays if the game cannot export it.
+	# 4.x pop groups: num_pops gives 0 (tester report 2026-10-18), vanilla uses trigger:pop_amount for the planet's pop size.
+	export_trigger_value_to_variable = { trigger = pop_amount variable = sllm_pl_pn rounded = yes }
+	export_trigger_value_to_variable = { trigger = planet_stability variable = sllm_pl_stab }
+	export_trigger_value_to_variable = { trigger = free_amenities variable = sllm_pl_amen }
+	export_trigger_value_to_variable = { trigger = free_housing variable = sllm_pl_hous }
+	if = { limit = { is_capital = yes } set_variable = { which = sllm_pl_cap value = 1 } }
+	sllm_probe_set_pc = yes
+	root = {
+		set_variable = { which = sllm_r_seen value = prev.sllm_pl_seen }
+		set_variable = { which = sllm_r_pops value = prev.sllm_pl_pops }
+		set_variable = { which = sllm_r_pn value = prev.sllm_pl_pn }
+		set_variable = { which = sllm_r_stab value = prev.sllm_pl_stab }
+		set_variable = { which = sllm_r_amen value = prev.sllm_pl_amen }
+		set_variable = { which = sllm_r_hous value = prev.sllm_pl_hous }
+		set_variable = { which = sllm_r_cap value = prev.sllm_pl_cap }
+		set_variable = { which = sllm_r_pc value = prev.sllm_pl_pc }
+	}
+	log = "SLLM:PLANET/;/seen=\\[Root.sllm_r_seen]/;/name=\\[This.GetName]/;/pops=\\[Root.sllm_r_pops]/;/pn=\\[Root.sllm_r_pn]/;/stab=\\[Root.sllm_r_stab]/;/amen=\\[Root.sllm_r_amen]/;/hous=\\[Root.sllm_r_hous]/;/cap=\\[Root.sllm_r_cap]/;/pc=\\[Root.sllm_r_pc]/;/class=\\[This.GetClassName]"
+	# Governor (leader assigned to the planet), if the planet has one. Right after its PLANET line, so the app pairs them by order.
+	if = {
+		limit = { exists = leader }
+		leader = {
+			if = { limit = { NOT = { is_variable_set = sllm_gv_seen } } set_variable = { which = sllm_gv_seen value = 0 } }
+			change_variable = { which = sllm_gv_seen value = 1 }
+			log = "SLLM:GOV/;/seen=\\[This.sllm_gv_seen]/;/name=\\[This.GetName]"
+		}
+	}
+}
+
+# Player country scope.
+sllm_probe_log_planets = {
+	if = { limit = { NOT = { is_variable_set = sllm_pl_run } } set_variable = { which = sllm_pl_run value = 0 } }
+	change_variable = { which = sllm_pl_run value = 1 }
+	sllm_probe_init_vars = yes
+	sllm_probe_set_cls = yes
+	log = "SLLM:PLANETS/;/run=\\[This.sllm_pl_run]/;/sid=\\[This.sllm_save_id]/;/cls=\\[This.sllm_pf_cls]/;/empire=\\[This.GetName]"
+	every_owned_colony = { sllm_probe_log_one_planet = yes }
+	log = "SLLM:PLANETS_END/;/run=\\[This.sllm_pl_run]"
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "key": "background",
+    "prompt": "Remove ONLY secretary completely. Reconstruct empty chair/office behind her. Preserve teacup saucer steam desk and all other scenery exact camera and 1672x941 canvas. No people.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-2ebcdf66-b557-4153-b6ad-5434a816d88f.png"
+  },
+  {
+    "key": "neutral",
+    "prompt": "Extract ONLY visible secretary including hands, NOT teacup/saucer/steam/table/chair. True alpha transparency, exact 1672x941 whole frame coordinates no cropping/recentering. Preserve exact facial identity expression posture clothes lighting. Parts occluded by cup stay transparent.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-08c9d713-d4e2-453d-a5be-8c09bccdd787.png"
+  },
+  {
+    "key": "worried",
+    "prompt": "Extract ONLY secretary including hands onto transparent alpha exact same full1672x941 canvas position. Change ONLY face to visibly worried: inner brows raised/pinched, eyes looking DOWN to cup, lips pressed with downturned corners. Exact same head orientation outline identity hair body hands clothes lighting. Exclude cup saucer steam desk chair; occluded parts transparent. No recenter/crop.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-0a5783b5-53ef-4167-aecc-6c150c9f3fbb.png"
+  },
+  {
+    "key": "resolved",
+    "prompt": "Extract ONLY secretary including hands onto transparent alpha exact same full1672x941 canvas position. Change ONLY face to visibly determined resolve: eyebrows lowered straight and gently drawn together, focused direct eye contact, lips firmly closed with no smile. Clearly distinct from worried and wide-eyed neutral. Exact same head orientation outline identity hair body hands clothes lighting. Exclude cup saucer steam desk chair; occluded parts transparent. No recenter/crop.",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a137ae-0931-7382-9a90-e51f2b2c7d55\\exec-43329d36-bd8f-4d3d-b086-6371b3922ce7.png"
+  },
+  {
+    "key": "foreground",
+    "source": "C:/Users/user/.codex/generated_images/01a137ae-0931-7382-9a90-e51f2b2c7d55/exec-5c3fd36f-2c1c-4715-9226-903d805e159f.png",
+    "prompt": "Create an edited cinematic sci-fi visual novel scene, 1672x941 wide. Reference1 sets office warm red war hologram mood and leaning secretary with tea. Reference2 is authoritative exact adult secretary FACE identity: round gray blue eyes, soft cheeks, small nose, blonde bun, cyan temple ring. Preserve her identity faithfully. True first person seated player view across desk, no player body/shoulder/hands visible. Secretary leaning gently toward player behind desk, hands resting either side of teacup on desk, head fully inside frame with margin. Face centered x55% y28%, direct attentive eyes, neutral alert expression, not smile. Gold trimmed dark suit ivory blouse. Warm desk lamps, subdued red star map behind, night windows. Natural integrated lighting, photorealistic. No text UI. Keep face unobstructed and hands below face. Fixed body for future expression layers."
+  }
+]

@@ -1,0 +1,32 @@
+# SLLM Probe - war goals for the casus belli above (EXPERIMENT ONLY, untested syntax). Light wars: no territory changes.
+
+wg_sllm_humiliation = {
+	casus_belli = cb_sllm_humiliation
+	surrender_acceptance = -25
+	potential = { always = yes }
+	possible = { always = yes }
+	on_accept = {
+		add_resource = { influence = 100 }
+		from = { add_modifier = { modifier = humiliated days = 3600 } }
+	}
+}
+
+wg_sllm_tribute = {
+	casus_belli = cb_sllm_tribute
+	surrender_acceptance = -25
+	potential = { always = yes }
+	possible = { always = yes }
+	on_accept = {
+		add_resource = { energy = 200 }
+		from = { add_resource = { energy = -200 } }
+	}
+}
+
+wg_sllm_revenge = {
+	casus_belli = cb_sllm_revenge
+	surrender_acceptance = -25
+	potential = { always = yes }
+	possible = { always = yes }
+	on_accept = {
+	}
+}

@@ -1,0 +1,13 @@
+html:not([data-scene]) body[data-room=council] #hall{background:linear-gradient(#02090e44,#02090e33),url('assets/rooms/council-hall-v2.png') center/cover no-repeat}
+body[data-room=council] .chamber-crest{display:none}
+body[data-room=council] #deco{display:block}
+body[data-room=council] .pod .lamp{display:none}
+body[data-room=council] .pod .cap2{overflow:visible;border:0;background:none;box-shadow:none;border-radius:0}
+body[data-room=council] .pod .cap2>img:not(.flag){inset:auto;bottom:24%;left:-2%;width:104%;height:94%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 0 4px #000)}
+body[data-room=council] .pod .cap2::after{inset:44% -6% 0;background:url('assets/rooms/council-balcony-v1.png') center/contain no-repeat;z-index:2;transform:scaleY(.8);transform-origin:center 70%}
+body[data-room=council] .pod.a .cap2::after{filter:hue-rotate(155deg) saturate(1.5)}
+body[data-room=council] .pod.u .cap2::after{filter:saturate(.12) brightness(.7)}
+body[data-room=council] .pod .cap2 .flag{inset:auto;top:0;left:-9%;width:36%;height:30%;min-width:16px;min-height:20px;transform:none;object-fit:contain;object-position:top;z-index:3;opacity:1;clip-path:none;background:#051019d9;border:1px solid #83989c88;padding:1px;filter:drop-shadow(0 2px 2px #000)}
+body[data-room=council] .pod .ecol{left:30%;right:30%;bottom:7%;height:5%;z-index:3}
+body[data-room=council] .pod::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--c);box-shadow:0 0 5px var(--c)}
+body[data-room=council] .pod.talk .cap2{border:0;box-shadow:none;filter:drop-shadow(0 0 8px var(--gold))}

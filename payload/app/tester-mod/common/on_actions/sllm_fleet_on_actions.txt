@@ -1,0 +1,20 @@
+# SLLM Probe - 함대 사령부(제독 전투 기록·청문회, 2026-10-17). 모드의 on_actions 는 게임 것과 합쳐진다. 숨은 이벤트만 부른다(4.5.2: on_actions 에 effect 블록 불가).
+# 범위는 바닐라 00_on_actions.txt 주석: This = 함대 1 소유국, From = 함대 2 소유국, FromFrom = 함대 1, FromFromFrom = 함대 2.
+on_space_battle_won = {
+	events = { sllm_fleet.1 }
+}
+on_space_battle_lost = {
+	events = { sllm_fleet.2 }
+}
+# 지상전(2026-10-17 추가): 우리 지상군이 행성을 점령함(Root = 행성, From = 행성 소유국, FromFrom = 점령국)
+on_planet_occupied = {
+	events = { sllm_fleet.3 }
+}
+# 지상전: 우리 부대가 전투에서 괴멸함(This = 부대 소유국, From = 부대, FromFrom = 상대 국가, FromFromFrom = 행성)
+on_army_killed_in_combat = {
+	events = { sllm_fleet.4 }
+}
+# 청문회 특성 1년 만료 점검
+on_monthly_pulse_country = {
+	events = { sllm_fleet.10 }
+}

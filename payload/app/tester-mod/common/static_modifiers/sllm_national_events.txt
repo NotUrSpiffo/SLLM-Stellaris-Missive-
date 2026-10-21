@@ -1,0 +1,3 @@
+sllm_founding_day = {
+ planet_stability_mult = 0.10
+}

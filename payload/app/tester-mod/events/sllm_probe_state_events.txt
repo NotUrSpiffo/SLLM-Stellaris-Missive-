@@ -1,0 +1,71 @@
+# SLLM Probe - 출신(반란·독립)과 첩보 작전 기록 (2026-10-16 초석). 게임 규칙은 바꾸지 않고 로그·깃발만 남긴다.
+# on_actions 범위는 Stellaris 위키 On_actions 문서 기준. 4.5.2 실제 범위는 게임에서 확인해야 한다.
+namespace = sllm_state
+
+# 반란군이 행성을 차지했다(on_rebels_take_planet). This = 반란국, From = 행성(아직 이전 주인 소유), FromFrom = 전쟁.
+# 반란국에 '어디서 갈라져 나왔는지' 관계 깃발을 남겨, 나중에 앱이 놓쳐도 다시 확인할 수 있게 한다.
+country_event = {
+	id = sllm_state.1
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = sllm_origin_rebels
+		from = {
+			owner = {
+				root = { set_relation_flag = { flag = sllm_seceded_from who = prev } }
+				log = "SLLM:ORIGIN/;/kind=rebels/;/country=\\[Root.GetName]/;/from=\\[This.GetName]/;/planet=\\[Prev.GetName]/;/date=\\[GetDate]"
+			}
+		}
+	}
+}
+
+# 평화 협상으로 독립국이 풀려났다(on_country_released_in_war). Root = 새 나라, From = 풀어 준 나라, FromFrom = 원래 소속국.
+country_event = {
+	id = sllm_state.2
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		set_country_flag = sllm_origin_released
+		fromfrom = {
+			root = { set_relation_flag = { flag = sllm_seceded_from who = prev } }
+			log = "SLLM:ORIGIN/;/kind=released/;/country=\\[Root.GetName]/;/from=\\[This.GetName]/;/by=\\[From.GetName]/;/date=\\[GetDate]"
+		}
+	}
+}
+
+# 첩보 작전이 끝났다/취소됐다(on_operation_finished / on_operation_cancelled). This = 작전, From = 작전 대상.
+# 플레이어가 수행했거나 플레이어가 대상인 작전만 기록한다. 발각 여부는 아직 판별하지 않는다(후속).
+espionage_operation_event = {
+	id = sllm_state.10
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		owner = {
+			if = {
+				limit = { OR = { is_ai = no root.from = { is_ai = no } } }
+				# 비방 공작(operation_smear_campaign)은 type=smear 를 붙인다 — 앱이 신문 추문으로(2026-10-20 알파 9)
+				if = {
+					limit = { root = { has_espionage_type = operation_smear_campaign } }
+					log = "SLLM:SPYOP/;/phase=finished/;/type=smear/;/op=\\[Root.GetName]/;/owner=\\[This.GetName]/;/target=\\[Root.From.GetName]/;/date=\\[GetDate]"
+				}
+				else = {
+					log = "SLLM:SPYOP/;/phase=finished/;/op=\\[Root.GetName]/;/owner=\\[This.GetName]/;/target=\\[Root.From.GetName]/;/date=\\[GetDate]"
+				}
+			}
+		}
+	}
+}
+
+espionage_operation_event = {
+	id = sllm_state.11
+	hide_window = yes
+	is_triggered_only = yes
+	immediate = {
+		owner = {
+			if = {
+				limit = { OR = { is_ai = no root.from = { is_ai = no } } }
+				log = "SLLM:SPYOP/;/phase=cancelled/;/op=\\[Root.GetName]/;/owner=\\[This.GetName]/;/target=\\[Root.From.GetName]/;/date=\\[GetDate]"
+			}
+		}
+	}
+}
