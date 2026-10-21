@@ -1,0 +1,1 @@
+node_modules/, dist/, runtime/, *.exe, *.dll, *.zip, *.pem, !update-public-key.pem
