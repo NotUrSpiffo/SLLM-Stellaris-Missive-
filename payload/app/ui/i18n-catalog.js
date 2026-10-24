@@ -960,3 +960,33 @@ Object.assign(SLLMCatalog, {"알림 // 신문": "Alert // Newspaper", "통신 //
 Object.assign(SLLMCatalog, {"라디오 // 찬반 논평": "RADIO // For and against"});
 Object.assign(SLLMCatalog, {"추문 // 언론 보도": "SCANDAL // Press report"});
 Object.assign(SLLMCatalog, {"첩보 // 해명 요구": "ESPIONAGE // Demand for explanation"});
+Object.assign(SLLMCatalog, {
+"동맹 평의회": "Allied council",
+"// 회의": "// Council",
+"방어 협정을 맺은 제국과, 서로 종속·종주 관계인 제국의 지도자를 부릅니다. 독립 보장은 포함하지 않습니다. 같은 연방의 회원은 연방 정상회담에서 만나므로 이 목록에 나오지 않습니다.": "Summon leaders of empires in a defensive pact with you, and empires in a subject or overlord relation either way. A guarantee of independence is not included. Members of your federation meet at the federation summit, so they are not listed here.",
+"소집하기": "Summon",
+"한 명에서 여섯 명": "One to six",
+"자원 교환": "Resource exchange",
+"조건 완화": "Ease terms",
+"연구 지원": "Research aid",
+"협정 재확인": "Reaffirm the agreement",
+"평의회 합의": "Council accord",
+"전쟁 선포": "Declare war",
+"종전": "Make peace",
+"전쟁 지속": "Keep fighting",
+"받기": "Receive",
+"굴욕": "Humiliation",
+"공물": "Tribute",
+"복수": "Revenge",
+"재확인은 신뢰와 관계만 바꿉니다. 평의회 합의는 국경 개방·신뢰·관계이며 방어 협정이 아닙니다. 종속 계약 슬라이더는 바뀌지 않습니다. 선전포고는 나라마다 따로 열리고, 둘만 싸운 전쟁만 끝납니다. 전쟁 지속은 이미 그 상대와 싸우는 쪽에 1년간 무기 피해 +5%입니다.": "Reaffirming changes only trust and opinion. A council accord is open borders, trust and opinion, and is not a defensive pact. Vassal contract sliders do not change. Each declaration opens its own war, and only a war of exactly two empires can be ended. Keep fighting gives +5% weapon damage for a year to empires already fighting that opponent.",
+"다시 고르기": "Choose again",
+"회담 결렬": "Break off the talks",
+"상대": "Partner",
+"자원": "Resource",
+"수량": "Amount",
+"방향": "Direction",
+"사유": "Cause",
+"평의회에 말합니다…": "Speak to the council…",
+"동맹 평의회 시험 (시연)": "Allied council test (demo)",
+"동맹 평의회 시험": "Allied council test"
+});

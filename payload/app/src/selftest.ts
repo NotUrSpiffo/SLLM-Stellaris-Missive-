@@ -1465,7 +1465,7 @@ __block('개발자 도구(게임 없이 화면 시험): 가짜 줄은 protocol.t
   // 본체 쪽: dev-tools.ts 의 모든 IPC 가 맨 앞에서 개발자 모드 검사를 하고, 게임으로 명령을 보내는 함수는 쓰지 않는다
   const dt = fs.readFileSync(path.join(__dirname, 'features', 'dev-tools.ts'), 'utf8');
   const hs = [...dt.matchAll(/ipcMain\.handle\('([^']+)',\s*(\w+)\(/g)];
-  eq([hs.length, hs.filter((m) => m[2] !== 'guarded' && m[2] !== 'guardedInject').map((m) => m[1])], [13, []], 'dev tools: every IPC handler is wrapped by the dev-mode guard');
+  eq([hs.length, hs.filter((m) => m[2] !== 'guarded' && m[2] !== 'guardedInject').map((m) => m[1])], [14, []], 'dev tools: every IPC handler is wrapped by the dev-mode guard');
   eq(/sendConsole|sendAndWait|sendBatch|enqueue\(|terminalRequest|runNativeCommand|runConsoleCommand/.test(dt), false, 'dev tools never send anything to the game');
 });
 __block('A-16 연결(A-00b 6번): 회의 창 열기·토론·강제 결정·창 닫기에 councilState 가 제자리', () => { // A-16 연결(A-00b 6번): 회의 창 열기·토론·강제 결정·창 닫기에 councilState 가 제자리에 있는지 소스로 확인
@@ -4926,4 +4926,41 @@ __block('국가 행사날: 달력과 보상', () => {
  const cmd=neCommand(1,'123',0,2200);
  eq(cmd.includes('days = 180') && cmd.includes('sllm_founding_reward_year value >= 2200') && cmd.includes('which = sllm_save_id value = 123'), true, 'national: six months, save guard and annual deduplication');
  let rejected=false;try{neCommand(1,'123 }',0,2200);}catch{rejected=true;}eq(rejected,true,'national: reject unsafe save id');
+});
+
+import { willingness as allyWill, shapeStance as allyShape, agrees as allyAgrees, mergeAllies as allyMerge, allyActEffect as allyAct, allyFromLog as allyFrom, sampleCouncil as allySample } from './allied-council';
+__block('동맹 평의회: 성향·자격·명령·문구', () => {
+  const demo = allySample();
+  const warlike = demo.candidates[0], pac = demo.candidates[1];
+  eq(allyAgrees(80, allyWill(warlike, 'war')), true, 'ally: militarist aggressive can agree to war');
+  const pacWill = allyWill(pac, 'war'), pulled = allyShape(100, pacWill);
+  eq(allyAgrees(pulled, pacWill), false, 'ally: pacifist cautious cannot be talked into war');
+  const base = { ...warlike, opinion: 80, ethics: 0, attitude: 9, behavior: 0, traits: [] as string[], bond: 'defensive' as const, loyalty: null };
+  eq(Math.abs(allyWill({ ...base, gestalt: 1 }, 'trade')) < Math.abs(allyWill({ ...base, gestalt: 0 }, 'trade')), true, 'ally: gestalt shrinks the opinion lean');
+  const sub = allyFrom({ bond: '1', idx: '5', name: 'A', hl: '1', loy: '20' }), def = allyFrom({ bond: '3', idx: '5', name: 'A', hl: '0' });
+  const merged = allyMerge([def!, sub!]);
+  eq([merged.length, merged[0].bond, merged[0].loyalty], [1, 'subject', 20], 'ally: subject outranks a defensive pact');
+  eq(allyFrom({ bond: '9', idx: '1', name: 'x' }), null, 'ally: unknown bond is dropped');
+  let bad = false; try { allyAct(1, '12', { kind: 1, tid: 1, actor: 0, target: 0, dir: 1, amt: 10, res: 'unity' as never, reason: 3, note: '' }); } catch { bad = true; }
+  eq(bad, true, 'ally: a resource outside the whitelist is rejected');
+  const cmd = allyAct(4, '12', { kind: 1, tid: 9, actor: 0, target: 0, dir: 2, amt: 50, res: 'energy', reason: 3, note: '' });
+  eq(cmd.includes('sllm_probe_ally_act') && cmd.includes('RES = energy') && cmd.includes('is_ai = no'), true, 'ally: apply command is player-scoped');
+  const root = path.join(__dirname, '..', 'tester-mod');
+  const fx = fs.readFileSync(path.join(root, 'common/scripted_effects/sllm_probe_allies.txt'), 'utf8');
+  eq(fx.includes('has_defensive_pact') && fx.includes('every_subject') && fx.includes('has_any_overlord') && !fx.includes('has_guarantee') && fx.includes('NOT = { is_in_federation_with = prev }'), true, 'ally: defensive pact, subjects, overlord; not guarantees; not federation');
+  let depth = 0, neg = false;
+  for (const ch of fx) { if (ch === '{') depth++; else if (ch === '}') { depth--; if (depth < 0) neg = true; } }
+  eq([depth, neg], [0, false], 'ally: braces balanced');
+  const names = [...fx.matchAll(/^([a-z0-9_]+) = \{/gm)].map((m) => m[1]);
+  eq(new Set(names).size === names.length && names.length === 7, true, 'ally: seven effect names, each once in the file');
+  const seen = new Map<string, number>();
+  const walk = (d: string) => { for (const f of fs.readdirSync(d)) { const q = path.join(d, f); if (fs.statSync(q).isDirectory()) walk(q); else if (f.endsWith('.txt')) { const t = fs.readFileSync(q, 'utf8'); for (const m of t.matchAll(/^([a-z0-9_]+) = \{/gm)) seen.set(m[1], (seen.get(m[1]) || 0) + 1); } } };
+  walk(path.join(root, 'common'));
+  eq(names.filter((n) => seen.get(n) !== 1), [], 'ally: effect and modifier ids are unique in the mod');
+  const keys = ['sllm_ally_snub:0', 'sllm_ally_snub_desc:0', 'sllm_ally_reaffirm:0', 'sllm_ally_reaffirm_desc:0', 'sllm_ally_compact:0', 'sllm_ally_compact_desc:0', 'sllm_ally_coordination:0', 'sllm_ally_coordination_desc:0'];
+  for (const lang of ['english', 'korean', 'spanish']) {
+    const y = fs.readFileSync(path.join(root, 'localisation', lang, `sllm_ally_l_${lang}.yml`));
+    const text = y.toString('utf8');
+    eq(y[0] === 0xef && y[1] === 0xbb && y[2] === 0xbf && text.includes('l_' + lang + ':') && keys.every((k) => text.includes(k)), true, 'ally loc ' + lang);
+  }
 });

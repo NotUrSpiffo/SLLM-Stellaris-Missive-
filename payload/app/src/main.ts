@@ -79,6 +79,7 @@ import { registerDinner } from './features/dinner-app';
 import { registerMediation } from './features/mediation-app';
 import { registerPeace } from './features/peace-app';
 import { registerSummit, registerSummitLog } from './features/summit';
+import { registerAlly, registerAllyLog } from './features/allied-council-app';
 import { registerAppUpdate } from './features/app-update';
 import { registerBackstory, backstories } from './features/backstory-app';
 import { wins, registerWindows, quitAll, toUi, createWindow, createTray, startFade, registerHotkey, notify, needPaused, refreshTray, updateBadge, onMonthTick, setAppOpen, BASE_ICON, iconBaseHeight } from './features/windows';
@@ -488,6 +489,8 @@ app.whenReady().then(() => {
   registerMediation();
   registerSummit(); // 연방 정상회담(A-01 1단계, 시연판): summitState·summitAgenda·summitVote·summitSay·summitApply·summitClose (src/features/summit.ts)
   registerSummitLog(router); // A-01 2단계: SLOT.FEDERATION(FED·FEDMEMBER·FEDLAW·FEDEND) — 앱이 물었을 때만 모은다
+  registerAlly(); // 동맹 평의회: 방어 협정·종속·종주 (src/features/allied-council-app.ts)
+  registerAllyLog(router); // SLOT.ALLY(ALLY·ALLYTRAIT·ALLYEND) — 앱이 물었을 때만 모은다
   registerDevTools(router); // 개발자 모드 전용: 게임 없이 새 기능 화면 시험(src/features/dev-tools.ts)
   registerMail(router);
   registerDinner(router);

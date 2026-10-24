@@ -18,6 +18,8 @@ import { issues, publishNews, openPaper, media } from './media';
 import { speech, speechStore, speechReady, openSpeech, pushSpeech } from './speech-app';
 import { radio, radioDev, setRadio, openRadioWin, radioTick, scheduleRadio, configuredStation } from './radio-app';
 import { openSummit, readFederation } from './summit';
+import { openAlly } from './allied-council-app';
+import { sampleCouncil } from '../allied-council';
 import { demoGovReport } from './govreport';
 import { sampleFederation } from '../dev-fake';
 import { pick as L } from './settings-ui';
@@ -152,6 +154,11 @@ export function registerDevTools(router?: LogRouter): void {
   ipcMain.handle('devSummitTest', guarded(async () => {
     openSummit(sampleFederation());
     return { ok: true, message: L('[시험] 오리온 통상 연합(5개국, 회장: 시험 제국 가)으로 정상회담 창을 열었습니다. 안건·표·발언은 시연판이라 게임에 아무것도 보내지 않고, 발언 답은 정해진 대사입니다.', 'Opened the summit window with the [Test] Orion Trade Union (5 members, president: Test Empire A). Agenda, votes and speeches are a demo: nothing is sent to the game and replies are canned lines.') };
+  }));
+  // 4-1c. 동맹 평의회: 가짜 방어 협정·종속국으로 창만 연다. 게임 명령·LLM 호출 없음.
+  ipcMain.handle('devAllyTest', guarded(async () => {
+    openAlly(sampleCouncil());
+    return { ok: true, message: L('[시험] 철의 맹약(방어 협정)과 고요한 심연(종속국)으로 동맹 평의회를 열었습니다. 시연이라 게임에 아무것도 보내지 않고, 발언 답은 정해진 대사입니다.', 'Opened the allied council with the [Test] Iron Covenant (defensive pact) and Silent Abyss (subject). It is a demo: nothing is sent to the game and replies are canned lines.') };
   }));
   // 4-1b. 실제 연방 읽기(A-01 2단계): 게임에 읽기 명령만 보내고(바꾸는 것 없음) 실제 연방 정보로 회담 창을 연다. 토론·결정 적용은 아직 막힘.
   ipcMain.handle('devSummitReal', guarded(async () => {

@@ -112,6 +112,7 @@ const dinner_app_1 = require("./features/dinner-app");
 const mediation_app_1 = require("./features/mediation-app");
 const peace_app_1 = require("./features/peace-app");
 const summit_1 = require("./features/summit");
+const allied_council_app_1 = require("./features/allied-council-app");
 const app_update_1 = require("./features/app-update");
 const backstory_app_1 = require("./features/backstory-app");
 const windows_1 = require("./features/windows");
@@ -614,6 +615,8 @@ electron_1.app.whenReady().then(() => {
     (0, mediation_app_1.registerMediation)();
     (0, summit_1.registerSummit)(); // 연방 정상회담(A-01 1단계, 시연판): summitState·summitAgenda·summitVote·summitSay·summitApply·summitClose (src/features/summit.ts)
     (0, summit_1.registerSummitLog)(router); // A-01 2단계: SLOT.FEDERATION(FED·FEDMEMBER·FEDLAW·FEDEND) — 앱이 물었을 때만 모은다
+    (0, allied_council_app_1.registerAlly)(); // 동맹 평의회: 방어 협정·종속·종주 (src/features/allied-council-app.ts)
+    (0, allied_council_app_1.registerAllyLog)(router); // SLOT.ALLY(ALLY·ALLYTRAIT·ALLYEND) — 앱이 물었을 때만 모은다
     (0, dev_tools_1.registerDevTools)(router); // 개발자 모드 전용: 게임 없이 새 기능 화면 시험(src/features/dev-tools.ts)
     (0, mail_app_1.registerMail)(router);
     (0, dinner_app_1.registerDinner)(router);

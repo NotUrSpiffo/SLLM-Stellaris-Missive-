@@ -1,0 +1,4 @@
+# Allied council: keep fighting an enemy the empire is already at war with. One year.
+sllm_ally_coordination = {
+	ship_weapon_damage = 0.05
+}
