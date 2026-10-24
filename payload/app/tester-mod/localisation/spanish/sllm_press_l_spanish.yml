@@ -1,0 +1,12 @@
+﻿l_spanish:
+ edict_sllm_press:0 "Entrevista de prensa"
+ edict_sllm_press_desc:0 "Activa este edicto para empezar a preparar una entrevista de prensa. La preparación tarda 3 meses y respondes las preguntas del reportero en la aplicación complementaria. Cada tema bien recibido aumenta la felicidad de la población un 3% durante 1 año (hasta +9%). La activación y el mantenimiento son gratis. Otra preparación estará disponible después de 6 meses; desactiva y vuelve a activar este edicto para empezar de nuevo."
+ sllm_press_cd_tt:0 "Se preparó una entrevista de prensa en los últimos 6 meses."
+ sllm_press_edict_start_tt:0 "Empieza a preparar una entrevista de prensa. La aplicación complementaria te avisará en 3 meses. Otra preparación estará disponible en 6 meses."
+ sllm_press_edict_off_tt:0 "Desactiva este edicto. La preparación ya empezó y los efectos de la entrevista no se cancelan."
+ sllm_press_happy_1:0 "Entrevista de prensa: 1 tema bien recibido"
+ sllm_press_happy_1_desc:0 "Un tema de una entrevista de prensa fue bien recibido y aumentó la felicidad de la población."
+ sllm_press_happy_2:0 "Entrevista de prensa: 2 temas bien recibidos"
+ sllm_press_happy_2_desc:0 "Dos temas de una entrevista de prensa fueron bien recibidos y aumentaron la felicidad de la población."
+ sllm_press_happy_3:0 "Entrevista de prensa: 3 temas bien recibidos"
+ sllm_press_happy_3_desc:0 "Todos los temas de una entrevista de prensa fueron bien recibidos y aumentaron la felicidad de la población."

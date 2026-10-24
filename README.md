@@ -3,6 +3,7 @@ An unofficial Stellaris mod plus a desktop app (Electron) that lets you hold AI-
 > Supported: Windows x64, Stellaris **4.5.2 (one verified build only)**. Multiplayer and Ironman are not supported.
 > This is a fan-made project and is not affiliated with Paradox Interactive.
 한국어: README.ko.md
+Español (este fork, es-MX): README_ES.md
 ---
 Read this first: why Windows or your antivirus may warn you
 We have received repeated feedback about safety: "Windows blocks it", "my antivirus complains". This section explains what triggers each warning, what each file does, and what it does not do, as plainly as we can. All source code is in this repository, so you can check it yourself.

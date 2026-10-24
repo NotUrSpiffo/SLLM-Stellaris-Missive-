@@ -80,7 +80,7 @@ exports.settings = {
     devCouncilNoAi: false,
     aiLanguage: '',
     player2ClientId: '',
-    language: 'auto',
+    language: 'es-MX', // 이 포크의 기본 화면 언어(es-MX). 언어 팩이 없으면 자동과 같이 정한다.
     userDir: null,
     modDir: null,
     setupDone: false,

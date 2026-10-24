@@ -35,7 +35,7 @@ foreach($folder in Get-ChildItem -LiteralPath $stage -Recurse -Directory | Sort-
 #    제거 목록(3)은 위의 전체 구성으로 만들었으므로 채워진 파일도 함께 지운다.
 $seed=Join-Path $work 'seed'
 $keep=@('runtime','tester-mod','native\command-bridge.dll','dist\bootstrap.js','dist\app-update-core.js','dist\version-check.js','dist\environment-paths.js','package.json','start_app.bat','update-public-key.pem')
-$docs=@('README_KO.md','ALPHA_SETUP_KO.md','ALPHA_SETUP_EN.md')
+$docs=@('README_KO.md','ALPHA_SETUP_KO.md','ALPHA_SETUP_EN.md','ALPHA_SETUP_ES.md')
 foreach($k in $keep+$docs){
  $src=Join-Path $stage $k
  if(!(Test-Path -LiteralPath $src)){ if($docs -contains $k){continue}; throw "Minimal installer item missing: $k" }
@@ -55,7 +55,7 @@ $ver=([regex]::Match([IO.File]::ReadAllText((Join-Path $seed 'package.json')),'"
 $manual=Join-Path $work 'manual'
 if(Test-Path -LiteralPath $manual){Remove-Item -LiteralPath $manual -Recurse -Force}
 Copy-Item -LiteralPath $seed -Destination $manual -Recurse
-foreach($g in 'MANUAL_INSTALL_KO.md','MANUAL_INSTALL_EN.md'){Copy-Item -LiteralPath (Join-Path $projectRoot "installer\$g") -Destination (Join-Path $manual $g)}
+foreach($g in 'MANUAL_INSTALL_KO.md','MANUAL_INSTALL_EN.md','MANUAL_INSTALL_ES.md'){Copy-Item -LiteralPath (Join-Path $projectRoot "installer\$g") -Destination (Join-Path $manual $g)}
 $sums=@(foreach($f in (Get-ChildItem -LiteralPath $manual -Recurse -File | Sort-Object FullName)){ (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash+'  '+$f.FullName.Substring($manual.Length+1).Replace('\','/') })
 [IO.File]::WriteAllLines((Join-Path $manual 'SHA256SUMS.txt'),$sums,[Text.UTF8Encoding]::new($false))
 $zipOut=Join-Path $projectRoot "dist\SLLM-Missive-Manual-$ver.zip"

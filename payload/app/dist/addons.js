@@ -350,14 +350,16 @@ class AddonRegistry {
     userDir;
     cacheDir;
     prefs;
+    extraParents;
     found = [];
     sig = '';
     revision = 0;
-    constructor(resources, userDir, cacheDir, prefs) {
+    constructor(resources, userDir, cacheDir, prefs, extraParents = () => []) {
         this.resources = resources;
         this.userDir = userDir;
         this.cacheDir = cacheDir;
         this.prefs = prefs;
+        this.extraParents = extraParents;
     }
     invalidate() { this.sig = ''; }
     fromRoot(r) {
@@ -566,11 +568,19 @@ class AddonRegistry {
     refresh(force = false) {
         this.resources.refresh();
         const ud = this.userDir();
-        let dirs = [];
+        let parents = [ud];
         try {
-            dirs = fs.readdirSync(ud, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => path.join(ud, d.name)).sort();
+            parents.push(...this.extraParents());
         }
-        catch { /* 아직 폴더 없음 */ }
+        catch { /* 묶음 폴더가 없어도 사용자 애드온은 읽는다 */ }
+        let dirs = [];
+        for (const parent of parents) {
+            try {
+                dirs.push(...fs.readdirSync(parent, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => path.join(parent, d.name)));
+            }
+            catch { /* 아직 폴더 없음 */ }
+        }
+        dirs = [...new Set(dirs)].sort();
         const stamp = (p) => { try {
             return fs.statSync(p).mtimeMs;
         }

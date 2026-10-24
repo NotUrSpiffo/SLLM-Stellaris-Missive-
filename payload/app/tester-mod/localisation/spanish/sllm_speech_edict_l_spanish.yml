@@ -1,0 +1,5 @@
+﻿l_spanish:
+ edict_sllm_speech:0 "Pronunciar un discurso"
+ edict_sllm_speech_desc:0 "Activa este edicto para empezar a preparar un discurso. La preparación tarda 3 meses y el discurso se pronuncia en la aplicación complementaria. La activación y el mantenimiento son gratis. Otra preparación estará disponible después de 6 meses; desactiva y vuelve a activar este edicto para empezar de nuevo."
+ sllm_speech_edict_start_tt:0 "Empieza a preparar un discurso. La aplicación complementaria te avisará en 3 meses. Otra preparación estará disponible en 6 meses."
+ sllm_speech_edict_off_tt:0 "Desactiva este edicto. La preparación ya empezó y los efectos del discurso no se cancelan."
