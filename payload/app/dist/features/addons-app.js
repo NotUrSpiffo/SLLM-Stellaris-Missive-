@@ -55,7 +55,9 @@ let registry = null;
 const addonsDir = () => path.join(electron_1.app.getPath('userData'), 'addons');
 exports.addonsDir = addonsDir;
 function initAddons(resources) {
-    registry = new addons_1.AddonRegistry(resources, exports.addonsDir, () => path.join(electron_1.app.getPath('userData'), 'addon_cache'), () => settings_1.settings.addons);
+    // 이 포크는 ui/packs 의 스페인어 팩을 항상 읽는다(사용자 애드온과 같은 형식, 2026-10-24 es-MX).
+    const bundledPacks = () => [path.join(__dirname, '..', '..', 'ui', 'packs')];
+    registry = new addons_1.AddonRegistry(resources, exports.addonsDir, () => path.join(electron_1.app.getPath('userData'), 'addon_cache'), () => settings_1.settings.addons, bundledPacks);
     return registry;
 }
 /** 켜진 애드온의 그림(위쪽 우선). 사용자 그림은 imageState 가 그 위에 덮는다. */

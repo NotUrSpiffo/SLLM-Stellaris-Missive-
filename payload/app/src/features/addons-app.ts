@@ -11,7 +11,9 @@ import { extractPairs } from '../i18n-pairs';
 let registry: AddonRegistry | null = null;
 export const addonsDir = () => path.join(app.getPath('userData'), 'addons');
 export function initAddons(resources: ModResources): AddonRegistry {
-  registry = new AddonRegistry(resources, addonsDir, () => path.join(app.getPath('userData'), 'addon_cache'), () => settings.addons);
+  // 이 포크는 ui/packs 의 스페인어 팩을 항상 읽는다(사용자 애드온과 같은 형식, 2026-10-24 es-MX).
+  const bundledPacks = () => [path.join(__dirname, '..', '..', 'ui', 'packs')];
+  registry = new AddonRegistry(resources, addonsDir, () => path.join(app.getPath('userData'), 'addon_cache'), () => settings.addons, bundledPacks);
   return registry;
 }
 /** 켜진 애드온의 그림(위쪽 우선). 사용자 그림은 imageState 가 그 위에 덮는다. */

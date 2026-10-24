@@ -1,0 +1,7 @@
+﻿l_spanish:
+ sllm_verify_spy_output_1:0 "Prueba de penalización de producción por espionaje -9%"
+ sllm_verify_spy_output_2:0 "Prueba de penalización de producción por espionaje -18%"
+ sllm_verify_spy_output_3:0 "Prueba de penalización de producción por espionaje -27%"
+ sllm_verify_spy_opinion_1:0 "Prueba de penalización de opinión por espionaje -100"
+ sllm_verify_spy_opinion_2:0 "Prueba de penalización de opinión por espionaje -200"
+ sllm_verify_spy_opinion_3:0 "Prueba de penalización de opinión por espionaje -300"

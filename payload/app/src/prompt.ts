@@ -151,7 +151,7 @@ export function attitude(score: number): string {
 export type BodyMode = 'none' | 'asked' | 'once';
 export interface PromptOpt { body?: BodyMode; fallenFinal?: boolean }
 
-const BODY_ASK = /(신체|몸|생김|생긴|외모|외형|모습|생물|생리|기관|장기|종족.{0,6}(특징|특성|특색)|특징|어떻게\s*생|어떤\s*종족|무슨\s*종족|body|anatomy|biolog)/i;
+const BODY_ASK = /(신체|몸|생김|생긴|외모|외형|모습|생물|생리|기관|장기|종족.{0,6}(특징|특성|특색)|특징|어떻게\s*생|어떤\s*종족|무슨\s*종족|body|anatomy|biolog|cuerpo|anatom|apariencia|fisonom|fisiolog|[óo]rgano|especie)/i;
 /** 플레이어의 말이 상대 종족의 몸/특징을 묻는지. */
 export function asksAboutBody(text: string): boolean { return BODY_ASK.test(text || ''); }
 /** 이 답변에서 신체 특징을 어떻게 다룰지. 물으면 항상 허용, 아니면 rate(기본 1%) 확률로 한 번. */

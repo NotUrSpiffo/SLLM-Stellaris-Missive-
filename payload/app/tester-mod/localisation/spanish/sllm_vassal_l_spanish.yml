@@ -1,0 +1,10 @@
+﻿l_spanish:
+ sllm_vassal_grateful:0 "Agradecido con el soberano"
+ sllm_vassal_grateful_desc:0 "Nuestro soberano aceptó nuestra petición. La lealtad sube cada mes."
+ sllm_vassal_resentful:0 "Resentido con el soberano"
+ sllm_vassal_resentful_desc:0 "Nuestro soberano rechazó nuestra petición. La lealtad baja cada mes."
+ sllm_research_aid_given:0 "Ayuda de investigación enviada"
+ sllm_research_aid_given_desc:0 "Estamos compartiendo a nuestros científicos con otro imperio. La velocidad de investigación baja durante un año."
+ sllm_research_aid_received:0 "Ayuda de investigación recibida"
+ sllm_research_aid_received_desc:0 "Otro imperio comparte a sus científicos con nosotros. La velocidad de investigación sube durante un año."
+ sllm_overlord_defied:0 "Rechazó nuestra exigencia"

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "id": "es_mx",
+  "name": "Español (Latinoamérica)",
+  "author": "SLLM Missive",
+  "addonVersion": "1",
+  "description": "Interfaz en español neutro de Latinoamérica (es-MX). Personajes, secretaria, noticias y cartas responden en español.",
+  "language": {
+    "code": "es-MX",
+    "name": "Español",
+    "gameLanguage": "l_spanish",
+    "system": [
+      "es"
+    ],
+    "aiLanguage": "Latin American Spanish",
+    "strings": "strings.json",
+    "patterns": "patterns.json"
+  }
+}

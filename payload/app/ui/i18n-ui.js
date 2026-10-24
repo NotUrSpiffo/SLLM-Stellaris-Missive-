@@ -72,9 +72,16 @@
     refresh();document.dispatchEvent(new Event('sllm-language'));
     const el=document.getElementById('language');if(el){options(el,s);el.value=s.language||'auto';}
   };
+  let settingsSeen=false;
+  const setWrapped=(s)=>{settingsSeen=true;set(s);};
   document.addEventListener('DOMContentLoaded',()=>{
     new MutationObserver(refresh).observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['title','placeholder','aria-label','alt']});
-    window.sllm.getSettings().then(set);window.sllm.onLanguageChanged(set);
+    // Este fork muestra español antes de que llegue la configuración guardada.
+    Promise.all([fetch('packs/es_MX/strings.json').then(r=>r.json()), fetch('packs/es_MX/patterns.json').then(r=>r.json())]).then(([strings,patterns])=>{
+      if(settingsSeen)return;
+      code='es-MX'; lang='en'; pack=compile({strings,patterns}); refresh();
+    }).catch(()=>{});
+    window.sllm.getSettings().then(setWrapped);window.sllm.onLanguageChanged(setWrapped);
     const el=document.getElementById('language');if(el)el.onchange=()=>window.sllm.setLanguage(el.value).then(set);
     refresh();
   });

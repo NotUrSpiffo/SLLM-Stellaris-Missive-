@@ -202,7 +202,7 @@ export class AddonRegistry {
   private found: AddonEntry[] = [];
   private sig = '';
   revision = 0;
-  constructor(private resources: ModResources, private userDir: () => string, private cacheDir: () => string, private prefs: () => AddonPrefs) {}
+  constructor(private resources: ModResources, private userDir: () => string, private cacheDir: () => string, private prefs: () => AddonPrefs, private extraParents: () => string[] = () => []) {}
   invalidate(): void { this.sig = ''; }
   private fromRoot(r: ResourceRoot): AddonEntry | null {
     const mf = this.resources.fileIn(r, `${MOD_ADDON_DIR}/${ADDON_MANIFEST}`); if (!mf) return null;
@@ -295,8 +295,13 @@ export class AddonRegistry {
   }
   refresh(force = false): void {
     this.resources.refresh();
-    const ud = this.userDir(); let dirs: string[] = [];
-    try { dirs = fs.readdirSync(ud, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => path.join(ud, d.name)).sort(); } catch { /* 아직 폴더 없음 */ }
+    const ud = this.userDir(); let parents: string[] = [ud];
+    try { parents.push(...this.extraParents()); } catch { /* 묶음 폴더가 없어도 사용자 애드온은 읽는다 */ }
+    let dirs: string[] = [];
+    for (const parent of parents) {
+      try { dirs.push(...fs.readdirSync(parent, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => path.join(parent, d.name))); } catch { /* 아직 폴더 없음 */ }
+    }
+    dirs = [...new Set(dirs)].sort();
     const stamp = (p: string) => { try { return fs.statSync(p).mtimeMs; } catch { return 0; } };
     const sig = this.resources.revision + '|' + dirs.map((d) => d + ':' + stamp(path.join(d, ADDON_MANIFEST))).join(';');
     if (!force && sig === this.sig) return;
