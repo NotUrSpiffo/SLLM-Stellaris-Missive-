@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><title>동맹 평의회</title>
+<style>
+ :root{--bg:#10140f;--panel:#1a2218;--text:#e7f0df;--dim:#8ea38a;--hi:#d7c07a;--hi-text:#1a1406;--linec:#d7c07a;--shade:#0c100b;--bad:#e0705f;--good:#8fce7a;
+  --btnbg:linear-gradient(#243222,#182216);--cardbg:linear-gradient(160deg,#243222,#141c12);--inputbg:#0c100b;
+  --mono:"D2Coding","Cascadia Mono",Consolas,"Malgun Gothic",monospace;--line:color-mix(in srgb,var(--linec) 34%,transparent);--line2:color-mix(in srgb,var(--linec) 16%,transparent)}
+ *{box-sizing:border-box}
+ html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:13px/1.45 "Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+ body{display:flex;flex-direction:column;border:1px solid var(--line)}
+ #titlebar{-webkit-app-region:drag;display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--line2);flex:none}
+ #titlebar b{color:var(--hi);letter-spacing:.08em} .cap{font:10.5px var(--mono);letter-spacing:.12em;color:var(--dim)} .sp{flex:1}
+ .tag{border:1px solid var(--hi);color:var(--hi);padding:0 6px;font:10.5px var(--mono)}
+ #titlebar button{-webkit-app-region:no-drag;width:26px;height:22px;padding:0;border-color:transparent;background:none;color:var(--dim)}
+ input,select,button{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);padding:5px 9px;outline:none}
+ select{background:var(--btnbg)} select option{background:#182216}
+ button{cursor:pointer;background:var(--btnbg)} button:hover:not(:disabled){background:var(--hi);color:var(--hi-text);border-color:var(--hi)} button:disabled{opacity:.4;cursor:not-allowed}
+ button.primary{border-color:var(--hi);color:var(--hi)} button.warn{border-color:var(--bad);color:var(--bad)}
+ #body{flex:1;min-height:0;display:flex;flex-direction:column;padding:10px 12px;gap:8px}
+ .lead{color:var(--dim);font-size:12.5px}
+ #pick{overflow:auto;display:flex;flex-direction:column;gap:8px}
+ .rowc{display:flex;gap:8px;align-items:center;padding:8px;border:1px solid var(--line2);background:var(--cardbg)}
+ .rowc .nm{font-weight:700} .rowc .sub{color:var(--dim);font-size:12px}
+ #table{flex:1;min-height:0;display:none;flex-direction:column;gap:8px}
+ body.table #pick{display:none} body.table #table{display:flex}
+ #agenda{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;border:1px solid var(--line2);background:var(--panel)}
+ #notice{flex:1 1 100%;color:var(--dim);font-size:12px} #problem{flex:1 1 100%;color:var(--bad);font-size:12px}
+ #hall{flex:1;min-height:120px;display:flex;gap:10px;align-items:flex-end;justify-content:center;padding:12px 8px 0;border:1px solid var(--line2);
+  background:radial-gradient(ellipse at 50% 80%,color-mix(in srgb,var(--hi) 12%,transparent),transparent 60%),var(--shade);overflow:auto}
+ .seat{width:132px;text-align:center}
+ .face{width:86px;height:96px;margin:0 auto;border:2px solid var(--dim);background:var(--shade);position:relative;overflow:hidden}
+ .seat.yes .face{border-color:var(--good)} .seat.no .face{border-color:var(--bad)} .seat.me .face{border-color:var(--hi)}
+ .face img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+ .face .gl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:600 22px var(--mono);color:var(--hi)}
+ .plate{margin-top:4px;font-size:12px} .plate .sub{color:var(--dim);font-size:11px}
+ .flag{width:16px;height:11px;object-fit:cover;vertical-align:-1px;margin-right:3px;border:1px solid var(--line2)}
+ #chat{display:flex;gap:8px;height:168px;flex:none}
+ #log{flex:1;overflow:auto;border:1px solid var(--line2);background:var(--shade);padding:6px 8px;font:12px/1.4 var(--mono)}
+ .ln{margin:0 0 5px} .ln .who{color:var(--dim);font-size:10.5px;display:block} .ln.me .who{color:var(--hi)} .ln.sys{color:var(--dim)}
+ #ctl{width:280px;display:flex;flex-direction:column;gap:6px}
+ .prompt{display:flex;border:1px solid var(--line);background:var(--inputbg)} .prompt input{flex:1;border:0;background:transparent}
+ #foot{display:flex;gap:8px;align-items:center;flex:none} #foot .hint{color:var(--dim);font-size:11.5px;flex:1}
+ #work{color:var(--dim);font-size:12px;min-height:1.2em}
+</style>
+<script src="theme.js"></script><script src="portrait-variants.js"></script><script src="i18n-catalog.js"></script><script src="i18n-ui.js"></script>
+<link rel="stylesheet" href="window-chrome.css"></head><body>
+<div id="titlebar"><b>동맹 평의회</b><span class="cap">// 회의</span><span class="tag" id="tagDemo" hidden>시연</span><span class="sp"></span><button id="x" title="닫기">✕</button></div>
+<div id="body">
+ <div id="pick">
+  <p class="lead">방어 협정을 맺은 제국과, 서로 종속·종주 관계인 제국의 지도자를 부릅니다. 독립 보장은 포함하지 않습니다. 같은 연방의 회원은 연방 정상회담에서 만나므로 이 목록에 나오지 않습니다.</p>
+  <div id="roster" data-i18n-skip></div>
+  <div><button id="summon" class="primary">소집하기</button> <span class="cap">한 명에서 여섯 명</span></div>
+ </div>
+ <div id="table">
+  <div id="agenda">
+   <span class="cap">안건</span>
+   <select id="kind" aria-label="안건">
+    <option value="trade">자원 교환</option>
+    <option value="ease">조건 완화</option>
+    <option value="research">연구 지원</option>
+    <option value="reaffirm">협정 재확인</option>
+    <option value="compact">평의회 합의</option>
+    <option value="declare">전쟁 선포</option>
+    <option value="peace">종전</option>
+    <option value="keep">전쟁 지속</option>
+   </select>
+   <select id="partner" aria-label="상대"></select>
+   <select id="res" aria-label="자원"><option value="energy">에너지</option><option value="minerals">광물</option><option value="food">식량</option><option value="alloys">합금</option><option value="consumer_goods">소비재</option></select>
+   <input id="amt" type="number" min="10" step="10" value="100" aria-label="수량" data-i18n-skip>
+   <select id="dir" aria-label="방향"><option value="give">주기</option><option value="take">받기</option></select>
+   <select id="target" aria-label="대상"></select>
+   <select id="reason" aria-label="사유"><option value="3">굴욕</option><option value="4">공물</option><option value="5">복수</option></select>
+   <div id="notice" data-i18n-skip></div>
+   <div id="problem" data-i18n-skip></div>
+  </div>
+  <div id="hall" data-i18n-skip></div>
+  <div id="chat">
+   <div id="log"></div>
+   <div id="ctl">
+    <select id="to" aria-label="발언 대상"><option value="">전체</option></select>
+    <div class="prompt"><input id="q" placeholder="평의회에 말합니다…" autocomplete="off"></div>
+    <button id="send" class="primary">발언</button>
+   </div>
+  </div>
+  <div id="foot">
+   <span class="hint">재확인은 신뢰와 관계만 바꿉니다. 평의회 합의는 국경 개방·신뢰·관계이며 방어 협정이 아닙니다. 종속 계약 슬라이더는 바뀌지 않습니다. 선전포고는 나라마다 따로 열리고, 둘만 싸운 전쟁만 끝납니다. 전쟁 지속은 이미 그 상대와 싸우는 쪽에 1년간 무기 피해 +5%입니다.</span>
+   <button id="back">다시 고르기</button>
+   <button id="break" class="warn">회담 결렬</button>
+   <button id="apply" class="primary">결정 적용</button>
+  </div>
+  <div id="work" data-i18n-skip></div>
+ </div>
+</div>
+<script>
+ const $ = (id) => document.getElementById(id);
+ const L = (ko, en) => (window.SLLMI18n && window.SLLMI18n.pick ? window.SLLMI18n.pick(ko, en) : ko);
+ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+ let IMG = { images: {}, defaults: {} }, S = null, busy = false;
+ const pic = (k, seed) => (window.SLLMVariant ? SLLMVariant.pick(IMG.images, ['class:' + k], seed, IMG.defaults[k]) : null);
+ function decision() {
+  const kind = $('kind').value, partner = Number($('partner').value), amt = Number($('amt').value);
+  const res = $('res').value, dir = $('dir').value, target = Number($('target').value), reason = Number($('reason').value);
+  if (kind === 'compact') return { kind };
+  if (kind === 'trade') return { kind, partner, res, amt, dir };
+  if (kind === 'ease') return { kind, partner, res, amt };
+  if (kind === 'research') return { kind, partner, dir };
+  if (kind === 'reaffirm') return { kind, partner };
+  if (kind === 'declare') return { kind, target, reason };
+  if (kind === 'peace' || kind === 'keep') return { kind, target };
+  return null;
+ }
+ function showFields() {
+  const k = $('kind').value;
+  const partner = k === 'trade' || k === 'ease' || k === 'research' || k === 'reaffirm';
+  const goods = k === 'trade' || k === 'ease';
+  $('partner').hidden = !partner; $('res').hidden = !goods; $('amt').hidden = !goods;
+  $('dir').hidden = !(k === 'trade' || k === 'research');
+  $('target').hidden = !(k === 'declare' || k === 'peace' || k === 'keep');
+  $('reason').hidden = k !== 'declare';
+ }
+ function face(cls, seed, name) {
+  const u = pic(cls, seed);
+  return u ? `<img src="${esc(u)}" alt="">` : `<span class="gl">${esc((name || '?').slice(0, 1))}</span>`;
+ }
+ function render(st) {
+  S = st; if (!st) return;
+  document.body.classList.toggle('table', st.phase === 'table');
+  $('tagDemo').hidden = !st.demo;
+  $('amt').min = st.minAmt || 10;
+  const caps = st.limits || {}; if (caps[$('res').value]) $('amt').max = caps[$('res').value];
+  const flag = (idx) => (st.flags && st.flags[idx]) || '';
+  $('roster').innerHTML = st.candidates.map((c) => `<label class="rowc"><input type="checkbox" value="${c.idx}"><span><span class="nm">${flag(c.idx) ? `<img class="flag" src="${esc(flag(c.idx))}" alt="">` : ''}${esc(c.name)}</span><span class="sub">${esc(c.bondLabel)} · ${esc(c.ruler || '')}${c.loyalty === null || c.loyalty === undefined ? '' : ' · ' + c.loyalty}</span></span></label>`).join('') || `<p class="lead">${esc(L('부를 수 있는 나라가 없습니다.', 'No empire can be summoned.'))}</p>`;
+  const fill = (sel, rows, cur) => { const v = cur || sel.value; sel.innerHTML = ''; for (const r of rows) sel.add(new Option(r.name, String(r.idx))); if ([...sel.options].some((o) => o.value === v)) sel.value = v; };
+  fill($('partner'), st.seats, $('partner').value);
+  fill($('target'), st.contacts, $('target').value);
+  const to = $('to'), tv = to.value; to.innerHTML = ''; to.add(new Option(L('전체', 'Everyone'), '')); for (const s of st.seats) to.add(new Option(s.name, String(s.idx))); if ([...to.options].some((o) => o.value === tv)) to.value = tv;
+  const tone = (n) => n === null || n === undefined ? '' : n >= 25 ? 'yes' : n <= -25 ? 'no' : '';
+  const seats = st.seats.map((s) => `<div class="seat ${tone(s.stance)}"><div class="face">${face(s.cls, s.name, s.name)}</div><div class="plate"><div class="nm">${flag(s.idx) ? `<img class="flag" src="${esc(flag(s.idx))}" alt="">` : ''}${esc(s.name)}</div><div class="sub">${esc(s.bondLabel)}${s.traits && s.traits.length ? ' · ' + esc(s.traits.join(', ')) : ''}</div><div class="sub">${s.stance}</div></div></div>`);
+  const me = st.player || { name: '', cls: '', idx: 0 };
+  $('hall').innerHTML = seats.join('') + `<div class="seat me"><div class="face">${face(me.cls, 'player', me.name)}</div><div class="plate"><div class="nm">${st.playerFlag ? `<img class="flag" src="${esc(st.playerFlag)}" alt="">` : ''}${esc(me.name)}</div><div class="sub">${esc(L('우리', 'Us'))}</div></div></div>`;
+  $('notice').textContent = st.notice || '';
+  $('problem').textContent = st.problem || '';
+  const lg = $('log'), atEnd = lg.scrollTop + lg.clientHeight >= lg.scrollHeight - 8;
+  lg.innerHTML = (st.log || []).map((l) => `<div class="ln ${l.kind}">${l.who ? `<span class="who">${esc(l.who)}</span>` : ''}${esc(l.text)}</div>`).join('');
+  if (atEnd) lg.scrollTop = lg.scrollHeight;
+  const lock = !!(st.busy || st.applied || st.uncertain || st.demo);
+  $('apply').disabled = lock || !!st.problem || !st.decision;
+  $('break').disabled = !!(st.busy || st.applied || st.uncertain || st.demo);
+  $('send').disabled = !!(st.busy || st.applied || st.uncertain);
+  $('summon').disabled = !!st.busy;
+  showFields();
+ }
+ async function sendAgenda() {
+  showFields();
+  const d = decision(); if (!d || !S || S.phase !== 'table') return;
+  const r = await window.sllm.allyAgenda(d);
+  if (r && r.error) $('work').textContent = r.error;
+ }
+ for (const id of ['kind', 'partner', 'res', 'amt', 'dir', 'target', 'reason']) $(id).addEventListener('change', () => { sendAgenda(); });
+ $('summon').onclick = async () => {
+  const idxs = [...document.querySelectorAll('#roster input:checked')].map((el) => Number(el.value));
+  const r = await window.sllm.allySummon(idxs);
+  if (!r.ok) $('work').textContent = r.error || '';
+ };
+ async function send() {
+  const text = $('q').value.trim(); if (!text || busy) return;
+  busy = true; $('send').disabled = true;
+  try {
+   const to = $('to').value ? Number($('to').value) : null;
+   const r = await window.sllm.allySay({ text, to });
+   if (!r || !r.ok) $('work').textContent = r?.error || '';
+   else $('q').value = '';
+  } catch (e) { $('work').textContent = e.message; } finally { busy = false; }
+ }
+ $('send').onclick = send;
+ $('q').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) send(); });
+ $('apply').onclick = async () => {
+  if (!confirm(L('이 결정을 게임에 적용합니다. 시험 세이브에서 확인하세요. 계속할까요?', 'This applies the decision in the game. Check it on a test save. Continue?'))) return;
+  $('apply').disabled = true;
+  try { const r = await window.sllm.allyApply(true); if (!r.ok) $('work').textContent = r.error || ''; } catch (e) { $('work').textContent = e.message; }
+ };
+ $('break').onclick = async () => {
+  if (!confirm(L('회담을 결렬하면 자리의 관계가 나빠집니다. 계속할까요?', 'Breaking off the talks lowers opinion at the table. Continue?'))) return;
+  try { const r = await window.sllm.allyBreak(true); if (!r.ok) $('work').textContent = r.error || ''; } catch (e) { $('work').textContent = e.message; }
+ };
+ $('back').onclick = () => window.sllm.allyBack();
+ $('x').onclick = () => window.sllm.allyClose();
+ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.sllm.allyClose(); });
+ window.sllm.onAllyState((st) => { if (st) render(st); });
+ window.sllm.onTheme((t) => applyTheme(t.theme, t.custom));
+ window.sllm.launcherState().then((s) => applyTheme(s.theme, s.custom));
+ window.sllm.getImageState().then((st) => { IMG = st || IMG; return window.sllm.allyState(); }, () => window.sllm.allyState()).then((st) => { if (st) render(st); });
+</script>
+</body></html>

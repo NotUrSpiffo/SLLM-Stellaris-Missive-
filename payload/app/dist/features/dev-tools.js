@@ -20,6 +20,8 @@ const media_1 = require("./media");
 const speech_app_1 = require("./speech-app");
 const radio_app_1 = require("./radio-app");
 const summit_1 = require("./summit");
+const allied_council_app_1 = require("./allied-council-app");
+const allied_council_1 = require("../allied-council");
 const govreport_1 = require("./govreport");
 const dev_fake_2 = require("../dev-fake");
 const settings_ui_1 = require("./settings-ui");
@@ -215,6 +217,11 @@ function registerDevTools(router) {
     electron_1.ipcMain.handle('devSummitTest', guarded(async () => {
         (0, summit_1.openSummit)((0, dev_fake_2.sampleFederation)());
         return { ok: true, message: (0, settings_ui_1.pick)('[시험] 오리온 통상 연합(5개국, 회장: 시험 제국 가)으로 정상회담 창을 열었습니다. 안건·표·발언은 시연판이라 게임에 아무것도 보내지 않고, 발언 답은 정해진 대사입니다.', 'Opened the summit window with the [Test] Orion Trade Union (5 members, president: Test Empire A). Agenda, votes and speeches are a demo: nothing is sent to the game and replies are canned lines.') };
+    }));
+    // 4-1c. 동맹 평의회: 가짜 방어 협정·종속국으로 창만 연다. 게임 명령·LLM 호출 없음.
+    electron_1.ipcMain.handle('devAllyTest', guarded(async () => {
+        (0, allied_council_app_1.openAlly)((0, allied_council_1.sampleCouncil)());
+        return { ok: true, message: (0, settings_ui_1.pick)('[시험] 철의 맹약(방어 협정)과 고요한 심연(종속국)으로 동맹 평의회를 열었습니다. 시연이라 게임에 아무것도 보내지 않고, 발언 답은 정해진 대사입니다.', 'Opened the allied council with the [Test] Iron Covenant (defensive pact) and Silent Abyss (subject). It is a demo: nothing is sent to the game and replies are canned lines.') };
     }));
     // 4-1b. 실제 연방 읽기(A-01 2단계): 게임에 읽기 명령만 보내고(바꾸는 것 없음) 실제 연방 정보로 회담 창을 연다. 토론·결정 적용은 아직 막힘.
     electron_1.ipcMain.handle('devSummitReal', guarded(async () => {

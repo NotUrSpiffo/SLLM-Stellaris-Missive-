@@ -1,0 +1,17 @@
+# Allied council. Snubs stack and fade. Reaffirm and compact replace themselves and fade.
+sllm_ally_snub = {
+	opinion = { base = -25 }
+	accumulative = yes
+	min = -75
+	decay = { base = 2 }
+}
+
+sllm_ally_reaffirm = {
+	opinion = { base = 20 }
+	decay = { base = 1 }
+}
+
+sllm_ally_compact = {
+	opinion = { base = 15 }
+	decay = { base = 1 }
+}

@@ -55,6 +55,7 @@ exports.SLOT = {
     CONDEMN: 235, // 규탄 성명: WARVOICE·WARVOICE_END 제국별 관계 → 판정(2026-10-20 알파 10)
     DECLARE: 236, // 전쟁 선언문: EVT war_start → 알림(2026-10-20 알파 10)
     TO_UI: 260, // 화면에 원본 신호 전달(맨 끝)
+    ALLY: 261, // 동맹 평의회: ALLY·ALLYTRAIT·ALLYEND·적용 ACK
 };
 class LogRouter {
     hs = [];

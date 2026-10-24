@@ -998,5 +998,153 @@
  [
   "^(.+?) 서신 · (.+?)$",
   "Carta $1 · $2"
+ ],
+ [
+  "^(.+?)은\\(는\\) (.+?)에서 (.+?)까지입니다\\.$",
+  "$1 debe estar entre $2 y $3."
+ ],
+ [
+  "^(.+?): 회담이 틀어져 관계가 나빠집니다\\.$",
+  "$1: las conversaciones salieron mal y baja la opinión."
+ ],
+ [
+  "^(.+?): 보류$",
+  "$1: se abstuvo"
+ ],
+ [
+  "^(.+?): (.+?) (.+?) 교환$",
+  "$1: intercambiar $3 de $2"
+ ],
+ [
+  "^(.+?): (.+?) (.+?)를 건넵니다\\.$",
+  "$1: entregar $3 de $2."
+ ],
+ [
+  "^(.+?): 1년간 충성도가 매달 오릅니다\\.$",
+  "$1: la lealtad mensual sube durante un año."
+ ],
+ [
+  "^(.+?): 신뢰와 관계가 오릅니다\\. 계약 조항은 그대로입니다\\.$",
+  "$1: suben la confianza y la opinión. Los términos del contrato siguen igual."
+ ],
+ [
+  "^(.+?): 연구 지원 1년$",
+  "$1: ayuda de investigación por un año"
+ ],
+ [
+  "^(.+?): 신뢰와 관계로 협정을 재확인합니다\\. 외교 화면의 조약은 그대로입니다\\.$",
+  "$1: el acuerdo se reafirma con confianza y opinión. El tratado de la pantalla de diplomacia sigue igual."
+ ],
+ [
+  "^(.+?): 전쟁 중이라 국경을 열지 않습니다\\.$",
+  "$1: está en guerra, así que las fronteras siguen cerradas."
+ ],
+ [
+  "^(.+?): 국경 개방, 신뢰, 관계\\. 방어 협정은 생기지 않습니다\\.$",
+  "$1: fronteras abiertas, confianza y opinión. No se crea un pacto defensivo."
+ ],
+ [
+  "^(.+?): 따로 선전포고$",
+  "$1: declara la guerra por su cuenta"
+ ],
+ [
+  "^(.+?): 둘만일 때만 그 전쟁에서 빠집니다\\.$",
+  "$1: sale de esa guerra solo si hay exactamente dos imperios."
+ ],
+ [
+  "^(.+?): 이미 전쟁 중이면 1년간 무기 피해 \\+5%$",
+  "$1: +5% de daño de armas durante un año si ya está en guerra"
+ ],
+ [
+  "^(.+?)에게 (.+?) (.+?)를 건넵니다\\. 창고가 실제로 오갑니다\\.$",
+  "Entregar $3 de $2 a $1. Las reservas sí se mueven."
+ ],
+ [
+  "^(.+?)에게서 (.+?) (.+?)를 받습니다\\. 창고가 실제로 오갑니다\\.$",
+  "Recibir $3 de $2 de $1. Las reservas sí se mueven."
+ ],
+ [
+  "^(.+?)에게 (.+?) (.+?)를 건네 부담을 줄입니다\\. 계약 슬라이더는 바뀌지 않습니다\\.$",
+  "Aliviar la carga de $1 con $3 de $2. Los controles del contrato no cambian."
+ ],
+ [
+  "^(.+?)에게 연구 지원을 1년 줍니다\\. 연구 속도는 우리가 −5%, 상대가 \\+5%입니다\\.$",
+  "Dar a $1 ayuda de investigación por un año. La velocidad de investigación es −5% para nosotros y +5% para ellos."
+ ],
+ [
+  "^(.+?)에게서 연구 지원을 1년 받습니다\\. 연구 속도는 우리가 \\+5%, 상대가 −5%입니다\\.$",
+  "Recibir ayuda de investigación de $1 por un año. La velocidad de investigación es +5% para nosotros y −5% para ellos."
+ ],
+ [
+  "^(.+?)와\\(과\\)의 협정을 신뢰와 관계로 재확인합니다\\. 외교 화면의 조약은 새로 생기거나 없어지지 않습니다\\.$",
+  "Reafirmar el acuerdo con $1 mediante confianza y opinión. El tratado de la pantalla de diplomacia no se crea ni se quita."
+ ],
+ [
+  "^(.+?)에게 선전포고합니다\\(사유: (.+?)\\)\\. 동의한 나라는 각자 따로 전쟁을 겁니다\\.$",
+  "Declarar la guerra a $1 (motivo: $2). Cada líder que acepta abre su propia guerra."
+ ],
+ [
+  "^(.+?)와\\(과\\)의 전쟁을 끝내려 합니다\\. 둘만일 때만 적용됩니다\\.$",
+  "Intentar terminar la guerra con $1. Solo se aplica si pelean exactamente dos imperios."
+ ],
+ [
+  "^(.+?)와\\(과\\) 이미 전쟁 중인 쪽에 1년간 무기 피해 \\+5%\\. 전쟁을 새로 걸지는 않습니다\\.$",
+  "Los imperios que ya están en guerra con $1 ganan +5% de daño de armas durante un año. Esto no inicia una guerra."
+ ],
+ [
+  "^(.+?): 게임에 적용했습니다\\.$",
+  "$1: se aplicó en el juego."
+ ],
+ [
+  "^(.+?): 창고가 부족합니다\\.$",
+  "$1: no hay suficientes reservas."
+ ],
+ [
+  "^(.+?): 휴전 중이라 전쟁을 걸지 못했습니다\\.$",
+  "$1: una tregua impidió la declaración."
+ ],
+ [
+  "^(.+?): 이미 그 상대와 전쟁 중입니다\\.$",
+  "$1: ya está en guerra con ese imperio."
+ ],
+ [
+  "^(.+?): 그 제국을 찾지 못했습니다\\.$",
+  "$1: no se encontró ese imperio."
+ ],
+ [
+  "^(.+?): 둘만의 전쟁이 아니라 끝내지 못했습니다\\.$",
+  "$1: no es una guerra de dos imperios, así que no terminó."
+ ],
+ [
+  "^(.+?): 그 상대와 전쟁 중이 아닙니다\\.$",
+  "$1: no está en guerra con ese imperio."
+ ],
+ [
+  "^(.+?): 세이브가 바뀌어 적용하지 않았습니다\\.$",
+  "$1: el guardado cambió, así que no se aplicó nada."
+ ],
+ [
+  "^(.+?): 우리 종속국이 아닙니다\\.$",
+  "$1: no es nuestro súbdito."
+ ],
+ [
+  "^(.+?): 게임이 선전포고를 받아들이지 않았습니다\\.$",
+  "$1: el juego no aceptó la declaración."
+ ],
+ [
+  "^(.+?): 결과를 확인하지 못했습니다\\.$",
+  "$1: no se pudo confirmar el resultado."
+ ],
+ [
+  "^평의회를 열었습니다\\. 부를 수 있는 나라 (.+?)\\.$",
+  "Consejo abierto. Se pueden convocar $1 imperios."
+ ],
+ [
+  "^자리에 (.+?)명이 앉았습니다\\.$",
+  "$1 líderes tomaron asiento."
+ ],
+ [
+  "^(.+?): 응답이 없어 성향으로 입장을 정했습니다\\.$",
+  "$1: no hubo respuesta, así que su carácter fijó la postura."
  ]
 ]

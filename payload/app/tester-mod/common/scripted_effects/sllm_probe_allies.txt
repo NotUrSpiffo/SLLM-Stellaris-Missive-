@@ -1,0 +1,441 @@
+# SLLM allied council. Read who may sit, then apply one decision the game can already do.
+# Eligibility: our subjects (every_subject), our overlord (has_any_overlord), or has_defensive_pact.
+# Same-federation empires are left to the federation summit. Independence guarantees are not a seat.
+# KIND 1 trade, 2 snub, 3 reaffirm trust+opinion, 4 open borders+trust+opinion,
+# 5 declare_war with the mod casus belli, 6 leave a two-party war, 7 coordination modifier,
+# 8 subject loyalty, 9 research aid. No effect here creates or cancels a diplomatic pact.
+
+sllm_probe_ally_log = {
+	set_variable = { which = sllm_ay_war value = 0 }
+	set_variable = { which = sllm_ay_truce value = 0 }
+	set_variable = { which = sllm_ay_riv value = 0 }
+	set_variable = { which = sllm_ay_nap value = 0 }
+	set_variable = { which = sllm_ay_com value = 0 }
+	set_variable = { which = sllm_ay_res value = 0 }
+	set_variable = { which = sllm_ay_loy value = 0 }
+	set_variable = { which = sllm_ay_hl value = 0 }
+	set_variable = { which = sllm_ay_op value = 0 }
+	set_variable = { which = sllm_ay_eth value = 0 }
+	set_variable = { which = sllm_ay_gest value = 0 }
+	set_variable = { which = sllm_ay_cls value = 0 }
+	set_variable = { which = sllm_ay_att value = 0 }
+	set_variable = { which = sllm_ay_beh value = 0 }
+	if = { limit = { is_at_war_with = prev } set_variable = { which = sllm_ay_war value = 1 } }
+	if = { limit = { has_truce = prev } set_variable = { which = sllm_ay_truce value = 1 } }
+	if = { limit = { is_rival = prev } set_variable = { which = sllm_ay_riv value = 1 } }
+	if = { limit = { has_non_aggression_pact = prev } set_variable = { which = sllm_ay_nap value = 1 } }
+	if = { limit = { has_commercial_pact = prev } set_variable = { which = sllm_ay_com value = 1 } }
+	if = { limit = { has_research_agreement = prev } set_variable = { which = sllm_ay_res value = 1 } }
+	if = {
+		limit = { check_variable = { which = sllm_ay_bond value = 1 } }
+		export_trigger_value_to_variable = { trigger = has_loyalty variable = sllm_ay_loy }
+		set_variable = { which = sllm_ay_hl value = 1 }
+	}
+	else_if = {
+		limit = { check_variable = { which = sllm_ay_bond value = 2 } }
+		set_variable = { which = sllm_ay_loy value = prev.sllm_ally_ploy }
+		set_variable = { which = sllm_ay_hl value = prev.sllm_ally_phl }
+	}
+	export_trigger_value_to_variable = { trigger = opinion parameters = { who = prev } variable = sllm_ay_op }
+	if = { limit = { is_militarist = yes } change_variable = { which = sllm_ay_eth value = 1 } }
+	if = { limit = { is_pacifist = yes } change_variable = { which = sllm_ay_eth value = 2 } }
+	if = { limit = { is_authoritarian = yes } change_variable = { which = sllm_ay_eth value = 4 } }
+	if = { limit = { is_egalitarian = yes } change_variable = { which = sllm_ay_eth value = 8 } }
+	if = { limit = { is_xenophile = yes } change_variable = { which = sllm_ay_eth value = 16 } }
+	if = { limit = { is_xenophobe = yes } change_variable = { which = sllm_ay_eth value = 32 } }
+	if = { limit = { is_materialist = yes } change_variable = { which = sllm_ay_eth value = 64 } }
+	if = { limit = { is_spiritualist = yes } change_variable = { which = sllm_ay_eth value = 128 } }
+	if = { limit = { has_authority = auth_machine_intelligence } set_variable = { which = sllm_ay_gest value = 1 } }
+	else_if = { limit = { has_authority = auth_hive_mind } set_variable = { which = sllm_ay_gest value = 2 } }
+	if = { limit = { is_species_class = HUM } set_variable = { which = sllm_ay_cls value = 1 } }
+	else_if = { limit = { is_species_class = MAM } set_variable = { which = sllm_ay_cls value = 2 } }
+	else_if = { limit = { is_species_class = REP } set_variable = { which = sllm_ay_cls value = 3 } }
+	else_if = { limit = { is_species_class = AVI } set_variable = { which = sllm_ay_cls value = 4 } }
+	else_if = { limit = { is_species_class = ART } set_variable = { which = sllm_ay_cls value = 5 } }
+	else_if = { limit = { is_species_class = MOL } set_variable = { which = sllm_ay_cls value = 6 } }
+	else_if = { limit = { is_species_class = FUN } set_variable = { which = sllm_ay_cls value = 7 } }
+	else_if = { limit = { is_species_class = PLANT } set_variable = { which = sllm_ay_cls value = 8 } }
+	else_if = { limit = { is_species_class = INF } set_variable = { which = sllm_ay_cls value = 9 } }
+	else_if = { limit = { is_species_class = LITHOID } set_variable = { which = sllm_ay_cls value = 10 } }
+	else_if = { limit = { is_species_class = NECROID } set_variable = { which = sllm_ay_cls value = 11 } }
+	else_if = { limit = { is_species_class = AQUATIC } set_variable = { which = sllm_ay_cls value = 12 } }
+	else_if = { limit = { is_species_class = TOX } set_variable = { which = sllm_ay_cls value = 13 } }
+	else_if = { limit = { is_species_class = ROBOT } set_variable = { which = sllm_ay_cls value = 14 } }
+	else_if = { limit = { is_species_class = MACHINE } set_variable = { which = sllm_ay_cls value = 15 } }
+	else_if = { limit = { is_species_class = CYBERNETIC } set_variable = { which = sllm_ay_cls value = 16 } }
+	if = { limit = { is_cordial_to = prev } set_variable = { which = sllm_ay_att value = 1 } }
+	else_if = { limit = { is_rival = prev } set_variable = { which = sllm_ay_att value = 2 } }
+	else_if = { limit = { is_hostile_to = prev } set_variable = { which = sllm_ay_att value = 3 } }
+	else_if = { limit = { is_angry_to = prev } set_variable = { which = sllm_ay_att value = 4 } }
+	else_if = { limit = { is_patronizing_to = prev } set_variable = { which = sllm_ay_att value = 5 } }
+	else_if = { limit = { is_dismissive_to = prev } set_variable = { which = sllm_ay_att value = 6 } }
+	else_if = { limit = { is_threatened_to = prev } set_variable = { which = sllm_ay_att value = 7 } }
+	else_if = { limit = { is_protective_to = prev } set_variable = { which = sllm_ay_att value = 8 } }
+	else_if = { limit = { is_neutral_to = prev } set_variable = { which = sllm_ay_att value = 9 } }
+	else_if = { limit = { is_friendly_to = prev } set_variable = { which = sllm_ay_att value = 10 } }
+	else_if = { limit = { is_loyal_to = prev } set_variable = { which = sllm_ay_att value = 11 } }
+	else_if = { limit = { is_belligerent_to = prev } set_variable = { which = sllm_ay_att value = 12 } }
+	else_if = { limit = { is_imperious_to = prev } set_variable = { which = sllm_ay_att value = 13 } }
+	else_if = { limit = { is_arrogant_to = prev } set_variable = { which = sllm_ay_att value = 14 } }
+	else_if = { limit = { is_enigmatic_to = prev } set_variable = { which = sllm_ay_att value = 15 } }
+	else_if = { limit = { is_berserker_to = prev } set_variable = { which = sllm_ay_att value = 16 } }
+	else_if = { limit = { is_domineering_to = prev } set_variable = { which = sllm_ay_att value = 17 } }
+	else_if = { limit = { is_unfriendly_to = prev } set_variable = { which = sllm_ay_att value = 18 } }
+	else_if = { limit = { is_disloyal_to = prev } set_variable = { which = sllm_ay_att value = 19 } }
+	else_if = { limit = { is_custodial_to = prev } set_variable = { which = sllm_ay_att value = 20 } }
+	if = { limit = { has_attitude_behavior = { target = prev behavior = attack } } change_variable = { which = sllm_ay_beh value = 1 } }
+	if = { limit = { has_attitude_behavior = { target = prev behavior = weaken } } change_variable = { which = sllm_ay_beh value = 2 } }
+	if = { limit = { has_attitude_behavior = { target = prev behavior = vassalize } } change_variable = { which = sllm_ay_beh value = 4 } }
+	if = { limit = { has_attitude_behavior = { target = prev behavior = alliance } } change_variable = { which = sllm_ay_beh value = 8 } }
+	if = { limit = { has_attitude_behavior = { target = prev behavior = coexist } } change_variable = { which = sllm_ay_beh value = 16 } }
+	if = { limit = { has_attitude_behavior = { target = prev behavior = trade } } change_variable = { which = sllm_ay_beh value = 32 } }
+	prev = { change_variable = { which = sllm_ally_n value = 1 } }
+	log = "SLLM:ALLY/;/req=\[Prev.sllm_ally_req]/;/n=\[Prev.sllm_ally_n]/;/idx=\[This.sllm_idx]/;/bond=\[This.sllm_ay_bond]/;/loy=\[This.sllm_ay_loy]/;/hl=\[This.sllm_ay_hl]/;/op=\[This.sllm_ay_op]/;/eth=\[This.sllm_ay_eth]/;/war=\[This.sllm_ay_war]/;/truce=\[This.sllm_ay_truce]/;/gest=\[This.sllm_ay_gest]/;/cls=\[This.sllm_ay_cls]/;/att=\[This.sllm_ay_att]/;/beh=\[This.sllm_ay_beh]/;/riv=\[This.sllm_ay_riv]/;/nap=\[This.sllm_ay_nap]/;/com=\[This.sllm_ay_com]/;/res=\[This.sllm_ay_res]/;/ruler=\[This.GetRulerName]/;/personality=\[This.GetPersonalityName]/;/name=\[This.GetName]"
+}
+
+sllm_probe_ally_traits = {
+	random_owned_leader = {
+		limit = { is_ruler = yes }
+		if = { limit = { has_trait = leader_trait_aggressive } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_aggressive" }
+		if = { limit = { has_trait = leader_trait_cautious } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_cautious" }
+		if = { limit = { has_trait = leader_trait_stubborn } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_stubborn" }
+		if = { limit = { has_trait = leader_trait_tyrannical } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_tyrannical" }
+		if = { limit = { has_trait = leader_trait_intimidator } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_intimidator" }
+		if = { limit = { has_trait = leader_trait_nervous } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_nervous" }
+		if = { limit = { has_trait = leader_trait_paranoid } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_paranoid" }
+		if = { limit = { has_trait = leader_trait_principled } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_principled" }
+		if = { limit = { has_trait = leader_trait_reformer } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_reformer" }
+		if = { limit = { has_trait = leader_trait_politician } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_politician" }
+		if = { limit = { has_trait = leader_trait_ambassador_pact_keeper } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_ambassador_pact_keeper" }
+		if = { limit = { has_trait = leader_trait_ambassador_bully } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_ambassador_bully" }
+		if = { limit = { has_trait = leader_trait_unyielding } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_unyielding" }
+		if = { limit = { has_trait = leader_trait_adaptable } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_adaptable" }
+		if = { limit = { has_trait = leader_trait_retired_fleet_officer } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_retired_fleet_officer" }
+		if = { limit = { has_trait = leader_trait_fleet_organizer } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_fleet_organizer" }
+		if = { limit = { has_trait = leader_trait_gifted } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=leader_trait_gifted" }
+		if = { limit = { has_trait = trait_ruler_charismatic } log = "SLLM:ALLYTRAIT/;/req=\[Prev.sllm_ally_req]/;/idx=\[Prev.sllm_idx]/;/t=trait_ruler_charismatic" }
+	}
+}
+
+sllm_probe_ally_read = {
+	every_playable_country = {
+		limit = { is_ai = no }
+		sllm_probe_init_vars = yes
+		sllm_probe_assign_idx = yes
+		set_variable = { which = sllm_ally_req value = $REQ$ }
+		set_variable = { which = sllm_ally_n value = 0 }
+		set_variable = { which = sllm_ally_ploy value = 0 }
+		set_variable = { which = sllm_ally_phl value = 0 }
+		if = {
+			limit = { has_any_overlord = yes }
+			export_trigger_value_to_variable = { trigger = has_loyalty variable = sllm_ally_ploy }
+			set_variable = { which = sllm_ally_phl value = 1 }
+		}
+		log = "SLLM:ALLYBEGIN/;/req=\[This.sllm_ally_req]/;/sid=\[This.sllm_save_id]/;/n=0"
+		every_subject = {
+			limit = {
+				is_variable_set = sllm_idx
+				has_communications = prev
+				NOT = { is_in_federation_with = prev }
+			}
+			set_variable = { which = sllm_ay_bond value = 1 }
+			set_variable = { which = sllm_ally_req value = prev.sllm_ally_req }
+			sllm_probe_ally_log = yes
+			sllm_probe_ally_traits = yes
+		}
+		if = {
+			limit = { has_any_overlord = yes }
+			overlord = {
+				if = {
+					limit = {
+						is_variable_set = sllm_idx
+						has_communications = prev
+						NOT = { is_in_federation_with = prev }
+					}
+					set_variable = { which = sllm_ay_bond value = 2 }
+					set_variable = { which = sllm_ally_req value = prev.sllm_ally_req }
+					sllm_probe_ally_log = yes
+					sllm_probe_ally_traits = yes
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				is_ai = yes
+				is_variable_set = sllm_idx
+				has_communications = prev
+				has_defensive_pact = prev
+				NOT = { is_same_value = prev }
+				NOT = { is_in_federation_with = prev }
+			}
+			set_variable = { which = sllm_ay_bond value = 3 }
+			set_variable = { which = sllm_ally_req value = prev.sllm_ally_req }
+			sllm_probe_ally_log = yes
+			sllm_probe_ally_traits = yes
+		}
+		log = "SLLM:ALLYEND/;/req=\[This.sllm_ally_req]/;/sid=\[This.sllm_save_id]/;/n=\[This.sllm_ally_n]"
+	}
+}
+
+# Called from the country that should declare. Enemy was saved on this call only.
+sllm_probe_ally_war_do = {
+	if = {
+		limit = { has_truce = event_target:sllm_ally_enemy }
+		event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 3 } }
+	}
+	else_if = {
+		limit = { is_at_war_with = event_target:sllm_ally_enemy }
+		event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 4 } }
+	}
+	else = {
+		if = {
+			limit = { event_target:sllm_player = { check_variable = { which = sllm_in_reason value = 3 } } }
+			add_casus_belli = { type = cb_sllm_humiliation who = event_target:sllm_ally_enemy days = 5 }
+			declare_war = { target = event_target:sllm_ally_enemy attacker_war_goal = wg_sllm_humiliation }
+		}
+		else_if = {
+			limit = { event_target:sllm_player = { check_variable = { which = sllm_in_reason value = 4 } } }
+			add_casus_belli = { type = cb_sllm_tribute who = event_target:sllm_ally_enemy days = 5 }
+			declare_war = { target = event_target:sllm_ally_enemy attacker_war_goal = wg_sllm_tribute }
+		}
+		else = {
+			add_casus_belli = { type = cb_sllm_revenge who = event_target:sllm_ally_enemy days = 5 }
+			declare_war = { target = event_target:sllm_ally_enemy attacker_war_goal = wg_sllm_revenge }
+		}
+		if = {
+			limit = { NOT = { is_at_war_with = event_target:sllm_ally_enemy } }
+			declare_war = { target = event_target:sllm_ally_enemy attacker_war_goal = wg_subjugation }
+		}
+		if = {
+			limit = { NOT = { is_at_war_with = event_target:sllm_ally_enemy } }
+			declare_war = { target = event_target:sllm_ally_enemy }
+		}
+		if = {
+			limit = { is_at_war_with = event_target:sllm_ally_enemy }
+			event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+		}
+		else = {
+			event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 10 } }
+		}
+	}
+}
+
+sllm_probe_ally_peace_do = {
+	if = {
+		limit = { NOT = { is_at_war_with = event_target:sllm_ally_enemy } }
+		event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 7 } }
+	}
+	else = {
+		random_war = {
+			limit = {
+				is_war_participant = { who = prev }
+				is_war_participant = { who = event_target:sllm_ally_enemy }
+				count_war_participant = { count = 2 }
+			}
+			remove_war_participant = prev
+		}
+		if = {
+			limit = { NOT = { is_at_war_with = event_target:sllm_ally_enemy } }
+			event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+		}
+		else = {
+			event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 6 } }
+		}
+	}
+}
+
+sllm_probe_ally_coord_do = {
+	if = {
+		limit = { is_at_war_with = event_target:sllm_ally_enemy }
+		remove_modifier = sllm_ally_coordination
+		add_modifier = { modifier = sllm_ally_coordination days = 360 }
+		event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+	}
+	else = {
+		event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 7 } }
+	}
+}
+
+sllm_probe_ally_act = {
+	every_playable_country = {
+		limit = { is_ai = no }
+		sllm_probe_init_vars = yes
+		save_event_target_as = sllm_player
+		set_variable = { which = sllm_in_req value = $REQ$ }
+		set_variable = { which = sllm_in_kind value = $KIND$ }
+		set_variable = { which = sllm_in_dir value = $DIR$ }
+		set_variable = { which = sllm_in_amt value = $AMT$ }
+		set_variable = { which = sllm_in_reason value = $REASON$ }
+		set_variable = { which = sllm_in_actor value = $ACTOR$ }
+		set_variable = { which = sllm_ally_status value = 5 }
+		if = {
+			limit = { NOT = { check_variable = { which = sllm_save_id value = $SID$ } } }
+			set_variable = { which = sllm_ally_status value = 8 }
+			log = "SLLM:ACK/;/req=$REQ$/;/ally/;/status=8/;/result=2"
+		}
+		else_if = {
+			limit = { check_variable = { which = sllm_last_req value = $REQ$ } }
+			log = "SLLM:ACK/;/seq=\[This.sllm_exec_seq]/;/req=\[This.sllm_in_req]/;/ally/;/dup/;/status=\[This.sllm_ally_status]/;/result=\[This.sllm_last_result]"
+		}
+		else_if = {
+			limit = { check_variable = { which = sllm_last_req value > $REQ$ } }
+			log = "SLLM:ACK/;/seq=\[This.sllm_exec_seq]/;/req=\[This.sllm_in_req]/;/ally/;/stale/;/status=\[This.sllm_ally_status]/;/result=\[This.sllm_last_result]/;/last=\[This.sllm_last_req]"
+		}
+		else = {
+			set_variable = { which = sllm_last_req value = $REQ$ }
+			change_variable = { which = sllm_exec_seq value = 1 }
+			set_variable = { which = sllm_last_result value = 2 }
+			if = {
+				limit = { check_variable = { which = sllm_in_kind value = 1 } }
+				random_country = {
+					limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TID$ } }
+					if = {
+						limit = { event_target:sllm_player = { check_variable = { which = sllm_in_dir value = 1 } } }
+						if = {
+							limit = { event_target:sllm_player = { has_resource = { type = $RES$ amount >= $AMT$ } } }
+							event_target:sllm_player = { add_resource = { $RES$ = -$AMT$ } }
+							add_resource = { $RES$ = $AMT$ }
+							event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+						}
+						else = { event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 2 } } }
+					}
+					else = {
+						if = {
+							limit = { has_resource = { type = $RES$ amount >= $AMT$ } }
+							add_resource = { $RES$ = -$AMT$ }
+							event_target:sllm_player = { add_resource = { $RES$ = $AMT$ } set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+						}
+						else = { event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 2 } } }
+					}
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 2 } }
+				random_country = {
+					limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TID$ } }
+					add_opinion_modifier = { modifier = sllm_ally_snub who = event_target:sllm_player }
+					event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 3 } }
+				random_country = {
+					limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TID$ } }
+					add_trust = { amount = 10 who = event_target:sllm_player }
+					add_opinion_modifier = { modifier = sllm_ally_reaffirm who = event_target:sllm_player }
+					event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 4 } }
+				random_country = {
+					limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TID$ } }
+					if = {
+						limit = { is_at_war_with = event_target:sllm_player }
+						event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 4 } }
+					}
+					else = {
+						set_closed_borders = { who = event_target:sllm_player status = no }
+						add_trust = { amount = 10 who = event_target:sllm_player }
+						add_opinion_modifier = { modifier = sllm_ally_compact who = event_target:sllm_player }
+						event_target:sllm_player = {
+							set_closed_borders = { who = prev status = no }
+							add_trust = { amount = 10 who = prev }
+							add_opinion_modifier = { modifier = sllm_ally_compact who = prev }
+							set_variable = { which = sllm_ally_status value = 1 }
+							set_variable = { which = sllm_last_result value = 1 }
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 5 } }
+				if = {
+					limit = { any_country = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TARGET$ } } }
+					random_country = {
+						limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TARGET$ } }
+						save_event_target_as = sllm_ally_enemy
+					}
+					if = {
+						limit = { check_variable = { which = sllm_in_actor value = 0 } }
+						sllm_probe_ally_war_do = yes
+					}
+					else = {
+						random_country = {
+							limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $ACTOR$ } }
+							sllm_probe_ally_war_do = yes
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 6 } }
+				if = {
+					limit = { any_country = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TARGET$ } } }
+					random_country = {
+						limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TARGET$ } }
+						save_event_target_as = sllm_ally_enemy
+					}
+					random_country = {
+						limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $ACTOR$ } }
+						sllm_probe_ally_peace_do = yes
+					}
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 7 } }
+				if = {
+					limit = { any_country = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TARGET$ } } }
+					random_country = {
+						limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TARGET$ } }
+						save_event_target_as = sllm_ally_enemy
+					}
+					if = {
+						limit = { check_variable = { which = sllm_in_actor value = 0 } }
+						sllm_probe_ally_coord_do = yes
+					}
+					else = {
+						random_country = {
+							limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $ACTOR$ } }
+							sllm_probe_ally_coord_do = yes
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 8 } }
+				set_variable = { which = sllm_ally_found value = 0 }
+				every_subject = {
+					limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TID$ } }
+					remove_modifier = sllm_vassal_grateful
+					remove_modifier = sllm_vassal_resentful
+					add_modifier = { modifier = sllm_vassal_grateful days = 360 }
+					prev = { set_variable = { which = sllm_ally_found value = 1 } set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+				}
+				if = {
+					limit = { check_variable = { which = sllm_ally_found value = 0 } }
+					set_variable = { which = sllm_ally_status value = 9 }
+				}
+			}
+			else_if = {
+				limit = { check_variable = { which = sllm_in_kind value = 9 } }
+				random_country = {
+					limit = { is_variable_set = sllm_idx check_variable = { which = sllm_idx value = $TID$ } }
+					if = {
+						limit = { event_target:sllm_player = { check_variable = { which = sllm_in_dir value = 1 } } }
+						event_target:sllm_player = { remove_modifier = sllm_research_aid_given add_modifier = { modifier = sllm_research_aid_given days = 360 } }
+						remove_modifier = sllm_research_aid_received
+						add_modifier = { modifier = sllm_research_aid_received days = 360 }
+					}
+					else = {
+						remove_modifier = sllm_research_aid_given
+						add_modifier = { modifier = sllm_research_aid_given days = 360 }
+						event_target:sllm_player = { remove_modifier = sllm_research_aid_received add_modifier = { modifier = sllm_research_aid_received days = 360 } }
+					}
+					event_target:sllm_player = { set_variable = { which = sllm_ally_status value = 1 } set_variable = { which = sllm_last_result value = 1 } }
+				}
+			}
+			log = "SLLM:ACK/;/seq=\[This.sllm_exec_seq]/;/req=\[This.sllm_in_req]/;/ally/;/status=\[This.sllm_ally_status]/;/result=\[This.sllm_last_result]"
+		}
+	}
+}
