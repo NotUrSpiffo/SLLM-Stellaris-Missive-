@@ -41,6 +41,7 @@ exports.activePack = activePack;
 exports.selectedBase = selectedBase;
 exports.uiText = uiText;
 exports.pick = pick;
+exports.localizeNote = localizeNote;
 exports.aiLanguage = aiLanguage;
 exports.locFolder = locFolder;
 exports.registerSettingsUi = registerSettingsUi;
@@ -57,6 +58,7 @@ const environment_paths_1 = require("../environment-paths");
 const theme_1 = require("../theme");
 const safe_send_1 = require("../safe-send");
 const ctx_1 = require("../app/ctx");
+const buff_catalog_1 = require("../buff-catalog");
 // 설정: 나중에 설정 파일/화면으로 옮긴다. Game Client ID 는 대시보드 카드의 값으로 바꿀 것.
 const releaseConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'ui', 'release-config.json'), 'utf8'));
 exports.CLIENT_ID = process.env.SLLM_CLIENT_ID ?? releaseConfig.player2ClientId ?? '';
@@ -137,6 +139,29 @@ function pick(ko, en) {
         return en;
     const k = ko.trim().replace(/\s+/g, ' '), e = en.trim().replace(/\s+/g, ' ');
     return pack.strings[k] ?? pack.strings[e] ?? packPattern(pack, k) ?? en; // 숫자·이름이 든 문장은 팩 패턴으로(2026-10-18)
+}
+/** 이미 적힌 연대기 문장(한국어 원문·영어 폴백)을 지금 화면 언어로. 효과 이름은 문장 안에 남아 있으면 따로 바꾼다. */
+function localizeNote(text) {
+    let s = uiText(text);
+    if (!/정책|효과|Policy |policy "|Repealed |Proclaimed |Extended policy|effect ended|política|efecto/.test(s))
+        return s;
+    const pairs = [];
+    for (const b of buff_catalog_1.BUFF_CATALOG) {
+        const loc = pick(b.ko, b.en);
+        if (b.ko && loc !== b.ko)
+            pairs.push([b.ko, loc]);
+        if (b.en && loc !== b.en)
+            pairs.push([b.en, loc]);
+    }
+    pairs.sort((a, c) => c[0].length - a[0].length);
+    for (const [from, to] of pairs) {
+        if (!s.includes(from))
+            continue;
+        const esc = from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const re = new RegExp(/^[\x00-\x7F]+$/.test(from) ? `\\b${esc}\\b` : esc, 'g');
+        s = s.replace(re, to);
+    }
+    return s;
 }
 /** AI 답장 언어: 따로 정한 것 → 언어 팩이 알려 준 이름 → 화면 언어 */
 function aiLanguage() { if (settings_1.settings.aiLanguage)

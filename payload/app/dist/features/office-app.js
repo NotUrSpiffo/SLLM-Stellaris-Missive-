@@ -90,7 +90,7 @@ function officeView() {
         people: withParagons(withTraitNames((0, office_1.officePeople)(planets, fv ? fv.admirals : [], sid ? (0, people_app_1.peopleOf)(sid) : []))),
         rosterLoaded: sid ? (0, people_app_1.peopleOf)(sid).some((p) => !p.gone) : false,
         icons: (0, leader_icons_1.roleIconMasks)(ctx_1.ctx.flagProv.game()), // 게임 폴더의 직업 아이콘(실행 중에만 읽음) → 테마 색으로 칠할 가림판
-        feed: (0, office_1.officeFeed)(groups, ctx_1.ctx.playerIdx, 6),
+        feed: (0, office_1.officeFeed)(groups, ctx_1.ctx.playerIdx, 6).map((e) => ({ ...e, text: (0, settings_ui_1.localizeNote)(e.text) })),
         gestalt: (0, gestalt_app_1.playerGestalt)(), // 단일 의식(machine·hive·gestalt) 제국이면 언론사 인터뷰·시민 청원 아이콘을 숨긴다(2026-10-19)
         letters: letterHook.count(), memorial: letterHook.memorial(), // 안 읽은 개인 서신(letters-app)·새로 이름이 오른 추모관 비석(memorial-app)
         inbox: termHook.unread(), // 외교 단말기의 안 읽은 외교 서신

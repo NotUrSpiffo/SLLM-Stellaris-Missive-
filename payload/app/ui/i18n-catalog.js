@@ -990,3 +990,24 @@ Object.assign(SLLMCatalog, {
 "동맹 평의회 시험 (시연)": "Allied council test (demo)",
 "동맹 평의회 시험": "Allied council test"
 });
+
+Object.assign(SLLMCatalog, {"방어 협정 상대와 종속국을 불러 회의를 엽니다.": "Summon defensive-pact partners and subjects."});
+SLLMPatterns.push(
+["^▶ CH (\\d+) 호출 · (.+) · 회선 재연결 \\(이전 통신 기록 복원\\)$", "▶ CH $1 call · $2 · line restored (previous log)"],
+["^▶ CH (\\d+) 호출 · (.+)$", "▶ CH $1 call · $2"],
+["^■ CH (\\d+) (.+) 회선 닫힘$", "■ CH $1 $2 line closed"],
+["^(.+?) 채널\\((.+?)\\) 호출 중…$", "Calling $1 on channel ($2)…"],
+["^정책 \"(.+?)\"의 목표\\((.+?)\\)를 지키지 못해 (.+?) 효과가 끊겼다\\(기자회견 호평으로 불이익은 면함\\)\\.$", "Policy \"$1\" missed its goal ($2), so the $3 effect ended (the penalty was waived thanks to a favorable press conference)."],
+["^정책 \"(.+?)\"의 목표\\((.+?)\\)를 지키지 못해 (.+?) 효과가 끊겼다\\.$", "Policy \"$1\" missed its goal ($2), so the $3 effect ended."],
+["^정책 \"(.+?)\" 목표 미달 (\\d+)개월째: (.+)$", "Policy \"$1\" has missed a goal for $2 month(s): $3"],
+["^내부 정책 \"(.+?)\"이\\(가\\) 목표를 모두 지키지 못해 무너졌다\\.$", "Internal policy \"$1\" collapsed after failing all its goals."],
+["^외부 정책 \"(.+?)\"이\\(가\\) 목표를 모두 지키지 못해 무너졌다\\.$", "External policy \"$1\" collapsed after failing all its goals."],
+["^내부 정책 \"(.+?)\"이\\(가\\) (\\d+)년을 채워 성공적으로 마무리되었다\\.$", "Internal policy \"$1\" ran its full $2 year(s) and ended successfully."],
+["^외부 정책 \"(.+?)\"이\\(가\\) (\\d+)년을 채워 성공적으로 마무리되었다\\.$", "External policy \"$1\" ran its full $2 year(s) and ended successfully."],
+["^내부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다\\(대상: (.+?)\\) — (.+)$", "Proclaimed internal policy \"$1\" for $2 year(s) (target: $3) — $4"],
+["^외부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다\\(대상: (.+?)\\) — (.+)$", "Proclaimed external policy \"$1\" for $2 year(s) (target: $3) — $4"],
+["^내부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다 — (.+)$", "Proclaimed internal policy \"$1\" for $2 year(s) — $3"],
+["^외부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다 — (.+)$", "Proclaimed external policy \"$1\" for $2 year(s) — $3"],
+["^내부 정책 \"(.+?)\"을\\(를\\) 도중에 폐지했다\\.$", "Repealed internal policy \"$1\" early."],
+["^외부 정책 \"(.+?)\"을\\(를\\) 도중에 폐지했다\\.$", "Repealed external policy \"$1\" early."]
+);

@@ -112,7 +112,10 @@ async function failGoal(s: PolicySave, p: Policy, g: Goal): Promise<void> {
   const shield = !!p.shield; if (shield) p.shield = false;
   const st = await apply((req) => goalOffCommand(req, ctx.curSaveId, newCid(), mod, shield ? null : { kind: p.kind, targetIdx: p.target?.idx }));
   if (st !== 'applied' && st !== 'duplicate') logDiagnostic('warn', 'policy.goal_off', { status: st });
-  note(L(`정책 "${p.title}"의 목표(${condTextKo(g.cond, p.target?.name ?? '')})를 지키지 못해 ${b ? b.ko : g.buff} 효과가 끊겼다${shield ? '(기자회견 호평으로 불이익은 면함)' : ''}.`, `Policy "${p.title}" missed its goal (${condL(g.cond, p.target?.name ?? '')}), so the ${b ? b.en : g.buff} effect ended${shield ? ' (the penalty was waived thanks to a favorable press conference)' : ''}.`));
+  // 조건·효과 이름은 문장에 넣기 전에 번역한다. 언어 팩 패턴이 그 조각을 그대로 담아도 한국어가 남지 않는다.
+  const cond = condL(g.cond, p.target?.name ?? ''), buff = b ? buffName(g.buff) : g.buff;
+  const shieldKo = shield ? '(기자회견 호평으로 불이익은 면함)' : '', shieldEn = shield ? ' (the penalty was waived thanks to a favorable press conference)' : '';
+  note(L(`정책 "${p.title}"의 목표(${cond})를 지키지 못해 ${buff} 효과가 끊겼다${shieldKo}.`, `Policy "${p.title}" missed its goal (${cond}), so the ${buff} effect ended${shieldEn}.`));
 }
 /** 한 달 판정. 월간 상황(STATE_END) 뒤에 부른다. */
 async function monthly(): Promise<void> {
@@ -127,7 +130,7 @@ async function monthly(): Promise<void> {
       const m = await measure(p.target?.idx); if (ctx.curSaveId !== sid) return;
       const acts = tickPolicy(p, m, date);
       for (const a of acts) {
-        if (a.type === 'warn') { const g = p.goals[a.g]; note(L(`정책 "${p.title}" 목표 미달 ${a.miss}개월째: ${condTextKo(g.cond, p.target?.name ?? '')}`, `Policy "${p.title}" has missed a goal for ${a.miss} month(s): ${condL(g.cond, p.target?.name ?? '')}`)); toast(L(`정책 경고: ${p.title}`, `Policy warning: ${p.title}`), L(`목표 미달 ${a.miss}개월째입니다. ${GRACE_MISSES + 1}개월째에도 못 맞추면 그 목표의 효과가 끊깁니다.`, `Goal missed for ${a.miss} month(s). If it is still missed in month ${GRACE_MISSES + 1}, that goal's effect ends.`)); }
+        if (a.type === 'warn') { const g = p.goals[a.g], cond = condL(g.cond, p.target?.name ?? ''); note(L(`정책 "${p.title}" 목표 미달 ${a.miss}개월째: ${cond}`, `Policy "${p.title}" has missed a goal for ${a.miss} month(s): ${cond}`)); toast(L(`정책 경고: ${p.title}`, `Policy warning: ${p.title}`), L(`목표 미달 ${a.miss}개월째입니다. ${GRACE_MISSES + 1}개월째에도 못 맞추면 그 목표의 효과가 끊깁니다.`, `Goal missed for ${a.miss} month(s). If it is still missed in month ${GRACE_MISSES + 1}, that goal's effect ends.`)); }
         else if (a.type === 'goalOff') await failGoal(s, p, p.goals[a.g]);
         else if (a.type === 'goalDone') note(L(`정책 "${p.title}"의 대상이 사라져 목표 하나를 달성한 것으로 처리했다.`, `The target of policy "${p.title}" is gone, so one goal was counted as met.`));
         else if (a.type === 'collapse') {

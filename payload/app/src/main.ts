@@ -1,5 +1,5 @@
 import { startDiagnostics, logDiagnostic, diagnosticSpan, flushDiagnostics } from './diagnostics';
-import { app, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as os from 'os';
 import { ModResources } from './mod-resources';
@@ -312,6 +312,10 @@ bindCtx({
   terminalRequest,
   win: { get: () => wins.win },
   toUi,
+});
+app.on('browser-window-created', (_e, win) => {
+  // 테두리 없는 창의 드래그 영역이 있으면 윈도우는 입력 칸이 no-drag 가 아닐 때 글쇠를 삼킨다(클릭·캐럿은 된다).
+  win.webContents.on('dom-ready', () => { void win.webContents.insertCSS('input,textarea,select,[contenteditable="true"]{-webkit-app-region:no-drag}').catch(() => {}); });
 });
 app.whenReady().then(() => {
   process.setSourceMapsEnabled?.(true);

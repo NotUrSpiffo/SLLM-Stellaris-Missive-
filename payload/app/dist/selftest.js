@@ -6323,11 +6323,59 @@ __block('동맹 평의회: 성향·자격·명령·문구', () => {
     } };
     walk(path.join(root, 'common'));
     eq(names.filter((n) => seen.get(n) !== 1), [], 'ally: effect and modifier ids are unique in the mod');
+    const allyJs = fs.readFileSync(path.join(__dirname, '..', 'ui', 'office-allied.js'), 'utf8');
+    const allyHtml = fs.readFileSync(path.join(__dirname, '..', 'ui', 'office.html'), 'utf8');
+    eq(allyHtml.includes('<script src="office-allied.js"></script>') && allyJs.includes("id = 'allyCall'") && allyJs.includes("L('동맹 평의회', 'Allied council')") && allyJs.includes('window.sllm.allyOpen()') && allyJs.includes('button.ic[data-app="policy"]'), true, 'ally: office tile in state affairs, after Policies');
     const keys = ['sllm_ally_snub:0', 'sllm_ally_snub_desc:0', 'sllm_ally_reaffirm:0', 'sllm_ally_reaffirm_desc:0', 'sllm_ally_compact:0', 'sllm_ally_compact_desc:0', 'sllm_ally_coordination:0', 'sllm_ally_coordination_desc:0'];
     for (const lang of ['english', 'korean', 'spanish']) {
         const y = fs.readFileSync(path.join(root, 'localisation', lang, `sllm_ally_l_${lang}.yml`));
         const text = y.toString('utf8');
         eq(y[0] === 0xef && y[1] === 0xbb && y[2] === 0xbf && text.includes('l_' + lang + ':') && keys.every((k) => text.includes(k)), true, 'ally loc ' + lang);
     }
+});
+__block('es-MX: 통신 로그·정책 소식·입력 칸', () => {
+    const fs = require('fs'), path = require('path');
+    const root = path.join(__dirname, '..');
+    const strings = JSON.parse(fs.readFileSync(path.join(root, 'ui/packs/es_MX/strings.json'), 'utf8'));
+    const pats = JSON.parse(fs.readFileSync(path.join(root, 'ui/packs/es_MX/patterns.json'), 'utf8'));
+    const res = pats.map(([a, b]) => [new RegExp(a), b]);
+    const tx = (s) => {
+        const key = s.trim().replace(/\s+/g, ' ');
+        if (strings[key])
+            return strings[key];
+        for (const [re, to] of res)
+            if (re.test(key))
+                return key.replace(re, to);
+        return s;
+    };
+    const buff = (s) => s.split('Ship Build Cost').join(strings['Ship Build Cost']);
+    const samples = [
+        ["▶ CH 08 호출 · Comisariado Independiente Qwe'Pulciana", "▶ CH 08 llamada · Comisariado Independiente Qwe'Pulciana"],
+        ['암호 채널 동기화 완료 · 신호 안정', 'Canal cifrado sincronizado · señal estable'],
+        ['회선 연결 확인', 'Conexión de línea confirmada'],
+        ['Repealed external policy "Incremento militar" early.', 'Se derogó antes de tiempo la política exterior "Incremento militar".'],
+        ['Policy "Incremento militar" missed its goal (Mantén la lealtad de cada súbdito en ≤3.), so the Ship Build Cost effect ended.', 'La política "Incremento militar" no cumplió su objetivo (Mantén la lealtad de cada súbdito en ≤3.), así que terminó el efecto de Costo de construcción de naves.'],
+        ['외부 정책 "Incremento militar"을(를) 도중에 폐지했다.', 'Se derogó antes de tiempo la política exterior "Incremento militar".'],
+    ];
+    for (const [src, want] of samples) {
+        const out = buff(tx(src));
+        eq(out, want, 'es-MX: ' + src.slice(0, 42));
+        eq(/[가-힣]/.test(out), false, 'es-MX hangul: ' + src.slice(0, 42));
+    }
+    eq(strings['동맹 평의회'], 'Consejo de aliados', 'es-MX: consejo de aliados');
+    eq(strings['함선 건조 비용'], 'Costo de construcción de naves', 'es-MX: ship build cost');
+    const theme = fs.readFileSync(path.join(root, 'ui/theme.js'), 'utf8');
+    const main = fs.readFileSync(path.join(__dirname, 'main.ts'), 'utf8');
+    const i18n = fs.readFileSync(path.join(root, 'ui/i18n-ui.js'), 'utf8');
+    const log = fs.readFileSync(path.join(root, 'ui/index.html'), 'utf8');
+    eq(theme.includes('input,textarea,select,[contenteditable="true"]{-webkit-app-region:no-drag}') && main.includes("insertCSS('input,textarea,select,[contenteditable=\"true\"]{-webkit-app-region:no-drag}')"), true, 'input: no-drag on every window');
+    eq(i18n.includes('textarea,input') && !i18n.includes('input.value'), true, 'input: i18n does not read field values');
+    eq(log.includes("TX(body)"), true, 'comm log: translate before the protected log');
+    const bat = fs.readFileSync(path.join(root, 'start_app.bat'), 'utf8');
+    const attr = fs.readFileSync(path.join(root, '..', '..', '.gitattributes'), 'utf8');
+    eq(/[가-힣]/.test(bat), false, 'start_app.bat: ASCII comments');
+    eq(attr.includes('*.bat text eol=crlf') && attr.includes('*.cmd text eol=crlf') && attr.includes('*.ps1 text eol=crlf'), true, 'gitattributes: crlf for bat cmd ps1');
+    eq(fs.readFileSync(path.join(__dirname, 'features/windows.ts'), 'utf8').includes('w.isFocused()'), true, 'raise: do not cover a focused office');
+    eq(fs.readFileSync(path.join(__dirname, 'features/office-app.ts'), 'utf8').includes('localizeNote(e.text)'), true, 'feed: chronicle lines pass through the pack');
 });
 //# sourceMappingURL=selftest.js.map

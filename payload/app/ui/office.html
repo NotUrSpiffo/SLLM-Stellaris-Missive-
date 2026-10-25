@@ -267,7 +267,7 @@
   const n = s.letters || 0; $('nLetters').textContent = n > 9 ? '9+' : String(n); $('nLetters').classList.toggle('show', n > 0);
   { const m = s.inbox || 0, e = $('nTerminal'); if (e) { e.textContent = m > 9 ? '9+' : String(m); e.classList.toggle('show', m > 0); } } // 외교 단말기의 안 읽은 외교 서신
   const fl = $('feedList'); fl.textContent = '';
-  for (const f of s.feed || []) { const li = mk('li'); li.append(mk('b', '', f.date), document.createTextNode(f.text)); fl.append(li); }
+  for (const f of s.feed || []) { const li = mk('li'); li.append(mk('b', '', f.date), document.createTextNode(T(f.text))); fl.append(li); }
   $('feedEmpty').hidden = (s.feed || []).length > 0;
   if ($('contacts').classList.contains('on')) drawContacts();
   if ($('memorial').classList.contains('on') && mst && mst.unseen !== (s.memorial || 0)) loadMemorial();
@@ -475,4 +475,4 @@
  if (window.sllm.launcherState) window.sllm.launcherState().then((t) => { if (t && t.theme) applyTheme(t.theme, t.custom); }, () => {});
  document.addEventListener('sllm-language', () => { if (st) draw(st); });
 </script><script src="office-policy.js"></script><script src="office-secretary.js"></script><script src="office-style.js"></script><script src="office-petition.js"></script><script src="office-embassy.js"></script><script src="office-music.js"></script><script src="office-mood.js"></script><script src="office-cabinet.js"></script><script src="official-holidays.js"></script>
-<script src="office-national.js"></script><script src="corridor-art.js"></script><script src="private-rooms.js"></script></body></html>
+<script src="office-national.js"></script><script src="corridor-art.js"></script><script src="private-rooms.js"></script><script src="office-allied.js"></script></body></html>
