@@ -1147,4 +1147,153 @@
   "^(.+?): 응답이 없어 성향으로 입장을 정했습니다\\.$",
   "$1: no hubo respuesta, así que su carácter fijó la postura."
  ]
+,
+ [
+  "^▶ CH (\\d+) 호출 · (.+) · 회선 재연결 \\(이전 통신 기록 복원\\)$",
+  "▶ CH $1 llamada · $2 · línea reconectada (historial anterior restaurado)"
+ ],
+ [
+  "^▶ CH (\\d+) 호출 · (.+)$",
+  "▶ CH $1 llamada · $2"
+ ],
+ [
+  "^■ CH (\\d+) (.+) 회선 닫힘$",
+  "■ CH $1 $2 línea cerrada"
+ ],
+ [
+  "^(.+?) 채널\\((.+?)\\) 호출 중…$",
+  "Llamando a $1 en el canal ($2)…"
+ ],
+ [
+  "^수신 (\\d+)채널$",
+  "Recibiendo $1 canales"
+ ],
+ [
+  "^관계 (-?[\\d.]+)$",
+  "Relación $1"
+ ],
+ [
+  "^정책 \"(.+?)\"의 목표\\((.+?)\\)를 지키지 못해 (.+?) 효과가 끊겼다\\(기자회견 호평으로 불이익은 면함\\)\\.$",
+  "La política \"$1\" no cumplió su objetivo ($2), así que terminó el efecto de $3 (la sanción se condonó gracias a una rueda de prensa favorable)."
+ ],
+ [
+  "^정책 \"(.+?)\"의 목표\\((.+?)\\)를 지키지 못해 (.+?) 효과가 끊겼다\\.$",
+  "La política \"$1\" no cumplió su objetivo ($2), así que terminó el efecto de $3."
+ ],
+ [
+  "^정책 \"(.+?)\" 목표 미달 (\\d+)개월째: (.+)$",
+  "La política \"$1\" lleva $2 mes(es) sin cumplir un objetivo: $3"
+ ],
+ [
+  "^내부 정책 \"(.+?)\"이\\(가\\) 목표를 모두 지키지 못해 무너졌다\\.$",
+  "La política interior \"$1\" se derrumbó al fallar todos sus objetivos."
+ ],
+ [
+  "^외부 정책 \"(.+?)\"이\\(가\\) 목표를 모두 지키지 못해 무너졌다\\.$",
+  "La política exterior \"$1\" se derrumbó al fallar todos sus objetivos."
+ ],
+ [
+  "^내부 정책 \"(.+?)\"이\\(가\\) (\\d+)년을 채워 성공적으로 마무리되었다\\.$",
+  "La política interior \"$1\" cumplió $2 año(s) y terminó con éxito."
+ ],
+ [
+  "^외부 정책 \"(.+?)\"이\\(가\\) (\\d+)년을 채워 성공적으로 마무리되었다\\.$",
+  "La política exterior \"$1\" cumplió $2 año(s) y terminó con éxito."
+ ],
+ [
+  "^내부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다\\(대상: (.+?)\\) — (.+)$",
+  "Se proclamó la política interior \"$1\" por $2 año(s) (objetivo: $3) — $4"
+ ],
+ [
+  "^외부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다\\(대상: (.+?)\\) — (.+)$",
+  "Se proclamó la política exterior \"$1\" por $2 año(s) (objetivo: $3) — $4"
+ ],
+ [
+  "^내부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다 — (.+)$",
+  "Se proclamó la política interior \"$1\" por $2 año(s) — $3"
+ ],
+ [
+  "^외부 정책 \"(.+?)\"을\\(를\\) (\\d+)년 기한으로 선포했다 — (.+)$",
+  "Se proclamó la política exterior \"$1\" por $2 año(s) — $3"
+ ],
+ [
+  "^내부 정책 \"(.+?)\"을\\(를\\) 도중에 폐지했다\\.$",
+  "Se derogó antes de tiempo la política interior \"$1\"."
+ ],
+ [
+  "^외부 정책 \"(.+?)\"을\\(를\\) 도중에 폐지했다\\.$",
+  "Se derogó antes de tiempo la política exterior \"$1\"."
+ ],
+ [
+  "^Policy \"(.+?)\" missed its goal \\((.+?)\\), so the (.+?) effect ended \\(the penalty was waived thanks to a favorable press conference\\)\\.$",
+  "La política \"$1\" no cumplió su objetivo ($2), así que terminó el efecto de $3 (la sanción se condonó gracias a una rueda de prensa favorable)."
+ ],
+ [
+  "^Policy \"(.+?)\" missed its goal \\((.+?)\\), so the (.+?) effect ended\\.$",
+  "La política \"$1\" no cumplió su objetivo ($2), así que terminó el efecto de $3."
+ ],
+ [
+  "^Policy \"(.+?)\" has missed a goal for (\\d+) month\\(s\\): (.+)$",
+  "La política \"$1\" lleva $2 mes(es) sin cumplir un objetivo: $3"
+ ],
+ [
+  "^The target of policy \"(.+?)\" is gone, so one goal was counted as met\\.$",
+  "El objetivo de la política \"$1\" ya no existe, así que una meta se contó como cumplida."
+ ],
+ [
+  "^Internal policy \"(.+?)\" collapsed after failing all its goals\\.$",
+  "La política interior \"$1\" se derrumbó al fallar todos sus objetivos."
+ ],
+ [
+  "^External policy \"(.+?)\" collapsed after failing all its goals\\.$",
+  "La política exterior \"$1\" se derrumbó al fallar todos sus objetivos."
+ ],
+ [
+  "^Internal policy \"(.+?)\" ran its full (\\d+) year\\(s\\) and ended successfully\\.$",
+  "La política interior \"$1\" cumplió $2 año(s) y terminó con éxito."
+ ],
+ [
+  "^External policy \"(.+?)\" ran its full (\\d+) year\\(s\\) and ended successfully\\.$",
+  "La política exterior \"$1\" cumplió $2 año(s) y terminó con éxito."
+ ],
+ [
+  "^Extended policy \"(.+?)\" by (\\d+) year\\(s\\)\\.$",
+  "Se amplió la política \"$1\" por $2 año(s)."
+ ],
+ [
+  "^The results of policy \"(.+?)\" remain as a legacy \\(1 year\\)\\.$",
+  "Los resultados de la política \"$1\" quedan como legado (1 año)."
+ ],
+ [
+  "^Policy \"(.+?)\" was voted down by the factions but forced through \\(against: (.+?)\\)\\.$",
+  "Las facciones rechazaron la política \"$1\", pero se impuso (en contra: $2)."
+ ],
+ [
+  "^Policy \"(.+?)\" passed the faction vote \\(for (\\d+)% · against (\\d+)%\\)\\.$",
+  "La política \"$1\" superó la votación de facciones (a favor $2% · en contra $3%)."
+ ],
+ [
+  "^Proclaimed internal policy \"(.+?)\" for (\\d+) year\\(s\\) \\(target: (.+?)\\) — (.+)$",
+  "Se proclamó la política interior \"$1\" por $2 año(s) (objetivo: $3) — $4"
+ ],
+ [
+  "^Proclaimed external policy \"(.+?)\" for (\\d+) year\\(s\\) \\(target: (.+?)\\) — (.+)$",
+  "Se proclamó la política exterior \"$1\" por $2 año(s) (objetivo: $3) — $4"
+ ],
+ [
+  "^Proclaimed internal policy \"(.+?)\" for (\\d+) year\\(s\\) — (.+)$",
+  "Se proclamó la política interior \"$1\" por $2 año(s) — $3"
+ ],
+ [
+  "^Proclaimed external policy \"(.+?)\" for (\\d+) year\\(s\\) — (.+)$",
+  "Se proclamó la política exterior \"$1\" por $2 año(s) — $3"
+ ],
+ [
+  "^Repealed internal policy \"(.+?)\" early\\.$",
+  "Se derogó antes de tiempo la política interior \"$1\"."
+ ],
+ [
+  "^Repealed external policy \"(.+?)\" early\\.$",
+  "Se derogó antes de tiempo la política exterior \"$1\"."
+ ]
 ]

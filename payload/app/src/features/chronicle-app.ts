@@ -5,7 +5,7 @@ import * as path from 'path';
 import { ChronicleStore, ChronMeta, RADIO_IDX, chronKey } from '../chronicle';
 import { radioMirrorPlan } from '../radio';
 import { ctx } from '../app/ctx';
-import { pick } from './settings-ui';
+import { localizeNote, pick } from './settings-ui';
 
 let chronStore: ChronicleStore | null = null;
 export function chron(): ChronicleStore {
@@ -60,6 +60,6 @@ export function registerChronicle(): void {
   ipcMain.handle('chronList', async () => {
     if (!ctx.curSaveId) return { sid: '', groups: [] };
     const groups = chron().groups(ctx.curSaveId, (all) => ctx.govMem().split(ctx.curSaveId, all).own);
-    return { sid: ctx.curSaveId, groups: groups.map((g) => ({ idx: g.idx, name: g.name, items: g.items.map((e) => ({ date: e.date, ruler: e.ruler ?? '', text: e.text })) })) };
+    return { sid: ctx.curSaveId, groups: groups.map((g) => ({ idx: g.idx, name: g.name, items: g.items.map((e) => ({ date: e.date, ruler: e.ruler ?? '', text: localizeNote(e.text) })) })) };
   });
 }

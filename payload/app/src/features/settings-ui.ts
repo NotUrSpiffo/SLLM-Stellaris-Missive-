@@ -12,6 +12,7 @@ import { findUserDir } from '../environment-paths';
 import { CUSTOM_CSS_TEMPLATE } from '../theme';
 import { safeSend } from '../safe-send';
 import { ctx } from '../app/ctx';
+import { BUFF_CATALOG } from '../buff-catalog';
 
 // 설정: 나중에 설정 파일/화면으로 옮긴다. Game Client ID 는 대시보드 카드의 값으로 바꿀 것.
 const releaseConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'ui', 'release-config.json'), 'utf8'));
@@ -63,6 +64,25 @@ export function pick(ko: string, en: string): string {
   const pack = activePack(); if (!pack) return en;
   const k = ko.trim().replace(/\s+/g, ' '), e = en.trim().replace(/\s+/g, ' ');
   return pack.strings[k] ?? pack.strings[e] ?? packPattern(pack, k) ?? en; // 숫자·이름이 든 문장은 팩 패턴으로(2026-10-18)
+}
+/** 이미 적힌 연대기 문장(한국어 원문·영어 폴백)을 지금 화면 언어로. 효과 이름은 문장 안에 남아 있으면 따로 바꾼다. */
+export function localizeNote(text: string): string {
+  let s = uiText(text);
+  if (!/정책|효과|Policy |policy "|Repealed |Proclaimed |Extended policy|effect ended|política|efecto/.test(s)) return s;
+  const pairs: Array<[string, string]> = [];
+  for (const b of BUFF_CATALOG) {
+    const loc = pick(b.ko, b.en);
+    if (b.ko && loc !== b.ko) pairs.push([b.ko, loc]);
+    if (b.en && loc !== b.en) pairs.push([b.en, loc]);
+  }
+  pairs.sort((a, c) => c[0].length - a[0].length);
+  for (const [from, to] of pairs) {
+    if (!s.includes(from)) continue;
+    const esc = from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(/^[\x00-\x7F]+$/.test(from) ? `\\b${esc}\\b` : esc, 'g');
+    s = s.replace(re, to);
+  }
+  return s;
 }
 /** AI 답장 언어: 따로 정한 것 → 언어 팩이 알려 준 이름 → 화면 언어 */
 export function aiLanguage(): string { if (settings.aiLanguage) return settings.aiLanguage; const pack = activePack(); return pack ? pack.aiLanguage : selectedLanguage(); }

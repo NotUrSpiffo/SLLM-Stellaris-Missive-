@@ -137,7 +137,7 @@ function registerChronicle() {
         if (!ctx_1.ctx.curSaveId)
             return { sid: '', groups: [] };
         const groups = chron().groups(ctx_1.ctx.curSaveId, (all) => ctx_1.ctx.govMem().split(ctx_1.ctx.curSaveId, all).own);
-        return { sid: ctx_1.ctx.curSaveId, groups: groups.map((g) => ({ idx: g.idx, name: g.name, items: g.items.map((e) => ({ date: e.date, ruler: e.ruler ?? '', text: e.text })) })) };
+        return { sid: ctx_1.ctx.curSaveId, groups: groups.map((g) => ({ idx: g.idx, name: g.name, items: g.items.map((e) => ({ date: e.date, ruler: e.ruler ?? '', text: (0, settings_ui_1.localizeNote)(e.text) })) })) };
     });
 }
 //# sourceMappingURL=chronicle-app.js.map

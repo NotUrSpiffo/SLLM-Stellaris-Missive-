@@ -595,6 +595,9 @@ function quitAll() {
 function raise() {
     if (!exports.wins.win || exports.wins.win.isDestroyed() || exports.wins.win.isMinimized() || !exports.wins.win.isVisible() || !settings_1.settings.keepOnTop)
         return;
+    // 집무실처럼 다른 창이 앞에 있을 때 단말기를 다시 올리면, 그 창의 글 입력이 단말기로 새어 나간다.
+    if (electron_1.BrowserWindow.getAllWindows().some((w) => w !== exports.wins.win && !w.isDestroyed() && w.isVisible() && w.isFocused()))
+        return;
     exports.wins.win.setAlwaysOnTop(true, 'screen-saver', 1);
     exports.wins.win.moveTop();
 }

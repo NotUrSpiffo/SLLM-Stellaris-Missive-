@@ -488,7 +488,7 @@
    if (cls === 'dbg' && !devOn) return; // 원본 게임 줄은 개발자 모드에서만
    if (cls === 'sys' || cls === 'warn') body = TX(body); // #log 는 대사 보호로 자동 번역 제외 → 알림·오류 문구만 번역(카탈로그에 없는 글은 그대로)
    const d = document.createElement('div'); d.className = 'ln ' + cls;
-   if (cls === 'comm') { d.textContent = '◈ ' + clock() + '  ' + body; fb.appendChild(d); while (fb.childElementCount > LOG_MAX) fb.firstElementChild.remove(); l.scrollTop = l.scrollHeight; return; }
+   if (cls === 'comm') { d.textContent = '◈ ' + clock() + '  ' + TX(body); fb.appendChild(d); while (fb.childElementCount > LOG_MAX) fb.firstElementChild.remove(); l.scrollTop = l.scrollHeight; return; }
    if (cls === 'ai' || cls === 'me' || cls === 'mail') {
      const seq = (seqs.get(feedKey) || 0) + 1; seqs.set(feedKey, seq);
      const h = document.createElement('div'); h.className = 'hd';
@@ -526,16 +526,16 @@
    $('sub').textContent = nm ? [p.gov, p.species, p.personality].filter(Boolean).join(' · ') || TX('정보 없음') : TX('연락처에서 통신할 제국을 선택하세요');
    { const lore = t && t.lore ? TX('제국 설명') + ': ' + t.lore : ''; $('nm').title = lore; $('sub').title = lore; }
    $('portrait').innerHTML = portraitSvg(nm, (t && t.portraitUrl) || (nm ? (imgState.images[ckey(t)] || imgState.images[skey(t)] || (t && t.autoPortrait) || (CLASS_KEYS[p.cls || 0] && SLLMVariant.pick(imgState.images, ['class:' + CLASS_KEYS[p.cls || 0]], nm, imgState.defaults && imgState.defaults[CLASS_KEYS[p.cls || 0]]))) : null)) + (nm ? flagSvg(nm, t && t.flagUrl) : '');
-   { const mine = nm && imgState.images[ckey(t)], sp = nm && imgState.images[skey(t)]; $('pstat').textContent = !nm ? '' : mine ? '내 초상화' : sp ? '종족 공용 그림' : (t && t.autoPortrait) ? '라이브러리 자동 선택' : '기본 그림'; $('curWho').textContent = nm || TX('(대화 상대 없음)'); $('curTh').innerHTML = $('portrait').innerHTML; }
+   { const mine = nm && imgState.images[ckey(t)], sp = nm && imgState.images[skey(t)]; $('pstat').textContent = !nm ? '' : mine ? TX('내 초상화') : sp ? TX('종족 공용 그림') : (t && t.autoPortrait) ? TX('라이브러리 자동 선택') : TX('기본 그림'); $('curWho').textContent = nm || TX('(대화 상대 없음)'); $('curTh').innerHTML = $('portrait').innerHTML; }
    const s = t && Number.isFinite(t.score) ? t.score : 0;
    const seg = $('seg'); if (!seg.children.length) for (let i = 0; i < 20; i++) seg.appendChild(document.createElement('i'));
    const n = Math.max(-10, Math.min(10, Math.round(s / 20)));
    [...seg.children].forEach((e, i) => { e.className = n > 0 && i >= 10 && i < 10 + n ? 'p' : n < 0 && i < 10 && i >= 10 + n ? 'n' : ''; });
    $('chn').textContent = t && t.idx ? String(t.idx).padStart(2, '0') : '--';
-   $('link').className = 'cap' + (nm ? '' : ' off'); $('link').lastChild.textContent = nm ? ' 연결됨' : ' 대기';
-   $('stance').textContent = nm ? stanceOf(s) + ' (' + Math.round(s) + ')' : '—';
+   $('link').className = 'cap' + (nm ? '' : ' off'); $('link').lastChild.textContent = nm ? ' ' + TX('연결됨') : ' ' + TX('대기');
+   $('stance').textContent = nm ? TX(stanceOf(s)) + ' (' + Math.round(s) + ')' : '—';
    const fl = (p.flags || {}), tags = [['war', '전쟁 중', 'bad'], ['rival', '라이벌', 'bad'], ['hostile', '적대', 'bad'], ['truce', '휴전', ''], ['friendly', '우호', 'good'], ['fed', '연방', 'good'], ['nap', '불가침', 'good'], ['def', '방위 협정', 'good']];
-   $('tags').innerHTML = ''; for (const [k, label, c] of tags) if (fl[k]) { const e = document.createElement('span'); e.className = 'tag ' + c; e.textContent = label; $('tags').appendChild(e); }
+   $('tags').innerHTML = ''; for (const [k, label, c] of tags) if (fl[k]) { const e = document.createElement('span'); e.className = 'tag ' + c; e.textContent = TX(label); $('tags').appendChild(e); }
  }
  drawCountry(null);
  // 평소에는 원본 게임 줄 대신 '통신 로그'만 보인다(개발자 모드를 켜면 원본 줄도 보인다)

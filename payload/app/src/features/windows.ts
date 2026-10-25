@@ -414,6 +414,8 @@ export function quitAll() {
 // 게임이 '독점 전체화면'이면 어떤 창도 위에 못 뜨므로, 게임은 테두리 없는 창 모드를 권장한다.
 export function raise() {
   if (!wins.win || wins.win.isDestroyed() || wins.win.isMinimized() || !wins.win.isVisible() || !settings.keepOnTop) return;
+  // 집무실처럼 다른 창이 앞에 있을 때 단말기를 다시 올리면, 그 창의 글 입력이 단말기로 새어 나간다.
+  if (BrowserWindow.getAllWindows().some((w) => w !== wins.win && !w.isDestroyed() && w.isVisible() && w.isFocused())) return;
   wins.win.setAlwaysOnTop(true, 'screen-saver', 1);
   wins.win.moveTop();
 }

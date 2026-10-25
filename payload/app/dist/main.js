@@ -365,6 +365,10 @@ electron_1.ipcMain.handle = ((channel, listener) => handleIpc(channel, async (ev
     win: { get: () => windows_1.wins.win },
     toUi: windows_1.toUi,
 });
+electron_1.app.on('browser-window-created', (_e, win) => {
+    // 테두리 없는 창의 드래그 영역이 있으면 윈도우는 입력 칸이 no-drag 가 아닐 때 글쇠를 삼킨다(클릭·캐럿은 된다).
+    win.webContents.on('dom-ready', () => { void win.webContents.insertCSS('input,textarea,select,[contenteditable="true"]{-webkit-app-region:no-drag}').catch(() => { }); });
+});
 electron_1.app.whenReady().then(() => {
     process.setSourceMapsEnabled?.(true);
     (0, diagnostics_1.startDiagnostics)(path.join(electron_1.app.getPath('userData'), 'logs'), () => ({ version: electron_1.app.getVersion(), sid: curSaveId, date: gameDate, gameRunning: windows_1.wins.gameRunning, devMode: settings_1.settings.devMode, aiMode: settings_1.settings.aiMode }));

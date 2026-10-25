@@ -86,4 +86,14 @@ function applyTheme(name, custom) {
     if (c.hi) root.setProperty('--hi-text', lum(c.hi) > 0.55 ? '#0b0e12' : '#f3f6f9');
   }
 }
+// 테두리 없는 창: 드래그 영역이 하나라도 있으면 윈도우는 입력 칸 자체에 no-drag 가 있어야 글쇠를 받는다.
+function inputNoDrag() {
+  if (typeof document.getElementById !== 'function' || document.getElementById('sllm-nodrag')) return;
+  const s = document.createElement('style'); s.id = 'sllm-nodrag';
+  s.textContent = 'input,textarea,select,[contenteditable="true"]{-webkit-app-region:no-drag}';
+  (document.head || document.documentElement).appendChild(s);
+}
+if (typeof document !== 'undefined' && document.addEventListener) {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inputNoDrag); else inputNoDrag();
+}
 
